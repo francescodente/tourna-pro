@@ -1,12 +1,24 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
+    <TitleBar :appName="name"/>
     <router-view/>
   </div>
 </template>
+
+<script>
+import TitleBar from '@/components/ui/TitleBar.vue'
+
+export default {
+  components: {
+    TitleBar
+  },
+  data: function() {
+    return {
+      name: 'TournaPro'
+    }
+  }
+}
+</script>
 
 <style>
 #app {
