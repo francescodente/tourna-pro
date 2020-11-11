@@ -1,4 +1,4 @@
-# turna-pro-webapp
+# tourna-pro-webapp
 
 ## Project setup
 ```
