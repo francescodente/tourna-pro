@@ -1,0 +1,15 @@
+Primary Orange:
+main		darker		darkest		light		lightest
+#FF6B24		#BF6C44		#A63E0C		#FF905A		#FFAD86
+
+Secondary Color Yellow:	
+main		darker		darkest		light		lightes
+#FFAF24		#BF9244		#A66E0C		#FFC35A		#FFD386
+
+Secondary Color Red:	
+main		darker		darkest		light		lightest
+#F82372		#BA426E		#A10B43		#FB5995		#FB85B1
+
+Complementary Green:
+main		darker		darkest		light		lightest
+#21EDA5		#3FB289		#0B9A67		#57F6BE		#82F6CD
