@@ -1,16 +1,23 @@
 <template>
   <div id="app">
-    <TitleBar :appName="name"/>
+    <!--TitleBar :appName="name"/-->
+    <ActionButton actionName="This is an action" 
+    icon="{
+      img: 'img.jpg',
+      alt: 'this is an icon'
+      }"
+    />
     <router-view/>
   </div>
 </template>
 
 <script>
-import TitleBar from '@/components/ui/TitleBar.vue'
+/*import TitleBar from '@/components/ui/TitleBar.vue'*/
+import ActionButton from './components/ui/ActionButton.vue'
 
 export default {
   components: {
-    TitleBar
+    ActionButton
   },
   data: function() {
     return {
