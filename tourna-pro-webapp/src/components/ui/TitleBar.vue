@@ -20,7 +20,7 @@ export default {
   padding: 5%;
   font-size: 2rem;
   font-weight: bold;
-  position: absolute;
+  position: fixed;
   width: 100%;
 }
 </style>

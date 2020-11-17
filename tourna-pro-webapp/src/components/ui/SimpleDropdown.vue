@@ -1,18 +1,21 @@
 <template>
-  <div class="simple-input">
-    <label class="form-label" :for="identifier">{{ label }}</label>
-    <input :id="identifier" :type="type" @input="updated" :value="value" :placeholder="placeholder || label">
+  <div class="simple-dropdown">
+    <label :for="identifier">{{ label }}</label>
+    <select :id="identifier" @input="updated" :value="value">
+      <option :value="op.value" v-for="op in options" :key="op.value">
+        {{ op.display }}
+      </option>
+    </select>
   </div>
 </template>
 
 <script>
 export default {
   props: {
-    placeholder: String,
+    options: Array,
     value: String,
     label: String,
-    identifier: String,
-    type: String
+    identifier: String
   },
   methods: {
     updated(e) {
@@ -23,15 +26,16 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.simple-input {
+.simple-dropdown {
   text-align: left;
   margin-bottom: 15px;
 
   label {
     font-weight: bold;
+    display: block;
   }
 
-  input {
+  select {
     border: none;
     border-bottom: 1px solid black;
     width: 100%;

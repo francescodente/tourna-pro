@@ -1,9 +1,11 @@
 <template>
-  <form class="simple-form">
-    <div>
+  <form class="simple-form" @submit.prevent="$emit('submit')">
+    <div class="form-container">
       <slot></slot>
     </div>
-    <input type="submit" :value="submitMessage" @click.prevent="$emit('submit')">
+    <div class="form-submit">
+      <input type="submit" :value="submitMessage" />
+    </div>
   </form>
 </template>
 
@@ -23,16 +25,27 @@ export default {
   padding: 25px;
   border-style: solid;
   border-width: 5px;
+  height: 70vh;
+
+  .form-container {
+    overflow-y: auto;
+    height: 80%;
+  }
+
+  .form-submit {
+    width: 100%;
+    margin-top: 30px;
+    height: 20%;
+  }
 
   input[type=submit] {
     color: $color-primary-text;
     background-color: $color-primary;
     border: none;
-    width: 90%;
     padding: 6%;
     font-size: 1.3rem;
     border-radius: 100px;
-    margin-top: 30px;
+    width: 100%;
 
     &:focus {
       outline: none;
