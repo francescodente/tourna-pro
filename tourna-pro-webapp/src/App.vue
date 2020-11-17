@@ -2,9 +2,9 @@
   <div id="app">
     <!--TitleBar :appName="name"/-->
     <ActionButton actionName="This is an action" 
-    icon="{
-      img: 'img.jpg',
-      alt: 'this is an icon'
+    :icon="{
+      src: require('@/assets/logo.png'),
+      alt: 'alt-text'
       }"
     />
     <router-view/>
@@ -21,7 +21,7 @@ export default {
   },
   data: function() {
     return {
-      name: 'TournaPro'
+      name: 'TournaPro',
     }
   }
 }

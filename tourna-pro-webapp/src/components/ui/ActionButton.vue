@@ -7,9 +7,6 @@
 
 <script>
 export default {
-  model: {
-    event: 'trigger'
-  },
   name: 'ActionButton',
   props: {
     icon: Object,
@@ -24,5 +21,8 @@ export default {
     color: $color-secondary2;
     font-weight: bold;
     box-shadow: 0px 1px 10px 0px rgba(0, 0, 0, 0.40);
+}
+.icon {
+  fill: $color-secondary2;
 }
 </style>
