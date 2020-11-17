@@ -2,20 +2,23 @@
   <simple-form submitMessage="Login" @submit="onSubmit">
     <simple-input
       label="Username o Email"
-      type="email"
+      type="text"
       v-model="username"
-      identifier="username" />
+      identifier="username"
+    />
 
     <simple-input
       label="Password"
       :type="showPassword ? 'text' : 'password'"
       v-model="password"
-      identifier="password" />
+      identifier="password"
+    />
 
     <simple-checkbox
       label="Mostra password"
       v-model="showPassword"
-      identifier="showpassword" />
+      identifier="showpassword"
+    />
   </simple-form>
 </template>
 

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="simple-checkbox">
     <input type="checkbox" :checked="value" :id="identifier" @input="updated"/>
     <label :for="identifier">{{ label }}</label>
   </div>
@@ -20,6 +20,12 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss" scoped>
+.simple-checkbox {
+  text-align: left;
 
+  label {
+    margin-left: 5px;
+  }
+}
 </style>

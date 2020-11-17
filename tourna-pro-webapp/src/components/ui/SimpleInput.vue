@@ -1,13 +1,14 @@
 <template>
-  <div>
+  <div class="simple-input">
     <label :for="identifier">{{ label }}</label>
-    <input :id="identifier" :type="type" @input="updated" :value="value">
+    <input :id="identifier" :type="type" @input="updated" :value="value" :placeholder="placeholder || label">
   </div>
 </template>
 
 <script>
 export default {
   props: {
+    placeholder: String,
     value: String,
     label: String,
     identifier: String,
@@ -22,14 +23,22 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-input {
-  border: none;
-  border-bottom: 1px solid black;
-  margin-bottom: 5px;
-  width: 90%;
+.simple-input {
+  text-align: left;
+  margin-bottom: 15px;
 
-  &:focus {
-    outline: none;
+  label {
+    font-weight: bold;
+  }
+
+  input {
+    border: none;
+    border-bottom: 1px solid black;
+    width: 100%;
+
+    &:focus {
+      outline: none;
+    }
   }
 }
 </style>
