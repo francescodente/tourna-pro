@@ -1,23 +1,18 @@
 <template>
   <div id="app">
-    <!--TitleBar :appName="name"/-->
-    <ActionButton actionName="This is an action" 
-    :icon="{
-      src: require('@/assets/logo.png'),
-      alt: 'alt-text'
-      }"
-    />
-    <router-view/>
+    <title-bar :appName="name" />
+    <div class="container">
+      <router-view/>
+    </div>
   </div>
 </template>
 
 <script>
-/*import TitleBar from '@/components/ui/TitleBar.vue'*/
-import ActionButton from './components/ui/ActionButton.vue'
+import TitleBar from './components/ui/TitleBar.vue'
 
 export default {
   components: {
-    ActionButton
+    TitleBar
   },
   data: function() {
     return {
@@ -27,25 +22,16 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-}
 
-#nav {
-  padding: 30px;
-}
-
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
+  .container {
+    padding: 100px 5px 5px 5px;
+  }
 }
 </style>

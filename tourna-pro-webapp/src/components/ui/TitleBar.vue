@@ -1,6 +1,6 @@
 <template>
   <div class="title-bar">
-    {{appName}}
+    {{ appName }}
   </div>
 </template>
 
@@ -20,5 +20,7 @@ export default {
   padding: 5%;
   font-size: 2rem;
   font-weight: bold;
+  position: absolute;
+  width: 100%;
 }
 </style>
