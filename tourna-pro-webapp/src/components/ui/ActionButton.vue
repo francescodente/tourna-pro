@@ -10,7 +10,7 @@ export default {
   components: { TextIcon },
   name: 'ActionButton',
   props: {
-    icon: Object,
+    icon: String,
     actionName: String
   }
 }

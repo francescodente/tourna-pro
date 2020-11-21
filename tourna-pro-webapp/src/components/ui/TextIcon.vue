@@ -1,6 +1,6 @@
 <template>
   <div>
-    <img class="icon" :src="icon.src" :alt="icon.alt" :style="`fill: ${icon.color}`"/>
+    <i :class="icon"></i>
     <span>{{text}}</span>
   </div>
 </template>
@@ -10,7 +10,7 @@ export default {
   name: 'TextIcon',
   props: {
     text: String,
-    icon: Object
+    icon: String,
   }
 }
 </script>
