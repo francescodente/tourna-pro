@@ -1,12 +1,13 @@
 <template>
   <div class="action-button" @click="$emit('trigger', $event.target)">
-    <img class="icon" :src="icon.src" :alt="icon.alt"/>
-    <span>{{actionName}}</span>
+    <text-icon :icon="icon" :text="actionName"/>
   </div>
 </template>
 
 <script>
+import TextIcon from './TextIcon.vue'
 export default {
+  components: { TextIcon },
   name: 'ActionButton',
   props: {
     icon: Object,
@@ -21,8 +22,5 @@ export default {
     color: $color-secondary2;
     font-weight: bold;
     box-shadow: 0px 1px 10px 0px rgba(0, 0, 0, 0.40);
-}
-.icon {
-  fill: $color-secondary2;
 }
 </style>
