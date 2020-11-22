@@ -1,7 +1,7 @@
 <template>
-  <div class="bg-container">
+  <div>
     <div v-for="tournament in tournaments" :key="tournament.id">
-      <tournament-card status="active" :tournament="tournament"/>
+      <tournament-card status="future" :tournament="tournament"/>
     </div>
   </div>
 </template>
@@ -10,7 +10,7 @@
 import TournamentCard from '../ui/TournamentCard.vue'
 export default {
   components: { TournamentCard },
-  name: 'ActiveTournamentsTab',
+  name: 'FutureTournamentsTab',
   props: {
     tournaments: Array
   }
@@ -18,7 +18,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.bg-container{
-  background-color: white;
-}
+
 </style>

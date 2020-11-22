@@ -1,7 +1,7 @@
 <template>
   <div>
     <i :class="icon"></i>
-    <span>{{text}}</span>
+    <span class="text">{{text}}</span>
   </div>
 </template>
 
@@ -16,5 +16,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
+.text{
+  margin-left: 5px;
+}
 </style>
