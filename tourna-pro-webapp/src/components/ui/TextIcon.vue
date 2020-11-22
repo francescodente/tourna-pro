@@ -16,7 +16,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.icon {
-  max-width: 5%;
-}
+
 </style>

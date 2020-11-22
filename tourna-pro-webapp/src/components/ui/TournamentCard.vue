@@ -1,25 +1,28 @@
 <template>
-<a :href="`??????/tournament/${tournament.id}`">
+  <router-link :to="`/tournaments/${tournament.id}`">
    <b-card :class="`common, ${status}`" :title="tournament.name" :sub-title="`${tournament.ageGroup}, ${tournament.gender}`">
      <div>
        <text-icon 
         :text="tournament.place"
+        icon="fas fa-map-marker-alt"
         />
      </div>
      <div>
        <div>
          <text-icon 
           :text="tournament.date"
+          icon="far fa-calendar-alt"
           />
        </div>
        <div>
          <text-icon 
           :text="`${tournament.partecipants}/${tournament.total} ${tournament.type == 'team' ? 'Squadre' : 'Partecipanti'}`"
+          icon="fas fa-users"
           />
        </div>
      </div>
    </b-card>
-  </a>
+  </router-link>
 </template>
 
 <script>

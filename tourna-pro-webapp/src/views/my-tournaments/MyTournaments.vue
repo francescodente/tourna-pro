@@ -1,7 +1,7 @@
 <template>
   <div>
   <b-tabs content-class="mt-3" justified>
-    <b-tab title="Attivi" active><active-tournaments-tab/></b-tab>
+    <b-tab title="Attivi" active><active-tournaments-tab :tournaments="tournaments"/></b-tab>
     <b-tab title="Futuri"><future-torunaments-tab/></b-tab>
     <b-tab title="Crea nuovo"><create-new-tournament-tab/></b-tab>
   </b-tabs>
@@ -15,6 +15,23 @@ import FutureTorunamentsTab from '../../components/my-tournaments/FutureToruname
 
 export default {
   components: { ActiveTournamentsTab, FutureTorunamentsTab,CreateNewTournamentTab },
-  name: 'MyTournaments'
+  name: 'MyTournaments',
+  data: function() {
+    return {
+      tournaments: [
+        {
+          "id":1,
+          "name":"Torneo di prova",
+          "ageGroup":"Under 24",
+          "gender":"Maschile",
+          "place":"Palazzetto dello Sport",
+          "date":"10/12/2020",
+          "partecipants":2,
+          "total":5,
+          "type":"team"
+        }
+      ]
+    }
+  }
 }
 </script>
