@@ -1,6 +1,6 @@
 <template>
   <div class="title-bar">
-    {{ appName }}
+    <div>{{ appName }}</div>
   </div>
 </template>
 
@@ -17,10 +17,14 @@ export default {
 .title-bar {
   background-color: $color-primary;
   color: white;
-  padding: 5%;
   font-size: 2rem;
   font-weight: bold;
   position: fixed;
   width: 100%;
+  height: 10vh;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
 }
 </style>

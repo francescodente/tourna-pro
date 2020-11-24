@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <title-bar :appName="name" />
-    <div class="container">
+    <div class="main-container">
       <router-view/>
     </div>
   </div>
@@ -30,8 +30,9 @@ export default {
   text-align: center;
   color: #2c3e50;
 
-  .container {
-    padding: 100px 5px 5px 5px;
+  .main-container {
+    padding-top: 11vh;
+    height: 100vh;
   }
 }
 </style>
