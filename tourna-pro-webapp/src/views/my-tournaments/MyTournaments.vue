@@ -1,16 +1,16 @@
 <template>
   <div>
-  <b-tabs content-class="mt-3" justified>
-    <b-tab title="Attivi" active>
+  <tab-view content-class="mt-3" justified>
+    <tab title="Attivi" :selected="true">
       <active-tournaments-tab :tournaments="tournaments" />
-    </b-tab>
-    <b-tab title="Futuri">
+    </tab>
+    <tab title="Futuri">
       <future-tournaments-tab :tournaments="tournaments" />
-    </b-tab>
-    <b-tab title="Crea nuovo">
+    </tab>
+    <tab title="Crea nuovo">
       <create-new-tournament-tab/>
-    </b-tab>
-  </b-tabs>
+    </tab>
+  </tab-view>
 </div>
 </template>
 
@@ -18,9 +18,11 @@
 import ActiveTournamentsTab from '../../components/my-tournaments/ActiveTournamentsTab.vue'
 import CreateNewTournamentTab from '../../components/my-tournaments/CreateNewTournamentTab.vue'
 import FutureTournamentsTab from '../../components/my-tournaments/FutureTournamentsTab.vue'
+import Tab from '../../components/ui/TabView/Tab.vue'
+import TabView from '../../components/ui/TabView/TabView.vue'
 
 export default {
-  components: { ActiveTournamentsTab, FutureTournamentsTab,CreateNewTournamentTab },
+  components: { ActiveTournamentsTab, FutureTournamentsTab,CreateNewTournamentTab, TabView, Tab },
   name: 'MyTournaments',
   data: function() {
     return {
@@ -52,3 +54,8 @@ export default {
   }
 }
 </script>
+
+
+<style lang="scss" scoped>
+
+</style>
