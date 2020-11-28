@@ -1,9 +1,10 @@
 <template>
-  <div class="tabView">
-    <ul>
+  <div>
+    <ul class="tabs-nav nav nav-pills nav-justified">
       <li
         v-for="tab in tabs"
-        :class="{ 'is-active': tab.isActive }"
+        :class="{ 'is-active': tab.isActive}"
+        class="nav-item"
         :key="tab.title"
       >
         <a @click="selectTab(tab)">{{ tab.title }}</a>
@@ -35,7 +36,15 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.tab-header-nav{
-  display:flex;
+.tabs-nav{
+  li{
+    list-style: none;
+    padding: 12px;
+  }
+  margin-bottom: 10px;
+}
+
+.is-active{
+  border-bottom: 2px solid black;
 }
 </style>
