@@ -47,6 +47,7 @@ export default {
     color:$color-not-focus-text;
   }
   margin-bottom: 10px;
+  box-shadow: 0px 1px 10px 0px rgba(0, 0, 0, 0.40);
 }
 
 .is-active{
