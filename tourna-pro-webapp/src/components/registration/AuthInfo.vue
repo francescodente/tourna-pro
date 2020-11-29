@@ -1,5 +1,5 @@
 <template>
-	<simple-form @submit="$emit('submit')" :submitMessage="submitMessage">
+	<div>
     <simple-input
       label="Email"
       type="email"
@@ -38,18 +38,16 @@
 			v-model="currentValue.acceptsConditions"
 			@input="$emit('input', currentValue)"
 		/>
-	</simple-form>
+	</div>
 </template>
 
 <script>
 import SimpleCheckbox from '../ui/SimpleCheckbox.vue'
-import SimpleForm from '../ui/SimpleForm.vue'
 import SimpleInput from '../ui/SimpleInput.vue'
 export default {
-  components: { SimpleInput, SimpleCheckbox, SimpleForm },
+  components: { SimpleInput, SimpleCheckbox },
   props: {
-		value: Object,
-		submitMessage: String
+		value: Object
 	},
 	data() {
 		return {

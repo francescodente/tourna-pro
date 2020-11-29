@@ -31,7 +31,7 @@ export default {
   color: #2c3e50;
 
   .main-container {
-    padding-top: 11vh;
+    padding-top: 80px;
     height: 100vh;
   }
 }

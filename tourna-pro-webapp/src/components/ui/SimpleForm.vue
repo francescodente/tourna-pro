@@ -1,6 +1,6 @@
 <template>
-  <form class="simple-form" @submit.prevent="$emit('submit')">
-    <div class="form-container">
+  <form @submit.prevent="$emit('submit')">
+    <div class="input-container">
       <slot></slot>
     </div>
     <div class="form-submit">
@@ -18,34 +18,30 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.simple-form {
-  margin: 20px;
-  border-color: $color-primary-lightest;
-  border-radius: 25px;
-  padding: 25px;
-  border-style: solid;
-  border-width: 5px;
-  height: 70vh;
+form {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 
-  .form-container {
-    overflow-y: auto;
-    height: 80%;
+  .input-container {
+    overflow-y: scroll;
+    flex: 1 0 0px;
+    margin-bottom: 20px;
   }
 
   .form-submit {
     width: 100%;
-    margin-top: 30px;
-    height: 20%;
+    height: 60px;
   }
 
   input[type=submit] {
     color: $color-primary-text;
     background-color: $color-primary;
     border: none;
-    padding: 6%;
     font-size: 1.3rem;
-    border-radius: 100px;
+    border-radius: 9999px;
     width: 100%;
+    height: 100%;
 
     &:focus {
       outline: none;

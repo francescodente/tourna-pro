@@ -1,33 +1,36 @@
 <template>
-  <simple-form submitMessage="Login" @submit="onSubmit">
-    <simple-input
-      label="Username o Email"
-      type="text"
-      v-model="username"
-      identifier="username"
-    />
+  <simple-border>
+    <simple-form submitMessage="Login" @submit="onSubmit">
+      <simple-input
+        label="Username o Email"
+        type="text"
+        v-model="username"
+        identifier="username"
+      />
 
-    <simple-input
-      label="Password"
-      :type="showPassword ? 'text' : 'password'"
-      v-model="password"
-      identifier="password"
-    />
+      <simple-input
+        label="Password"
+        :type="showPassword ? 'text' : 'password'"
+        v-model="password"
+        identifier="password"
+      />
 
-    <simple-checkbox
-      label="Mostra password"
-      v-model="showPassword"
-      identifier="showpassword"
-    />
-  </simple-form>
+      <simple-checkbox
+        label="Mostra password"
+        v-model="showPassword"
+        identifier="showpassword"
+      />
+    </simple-form>
+  </simple-border>
 </template>
 
 <script>
+import SimpleBorder from '../components/ui/SimpleBorder.vue'
 import SimpleCheckbox from '../components/ui/SimpleCheckbox.vue'
 import SimpleForm from '../components/ui/SimpleForm.vue'
 import SimpleInput from '../components/ui/SimpleInput.vue'
 export default {
-  components: { SimpleForm, SimpleInput, SimpleCheckbox },
+  components: { SimpleForm, SimpleInput, SimpleCheckbox, SimpleBorder },
   data() {
     return {
       username: '',
@@ -43,6 +46,5 @@ export default {
 }
 </script>
 
-<style>
-
+<style lang="scss" scoped>
 </style>

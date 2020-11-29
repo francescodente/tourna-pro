@@ -25,6 +25,30 @@ export default {
           name: 'Rin Tin Team',
           image: 'https://cdn.myanimelist.net/s/common/uploaded_files/1442407024-2d1f72c28647fc4a278cdd6fd0b14eb1.jpeg',
           members: 12
+        },
+        {
+          id: 3,
+          name: 'Rin Tin Team',
+          image: 'https://cdn.myanimelist.net/s/common/uploaded_files/1442407024-2d1f72c28647fc4a278cdd6fd0b14eb1.jpeg',
+          members: 12
+        },
+        {
+          id: 4,
+          name: 'Rin Tin Team',
+          image: 'https://cdn.myanimelist.net/s/common/uploaded_files/1442407024-2d1f72c28647fc4a278cdd6fd0b14eb1.jpeg',
+          members: 12
+        },
+        {
+          id: 5,
+          name: 'Rin Tin Team',
+          image: 'https://cdn.myanimelist.net/s/common/uploaded_files/1442407024-2d1f72c28647fc4a278cdd6fd0b14eb1.jpeg',
+          members: 12
+        },
+        {
+          id: 6,
+          name: 'Rin Tin Team',
+          image: 'https://cdn.myanimelist.net/s/common/uploaded_files/1442407024-2d1f72c28647fc4a278cdd6fd0b14eb1.jpeg',
+          members: 12
         }
       ]
     }
