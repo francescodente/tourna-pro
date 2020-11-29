@@ -5,6 +5,9 @@
         v-for="tab in tabs"
         :class="{ 'is-active': tab.isActive}"
         class="nav-item"
+        :style="
+        (tab.isActive)?
+          {color: tab.color } : {} "
         :key="tab.title"
       >
         <a @click="selectTab(tab)">{{ tab.title }}</a>
@@ -40,11 +43,13 @@ export default {
   li{
     list-style: none;
     padding: 12px;
+    font-weight: bold;
+    color:$color-not-focus-text;
   }
   margin-bottom: 10px;
 }
 
 .is-active{
-  border-bottom: 2px solid black;
+  border-bottom: 3.5px solid;
 }
 </style>

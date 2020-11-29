@@ -1,13 +1,13 @@
 <template>
   <div>
   <tab-view content-class="mt-3" justified>
-    <tab title="Attivi" :selected="true">
+    <tab title="Attivi" :selected="true" :color="colorActive">
       <active-tournaments-tab :tournaments="tournaments" />
     </tab>
-    <tab title="Futuri">
-      <future-tournaments-tab :tournaments="tournaments" />
+    <tab title="Futuri"  :color="colorFuture" >
+      <future-tournaments-tab :tournaments="tournaments"/>
     </tab>
-    <tab title="Crea nuovo">
+    <tab title="Crea nuovo" :color="colorNew" >
       <create-new-tournament-tab/>
     </tab>
   </tab-view>
@@ -20,12 +20,15 @@ import CreateNewTournamentTab from '../../components/my-tournaments/CreateNewTou
 import FutureTournamentsTab from '../../components/my-tournaments/FutureTournamentsTab.vue'
 import Tab from '../../components/ui/TabView/Tab.vue'
 import TabView from '../../components/ui/TabView/TabView.vue'
-
+import style from '../../style/export.scss'
 export default {
   components: { ActiveTournamentsTab, FutureTournamentsTab,CreateNewTournamentTab, TabView, Tab },
   name: 'MyTournaments',
   data: function() {
     return {
+      colorActive: style.colorComplementary,
+      colorFuture: style.colorSecondary1,
+      colorNew: style.colorSecondary2,
       tournaments: [
         {
           "id":1,
@@ -57,5 +60,4 @@ export default {
 
 
 <style lang="scss" scoped>
-
 </style>

@@ -1,0 +1,35 @@
+@import 'variables.scss';
+
+:export{
+    colorPrimaryLightest: $color-primary-lightest;
+    colorPrimaryLight:    $color-primary-light;
+    colorPrimary:          $color-primary;
+    colorPrimaryDarker:   $color-primary-darker;
+    colorPrimaryDarkest:  $color-primary-darkest;
+    
+    colorSecondary1Lightest: $color-secondary1-lightest;
+    colorSecondary1Light:    $color-secondary1-light;
+    colorSecondary1:          $color-secondary1;
+    colorSecondary1Darker:   $color-secondary1-darker;
+    colorSecondary1Darkest:  $color-secondary1-darkest;
+    
+    colorSecondary2Lightest: $color-secondary2-lightest;
+    colorSecondary2Light:    $color-secondary2-light;
+    colorSecondary2:          $color-secondary2;
+    colorSecondary2Darker:   $color-secondary2-darker;
+    colorSecondary2Darkest:  $color-secondary2-darkest;
+    
+    colorComplementaryLightest: $color-complementary-lightest;
+    colorComplementaryLight:    $color-complementary-light;
+    colorComplementary:          $color-complementary;
+    colorComplementarTarker:   $color-complementary-darker;
+    colorComplementaryDarkest:  $color-complementary-darkest;
+    
+    colorNotFocusText: $color-not-focus-text;
+    
+    colorPrimaryText:       $color-primary-text;
+    colorSecondary1Text:    $color-secondary1-text;
+    colorSecondary2Text:    $color-secondary2-text;
+    colorComplementaryText: $color-complementary-text;
+    
+}
