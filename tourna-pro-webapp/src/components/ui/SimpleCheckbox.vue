@@ -1,7 +1,9 @@
 <template>
   <div class="simple-checkbox">
     <input type="checkbox" :checked="value" :id="identifier" @input="updated"/>
-    <label :for="identifier">{{ label }}</label>
+    <label :for="identifier">
+      <slot>{{ label }}</slot>
+    </label>
   </div>
 </template>
 
@@ -26,6 +28,7 @@ export default {
 
   label {
     margin-left: 5px;
+    display: inline;
   }
 }
 </style>

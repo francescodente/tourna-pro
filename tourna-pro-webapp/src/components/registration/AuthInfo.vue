@@ -33,11 +33,12 @@
     />
 
 		<simple-checkbox
-			label="Dichiaro di accettare i Termini e le condizioni del servizio"
 			identifier="acceptsConditions"
 			v-model="currentValue.acceptsConditions"
-			@input="$emit('input', currentValue)"
-		/>
+			@input="$emit('input', currentValue)">
+      Dichiaro di accettare i <a href="#">termini e le condizioni del servizio</a>
+    </simple-checkbox>
+
 	</div>
 </template>
 

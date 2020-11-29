@@ -1,6 +1,8 @@
 <template>
   <div class="simple-dropdown">
-    <label :for="identifier">{{ label }}</label>
+    <label :for="identifier">
+      <slot>{{ label }}</slot>
+    </label>
     <select :id="identifier" @input="updated" :value="value">
       <option :value="op.value" v-for="op in options" :key="op.value">
         {{ op.display }}
