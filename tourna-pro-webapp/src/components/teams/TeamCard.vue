@@ -1,17 +1,15 @@
 <template>
-  <a @click="$emit('click', $event)">
-    <div class="team-card">
-      <div class="image-container">
-        <img :src="team.image" :alt="`${team.name}'s team image`">
-      </div>
-      <div class="team-info">
-        <div class="info-bar">
-          <span class="team-name">{{ team.name }}</span>
-          <text-icon icon="fas fa-user-friends" :text="String(team.members)" />
-        </div>
+  <router-link class="team-card" tag="div" :to="`/teams/${team.id}`">
+    <div class="image-container">
+      <img :src="team.image" :alt="`${team.name}'s team image`">
+    </div>
+    <div class="team-overlay">
+      <div class="info-bar">
+        <span class="team-name">{{ team.name }}</span>
+        <text-icon icon="fas fa-user-friends" :text="String(team.members)" />
       </div>
     </div>
-  </a>
+  </router-link>
 </template>
 
 <script>
@@ -42,14 +40,13 @@ export default {
     }
   }
 
-  .team-info {
+  .team-overlay {
     left: 0px;
     right: 0px;
     bottom: 0px;
-    height: 100%;
+    height: auto;
     position: absolute;
-    background: rgba(0, 0, 0, 0.3);
-    z-index: 10;
+    height: 100%;
 
     &:hover {
       background: rgba(0, 0, 0, 0.5);
@@ -65,8 +62,9 @@ export default {
       position: absolute;
       bottom: 0px;
       width: 100%;
-      padding: 15px 20px;
+      padding: 10px 15px;
       font-size: 1.3rem;
+      background: rgba(0, 0, 0, 0.5);
 
       .team-name {
         font-weight: bold;

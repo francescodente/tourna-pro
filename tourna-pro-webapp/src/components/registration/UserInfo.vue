@@ -1,5 +1,5 @@
 <template>
-	<simple-form @submit="$emit('submit')" :submitMessage="submitMessage">
+	<div>
     <simple-input
       label="Nome"
       type="text"
@@ -47,18 +47,16 @@
       identifier="gender"
 			@input="$emit('input', currentValue)"
     />
-	</simple-form>
+	</div>
 </template>
 
 <script>
 import SimpleDropdown from '../ui/SimpleDropdown.vue'
-import SimpleForm from '../ui/SimpleForm.vue'
 import SimpleInput from '../ui/SimpleInput.vue'
 export default {
-  components: { SimpleInput, SimpleForm, SimpleDropdown },
+  components: { SimpleInput, SimpleDropdown },
   props: {
-		value: Object,
-		submitMessage: String
+		value: Object
 	},
 	data() {
 		return {

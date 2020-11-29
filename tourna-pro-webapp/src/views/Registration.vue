@@ -1,8 +1,14 @@
 <template>
-  <div>
-    <h1>Step {{ currentStepIndex + 1 }}/{{ steps.length }}</h1>
-    <h2>{{ currentStep.title }}</h2>
-    <component :is="currentStep.component" v-model="currentStep.model" :submitMessage="submitMessage" @submit="onSubmit"/>
+  <div class="registration-page">
+    <div>
+      <h1>Step {{ currentStepIndex + 1 }}/{{ steps.length }}</h1>
+      <h2>{{ currentStep.title }}</h2>
+    </div>
+    <simple-border class="registration-form">
+      <simple-form :submitMessage="submitMessage" @submit="onSubmit">
+        <component :is="currentStep.component" v-model="currentStep.model" />
+      </simple-form>
+    </simple-border>
   </div>
 </template>
 
@@ -11,9 +17,10 @@ import SimpleForm from "../components/ui/SimpleForm.vue"
 import AuthInfo from "../components/registration/AuthInfo.vue"
 import UserInfo from "../components/registration/UserInfo.vue"
 import ActivityInfo from "../components/registration/ActivityInfo.vue"
+import SimpleBorder from '../components/ui/SimpleBorder.vue'
 
 export default {
-  components: { SimpleForm, AuthInfo, UserInfo, ActivityInfo },
+  components: { SimpleForm, AuthInfo, UserInfo, ActivityInfo, SimpleBorder },
   data() {
     return {
       currentStepIndex: 0,
@@ -22,7 +29,7 @@ export default {
           title: 'Scegli una password sicura',
           component: AuthInfo,
           model: {
-            email: 'test@test.com',
+            email: '',
             username: '',
             password: '',
             confirmPassword: '',
@@ -50,7 +57,7 @@ export default {
   },
   methods: {
     onSubmit() {
-      console.log(this.currentStep.model)
+      //console.log(this.currentStep.model)
       this.currentStepIndex++
     }
   },
@@ -66,5 +73,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
+.registration-page {
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  height: 100%;
+  
+  .registration-form {
+    flex: 1;
+  }
+}
 </style>

@@ -21,10 +21,11 @@ export default {
   font-weight: bold;
   position: fixed;
   width: 100%;
-  height: 10vh;
+  height: 80px;
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  z-index: 100;
 }
 </style>
