@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="bg">
       <action-button icon="fas fa-globe-europe" actionName="Torneo pubblico"/>
       <action-button icon="fas fa-lock" actionName="Torneo privato"/>
   </div>
@@ -17,5 +17,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
+.bg{
+  padding-top: 20px;
+  display:flex;
+  flex-direction: column-reverse;
+}
 </style>

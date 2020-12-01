@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="bg">
     <div v-for="tournament in tournaments" :key="tournament.id">
       <tournament-card status="future" :tournament="tournament"/>
     </div>
@@ -18,5 +18,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
+.bg {
+  padding-top:10px;
+  background-color: $color-secondary1-background;
+}
 </style>

@@ -1,6 +1,9 @@
 <template>
   <div class="simple-input">
-    <label class="form-label" :for="identifier">
+    <label 
+      class="form-label" 
+      :for="identifier"
+    >
       <slot>{{ label }}</slot>
     </label>
     <input :id="identifier" :type="type" @input="updated" :value="value" :placeholder="placeholder || label">

@@ -25,7 +25,9 @@
           />
        </div>
      </div>
+     <div class="badge badge-pill">{{'#'+tournament.activity}}</div>
    </b-card>
+
   </router-link>
 </template>
 
@@ -48,14 +50,13 @@ export default {
     font-weight: bold;
     margin-bottom:0px;
   }
-
 }
 
 .common{
   text-align: center;
   width:90%;
   margin-left:5%;
-  margin-bottom: 2%;
+  margin-bottom: 4%;
   border-radius:15px;
   border: 3px solid;
 }
@@ -66,14 +67,34 @@ export default {
 .total{
   text-align: right;
 }
+
+.badge{
+    background-color:white;
+    border: 2px solid;
+    position:absolute;
+    top:-10px;
+    right:20px;
+    font-size:10pt;
+  }
 .active {
   background-color: $color-complementary;
   border-color: $color-complementary-lightest;
+  .badge{
+    color:$color-complementary-lightest;
+  }
 }
 .future {
   background-color: $color-secondary1;
+  border-color: $color-secondary1-lightest;
+  .badge{
+    color:$color-secondary1-lightest;
+  }
 }
 .exploring {
   background-color: $color-secondary2;
+  border-color: $color-secondary2-lightest;
+  .badge{
+    color:$color-secondary2-lightest;
+  }
 }
 </style>

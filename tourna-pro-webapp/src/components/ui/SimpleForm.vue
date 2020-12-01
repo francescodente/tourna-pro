@@ -1,7 +1,7 @@
 <template>
   <form @submit.prevent="$emit('submit')">
     <div class="input-container">
-      <slot></slot>
+      <slot/>
     </div>
     <div class="form-submit">
       <input type="submit" :value="submitMessage" />

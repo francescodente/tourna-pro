@@ -1,6 +1,6 @@
 <template>
   <div>
-  <tab-view content-class="mt-3" justified>
+  <tab-view>
     <tab title="Attivi" :selected="true" :color="colorActive">
       <active-tournaments-tab :tournaments="tournaments" />
     </tab>
@@ -39,7 +39,8 @@ export default {
           "date":"10/12/2020",
           "partecipants":2,
           "total":5,
-          "type":"team"
+          "type":"team",
+          "activity":"calcetto"
         },
         {
           "id":2,
@@ -50,7 +51,8 @@ export default {
           "date":"10/12/2020",
           "partecipants":2,
           "total":5,
-          "type":"single"
+          "type":"single",
+          "activity":"basket"
         }
       ]
     }

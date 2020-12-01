@@ -46,8 +46,7 @@ export default {
     font-weight: bold;
     color:$color-not-focus-text;
   }
-  margin-bottom: 10px;
-  box-shadow: 0px 1px 10px 0px rgba(0, 0, 0, 0.40);
+  box-shadow: 0px 3px 4px 0px rgba(0, 0, 0, 0.1);
 }
 
 .is-active{
