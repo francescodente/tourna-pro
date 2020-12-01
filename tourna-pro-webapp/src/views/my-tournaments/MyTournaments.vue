@@ -5,7 +5,7 @@
       <active-tournaments-tab :tournaments="tournaments" />
     </tab>
     <tab title="Futuri"  :color="colorFuture" >
-      <future-tournaments-tab :tournaments="tournaments"/>
+      <future-tournaments-tab :tournaments="tournaments" :waiting="waiting"/>
     </tab>
     <tab title="Crea nuovo" :color="colorNew" >
       <create-new-tournament-tab/>
@@ -29,6 +29,19 @@ export default {
       colorActive: style.colorComplementary,
       colorFuture: style.colorSecondary1,
       colorNew: style.colorSecondary2,
+      waiting: [
+        {
+          "id":1,
+          "name":"Torneo di prova con nome lungo",
+          "ageGroup":"Under 24",
+          "gender":"Maschile",
+          "place":"Palazzetto dello Sport",
+          "date":"10/12/2020",
+          "partecipants":2,
+          "total":5,
+          "type":"team",
+          "activity":"calcetto"
+        }],
       tournaments: [
         {
           "id":1,
