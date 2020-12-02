@@ -7,15 +7,13 @@ import TeamsHome from '../views/teams/TeamsHome.vue'
 import MyTournaments from '../views/my-tournaments/MyTournaments.vue'
 import TournamentDetails from '../views/tournaments/TournamentDetails.vue'
 import TeamDetails from '../views/teams/TeamDetails.vue'
+import UserInfo from '../components/registration/UserInfo.vue'
+import AuthInfo from '../components/registration/AuthInfo.vue'
+import ActivityInfo from '../components/registration/ActivityInfo.vue'
 
 Vue.use(VueRouter)
 
 const routes = [
-  {
-    path: '/',
-    name: 'Home',
-    component: Home
-  },
   {
     path: '/login',
     name: 'Login',
@@ -23,28 +21,56 @@ const routes = [
   },
   {
     path: '/register',
-    name: 'Register',
-    component: Registration
+    component: Registration,
+    children: [
+      {
+        path: '',
+        name: 'Register',
+        redirect: 'authinfo'
+      },
+      {
+        path: 'authinfo',
+        component: AuthInfo,
+        name: 'AuthInfo'
+      },
+      {
+        path: 'userinfo',
+        component: UserInfo,
+        name: 'UserInfo'
+      },
+      {
+        path: 'activityinfo',
+        component: ActivityInfo,
+        name: 'ActivityInfo'
+      }
+    ]
   },
   {
-    path: '/mytournaments',
-    name: 'MyTournaments',
-    component: MyTournaments
-  },
-  {
-    path: '/tournaments/:id',
-    name: 'TournamentDetails',
-    component: TournamentDetails
-  },
-  {
-    path: '/teams',
-    name: 'Teams',
-    component: TeamsHome
-  },
-  {
-    path: '/teams/:id',
-    name: 'TeamDetails',
-    component: TeamDetails
+    path: '/',
+    name: 'Home',
+    component: Home,
+    children: [
+      {
+        path: 'mytournaments',
+        name: 'MyTournaments',
+        component: MyTournaments
+      },
+      {
+        path: 'tournaments/:id',
+        name: 'TournamentDetails',
+        component: TournamentDetails
+      },
+      {
+        path: 'teams',
+        name: 'Teams',
+        component: TeamsHome
+      },
+      {
+        path: 'teams/:id',
+        name: 'TeamDetails',
+        component: TeamDetails
+      }
+    ]
   }
 ]
 

@@ -4,13 +4,15 @@
     <div class="teams-container">
       <team-card :team="team" v-for="team in teams" :key="team.id" @click="teamClicked(team)" />
     </div>
+    <floating-button icon="fas fa-plus" />
   </div>
 </template>
 
 <script>
 import TeamCard from '../../components/teams/TeamCard.vue'
+import FloatingButton from '../../components/ui/FloatingButton.vue'
 export default {
-  components: { TeamCard },
+  components: { TeamCard, FloatingButton },
   data() {
     return {
       teams: [

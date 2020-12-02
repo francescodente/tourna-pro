@@ -31,8 +31,9 @@ export default {
   color: #2c3e50;
 
   .main-container {
-    padding-top: 80px;
+    padding-top: $titlebar-height;
     height: 100vh;
+    overflow: auto;
   }
 }
 </style>

@@ -21,7 +21,7 @@ export default {
   font-weight: bold;
   position: fixed;
   width: 100%;
-  height: 80px;
+  height: $titlebar-height;
   display: flex;
   flex-direction: row;
   justify-content: center;
