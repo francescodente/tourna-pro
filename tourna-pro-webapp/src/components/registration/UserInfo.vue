@@ -13,6 +13,7 @@
       type="text"
       v-model="currentValue.lastName"
       identifier="lastname"
+      
 			@input="$emit('input', currentValue)"
     />
 

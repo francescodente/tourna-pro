@@ -1,12 +1,15 @@
 <template>
   <div class="simple-input">
-    <label 
-      class="form-label" 
-      :for="identifier"
-    >
+    <label class="form-label" :for="identifier">
       <slot>{{ label }}</slot>
     </label>
-    <input :id="identifier" :type="type" @input="updated" :value="value" :placeholder="placeholder || label">
+    <input
+      :id="identifier"
+      :type="type"
+      @input="updated"
+      :value="value"
+      :placeholder="placeholder || label"
+    />
   </div>
 </template>
 
@@ -17,14 +20,14 @@ export default {
     value: String,
     label: String,
     identifier: String,
-    type: String
+    type: String,
   },
   methods: {
     updated(e) {
-      this.$emit('input', e.target.value)
-    }
-  }
-}
+      this.$emit("input", e.target.value);
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>
