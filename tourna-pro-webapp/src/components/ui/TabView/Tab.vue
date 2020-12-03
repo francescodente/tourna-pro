@@ -1,5 +1,5 @@
 <template>
-  <div v-show="isActive">
+  <div v-show="isActive" class="my-tab-body">
     <slot/>
   </div>
 </template>
@@ -24,4 +24,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.my-tab-body{
+  height:100%;
+}
 </style>

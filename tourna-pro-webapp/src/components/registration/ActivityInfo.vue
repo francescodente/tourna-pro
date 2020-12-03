@@ -43,7 +43,6 @@ export default {
   },
   methods: {
     activitySelectionChanged(id, selected) {
-      console.log(id, selected)
       if (selected) {
         if (!this.selectedActivities.includes(id)) {
           this.selectedActivities.push(id)

@@ -6,7 +6,7 @@
     </div>
     <simple-border class="registration-form">
       <simple-form :submitMessage="submitMessage" @submit="onSubmit">
-        <component :is="currentStep.component" v-model="currentStep.model" />
+        <router-view v-model="currentStep.model" />
       </simple-form>
     </simple-border>
   </div>
@@ -14,20 +14,17 @@
 
 <script>
 import SimpleForm from "../components/ui/SimpleForm.vue"
-import AuthInfo from "../components/registration/AuthInfo.vue"
-import UserInfo from "../components/registration/UserInfo.vue"
-import ActivityInfo from "../components/registration/ActivityInfo.vue"
-import SimpleBorder from '../components/ui/SimpleBorder.vue'
+import SimpleBorder from "../components/ui/SimpleBorder.vue"
 
 export default {
-  components: { SimpleForm, AuthInfo, UserInfo, ActivityInfo, SimpleBorder },
+  components: { SimpleForm, SimpleBorder },
   data() {
     return {
       currentStepIndex: 0,
       steps: [
         {
           title: 'Scegli una password sicura',
-          component: AuthInfo,
+          route: 'AuthInfo',
           model: {
             email: '',
             username: '',
@@ -38,7 +35,7 @@ export default {
         },
         {
           title: 'Dicci qualcosa di te',
-          component: UserInfo,
+          route: 'UserInfo',
           model: {
             firstName: '',
             lastName: '',
@@ -49,7 +46,7 @@ export default {
         },
         {
           title: 'A cosa ti piace giocare?',
-          component: ActivityInfo,
+          route: 'ActivityInfo',
           model: []
         }
       ]
@@ -57,9 +54,12 @@ export default {
   },
   methods: {
     onSubmit() {
-      //console.log(this.currentStep.model)
       this.currentStepIndex++
+      this.$router.push({ name: this.currentStep.route })
     }
+  },
+  mounted() {
+    this.currentStepIndex = this.steps.map(x => x.route).indexOf(this.$route.name)
   },
   computed: {
     currentStep() {

@@ -1,13 +1,13 @@
 <template>
-  <div>
+  <div class="main">
   <tab-view>
-    <tab title="Attivi" :selected="true" :color="colorActive">
+    <tab title="Attivi" :selected="true" :color="style.colorComplementary">
       <active-tournaments-tab :tournaments="tournaments" />
     </tab>
-    <tab title="Futuri"  :color="colorFuture" >
+    <tab title="Futuri"  :color="style.colorSecondary1" >
       <future-tournaments-tab :tournaments="tournaments" :waiting="waiting"/>
     </tab>
-    <tab title="Crea nuovo" :color="colorNew" >
+    <tab title="Crea nuovo" :color="style.colorSecondary2" >
       <create-new-tournament-tab/>
     </tab>
   </tab-view>
@@ -15,9 +15,9 @@
 </template>
 
 <script>
-import ActiveTournamentsTab from '../../components/my-tournaments/ActiveTournamentsTab.vue'
-import CreateNewTournamentTab from '../../components/my-tournaments/CreateNewTournamentTab.vue'
-import FutureTournamentsTab from '../../components/my-tournaments/FutureTournamentsTab.vue'
+import ActiveTournamentsTab from '../../components/tournaments/my-tournaments/ActiveTournamentsTab.vue'
+import CreateNewTournamentTab from '../../components/tournaments/my-tournaments/CreateNewTournamentTab.vue'
+import FutureTournamentsTab from '../../components/tournaments/my-tournaments/FutureTournamentsTab.vue'
 import Tab from '../../components/ui/TabView/Tab.vue'
 import TabView from '../../components/ui/TabView/TabView.vue'
 import style from '../../style/export.scss'
@@ -26,9 +26,7 @@ export default {
   name: 'MyTournaments',
   data: function() {
     return {
-      colorActive: style.colorComplementary,
-      colorFuture: style.colorSecondary1,
-      colorNew: style.colorSecondary2,
+      style,
       waiting: [
         {
           "id":1,
@@ -75,4 +73,7 @@ export default {
 
 
 <style lang="scss" scoped>
+.main {
+  height:100%;
+}
 </style>

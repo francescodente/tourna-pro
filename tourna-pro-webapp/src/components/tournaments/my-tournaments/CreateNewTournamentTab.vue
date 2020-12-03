@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import ActionButton from '../ui/ActionButton.vue'
+import ActionButton from '../../ui/ActionButton.vue'
 export default {
   components: { ActionButton },
   name: 'CreateNewTournamentTab',

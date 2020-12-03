@@ -32,7 +32,7 @@
 </template>
 
 <script>
-import TextIcon from './TextIcon.vue'
+import TextIcon from '../ui/TextIcon.vue'
 export default {
   components: { TextIcon },
   name: 'TournamentCard',

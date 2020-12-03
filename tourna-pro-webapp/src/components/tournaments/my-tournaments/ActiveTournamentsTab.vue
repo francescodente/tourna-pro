@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import TournamentCard from '../ui/TournamentCard.vue'
+import TournamentCard from '../TournamentCard.vue'
 export default {
   components: { TournamentCard },
   name: 'ActiveTournamentsTab',
@@ -20,6 +20,7 @@ export default {
 <style lang="scss" scoped>
 .bg {
   padding-top:4%;
+  height:100%;
   background-color: $color-complementary-background;
 }
 </style>
