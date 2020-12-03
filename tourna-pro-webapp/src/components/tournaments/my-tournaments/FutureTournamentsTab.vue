@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import TournamentCard from '../ui/TournamentCard.vue'
+import TournamentCard from '../TournamentCard.vue'
 export default {
   components: { TournamentCard },
   name: 'FutureTournamentsTab',
