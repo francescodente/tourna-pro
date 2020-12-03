@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <ul class="tabs-nav nav nav-pills nav-justified">
+  <div class="all">
+    <ul class="tabs-nav nav nav-justified">
       <li
         v-for="tab in tabs"
         :class="{ 'is-active': tab.isActive}"
@@ -39,14 +39,25 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+
+.all {
+  height: 100%;
+}
 .tabs-nav{
   li{
     list-style: none;
-    padding: 12px;
     font-weight: bold;
     color:$color-not-focus-text;
+    a {
+      padding:12px;
+      display:block;
+    }
   }
   box-shadow: 0px 3px 4px 0px rgba(0, 0, 0, 0.1);
+}
+
+.tabs-body{
+  height:100%;
 }
 
 .is-active{

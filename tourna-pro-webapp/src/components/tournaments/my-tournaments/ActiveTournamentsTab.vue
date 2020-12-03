@@ -20,6 +20,7 @@ export default {
 <style lang="scss" scoped>
 .bg {
   padding-top:4%;
+  height:100%;
   background-color: $color-complementary-background;
 }
 </style>

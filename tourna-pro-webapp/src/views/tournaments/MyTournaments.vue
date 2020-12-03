@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="main">
   <tab-view>
     <tab title="Attivi" :selected="true" :color="style.colorComplementary">
       <active-tournaments-tab :tournaments="tournaments" />
@@ -73,4 +73,7 @@ export default {
 
 
 <style lang="scss" scoped>
+.main {
+  height:100%;
+}
 </style>

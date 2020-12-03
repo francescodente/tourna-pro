@@ -26,6 +26,7 @@ export default {
 
 <style lang="scss" scoped>
 .bg {
+  height:100%;
   background-color: $color-secondary1-background;
 }
 
