@@ -1,7 +1,13 @@
 <template>
   <div>
-    <i :class="icon"></i>
-    <span class="text">{{text}}</span>
+    <i 
+      :class="icon" 
+      :style="{color: iconColor}"
+    ></i>
+    <span 
+      class="text" 
+      :style="{color: textColor}" 
+    >{{text}}</span>
   </div>
 </template>
 
@@ -11,6 +17,8 @@ export default {
   props: {
     text: String,
     icon: String,
+    iconColor: {default: "inherit"},
+    textColor: {default: "inherit"}
   }
 }
 </script>
@@ -19,4 +27,5 @@ export default {
 .text{
   margin-left: 5px;
 }
+
 </style>
