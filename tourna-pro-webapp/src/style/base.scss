@@ -7,3 +7,12 @@ h2 {
   font-size: 1.3rem;
   font-weight: bold;
 }
+
+.no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}

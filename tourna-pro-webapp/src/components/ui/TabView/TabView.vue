@@ -1,10 +1,9 @@
 <template>
   <div class="all">
-    <ul class="tabs-nav nav nav-justified">
+    <ul class="tabs-nav no-scrollbar">
       <li
         v-for="tab in tabs"
         :class="{ 'is-active': tab.isActive}"
-        class="nav-item"
         :style="
         (tab.isActive)?
           {color: tab.color } : {} "
@@ -42,11 +41,23 @@ export default {
 
 .all {
   height: 100%;
+  max-width:100%;
 }
+
+
+
 .tabs-nav{
+  width:100%;
+  overflow-x:scroll;
+  padding:0px;
+  margin:0px;
+  display:flex;
+  flex-direction: row;
   li{
+    min-width:30%;
     list-style: none;
     font-weight: bold;
+    flex: 1 1 0;
     color:$color-not-focus-text;
     a {
       padding:12px;

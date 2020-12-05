@@ -7,9 +7,9 @@
       </div>
     </div>
     <div class="tab-container">
-      <tab-view class="tabview">
+      <tab-view>
         <tab title="Dettagli" :selected="true">
-          <details-tab />
+          <details-tab :details="details"/>
         </tab>
         <tab v-if="tournament.active == true" title="Tabellone">
           <score-board-tab />
@@ -34,6 +34,7 @@ import ScoreBoardTab from "../../components/tournaments/tournament-details/Score
 import Tab from "../../components/ui/TabView/Tab.vue";
 import TabView from "../../components/ui/TabView/TabView.vue";
 export default {
+  name: "TournamentDetails",
   data: function () {
     return {
       tournament: {
@@ -64,17 +65,22 @@ export default {
     ScoreBoardTab,
     ActivityTab,
   },
-  name: "TournamentDetails",
+  computed: {
+    details() {
+      var {ageGroup, gender, place, date, partecipants, total, type, activity} = this.tournament
+      var obj = {ageGroup, gender, place, date, partecipants, total, type, activity}
+      return obj
+    },
+    actions(){
+      return [];
+    }
+  }
 };
 </script>
 
 <style lang="scss" scoped>
-.tabview {
-  color: $color-secondary2;
-}
-
 .tab-container{
-  width:100%;
+  color: $color-secondary2;
 }
 
 </style>
