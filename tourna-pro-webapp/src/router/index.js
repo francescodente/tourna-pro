@@ -51,41 +51,6 @@ const routes = [
     ]
   },
   {
-<<<<<<< HEAD
-    path: '/tournaments/:id',
-    name: 'TournamentDetails',
-    component: TournamentDetails
-  },
-  {
-    path: '/teams',
-    name: 'Teams',
-    component: TeamsHome
-  },
-  {
-    path: '/teams/:id',
-    name: 'TeamDetails',
-    component: TeamDetails
-  },
-  {
-    path: '/user/interest',
-    name: 'EditUserInterest',
-    component: UserInterest
-  },
-  {
-    path: '/user/password',
-    name: 'EditUserPassword',
-    component: UserPassword
-  },
-  {
-    path: '/user/profile',
-    name: 'UserProfile',
-    component: UserProfile
-  },
-  {
-    path: '/user/modifyprofile',
-    name: 'ModifyProfile',
-    component: UserModifyProfile
-=======
     path: '/',
     name: 'Home',
     component: Home,
@@ -111,7 +76,6 @@ const routes = [
         component: TeamDetails
       }
     ]
->>>>>>> 6aab52af9719dbdaac975734e8fdf68f170743c6
   }
 
 ]
