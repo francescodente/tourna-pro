@@ -6,7 +6,7 @@
 <script>
 
 export default {
-  name: 'ActionTab'
+  name: 'DetailsTab'
 }
 </script>
 

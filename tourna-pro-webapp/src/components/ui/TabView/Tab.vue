@@ -9,7 +9,7 @@ export default {
   name: "Tab",
   props: {
     title: {required: String},
-    color: {default: "black"},
+    color: {default: "inherit"},
     selected: { default: false }
   },
   data() {
