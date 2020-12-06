@@ -80,6 +80,7 @@ export default {
 
 <style lang="scss" scoped>
 .tab-container{
+  margin-top:20px;
   color: $color-secondary2;
 }
 
