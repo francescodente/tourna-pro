@@ -3,7 +3,7 @@
     <ul class="tabs-nav no-scrollbar">
       <li
         v-for="tab in tabs"
-        :class="{ 'is-active': tab.isActive}"
+        :class="{ 'is-active': tab.isActive, 'is-not-active': !tab.isActive}"
         :style="
         (tab.isActive)?
           {color: tab.color } : {} "
@@ -64,7 +64,7 @@ export default {
       display:block;
     }
   }
-  box-shadow: 0px 3px 4px 0px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 0px 10px -5px rgba(0,0,0,0.75);
 }
 
 .tabs-body{
@@ -73,5 +73,10 @@ export default {
 
 .is-active{
   border-bottom: 3.5px solid;
+  box-shadow: 0px 2px 10px 0px rgba(0, 0, 0, 0.2);
+}
+
+.is-not-active{
+  box-shadow: 0px 2px 1px 0px rgba(0, 0, 0, 0.1);
 }
 </style>
