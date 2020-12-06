@@ -23,6 +23,6 @@ export default {
     font-weight: bold;
     text-align:left;
     padding:20px;
-    box-shadow: 0px 3px 4px 0px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 1px 6px 0px rgba(0, 0, 0, 0.3);
 }
 </style>

@@ -18,7 +18,7 @@
           <activity-tab />
         </tab>
         <tab title="Azioni">
-          <action-tab />
+          <action-tab :owner="owner" :subscribed="subscribed" :active="tournament.active" />
         </tab>
       </tab-view>
     </div>
@@ -52,7 +52,7 @@ export default {
         activity: "calcetto",
         active: true
       },
-      owner: true,
+      owner: false,
       subscribed: true
     };
   },
