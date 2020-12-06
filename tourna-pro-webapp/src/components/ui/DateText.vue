@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="date" :style="{color: color}">
+    <div class="date" :style="{color: dateColor}">
       {{date}}
     </div>
     <div class="text">
@@ -13,9 +13,10 @@
 
 export default {
   name: 'DateText',
-  prop: {
-    date: String,
-    color: {default: "inherit", type:String}
+  props: {
+    dateColor: {default: "inherit", type:String},
+    date: String
+   
   }
 }
 </script>

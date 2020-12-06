@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import Login from '../views/Login.vue'
+import Notifications from '../views/Notifications.vue'
 import Registration from '../views/Registration.vue'
 import TeamsHome from '../views/teams/TeamsHome.vue'
 import MyTournaments from '../views/tournaments/MyTournaments.vue'
@@ -55,6 +56,11 @@ const routes = [
     name: 'Home',
     component: Home,
     children: [
+      {
+        path: 'notifications',
+        name: 'Notifications',
+        component: Notifications
+      },
       {
         path: 'mytournaments',
         name: 'MyTournaments',
