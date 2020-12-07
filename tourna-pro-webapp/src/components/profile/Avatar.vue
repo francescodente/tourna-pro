@@ -1,21 +1,21 @@
 <template>
-  <div class="avatar">
-    <b-avatar class="mr-3"></b-avatar>
+  <div>
+    <b-avatar class="avatar" :size="size"></b-avatar>
   </div>
 </template>
 
 <script>
 export default {
-
+  props: {
+    size: String
+  }
 };
 </script>
 
 <style lang="scss" scoped>
-.mr-3 {
+.avatar {
   color: #a66e0c;
   background-color: #ffc35a;
 }
-.mr-auto {
-  color: black;
-}
+
 </style>

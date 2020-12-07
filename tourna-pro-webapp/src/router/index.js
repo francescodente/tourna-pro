@@ -80,6 +80,26 @@ const routes = [
         path: 'teams/:id',
         name: 'TeamDetails',
         component: TeamDetails
+      },
+      {
+        path: 'user/:id',
+        name: 'UserProfile',
+        component: UserProfile
+      },
+      {
+        path: 'user/:id/modify',
+        name: 'UserModifyProfile',
+        component: UserModifyProfile
+      },
+      {
+        path: 'user/:id/password',
+        name: 'UserPassword',
+        component: UserPassword
+      },
+      {
+        path: 'user/:id/interest',
+        name: 'UserInterest',
+        component: UserInterest
       }
     ]
   }
