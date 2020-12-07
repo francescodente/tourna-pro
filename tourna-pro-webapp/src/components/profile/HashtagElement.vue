@@ -1,6 +1,6 @@
 <template>
   <div class="hashtag">
-    {{'#'+element}}
+    {{'#'+ element}}
   </div>
 </template>
 
