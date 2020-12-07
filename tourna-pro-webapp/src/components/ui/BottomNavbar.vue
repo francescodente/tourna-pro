@@ -12,7 +12,7 @@ export default {
 
 <style lang="scss" scoped>
 .navbar-container {
-  background-color: rgba(0,0,0,.8);;
+  background-color: $color-primary;
   position: fixed;
   bottom: 0px;
   width: 100%;
