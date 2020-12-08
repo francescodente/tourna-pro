@@ -1,79 +1,88 @@
 <template>
   <div class="main">
-  <tab-view>
-    <tab title="Attivi" :selected="true" :color="style.colorComplementary">
-      <active-tournaments-tab :tournaments="tournaments" />
-    </tab>
-    <tab title="Futuri"  :color="style.colorSecondary1" >
-      <future-tournaments-tab :tournaments="tournaments" :waiting="waiting"/>
-    </tab>
-    <tab title="Crea nuovo" :color="style.colorSecondary2" >
-      <create-new-tournament-tab/>
-    </tab>
-  </tab-view>
-</div>
+    <tab-view class="tabview">
+      <tab title="Iscrizioni" :selected="true">
+        <subscribed-to-tab :tournaments="tournaments" :waiting="waiting"/>
+      </tab>
+      <tab title="I miei tornei"> 
+        <managed-by-me-tab :tournaments="tournaments"/>
+      </tab>
+    
+      <tab title="Crea nuovo">
+        <create-new-tournament-tab />
+      </tab>
+    </tab-view>
+  </div>
 </template>
 
 <script>
-import ActiveTournamentsTab from '../../components/tournaments/my-tournaments/ActiveTournamentsTab.vue'
-import CreateNewTournamentTab from '../../components/tournaments/my-tournaments/CreateNewTournamentTab.vue'
-import FutureTournamentsTab from '../../components/tournaments/my-tournaments/FutureTournamentsTab.vue'
-import Tab from '../../components/ui/TabView/Tab.vue'
-import TabView from '../../components/ui/TabView/TabView.vue'
-import style from '../../style/export.scss'
+import CreateNewTournamentTab from "../../components/tournaments/my-tournaments/CreateNewTournamentTab.vue";
+import ManagedByMeTab from '../../components/tournaments/my-tournaments/ManagedByMeTab.vue';
+import SubscribedToTab from '../../components/tournaments/my-tournaments/SubscribedToTab.vue';
+import Tab from "../../components/ui/TabView/Tab.vue";
+import TabView from "../../components/ui/TabView/TabView.vue";
+import style from "../../style/export.scss";
 export default {
-  components: { ActiveTournamentsTab, FutureTournamentsTab,CreateNewTournamentTab, TabView, Tab },
-  name: 'MyTournaments',
-  data: function() {
+  components: { CreateNewTournamentTab, TabView, Tab, SubscribedToTab, ManagedByMeTab },
+  name: "MyTournaments",
+  data: function () {
     return {
       style,
       waiting: [
         {
-          "id":1,
-          "name":"Torneo di prova con nome lungo",
-          "ageGroup":"Under 24",
-          "gender":"Maschile",
-          "place":"Palazzetto dello Sport",
-          "date":"10/12/2020",
-          "partecipants":2,
-          "total":5,
-          "type":"team",
-          "activity":"calcetto"
-        }],
+          id: 1,
+          name: "Torneo di prova con nome lungo",
+          ageGroup: "Under 24",
+          gender: "Maschile",
+          place: "Palazzetto dello Sport",
+          date: "10/12/2020",
+          partecipants: 2,
+          total: 5,
+          type: "team",
+          activity: "calcetto",
+          status: "ACTIVE"
+        },
+      ],
       tournaments: [
         {
-          "id":1,
-          "name":"Torneo di prova con nome lungo",
-          "ageGroup":"Under 24",
-          "gender":"Maschile",
-          "place":"Palazzetto dello Sport",
-          "date":"10/12/2020",
-          "partecipants":2,
-          "total":5,
-          "type":"team",
-          "activity":"calcetto"
+          id: 1,
+          name: "Torneo di prova con nome lungo",
+          ageGroup: "Under 24",
+          gender: "Maschile",
+          place: "Palazzetto dello Sport",
+          date: "10/12/2020",
+          partecipants: 2,
+          total: 5,
+          type: "team",
+          activity: "calcetto",
+          status: "ACTIVE"
         },
         {
-          "id":2,
-          "name":"Torneo di prova 2",
-          "ageGroup":"Under 24",
-          "gender":"Maschile",
-          "place":"Palazzetto dello Sport",
-          "date":"10/12/2020",
-          "partecipants":2,
-          "total":5,
-          "type":"single",
-          "activity":"basket"
-        }
-      ]
-    }
-  }
-}
+          id: 2,
+          name: "Torneo di prova 2",
+          ageGroup: "Under 24",
+          gender: "Maschile",
+          place: "Palazzetto dello Sport",
+          date: "10/12/2020",
+          partecipants: 2,
+          total: 5,
+          type: "single",
+          activity: "basket",
+          status: "FUTURE"
+        },
+      ],
+    };
+  },
+};
 </script>
 
 
 <style lang="scss" scoped>
 .main {
-  height:100%;
+  height: 100%;
+}
+
+.tabview {
+  color: $color-primary;
 }
 </style>

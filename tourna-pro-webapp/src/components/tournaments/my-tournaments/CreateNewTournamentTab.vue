@@ -18,6 +18,7 @@ export default {
 
 <style lang="scss" scoped>
 .bg{
+  color: $color-primary;
   padding-top: 20px;
   display:flex;
   flex-direction: column-reverse;

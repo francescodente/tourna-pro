@@ -1,5 +1,5 @@
 <template>
-  <div class="action-button" @click="$emit('trigger', $event.target)">
+  <div class="action-button" @click="$emit('trigger', $event.target)" :style="{color: this.color}">
     <text-icon :icon="icon" :text="actionName"/>
   </div>
 </template>
@@ -11,7 +11,8 @@ export default {
   name: 'ActionButton',
   props: {
     icon: String,
-    actionName: String
+    actionName: String,
+    color: {default: "inherit"}
   }
 }
 </script>
@@ -19,7 +20,6 @@ export default {
 <style lang="scss" scoped>
 .action-button{
     background-color:white;
-    color: $color-secondary2;
     font-weight: bold;
     text-align:left;
     padding:20px;
