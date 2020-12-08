@@ -31,7 +31,7 @@ export default {
 .bg {
   height: 100%;
   padding: 0% 3%;
-  padding-top: 7px;
+  padding-top: 5%;
 }
 
 .waiting {
