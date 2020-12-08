@@ -91,7 +91,7 @@ export default {
   background-color: white;
   border: 2px solid;
   position: absolute;
-  top: -10px;
+  top: -13px;
   right: 20px;
   font-size: 10pt;
 }
@@ -102,7 +102,8 @@ export default {
   //background-color: $color-complementary;
   border-color: $color-complementary-lightest;
   .badge {
-    color: $color-complementary-lightest;
+    color: $color-complementary;
+    border-color: $color-complementary-lightest;
   }
 }
 .FUTURE {
@@ -112,14 +113,15 @@ export default {
   //background-color: $color-secondary1;
   border-color: $color-secondary1-lightest;
   .badge {
-    color: $color-secondary1-lightest;
+    color: $color-secondary1;
+    border-color: $color-secondary1-lightest;
   }
 }
 .exploring {
   background-color: $color-secondary2;
   border-color: $color-secondary2-lightest;
   .badge {
-    color: $color-secondary2-lightest;
+    color: $color-secondary2;
   }
 }
 </style>

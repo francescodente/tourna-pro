@@ -11,6 +11,7 @@ import TeamDetails from '../views/teams/TeamDetails.vue'
 import UserInfo from '../components/registration/UserInfo.vue'
 import AuthInfo from '../components/registration/AuthInfo.vue'
 import ActivityInfo from '../components/registration/ActivityInfo.vue'
+import Suspended from '../views/tournaments/Suspended.vue'
 
 import UserProfile from '../views/profile/UserProfile.vue'
 import UserModifyProfile from '../views/profile/UserModifyProfile.vue'
@@ -65,6 +66,11 @@ const routes = [
         path: 'mytournaments',
         name: 'MyTournaments',
         component: MyTournaments
+      },
+      {
+        path: 'suspended',
+        name: 'Suspended',
+        component: Suspended
       },
       {
         path: 'tournaments/:id',

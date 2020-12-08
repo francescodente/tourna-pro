@@ -28,21 +28,7 @@ export default {
   data: function () {
     return {
       style,
-      waiting: [
-        {
-          id: 1,
-          name: "Torneo di prova con nome lungo",
-          ageGroup: "Under 24",
-          gender: "Maschile",
-          place: "Palazzetto dello Sport",
-          date: "10/12/2020",
-          partecipants: 2,
-          total: 5,
-          type: "team",
-          activity: "calcetto",
-          status: "ACTIVE"
-        },
-      ],
+      waiting: true,
       tournaments: [
         {
           id: 1,
