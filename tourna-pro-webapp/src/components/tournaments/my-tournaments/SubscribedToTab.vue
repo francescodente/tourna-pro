@@ -6,7 +6,7 @@
       <i class="fas fa-angle-right"></i>
       </router-link>
     </div>
-    <tournament-card
+    <tournament-card class="tournament-card"
       v-for="tournament in tournaments"
       :key="tournament.id"
       :status="tournament.status"
@@ -31,13 +31,15 @@ export default {
 .bg {
   height: 100%;
   padding: 0% 3%;
-  padding-top: 5%;
 }
 
 .waiting {
   text-decoration: underline;
   color: $color-primary;
-  margin: 10px 0px;
-  padding-bottom: 5%;
+  margin-top:20px;
+}
+
+.tournament-card{
+  margin-top: 30px;
 }
 </style>

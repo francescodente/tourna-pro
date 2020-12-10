@@ -11,7 +11,10 @@ import TeamDetails from '../views/teams/TeamDetails.vue'
 import UserInfo from '../components/registration/UserInfo.vue'
 import AuthInfo from '../components/registration/AuthInfo.vue'
 import ActivityInfo from '../components/registration/ActivityInfo.vue'
-import Suspended from '../views/tournaments/Suspended.vue'
+import SubscriptionRequests from '../views/tournaments/SubscriptionRequests.vue'
+import Matches from '../views/tournaments/Matches.vue'
+import MatchDetail from '../views/tournaments/MatchDetail.vue'
+import Share from '../views/tournaments/Share.vue'
 
 import UserProfile from '../views/profile/UserProfile.vue'
 import UserModifyProfile from '../views/profile/UserModifyProfile.vue'
@@ -63,19 +66,34 @@ const routes = [
         component: Notifications
       },
       {
-        path: 'mytournaments',
+        path: 'tournaments',
         name: 'MyTournaments',
         component: MyTournaments
       },
       {
-        path: 'suspended',
-        name: 'Suspended',
-        component: Suspended
+        path: 'tournaments/requests',
+        name: 'SubscriptionRequests',
+        component: SubscriptionRequests
       },
       {
         path: 'tournaments/:id',
         name: 'TournamentDetails',
         component: TournamentDetails
+      },
+      {
+        path: 'tournaments/:id/share',
+        name: 'Share',
+        component: Share
+      },
+      {
+        path: 'tournaments/:id/matches',
+        name: 'Matches',
+        component: Matches
+      },
+      {
+        path: 'tournaments/:id/matches/:match_id',
+        name: 'MatchDetail',
+        component: MatchDetail
       },
       {
         path: 'teams',

@@ -67,8 +67,8 @@ export default {
   },
   computed: {
     details() {
-      var {ageGroup, gender, place, date, partecipants, total, type, activity} = this.tournament
-      var obj = {ageGroup, gender, place, date, partecipants, total, type, activity}
+      var {ageGroup, gender, place, date, partecipants, total, type, activity, active} = this.tournament
+      var obj = {ageGroup, gender, place, date, partecipants, total, type, activity, active}
       return obj
     },
     actions(){

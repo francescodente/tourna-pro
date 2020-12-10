@@ -1,5 +1,6 @@
 <template>
   <div class="main">
+     <headline class="headline">Richieste di iscrizione </headline>
     <arrow-button v-for="r in requests" :key="r.id" :text="r.tournament_name">
       <div :class="r.status">
         {{ r.status }}
@@ -9,10 +10,11 @@
 </template>
 
 <script>
+import Headline from "../../components/tournaments/tournament-details/Headline.vue";
 import ArrowButton from "../../components/tournaments/ArrowButton.vue";
 export default {
-  components: { ArrowButton },
-  name: "Suspended",
+  components: { ArrowButton, Headline},
+  name: "SubscriptionRequests",
   data: function () {
     return {
       requests: [
@@ -34,7 +36,7 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .REJECTED {
   color: $color-secondary2;
   font-size: 9pt;
@@ -44,5 +46,10 @@ export default {
   color: $color-secondary1;
   font-size: 9pt;
   font-weight: bold;
+}
+
+.headline{
+  width:90%;
+  margin: 10px 5%;
 }
 </style>
