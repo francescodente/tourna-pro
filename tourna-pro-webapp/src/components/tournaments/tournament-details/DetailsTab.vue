@@ -7,6 +7,10 @@
     <detail-row title="Età" :value="details.ageGroup"/>
     <detail-row title="Luogo" :value="details.place"/>
     <detail-row title="Data" :value="details.date"/>
+
+  <div v-if="details.active" class="match-link">
+    <router-link tag="div" :to="this.$route.path +'/matches'">Vai alle partite</router-link>
+  </div>
   </div>
 </template>
 
@@ -27,5 +31,9 @@ export default {
   width: 90%;
   margin-left:5%;
   padding-top:20px;
+}
+
+.match-link {
+  text-decoration: underline;
 }
 </style>

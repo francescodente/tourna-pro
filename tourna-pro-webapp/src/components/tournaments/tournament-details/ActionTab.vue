@@ -20,6 +20,9 @@
       </div>
       <div class="subscribed-actions" v-if="subscribed">
         <action-button actionName="Ritirati dal torneo" icon="fas fa-times" />
+        <div class="active-tournament" v-if="active">
+        <action-button actionName="Visualizza partite" icon="fas fa-clipboard-list" />
+        </div>
       </div>
     </div>
   </div>

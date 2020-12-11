@@ -69,7 +69,6 @@ export default {
   text-align: center;
   width: 100%;
   color: black;
-  margin-bottom: 7%;
   border-radius: 15px;
   border: 3px solid;
 }

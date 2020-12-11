@@ -41,10 +41,15 @@ export default {
     border: none;
     border-bottom: 1px solid black;
     width: 100%;
-
+    appearance: none;
+    background-image: url('~@/assets/angle-down-solid.svg');
+    background-repeat: no-repeat;
+    background-position:right;
+    background-position-x: 95%;
     &:focus {
       outline: none;
     }
   }
+
 }
 </style>
