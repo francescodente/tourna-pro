@@ -15,6 +15,7 @@ import SubscriptionRequests from '../views/tournaments/SubscriptionRequests.vue'
 import Matches from '../views/tournaments/Matches.vue'
 import MatchDetail from '../views/tournaments/MatchDetail.vue'
 import Share from '../views/tournaments/Share.vue'
+import CreateTournament from '../views/tournaments/CreateTournament.vue'
 
 import UserProfile from '../views/profile/UserProfile.vue'
 import UserModifyProfile from '../views/profile/UserModifyProfile.vue'
@@ -69,6 +70,11 @@ const routes = [
         path: 'tournaments',
         name: 'MyTournaments',
         component: MyTournaments
+      },
+      {
+        path: 'tournaments/create',
+        name: 'CreateTournament',
+        component: CreateTournament
       },
       {
         path: 'tournaments/requests',

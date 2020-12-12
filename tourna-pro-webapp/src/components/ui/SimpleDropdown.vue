@@ -45,7 +45,7 @@ export default {
     background-image: url('~@/assets/angle-down-solid.svg');
     background-repeat: no-repeat;
     background-position:right;
-    background-position-x: 95%;
+    background-position-x: 100%;
     &:focus {
       outline: none;
     }
