@@ -1,11 +1,10 @@
 <template>
   <div class="main">
     <simple-form submitMessage="Crea nuovo">
-      <simple-input
-        label="Nome"
-        type="text"
-        v-model="name"
-        identifier="name"
+      <simple-input label="Nome" type="text" v-model="name" identifier="name" />
+      <simple-text-area
+        label="Descrizione"
+        v-model="description"
       />
       <simple-radio-group
         label="Modalità"
@@ -50,12 +49,7 @@
         v-model="place"
         identifier="place"
       />
-      <simple-input
-      label="Data"
-      type="date"
-      v-model="date"
-      identifier="date"
-      />
+      <simple-input label="Data" type="date" v-model="date" identifier="date" />
     </simple-form>
   </div>
 </template>
@@ -64,9 +58,10 @@
 import SimpleDropdown from "../../components/ui/SimpleDropdown.vue";
 import SimpleForm from "../../components/ui/SimpleForm.vue";
 import SimpleInput from "../../components/ui/SimpleInput.vue";
-import SimpleRadioGroup from '../../components/ui/SimpleRadioGroup.vue';
+import SimpleRadioGroup from "../../components/ui/SimpleRadioGroup.vue";
+import SimpleTextArea from '../../components/ui/SimpleTextArea.vue';
 export default {
-  components: { SimpleForm, SimpleInput, SimpleDropdown, SimpleRadioGroup },
+  components: { SimpleForm, SimpleInput, SimpleDropdown, SimpleRadioGroup, SimpleTextArea },
   name: "CreateTournament",
   data: function () {
     return {
@@ -117,7 +112,7 @@ export default {
           value: "SINGLE",
           display: "Singoli",
         },
-      ]
+      ],
     };
   },
 };
