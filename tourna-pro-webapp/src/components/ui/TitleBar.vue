@@ -1,6 +1,11 @@
 <template>
   <div class="title-bar">
-    <div>{{ appName }}</div>
+    <div class="back-button">
+      <a @click.prevent="back">
+        <i class="fas fa-chevron-left"></i>
+      </a>
+    </div>
+    {{ appName }}
   </div>
 </template>
 
@@ -9,6 +14,11 @@ export default {
   name: 'TitleBar',
   props: {
     appName: String
+  },
+  methods: {
+    back() {
+      this.$router.go(-1)
+    }
   }
 }
 </script>
@@ -27,5 +37,20 @@ export default {
   justify-content: center;
   align-items: center;
   z-index: 100;
+
+  .back-button {
+    position: absolute;
+    left: 0px;
+    height: 100%;
+    width: $titlebar-height * 0.7;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+    &:hover {
+      background-color: $color-primary-darker;
+    }
+  }
 }
 </style>
