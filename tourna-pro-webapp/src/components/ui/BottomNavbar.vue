@@ -31,7 +31,7 @@ export default {
         },
         {
           icon: 'far fa-user',
-          linkTo: '/user'
+          linkTo: '/user/1'
         }
       ]
     }
