@@ -1,21 +1,31 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
+
 import Login from '../views/Login.vue'
+
+
 import Notifications from '../views/Notifications.vue'
+
 import Registration from '../views/Registration.vue'
-import TeamsHome from '../views/teams/TeamsHome.vue'
-import MyTournaments from '../views/tournaments/MyTournaments.vue'
-import TournamentDetails from '../views/tournaments/TournamentDetails.vue'
-import TeamDetails from '../views/teams/TeamDetails.vue'
 import UserInfo from '../components/registration/UserInfo.vue'
 import AuthInfo from '../components/registration/AuthInfo.vue'
 import ActivityInfo from '../components/registration/ActivityInfo.vue'
+
+import TeamsHome from '../views/teams/TeamsHome.vue'
+import TeamDetails from '../views/teams/TeamDetails.vue'
+
+import MyTournaments from '../views/tournaments/MyTournaments.vue'
+import TournamentDetails from '../views/tournaments/TournamentDetails.vue'
 import SubscriptionRequests from '../views/tournaments/SubscriptionRequests.vue'
 import Matches from '../views/tournaments/Matches.vue'
 import MatchDetail from '../views/tournaments/MatchDetail.vue'
 import Share from '../views/tournaments/Share.vue'
 import CreateTournament from '../views/tournaments/CreateTournament.vue'
+import ManageSubscriptions from '../views/tournaments/ManageSubscriptions.vue'
+import NameAdmin from '../views/tournaments/NameAdmin.vue'
+
+import Explore from '../views/explore/Explore.vue'
 
 import UserProfile from '../views/profile/UserProfile.vue'
 import UserModifyProfile from '../views/profile/UserModifyProfile.vue'
@@ -92,6 +102,16 @@ const routes = [
         component: Share
       },
       {
+        path: 'tournaments/:id/subscriptions',
+        name: 'ManageSubscriptions',
+        component: ManageSubscriptions
+      },
+      {
+        path: 'tournaments/:id/admins',
+        name: 'NameAdmin',
+        component: NameAdmin
+      },
+      {
         path: 'tournaments/:id/matches',
         name: 'Matches',
         component: Matches
@@ -130,6 +150,11 @@ const routes = [
         path: 'user/:id/interest',
         name: 'UserInterest',
         component: UserInterest
+      },
+      {
+        path: 'explore',
+        name: 'Explore',
+        component: Explore
       }
     ]
   }
