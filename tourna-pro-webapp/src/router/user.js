@@ -10,7 +10,7 @@ export default [
     component: UserProfile
   },
   {
-    path: 'user/:id/modify',
+    path: 'user/:id/edit',
     name: 'UserModifyProfile',
     component: UserModifyProfile
   },
@@ -20,7 +20,7 @@ export default [
     component: UserPassword
   },
   {
-    path: 'user/:id/interest',
+    path: 'user/:id/interests',
     name: 'UserInterest',
     component: UserInterest
   }
