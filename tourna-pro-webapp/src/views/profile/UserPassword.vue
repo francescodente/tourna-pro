@@ -10,14 +10,14 @@
     <simple-input
       label="Nuova Password"
       :type="showPassword ? 'text' : 'password'"
-      v-model="password"
+      v-model="newPassword"
       identifier="newpassword"
     />
 
     <simple-input
       label="Conferma Password"
       :type="showPassword ? 'text' : 'password'"
-      v-model="password"
+      v-model="confirmPassword"
       identifier="confirmpassword"
     />
 
@@ -40,6 +40,8 @@ export default {
     return {
       username: "",
       password: "",
+      newPassword: "",
+      confirmPassword: "",
       showPassword: false,
     };
   },

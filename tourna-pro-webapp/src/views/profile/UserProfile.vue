@@ -44,7 +44,7 @@
     </div>
 
     <div class="interests">
-      <section-header class="header" :color="style.colorPrimary">
+      <section-header class="header" :color="style.colorPrimaryLightest">
         <span>Interessi</span>
         <router-link tag="i" :to="this.$route.path + '/interests'">
           <i class="fas fa-ellipsis-h"></i>
@@ -56,7 +56,7 @@
     </div>
 
     <div>
-      <section-header class="header" :color="style.colorComplementary">
+      <section-header class="header" :color="style.colorComplementaryLight">
         <span>Achievements</span>
         <i class="fas fa-question-circle"></i>
       </section-header>

@@ -1,15 +1,15 @@
 <template>
   <div class="main">
 
-    <avatar />
-    <div class="nikname">{{ nikname }}</div>
+    <avatar size="5em" />
+    <div class="nickname">{{ user.userName }}</div>
 
-    <div class="bio">
-      <user-info />
+    <div class="inputs">
+      <user-info :value="user"/>
       <simple-input
         label="Bio"
         type="text"
-        v-model="currentValue"
+        v-model="user.bio"
         identifier="bio"
         @input="$emit('input', currentValue)"
       />
@@ -27,7 +27,26 @@ export default {
   components: { Avatar, UserInfo, SimpleInput },
   data: function () {
     return {
-      nikname: "@mario_rossi",
+      user: {
+        firstName: "Mario",
+        lastName: "Rossi",
+        userName: "@mario_rossi123",
+        birthDay: "16/10/1997",
+        telephoneNumber: "3483680498",
+        city: "Roma",
+        gender: "M",
+        bio: "Ciao, mi chiamo Mario e ho una passione per gli sport di squadra",
+        interests: ["calcetto", "pallavolo", "basket"],
+        achievements: [
+          {
+            id: 1,
+            name: "Lupo Solitario",
+            date: "21/03/2019",
+            description: "Partecipa al tuo primo torneo come solista.",
+            image: "",
+          },
+        ],
+      },
     };
   },
 };
@@ -35,14 +54,20 @@ export default {
 
 <style lang="scss" scoped>
 .main {
+  margin-top:10px;
   display: flex;
   flex-direction: column;
   justify-content: start;
   align-items: center;
 }
-.nikname {
-  color: black;
-  font-weight: bold;
+
+.nickname{
+  font-size: 10pt;
+  text-align: center;
+}
+
+.inputs{
+  margin-top: 15px;
 }
 
 </style>
