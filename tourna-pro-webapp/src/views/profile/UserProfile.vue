@@ -1,72 +1,100 @@
 <template>
   <div class="main">
-    <avatar size="3em" />
-    <div class="name">{{ user.name }}</div>
-    <div class="nikname">{{ user.nikname }}</div>
-
-    <div class="setting">
-      <i class="fas fa-cog"></i>
+    <div class="top-row">
+      <avatar size="4em" />
+      <div class="user-name">
+        <span class="name">{{ user.firstName + " " + user.lastName }}</span>
+        <span>{{ user.userName }}</span>
+      </div>
+      <router-link :to="this.$route.path + '/password'">
+        <span class="options"><i class="fas fa-lg fa-cog"></i></span>
+      </router-link>
     </div>
 
-    <b-button class="button" variant="outline-primary">
-      Modifica Profilo
-    </b-button>
+    <router-link :to="this.$route.path + '/edit'">
+      <text-icon
+        class="edit-button"
+        icon="fas fa-edit"
+        text="Modifica profilo"
+        :iconRight="true"
+      />
+    </router-link>
 
-    <user-profile-info :user="user" />
+    <div class="info">
+      <text-icon
+        icon="fas fa-birthday-cake"
+        :text="String(user.birthDay)"
+        :iconColor="style.colorPrimary"
+      />
+      <text-icon
+        icon="fas fa-phone-alt"
+        :text="String(user.telephoneNumber)"
+        :iconColor="style.colorPrimary"
+      />
+      <text-icon
+        icon="fas fa-mars"
+        :text="String(user.gender)"
+        :iconColor="style.colorPrimary"
+      />
+    </div>
 
     <div class="bio">
-      <h5>Su di me:</h5>
+      <div class="about-me">Su di me:</div>
       <div>{{ user.bio }}</div>
     </div>
 
     <div class="interests">
-      <divisore text="Interessi" />
-      <i class="fas fa-ellipsis-h"></i>
+      <section-header class="header" :color="style.colorPrimaryLightest">
+        <span>Interessi</span>
+        <router-link tag="i" :to="this.$route.path + '/interests'">
+          <i class="fas fa-ellipsis-h"></i>
+        </router-link>
+      </section-header>
+      <div v-for="i in user.interests" :key="i" class="badge badge-pill">
+        {{ "#" + i }}
+      </div>
     </div>
 
-    <hashtag-element
-      v-for="interest in user.interests"
-      :key="interest"
-      :element="interest"
-    />
-
-    <div class="achiev">
-      <divisore text="Achievements" />
+    <div>
+      <section-header class="header" :color="style.colorComplementaryLight">
+        <span>Achievements</span>
+        <i class="fas fa-question-circle"></i>
+      </section-header>
+      <div class="achievements">
+        <achievement
+          v-for="a in user.achievements"
+          :key="a.id"
+          :achievement="a"
+        />
+      </div>
     </div>
-
-    <achievement-element
-      v-for="achievement in user.achievements"
-      :key="achievement.id"
-      :achievement="achievement"
-    />
   </div>
 </template>
 
 <script>
-import AchievementElement from "../../components/profile/AchievementElement.vue";
+import Achievement from "../../components/profile/Achievement.vue";
 import Avatar from "../../components/profile/Avatar.vue";
-import Divisore from "../../components/profile/Divisore.vue";
-import HashtagElement from "../../components/profile/HashtagElement.vue";
-import UserProfileInfo from "../../components/profile/UserProfileInfo.vue";
+import SectionHeader from "../../components/profile/SectionHeader.vue";
 import TextIcon from "../../components/ui/TextIcon.vue";
+import style from "../../style/export.scss";
 
 export default {
   components: {
     Avatar,
-    UserProfileInfo,
     TextIcon,
-    Divisore,
-    HashtagElement,
-    AchievementElement,
+    SectionHeader,
+    Achievement,
   },
   data: function () {
     return {
+      style,
       user: {
-        name: "Mario Rossi",
-        nikname: "@mario_rossi",
-        birthdate: "16/10/1997",
-        telephone: "348-3680498",
-        sex: "M",
+        firstName: "Mario",
+        lastName: "Rossi",
+        userName: "@mario_rossi123",
+        birthDay: "16/10/1997",
+        telephoneNumber: "3483680498",
+        gender: "M",
         bio: "Ciao, mi chiamo Mario e ho una passione per gli sport di squadra",
         interests: ["calcetto", "pallavolo", "basket"],
         achievements: [
@@ -75,6 +103,7 @@ export default {
             name: "Lupo Solitario",
             date: "21/03/2019",
             description: "Partecipa al tuo primo torneo come solista.",
+            image: "",
           },
         ],
       },
@@ -85,34 +114,78 @@ export default {
 
 <style lang="scss" scoped>
 .main {
+  width: 90%;
+  margin-left: 5%;
+}
+.top-row {
+  margin-top: 15px;
   display: flex;
-  flex-direction: column;
-  justify-content: start;
+  flex-direction: row;
   align-items: center;
-}
-.name {
-  font-weight: bold;
-  color: black;
-}
-.button {
-  width: 16em;
-  color: #ff6b24;
-  border-color: #ff6b24;
-  font-weight: bold;
-}
-.setting {
-  background-color: #ff6b24;
-  color: white;
-  padding: 0.5% 1%;
-  border-radius: 50%;
-}
-.interests {
-  border-bottom-color: #ff6b24;
-  color: #ff6b24;
+  .user-name {
+    flex-grow: 1;
+    margin-left: 8px;
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+  }
+  .name {
+    font-weight: bold;
+    color: black;
+  }
+
+  .options {
+    text-align: center;
+    display: flex;
+    padding: 10px;
+    border-radius: 50%;
+    background-color: $color-primary;
+    color: white;
+    align-self: flex-start;
+    text-align: right;
+  }
 }
 
-.achiev {
-  border-bottom-color: #21eda5;
-  color: #21eda5;
+.edit-button {
+  margin: 20px 0px 10px 0px;
+  padding: 5px;
+  width: 100%;
+  border: 2px solid $color-primary-lightest;
+  font-weight: bold;
+  border-radius: 5px;
+  color: $color-primary;
+}
+
+.info {
+  width: 100%;
+  text-align: left;
+}
+
+.bio {
+  text-align: left;
+  .about-me {
+    font-weight: bold;
+  }
+}
+
+.header {
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.interests {
+  margin-top: 15px;
+  text-align: left;
+  .badge {
+    background-color: $color-not-focus-text;
+    color: white;
+    margin: 8px 5px 10px 0px;
+  }
+}
+
+.achievements {
+  margin-top: 10px;
 }
 </style>

@@ -1,12 +1,13 @@
 <template>
   <div class="bg">
     <div v-if="waiting" class="waiting">
-      <router-link to="/suspended" tag="div">
-      Mostra tornei in sospeso
-      <i class="fas fa-angle-right"></i>
+      <router-link :to="this.$route.path + '/requests'" tag="div">
+        Mostra richieste in sospeso
+        <i class="fas fa-angle-right"></i>
       </router-link>
     </div>
-    <tournament-card class="tournament-card"
+    <tournament-card
+      class="tournament-card"
       v-for="tournament in tournaments"
       :key="tournament.id"
       :status="tournament.status"
@@ -36,10 +37,10 @@ export default {
 .waiting {
   text-decoration: underline;
   color: $color-primary;
-  margin-top:20px;
+  margin-top: 20px;
 }
 
-.tournament-card{
+.tournament-card {
   margin-top: 30px;
 }
 </style>

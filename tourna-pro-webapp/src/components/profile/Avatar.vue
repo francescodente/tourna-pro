@@ -1,13 +1,16 @@
 <template>
   <div>
-    <b-avatar class="avatar" :size="size"></b-avatar>
+    <b-avatar class="avatar" :size="size" :src="src" :text="text"></b-avatar>
   </div>
 </template>
 
 <script>
 export default {
+  name: "Avatar",
   props: {
-    size: String
+    size: String,
+    src: String,
+    text: String,
   }
 };
 </script>

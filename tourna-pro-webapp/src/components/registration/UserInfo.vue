@@ -20,7 +20,7 @@
     <simple-input
       label="Data di nascita"
       type="date"
-      v-model="currentValue.birthDate"
+      v-model="currentValue.birthDay"
       identifier="birthdate"
 			@input="$emit('input', currentValue)"
     />
@@ -28,7 +28,7 @@
     <simple-input
       label="Telefono"
       type="tel"
-      v-model="currentValue.telephone"
+      v-model="currentValue.telephoneNumber"
       identifier="telephone"
 			@input="$emit('input', currentValue)"
     />

@@ -1,13 +1,15 @@
 <template>
-  <div class="divisore">
-    {{text}}
+  <div class="divisore" :style="{color: color}">
+    <slot></slot>
   </div>
 </template>
 
 <script>
 export default {
+  name: "SectionHeader",
   props: {
-    text: String
+    text: String,
+    color: String
   }
 }
 </script>
@@ -15,7 +17,6 @@ export default {
 <style lang="scss" scoped>
 .divisore{
   border-bottom: 2px solid;
-  background-color: white;
 }
 
 </style>
