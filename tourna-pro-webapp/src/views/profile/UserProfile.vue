@@ -46,7 +46,7 @@
     <div class="interests">
       <section-header class="header" :color="style.colorPrimaryLightest">
         <span>Interessi</span>
-        <router-link tag="i" :to="this.$route.path + '/interests'">
+        <router-link tag="span" :to="this.$route.path + '/interests'">
           <i class="fas fa-ellipsis-h"></i>
         </router-link>
       </section-header>

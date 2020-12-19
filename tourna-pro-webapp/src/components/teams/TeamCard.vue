@@ -25,9 +25,11 @@ export default {
   margin-bottom: 20px;
   height: 20vh;
   position: relative;
+  border: 4px solid $color-complementary;
+  border-radius: 10px;
+  overflow: hidden;
 
   .team-overlay:hover {
-    background: rgba(0, 0, 0, 0.5);
     cursor: pointer;
   }
 }

@@ -14,7 +14,7 @@ export default {
 
 <style lang="scss" scoped>
 $distance: 25px;
-$size: 80px;
+$size: 70px;
 
 button {
   position: fixed;
@@ -28,5 +28,6 @@ button {
   color: white;
   font-size: 1.5rem;
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+  border:4px solid $color-complementary-light;
 }
 </style>

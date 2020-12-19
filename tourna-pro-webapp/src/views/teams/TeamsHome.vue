@@ -1,8 +1,8 @@
 <template>
-  <div>
+  <div class="main">
     <h1>Le mie squadre</h1>
     <div class="teams-container">
-      <team-card :team="team" v-for="team in myTeams" :key="team.id" @click="teamClicked(team)" />
+      <team-card class="card" :team="team" v-for="team in myTeams" :key="team.id" @click="teamClicked(team)" />
     </div>
     <floating-button icon="fas fa-plus" />
   </div>
@@ -28,7 +28,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.teams-container {
-  padding: 10px;
+h1{
+  color: $color-complementary;
+}
+.main{
+  padding-top: 10px;
+  width: 90%;
+  margin-left: 5%;
 }
 </style>
