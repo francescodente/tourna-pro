@@ -167,7 +167,7 @@ Returns: 200 OK
 ### Register
 
 ```text
-POST /users
+POST /users 
 ```
 
 Body

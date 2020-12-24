@@ -1,4 +1,4 @@
-const useMock = true
+const useMock = false
 
 exports.mapControllerRoutes = function(controllerName, mapper) {
   const controllersFolder = useMock ? 'mock-controllers' : 'controllers'

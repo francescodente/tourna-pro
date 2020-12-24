@@ -1,0 +1,35 @@
+version: '3.7'
+
+services:
+  # backend:
+  #   image: tourna-pro-backend
+  #   build:
+  #     context: ./tourna-pro-backend
+  #     dockerfile: Dockerfile
+  #     args:
+  #       - PORT=3000
+  #   ports:
+  #     - 3000:3000
+  #   environment:
+  #     - TOURNAPRO_MONGO_URL=mongodb://mongo/TournaProDB
+  #     - TOURNAPRO_PORT=3000
+  #     - TOURNAPRO_CONNECTION_DELAY=5000
+  #   networks:
+  #     - tournaProNetwork
+  #   depends_on:
+  #     - mongo
+
+  mongo:
+    image: mongo:4.4.2
+    ports:
+      - 27017:27017
+    volumes:
+      - mongoVolume:/data/db
+    networks:
+      - tournaProNetwork
+
+volumes:
+  mongoVolume:
+
+networks:
+  tournaProNetwork:
