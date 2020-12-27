@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
 
-exports.getAllTournamentsTypes = function(req, res) {
+exports.getAllTournamentsTypes = async function(req) {
 
 }

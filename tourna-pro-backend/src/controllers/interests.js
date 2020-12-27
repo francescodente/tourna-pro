@@ -1,9 +1,9 @@
 const mongoose = require('mongoose')
 
-exports.getUserInterests = function(req, res) {
+exports.getUserInterests = async function(req) {
 
 }
 
-exports.modifyInterestsFromUser = function(req, res) {
+exports.modifyInterestsFromUser = async function(req) {
 
 }

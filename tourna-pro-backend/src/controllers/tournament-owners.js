@@ -1,9 +1,9 @@
 const mongoose = require('mongoose')
 
-exports.addOwner = function(req, res) {
+exports.addOwner = async function(req) {
 
 }
 
-exports.removeOwner = function(req, res) {
+exports.removeOwner = async function(req) {
 
 }

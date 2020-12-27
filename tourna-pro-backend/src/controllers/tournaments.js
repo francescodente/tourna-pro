@@ -1,18 +1,18 @@
 const mongoose = require('mongoose')
 
-exports.createTournament = function(req, res) {
+exports.createTournament = async function(req) {
 
 }
 
-exports.getAllTournaments = function(req, res) {
+exports.getAllTournaments = async function(req) {
 
 }
 
-exports.updateTournament = function(req, res) {
+exports.updateTournament = async function(req) {
 
 }
 
-exports.removeTournament = function(req, res) {
+exports.removeTournament = async function(req) {
 
 }
 

@@ -1,13 +1,13 @@
 const mongoose = require('mongoose')
 
-exports.getTeamMembers = function(req, res) {
+exports.getTeamMembers = async function(req) {
 
 }
 
-exports.addMember = function(req, res) {
+exports.addMember = async function(req) {
 
 }
 
-exports.removeMember = function(req, res) {
+exports.removeMember = async function(req) {
 
 }
