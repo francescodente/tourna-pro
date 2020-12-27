@@ -291,7 +291,7 @@ Returns:
 
 ```js
 {
-    interests: [0, ...]
+    [0, ...]
 }
 ```
 
@@ -325,16 +325,7 @@ GET /users/:id/achievements
 
 ```js
 {
-    achievements: [
-        {
-            id: 0,
-            name: "",
-            description:"",
-            image: "",
-            date: ""
-        },
-        ...
-    ]
+    ["","",]
 }
 ```
 

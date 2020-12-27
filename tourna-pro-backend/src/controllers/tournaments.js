@@ -1,6 +1,27 @@
 const mongoose = require('mongoose')
 const Tournament = require('../models/tournament')(mongoose)
-const { ok, created, notImplemented } = require('../utils/action-results')
+const { ok, created } = require('../utils/action-results')
+
+
+function tournamentDto(tournament) {
+    return {
+      id: tournament._id,
+      maxParticipants: tournament.maxParticipants,
+      date: tournament.date,
+      name: tournament.name,
+      activityId: tournament.activity,
+      type: tournament.type,
+      location: tournament.location,
+      description: tournament.description,
+      mode: tournament.mode,
+      maxAge: tournament.maxAge,
+      minAge: tournament.minAge,
+      gender: tournament.gender,
+      visibility: tournament.visibility,
+      owners: tournament.owners
+    }
+  }
+
 
 exports.createTournament = async function(req) {
     let tournamentModel = new Tournament({
@@ -22,7 +43,7 @@ exports.createTournament = async function(req) {
         owners: req.body.owners //TODO change??
     })
     let tournament = await tournamentModel.save()
-    return created(tournament)
+    return created(tournamentDto(tournament))
 }
 
 //TODO review this method
@@ -48,7 +69,7 @@ exports.getAllTournaments = async function(req) {
        query = query.skip(req.params.pageNum*req.params.pageSize).limit(req.params.pageSize)
     }
     let tournaments = await query.exec();
-    return ok(tournaments)
+    return ok(tournaments.map( a => tournamentDto(a)))
 }
 
 exports.updateTournament = async function(req) {
@@ -67,12 +88,12 @@ exports.updateTournament = async function(req) {
         visibility: req.body.visibility,
         status: "PENDING",
       }, { new: true })
-    return ok(updatedTournament)
+    return ok(tournamentDto(updatedTournament))
 }
 
 exports.removeTournament = async function(req) {
     let deletedTournament = await Tournament.findeByIdAndRemove(req.params.id)
-    return ok(deletedTournament)
+    return ok(tournamentDto(deletedTournament))
 }
 
 

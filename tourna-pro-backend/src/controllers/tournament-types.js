@@ -1,5 +1,5 @@
-const mongoose = require('mongoose')
+const ok = require('../utils/action-results')
 
-exports.getAllTournamentsTypes = async function(req) {
-
+exports.getAllTournamentsTypes = function(req) {
+    return Promise.resolve(ok(['ROUND_ROBIN', 'KNOCKOUT']))
 }
