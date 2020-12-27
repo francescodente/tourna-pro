@@ -1,8 +1,6 @@
-const mongoose = require('mongoose')
-const User = require('../models/user')(mongoose)
-const Person = require('../models/person')(mongoose)
+const { User, Person } = require('../models')
 const { generateHash } = require('../services/hashing-service')
-const { ok, created, notImplemented } = require('../utils/action-results')
+const { ok, created, notImplemented, badRequest } = require('../utils/action-results')
 
 function userDto(user, person) {
   return {
@@ -20,7 +18,17 @@ function userDto(user, person) {
   }
 }
 
+async function usernameOrEmailAlreadyInUse(username, email) {
+  return await User.exists({
+    $or: [ { email }, { username } ]
+  })
+}
+
 exports.registerUser = async function(req) {
+  if (await usernameOrEmailAlreadyInUse(req.body.username, req.body.email)) {
+    return badRequest('Username or email already taken')
+  }
+
   let personModel = new Person({
     firstName: req.body.firstName,
     lastName: req.body.lastName,
@@ -52,6 +60,10 @@ exports.getUser = async function(req) {
 }
 
 exports.modifyUser = async function(req) {
+  if (await usernameOrEmailAlreadyInUse(req.body.username, req.body.email)) {
+    return badRequest('Username or email already taken')
+  }
+
   let updatedUser = await User.findByIdAndUpdate(req.params.id, {
     email: req.body.email,
     username: req.body.username

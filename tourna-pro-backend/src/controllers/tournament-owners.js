@@ -1,5 +1,3 @@
-const mongoose = require('mongoose')
-
 exports.addOwner = async function(req) {
 
 }

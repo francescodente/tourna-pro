@@ -3,7 +3,7 @@ const { notImplemented } = require("../utils/action-results")
 const useMock = false
 
 function printSeparator() {
-  console.log()
+  console.log("===========================================================================================")
 }
 
 function encodePrettily(obj) {

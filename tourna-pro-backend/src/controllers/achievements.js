@@ -1,7 +1,7 @@
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
+const { User } = require('../models');
 const Achievements = require('../models/achievements')
-const User = require('../models/user')(mongoose)
-const ok = require('../utils/action-results')
+const { ok } = require('../utils/action-results')
 
 exports.getAllAchievements = function(req) {
     return Promise.resolve(ok(Achievements));

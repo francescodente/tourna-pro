@@ -12,6 +12,13 @@ exports.created = function(body) {
   }
 }
 
+exports.badRequest = function(error) {
+  return {
+    body: { error },
+    status: 400
+  }
+}
+
 exports.notImplemented = function() {
   return {
     status: 500,

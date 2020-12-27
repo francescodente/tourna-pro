@@ -1,5 +1,3 @@
-const mongoose = require('mongoose')
-
 exports.createTeam = async function(req) {
 
 }

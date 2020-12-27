@@ -1,6 +1,5 @@
-const mongoose = require('mongoose');
+const { User } = require('../models');
 const { ok } = require('../utils/action-results');
-const User = require('../models/user')(mongoose)
 
 function interestsDto(interests){
     return interests;

@@ -142,7 +142,7 @@ Returns:
 
 ```js
 {
-    jwt: ""
+    accessToken: ""
 }
 ```
 

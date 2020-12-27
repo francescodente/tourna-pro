@@ -1,7 +1,5 @@
-const mongoose = require('mongoose')
-const Tournament = require('../models/tournament')(mongoose)
+const { Tournament } = require('../models')
 const { ok, created } = require('../utils/action-results')
-
 
 function tournamentDto(tournament) {
     return {

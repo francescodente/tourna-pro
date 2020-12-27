@@ -1,5 +1,4 @@
-const mongoose = require('mongoose')
-const Activities = require('../models/activity')(mongoose)
+const { Activity } = require('../models')
 const { ok } = require('../utils/action-results')
 
 function activityDto(activity){
@@ -9,5 +8,5 @@ function activityDto(activity){
     }
 }
 exports.getAllActivities = async function(req) {
-    return await ok(Activities.find().exec().map(x => activityDto(x)))
+    return await ok(Activity.find().exec().map(x => activityDto(x)))
 }
