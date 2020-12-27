@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 const Tournament = require('../models/tournament')(mongoose)
 const { ok, created, notImplemented } = require('../utils/action-results')
 
-exports.createTournament = function(req, res) {
+exports.createTournament = async function(req) {
     let tournamentModel = new Tournament({
         name: req.body.name,
         description: req.body.description,
@@ -25,7 +25,8 @@ exports.createTournament = function(req, res) {
     return created(tournament)
 }
 
-exports.getAllTournaments = function(req, res) {
+//TODO review this method
+exports.getAllTournaments = async function(req) {
     let query = Tournament.find().sort('-date')
 
     if(req.params.mode){
@@ -50,12 +51,28 @@ exports.getAllTournaments = function(req, res) {
     return ok(tournaments)
 }
 
-exports.updateTournament = function(req, res) {
-    return notImplemented();
+exports.updateTournament = async function(req) {
+    let updatedTournament = await Tournament.findByIdAndUpdate(req.params.id, {
+        name: req.body.name,
+        description: req.body.description,
+        date: new Date(req.body.date),
+        activity: req.body.activity,
+        type: req.body.type,
+        location: req.body.location,
+        mode: req.body.mode,
+        maxAge: req.body.maxAge,
+        minAge: req.body.minAge,
+        maxParticipants: req.body.maxParticipants,
+        gender: req.body.gender,
+        visibility: req.body.visibility,
+        status: "PENDING",
+      }, { new: true })
+    return ok(updatedTournament)
 }
 
-exports.removeTournament = function(req, res) {
-    return notImplemented();
+exports.removeTournament = async function(req) {
+    let deletedTournament = await Tournament.findeByIdAndRemove(req.params.id)
+    return ok(deletedTournament)
 }
 
 
