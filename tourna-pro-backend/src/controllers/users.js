@@ -2,6 +2,7 @@ const mongoose = require('mongoose')
 const User = require('../models/user')(mongoose)
 const Person = require('../models/person')(mongoose)
 const { generateHash } = require('../services/hashing-service')
+const { ok, created, notImplemented } = require('../utils/action-results')
 
 function userDto(user, person) {
   return {
@@ -14,11 +15,12 @@ function userDto(user, person) {
     gender: person.gender,
     city: person.city,
     email: user.email,
-    username: user.username
+    username: user.username,
+    imageUrl: user.imageUrl || null
   }
 }
 
-exports.registerUser = async function(req, res) {
+exports.registerUser = async function(req) {
   let personModel = new Person({
     firstName: req.body.firstName,
     lastName: req.body.lastName,
@@ -40,19 +42,32 @@ exports.registerUser = async function(req, res) {
     unlockedAchievements: []
   })
   let user = await userModel.save()
-  res.status(201).json(userDto(user, person))
+  return created(userDto(user, person))
 }
 
-exports.getUser = function(req, res) {
+exports.getUser = async function(req) {
   let user = await User.findById(req.params.id)
   let person = await Person.findById(user.person)
-  res.status(200).json(userDto(user, person))
+  return ok(userDto(user, person))
 }
 
-exports.modifyUser = function(req, res) {
-  
+exports.modifyUser = async function(req) {
+  let updatedUser = await User.findByIdAndUpdate(req.params.id, {
+    email: req.body.email,
+    username: req.body.username
+  }, { new: true })
+  let updatedPerson = await Person.findByIdAndUpdate(updatedUser.person, {
+    firstName: req.body.firstName,
+    lastName: req.body.lastName,
+    telephone: req.body.telephone,
+    birthDate: req.body.birthDate,
+    gender: req.body.gender,
+    city: req.body.city
+  }, { new: true })
+
+  return ok(userDto(updatedUser, updatedPerson))
 }
 
-exports.setProfilePicture = function(req, res) {
-
+exports.setProfilePicture = async function(req) {
+  return notImplemented()
 }
