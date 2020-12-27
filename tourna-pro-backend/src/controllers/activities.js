@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
 
-exports.getAllActivities = function(req, res) {
+exports.getAllActivities = async function(req) {
 
 }

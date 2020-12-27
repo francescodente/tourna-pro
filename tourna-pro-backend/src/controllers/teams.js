@@ -1,21 +1,21 @@
 const mongoose = require('mongoose')
 
-exports.createTeam = async function(req, res) {
+exports.createTeam = async function(req) {
 
 }
 
-exports.getAllTeams = async function(req, res) {
+exports.getAllTeams = async function(req) {
 
 }
 
-exports.updateTeam = async function(req, res) {
+exports.updateTeam = async function(req) {
 
 }
 
-exports.deleteTeam = async function(req, res) {
+exports.deleteTeam = async function(req) {
 
 }
 
-exports.setTeamImage = async function(req, res) {
+exports.setTeamImage = async function(req) {
 
 }

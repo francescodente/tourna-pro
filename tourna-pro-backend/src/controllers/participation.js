@@ -1,17 +1,17 @@
 const mongoose = require('mongoose')
 
-exports.addParticipation = function(req, res) {
+exports.addParticipation = async function(req) {
 
 }
 
-exports.getAllParticipations = function(req, res) {
+exports.getAllParticipations = async function(req) {
 
 }
 
-exports.removeParticipation = function(req, res) {
+exports.removeParticipation = async function(req) {
 
 }
 
-exports.updateParticipation = function(req, res) {
+exports.updateParticipation = async function(req) {
 
 }

@@ -1,13 +1,13 @@
 const mongoose = require('mongoose')
 
-exports.getAllMatchesByTournament = function(req, res) {
+exports.getAllMatchesByTournament = async function(req) {
 
 }
 
-exports.updateMatchResult = function(req, res) {
+exports.updateMatchResult = async function(req) {
 
 }
 
-exports.lockMatches = function(req, res) {
+exports.lockMatches = async function(req) {
 
 }

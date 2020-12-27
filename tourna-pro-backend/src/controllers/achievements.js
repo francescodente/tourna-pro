@@ -1,9 +1,9 @@
 const mongoose = require('mongoose')
 
-exports.getAllAchievements = function(req, res) {
+exports.getAllAchievements = async function(req) {
 
 }
 
-exports.getAchievementByUser = function(req, res) {
+exports.getAchievementByUser = async function(req) {
 
 }

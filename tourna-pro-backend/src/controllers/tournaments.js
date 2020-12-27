@@ -2,6 +2,7 @@ const mongoose = require('mongoose')
 const Tournament = require('../models/tournament')(mongoose)
 const { ok, created, notImplemented } = require('../utils/action-results')
 
+<<<<<<< HEAD
 exports.createTournament = function(req, res) {
     let tournamentModel = new Tournament({
         name: req.body.name,
@@ -56,6 +57,22 @@ exports.updateTournament = function(req, res) {
 
 exports.removeTournament = function(req, res) {
     return notImplemented();
+=======
+exports.createTournament = async function(req) {
+
+}
+
+exports.getAllTournaments = async function(req) {
+
+}
+
+exports.updateTournament = async function(req) {
+
+}
+
+exports.removeTournament = async function(req) {
+
+>>>>>>> dec6d06351d75a1ed0ae47d8b63e65a21d18a291
 }
 
 

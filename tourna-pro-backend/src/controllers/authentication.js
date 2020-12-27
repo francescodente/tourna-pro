@@ -1,9 +1,9 @@
 const mongoose = require('mongoose')
 
-exports.login = function(req, res) {
+exports.login = async function(req) {
 
 }
 
-exports.updatePassword = function (req, res){
+exports.updatePassword = async function(req) {
     
 }
