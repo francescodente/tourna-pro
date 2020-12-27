@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="teamname">
-      <input type="text" name="name" id="name" />
+      <input type="text" name="name" id="name" :value="team.name"/>
       <div class="icon">
         <i class="fa fa-edit fa-lg"></i>
       </div>
@@ -9,7 +9,7 @@
     <div class="add">
       <h2>Aggiungi membro</h2>
       <div class="adduser">
-        <input type="text" name="user" id="user" />
+        <input type="text" name="user" id="user"/>
         <button @click="$emit('click', $event)">
           <i class="fa fa-plus" />
         </button>
