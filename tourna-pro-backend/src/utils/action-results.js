@@ -19,6 +19,13 @@ exports.badRequest = function(error) {
   }
 }
 
+exports.notFound = function(error) {
+  return {
+    body: { error },
+    status: 404
+  }
+}
+
 exports.notImplemented = function() {
   return {
     status: 500,
