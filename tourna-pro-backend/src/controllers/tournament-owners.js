@@ -15,7 +15,7 @@ exports.getOwners = async function (req) {
 
 exports.addOwner = async function (req) {
   let updatedTournament = await Tournament.findByIdAndUpdate(req.params.id,
-    { "$addToSet": { "owners": req.body.userId } },
+    { $addToSet: { owners: req.body.userId } },
     { new: true })
   if (!updatedTournament) {
     return notFound(errorMessage(req.params.id))
@@ -25,7 +25,7 @@ exports.addOwner = async function (req) {
 
 exports.removeOwner = async function (req) {
   let updatedTournament = await Tournament.findByIdAndUpdate(req.params.id,
-    { "$pull": { "owners": req.params.userId } },
+    { $pull: { owners: req.params.userId } },
     { new: true })
   if (!updatedTournament) {
     return notFound(errorMessage(req.params.id))

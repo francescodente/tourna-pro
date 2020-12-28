@@ -15,7 +15,7 @@ exports.getTeamMembers = async function (req) {
 
 exports.addMember = async function (req) {
   let updatedTeam = await Team.findByIdAndUpdate(req.params.id,
-    { "$addToSet": { "members": req.body.userId } },
+    { $addToSet: { members: req.body.userId } },
     { new: true })
   if (!updatedTeam) {
     return notFound(errorMessage(req.params.id))
@@ -25,7 +25,7 @@ exports.addMember = async function (req) {
 
 exports.removeMember = async function (req) {
   let updatedTeam = await Team.findByIdAndUpdate(req.params.id,
-    { "$pull": { "members": req.params.userId } },
+    { $pull: { members: req.params.userId } },
     { new: true })
   if (!updatedTeam) {
     return notFound(errorMessage(req.params.id))
