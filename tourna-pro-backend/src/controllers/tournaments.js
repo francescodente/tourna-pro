@@ -1,5 +1,12 @@
 const { Tournament } = require('../models')
-const { ok, created } = require('../utils/action-results')
+const { ok, created, notFound, notImplemented } = require('../utils/action-results')
+
+const defaultStatus = "PENDING"
+const defaultPageSize = 30
+
+function errorMessage(id) {
+  return `Could not found tournament with id ${id}`
+}
 
 function tournamentDto(tournament) {
   return {
@@ -16,6 +23,7 @@ function tournamentDto(tournament) {
     minAge: tournament.minAge,
     gender: tournament.gender,
     visibility: tournament.visibility,
+    status: tournament.status
   }
 }
 
@@ -34,7 +42,7 @@ exports.createTournament = async function (req) {
     maxParticipants: req.body.maxParticipants,
     gender: req.body.gender,
     visibility: req.body.visibility,
-    status: "PENDING",
+    status: defaultStatus,
     participants: [],
     matches: [],
     owners: [req.userId]
@@ -43,9 +51,14 @@ exports.createTournament = async function (req) {
   return created(tournamentDto(tournament))
 }
 
-//TODO review this method
+//TODO review
 exports.getAllTournaments = async function (req) {
-  let query = Tournament.find().sort('-date')
+  let num = req.params.pageNum || 1
+  let size = req.params.pageSize || defaultPageSize
+  let query = Tournament.find()
+    .sort('-date')
+    .skip(num * size)
+    .limit(size)
 
   if (req.params.mode) {
     query = query.where('mode').equals(req.params.mode)
@@ -62,11 +75,17 @@ exports.getAllTournaments = async function (req) {
   if (req.params.location) {
     query = query.where('location').equals(req.params.location)
   }
-  if (req.params.pageNum && req.params.pageSize) {
-    query = query.skip(req.params.pageNum * req.params.pageSize).limit(req.params.pageSize)
-  }
+
   let tournaments = await query.exec();
   return ok(tournaments.map(a => tournamentDto(a)))
+}
+
+exports.getTournamentById = async function (req) {
+  let tournament = await Tournament.findById(req.params.id);
+  if (!tournament) {
+    return notFound(errorMessage(req.params.id))
+  }
+  return ok(tournamentDto(tournament))
 }
 
 exports.updateTournament = async function (req) {
@@ -83,13 +102,19 @@ exports.updateTournament = async function (req) {
     maxParticipants: req.body.maxParticipants,
     gender: req.body.gender,
     visibility: req.body.visibility,
-    status: "PENDING",
+    status: req.body.status,
   }, { new: true })
+  if (!updatedTournament) {
+    return notFound(errorMessage(req.params.id))
+  }
   return ok(tournamentDto(updatedTournament))
 }
 
 exports.removeTournament = async function (req) {
   let deletedTournament = await Tournament.findeByIdAndRemove(req.params.id)
+  if (!deletedTournament) {
+    return notFound(errorMessage(req.params.id))
+  }
   return ok(tournamentDto(deletedTournament))
 }
 

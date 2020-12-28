@@ -6,6 +6,7 @@ module.exports = mapControllerRoutes('tournaments', function (app, controller) {
         .get(action(controller.getAllTournaments))
 
     app.route('/tournaments/:id')
+        .get(action(controller.getTournamentById))
         .put(action(controller.updateTournament))
         .delete(action(controller.removeTournament))
 })
