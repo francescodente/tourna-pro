@@ -3,6 +3,7 @@ const app = express()
 const port = Number(process.env.TOURNAPRO_PORT || 3000)
 const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
+const verifyAuth = require('./src/middleware/verify-auth')
 
 function startServer() {
   console.log('Connecting to mongd db...')
@@ -12,6 +13,8 @@ function startServer() {
 
   app.use(bodyParser.urlencoded({ extended: true }))
   app.use(bodyParser.json())
+  
+  app.use(verifyAuth)
 
   require('./src/routes')(app)
 
