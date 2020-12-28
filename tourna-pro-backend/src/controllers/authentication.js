@@ -19,8 +19,6 @@ exports.login = async function (req) {
     return loginFailed()
   }
 
-  console.log(user)
-
   if (!compareHash(req.body.password, user.password, user.salt)) {
     return loginFailed()
   }
