@@ -1,5 +1,5 @@
-const { Tournament } = require('../models')
-const { ok, created } = require('../utils/action-results')
+const { ParticipationRequests } = require('../models')
+const { ok, created, notFound } = require('../utils/action-results')
 
 function participationRequestsDto(participationRequest, person) {
   return {
@@ -14,6 +14,13 @@ function participationRequestsDto(participationRequest, person) {
     status: participationRequest.status
   };
 }
+function tournamentNotFound(id) {
+  return `Could not found tournament with id ${id}`
+}
+
+function requestNotFound(id, reqId) {
+  return `Could not found request with id ${reqId} for tournament with id ${id}`
+}
 
 exports.addParticipationRequest = async function (req) {
   let participationRequestModel = new ParticipationRequest({
@@ -23,19 +30,26 @@ exports.addParticipationRequest = async function (req) {
       lastName: req.body.lastName
     },
     userId: req.body.userId,
-    teamId: req.body.teamId
+    teamId: req.body.teamId,
+    tournamentId: req.params.id
   })
   let tournamentRequest = await participationRequestModel.save()
   return created(participationRequestsDto(tournamentRequest))
 }
 
 exports.getAllParticipationRequests = async function (req) {
-  let requests = await ParticipationRequest.findById(req.params.id).select('requests')
+  let requests = await ParticipationRequests.find().where('tournamentId').equals(req.params.id)
+  if (!requests) {
+    return notFound(tournamentNotFound(req.params.id))
+  }
   return ok(requests)
 }
 
 exports.removeParticipationRequest = async function (req) {
-  let deleteParticipationRequest = await ParticipationRequest.findeByIdAndRemove(req.params.id)
+  let deleteParticipationRequest = await ParticipationRequest.findeByIdAndRemove(req.params.requestId)
+  if (!deleteParticipationRequest) {
+    return notFound(requestNotFound(req.params.id, req.params.requestId))
+  }
   return ok(participationRequestsDto(deleteParticipationRequest))
 }
 

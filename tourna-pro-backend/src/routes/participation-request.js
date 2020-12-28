@@ -5,7 +5,7 @@ module.exports = mapControllerRoutes('participation-requests', function (app, co
         .post(action(controller.addParticipationRequest))
         .get(action(controller.getAllParticipationRequests))
 
-    app.route('/tournaments/:id/requests/:participantId')
+    app.route('/tournaments/:id/requests/:requestId')
         .delete(action(controller.removeParticipationRequest))
         .put(action(controller.updateParticipationRequest))
 })

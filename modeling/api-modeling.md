@@ -469,7 +469,7 @@ Returns: [Participant DTO](#participationRequestsDto)
 ### Remove participation request
 
 ```text
-DELETE /tournaments/:id/requests/:participantId
+DELETE /tournaments/:id/requests/:requestId
 ```
 
 Returns: [Participant DTO](#participationRequestsDto)
@@ -485,7 +485,21 @@ Returns: list of [Participant DTO](#participationRequestsDto)
 ### Update Participation request
 
 ```text
-PUT /tournaments/:id/requests/:participantId
+PUT /tournaments/:id/requests/:requestId
+```
+
+## Participant
+
+### Get Tournament participant
+
+```text
+GET /tournaments/:id/participants
+```
+
+### Retire participant from tournament
+
+```text
+DELETE /tournaments/:id/participants/:participantId
 ```
 
 ## Matches
