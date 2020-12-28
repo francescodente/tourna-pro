@@ -4,6 +4,7 @@ const { ok } = require('../utils/action-results');
 function interestsDto(interests) {
   return interests;
 }
+
 exports.getUserInterests = async function (req) {
   return ok(interestsDto(await User.findById(req.params.id).select('interests')))
 }

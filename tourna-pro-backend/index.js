@@ -4,10 +4,10 @@ const port = Number(process.env.TOURNAPRO_PORT || 3000)
 const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
 
-function startServer() {
+async function startServer() {
   console.log('Connecting to mongd db...')
   const url = process.env.TOURNAPRO_MONGO_URL || 'mongodb://192.168.99.100/TournaProDB'
-  mongoose.connect(url, { useNewUrlParser: true, useFindAndModify: false, useUnifiedTopology: true })
+  await mongoose.connect(url, { useNewUrlParser: true, useFindAndModify: false, useUnifiedTopology: true })
   console.log('Connected!')
 
   app.use(bodyParser.urlencoded({ extended: true }))

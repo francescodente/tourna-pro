@@ -442,12 +442,12 @@ DELETE /teams/:id/members/:userId
 
 Returns: array of members id
 
-## Participation
+## ParticipationRequests
 
-### Add participation
+### Add participation request
 
 ```text
-POST /tournaments/:id/participants
+POST /tournaments/:id/requests
 ```
 
 Body
@@ -464,28 +464,28 @@ Body
 }
 ```
 
-Returns: [Participant DTO](#participationDto)
+Returns: [Participant DTO](#participationRequestsDto)
 
-### Remove participation
+### Remove participation request
 
 ```text
-DELETE /tournaments/:id/participants/:participantId
+DELETE /tournaments/:id/requests/:participantId
 ```
 
-Returns: [Participant DTO](#participationDto)
+Returns: [Participant DTO](#participationRequestsDto)
 
-### Get All Participations
+### Get All Participation requests
 
 ```text
-GET /tournaments/:id/participants
+GET /tournaments/:id/requests
 ```
 
-Returns: list of [Participant DTO](#participantDto)
+Returns: list of [Participant DTO](#participationRequestsDto)
 
-### Update Participation
+### Update Participation request
 
 ```text
-PUT /tournaments/:id/participants/:participantId
+PUT /tournaments/:id/requests/:participantId
 ```
 
 ## Matches
@@ -573,7 +573,7 @@ Returns: EMPTY
 }
 ```
 
-### ParticipationDTO
+### ParticipationRequestDTO
 
 ```js
 {
@@ -585,7 +585,7 @@ Returns: EMPTY
     },
     userId: 0,
     teamId: 0,
-    state: "ACCEPTED"/"PENDING"/"REJECTED"
+    status: "ACCEPTED"/"PENDING"/"REJECTED"
 }
 ```
 

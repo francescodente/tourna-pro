@@ -1,11 +1,11 @@
 const { mapControllerRoutes, action } = require('./route-utils')
 
-module.exports = mapControllerRoutes('participation', function (app, controller) {
-    app.route('/tournaments/:id/participants')
-        .post(action(controller.addParticipation))
-        .get(action(controller.getAllParticipations))
+module.exports = mapControllerRoutes('participation-requests', function (app, controller) {
+    app.route('/tournaments/:id/requests')
+        .post(action(controller.addParticipationRequest))
+        .get(action(controller.getAllParticipationRequests))
 
-    app.route('/tournaments/:id/participants/:participantId')
-        .delete(action(controller.removeParticipation))
-        .put(action(controller.updateParticipation))
+    app.route('/tournaments/:id/requests/:participantId')
+        .delete(action(controller.removeParticipationRequest))
+        .put(action(controller.updateParticipationRequest))
 })
