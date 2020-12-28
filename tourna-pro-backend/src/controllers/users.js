@@ -20,11 +20,11 @@ function userDto(user, person) {
 
 async function usernameOrEmailAlreadyInUse(username, email) {
   return await User.exists({
-    $or: [ { email }, { username } ]
+    $or: [{ email }, { username }]
   })
 }
 
-exports.registerUser = async function(req) {
+exports.registerUser = async function (req) {
   if (await usernameOrEmailAlreadyInUse(req.body.username, req.body.email)) {
     return badRequest('Username or email already taken')
   }
@@ -53,13 +53,13 @@ exports.registerUser = async function(req) {
   return created(userDto(user, person))
 }
 
-exports.getUser = async function(req) {
+exports.getUser = async function (req) {
   let user = await User.findById(req.params.id)
   let person = await Person.findById(user.person)
   return ok(userDto(user, person))
 }
 
-exports.modifyUser = async function(req) {
+exports.modifyUser = async function (req) {
   if (await usernameOrEmailAlreadyInUse(req.body.username, req.body.email)) {
     return badRequest('Username or email already taken')
   }
@@ -80,6 +80,6 @@ exports.modifyUser = async function(req) {
   return ok(userDto(updatedUser, updatedPerson))
 }
 
-exports.setProfilePicture = async function(req) {
+exports.setProfilePicture = async function (req) {
   return notImplemented()
 }

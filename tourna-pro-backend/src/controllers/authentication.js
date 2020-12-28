@@ -7,13 +7,13 @@ function loginFailed() {
   return badRequest('Invalid credentials')
 }
 
-exports.login = async function(req) {
+exports.login = async function (req) {
   let user = await User.findOne({
     $or: [
       { username: req.body.identifier },
       { email: req.body.identifier }
     ]
-  }, [ '_id', 'password', 'salt' ])
+  }, ['_id', 'password', 'salt'])
 
   if (!user) {
     return loginFailed()
@@ -29,6 +29,6 @@ exports.login = async function(req) {
   return ok({ accessToken })
 }
 
-exports.updatePassword = async function(req) {
-    
+exports.updatePassword = async function (req) {
+
 }
