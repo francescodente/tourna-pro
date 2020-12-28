@@ -16,7 +16,6 @@ function tournamentDto(tournament) {
       minAge: tournament.minAge,
       gender: tournament.gender,
       visibility: tournament.visibility,
-      owners: tournament.owners
     }
   }
 
@@ -38,7 +37,7 @@ exports.createTournament = async function(req) {
         status: "PENDING",
         participants: [],
         matches: [],
-        owners: req.body.owners //TODO change??
+        owners: [req.userId]
     })
     let tournament = await tournamentModel.save()
     return created(tournamentDto(tournament))

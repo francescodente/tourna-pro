@@ -83,6 +83,14 @@ Returns: [Tournament DTO](#tournamentDto)
 
 ## Tournament Owners
 
+### Get Owners
+
+```text
+GET /tournaments/:id/owners
+```
+
+Returns: array of members id
+
 ### Add Owner
 
 ```text
@@ -97,11 +105,15 @@ Body
 }
 ```
 
+Returns: array of members id
+
 ### Remove Owner
 
 ```text
 DELETE /tournaments/:id/owners/:userId
 ```
+
+Returns: array of members id
 
 ## Tournament Types
 
@@ -420,7 +432,7 @@ Body
 }
 ```
 
-Returns: [Team Member Dto](#teamMemberDto)
+Returns: array of members id
 
 ### Remove member
 
@@ -428,7 +440,7 @@ Returns: [Team Member Dto](#teamMemberDto)
 DELETE /teams/:id/members/:userId
 ```
 
-Returns: [Team Member Dto](#teamMemberDto)
+Returns: array of members id
 
 ## Participation
 
@@ -529,8 +541,7 @@ Returns: EMPTY
     maxAge: 0,
     minAge: 0,
     gender: "M"/"F"/"NONE",
-    visibility: "PUBLIC"/"PRIVATE",
-    owners: [0,1,2]
+    visibility: "PUBLIC"/"PRIVATE"
 }
 ```
 
@@ -559,14 +570,6 @@ Returns: EMPTY
     name: "",
     membersCount: 0,
     creatorId: ""
-}
-```
-
-### TeamMemberDTO
-
-```js
-{
-    userId: ""
 }
 ```
 
