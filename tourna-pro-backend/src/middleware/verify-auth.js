@@ -1,6 +1,6 @@
 const { validateToken } = require("../services/token-service")
 
-async function runValidation(token, next) {
+async function runValidation(req, token, next) {
   let result = await validateToken(token)
   req.isLoggedIn = result.success
   req.authError = result.errorMessage
@@ -19,5 +19,5 @@ module.exports = function(req, _, next) {
   let match = authHeader.match(authHeaderRegex)
   let token = match[1]
 
-  runValidation(token, next)
+  runValidation(req, token, next)
 }
