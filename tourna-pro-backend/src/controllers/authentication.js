@@ -30,7 +30,7 @@ exports.login = async function (req) {
 }
 
 exports.updatePassword = async function (req) {
-  let user = await User.findOneById(req.params.id, requiredFields)
+  let user = await User.findById(req.params.id, requiredFields)
   
   if (!user) {
     return notFound(`Could not find user with id ${req.params.id}`)
