@@ -18,6 +18,10 @@ function userDto(user, person) {
   }
 }
 
+function userNotFound(id) {
+  return notFound(`Could not find user with id ${id}`)
+}
+
 async function usernameOrEmailAlreadyInUse(username, email) {
   return await User.exists({
     $or: [{ email }, { username }]
@@ -56,7 +60,7 @@ exports.registerUser = async function (req) {
 exports.getUser = async function (req) {
   let user = await User.findById(req.params.id)
   if (!user) {
-    return notFound(`Could not find user with id ${req.params.id}`)
+    return userNotFound(req.params.id)
   }
   let person = await Person.findById(user.person)
   return ok(userDto(user, person))
@@ -71,6 +75,11 @@ exports.modifyUser = async function (req) {
     email: req.body.email,
     username: req.body.username
   }, { new: true })
+
+  if (!user) {
+    return userNotFound(req.params.id)
+  }
+
   let updatedPerson = await Person.findByIdAndUpdate(updatedUser.person, {
     firstName: req.body.firstName,
     lastName: req.body.lastName,
