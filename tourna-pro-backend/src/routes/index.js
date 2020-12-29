@@ -9,6 +9,6 @@ module.exports = function(app) {
   require('./tournaments')(app)
   require('./tournament-types')(app)
   require('./team-members')(app)
-  require('./participation')(app)
+  require('./participation-requests')(app)
   require('./matches')(app)
 }

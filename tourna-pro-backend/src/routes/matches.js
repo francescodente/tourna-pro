@@ -1,12 +1,13 @@
+const authorize = require('../middleware/authorize')
 const { mapControllerRoutes, action } = require('./route-utils')
 
 module.exports = mapControllerRoutes('matches', function (app, controller) {
     app.route('/tournaments/:id/matches')
-        .get(action(controller.getAllMatchesByTournament))
+        .get(authorize, action(controller.getAllMatchesByTournament))
 
     app.route('/tournaments/:id/matches/:matchId')
-        .put(action(controller.updateMatchResult))
+        .put(authorize, action(controller.updateMatchResult))
 
     app.route('/tournaments/:id/matches')
-        .put(action(controller.lockMatches))
+        .put(authorize, action(controller.lockMatches))
 })

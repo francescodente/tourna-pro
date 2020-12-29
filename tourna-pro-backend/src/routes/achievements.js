@@ -1,3 +1,4 @@
+const authorize = require('../middleware/authorize')
 const { mapControllerRoutes, action } = require('./route-utils')
 
 module.exports = mapControllerRoutes('achievements', function (app, controller) {
@@ -5,5 +6,5 @@ module.exports = mapControllerRoutes('achievements', function (app, controller) 
         .get(action(controller.getAllAchievements))
 
     app.route('/users/:id/achievements')
-        .get(action(controller.getAchievementByUser))
+        .get(authorize, action(controller.getAchievementByUser))
 })

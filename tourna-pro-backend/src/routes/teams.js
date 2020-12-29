@@ -1,14 +1,15 @@
+const authorize = require('../middleware/authorize')
 const { mapControllerRoutes, action } = require('./route-utils')
 
 module.exports = mapControllerRoutes('teams', function (app, controller) {
     app.route('/teams')
-        .post(action(controller.createTeam))
-        .get(action(controller.getAllTeams))
+        .post(authorize, action(controller.createTeam))
+        .get(authorize, action(controller.getAllTeams))
 
     app.route('/teams/:id')
-        .put(action(controller.updateTeam))
-        .delete(action(controller.deleteTeam))
+        .put(authorize, action(controller.updateTeam))
+        .delete(authorize, action(controller.deleteTeam))
 
     app.route('/teams/:id/image')
-        .put(action(controller.setTeamImage))
+        .put(authorize, action(controller.setTeamImage))
 })

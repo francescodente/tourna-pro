@@ -1,3 +1,4 @@
+const authorize = require('../middleware/authorize')
 const { mapControllerRoutes, action } = require('./route-utils')
 
 module.exports = mapControllerRoutes('users', function(app, controller) {
@@ -5,9 +6,9 @@ module.exports = mapControllerRoutes('users', function(app, controller) {
     .post(action(controller.registerUser))
   
   app.route('/users/:id')
-    .get(action(controller.getUser))
-    .put(action(controller.modifyUser))
+    .get(authorize, action(controller.getUser))
+    .put(authorize, action(controller.modifyUser))
   
   app.route('/users/:id/image')
-    .put(action(controller.setProfilePicture))
+    .put(authorize, action(controller.setProfilePicture))
 })

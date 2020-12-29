@@ -4,6 +4,7 @@ const port = Number(process.env.TOURNAPRO_PORT || 3000)
 const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
 const verifyAuth = require('./src/middleware/verify-auth')
+const { notFound } = require('./src/utils/action-results')
 
 async function startServer() {
   console.log('Connecting to mongd db...')
@@ -13,13 +14,20 @@ async function startServer() {
 
   app.use(bodyParser.urlencoded({ extended: true }))
   app.use(bodyParser.json())
+
+  app.use(function(_, res, next) {
+    res.setResult = function(result) {
+      this.status(result.status).json(result.body)
+    }
+    next()
+  })
   
   app.use(verifyAuth)
 
   require('./src/routes')(app)
 
   app.use(function(req, res) {
-    res.status(404).send({error: `${req.originalUrl} not found`})
+    res.setResult(notFound(`${req.originalUrl} not found`))
   })
 
   app.listen(port, function() {

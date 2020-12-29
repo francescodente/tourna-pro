@@ -1,9 +1,10 @@
+const authorize = require('../middleware/authorize')
 const { mapControllerRoutes, action } = require('./route-utils')
 
 module.exports = mapControllerRoutes('participants', function (app, controller) {
     app.route('/tournaments/:id/participants')
-        .get(action(controller.getParticipants))
+        .get(authorize, action(controller.getParticipants))
 
     app.route('/tournaments/:id/participant/:participantId')
-        .delete(action(controller.retireParticipant))
+        .delete(authorize, action(controller.retireParticipant))
 })

@@ -26,7 +26,7 @@ exports.action = function(f) {
     let result = (f ? await f(req) : notImplemented()) || notImplemented()
     console.log(`Status: ${result.status}`)
     console.log(`Response: ${encodePrettily(result.body)}`)
-    res.status(result.status).json(result.body)
+    res.setResult(result)
     printSeparator()
     printSeparator()
   }

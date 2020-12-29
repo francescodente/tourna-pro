@@ -1,6 +1,6 @@
 const { User, Person } = require('../models')
 const { generateHash } = require('../services/hashing-service')
-const { ok, created, notImplemented, badRequest } = require('../utils/action-results')
+const { ok, created, notImplemented, badRequest, notFound } = require('../utils/action-results')
 
 function userDto(user, person) {
   return {
@@ -55,6 +55,9 @@ exports.registerUser = async function (req) {
 
 exports.getUser = async function (req) {
   let user = await User.findById(req.params.id)
+  if (!user) {
+    return notFound(`Could not find user with id ${req.params.id}`)
+  }
   let person = await Person.findById(user.person)
   return ok(userDto(user, person))
 }

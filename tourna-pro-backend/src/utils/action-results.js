@@ -19,6 +19,15 @@ exports.badRequest = function(error) {
   }
 }
 
+exports.unauthorized = function() {
+  return {
+    status: 401,
+    body: {
+      error: 'User is not authenticated'
+    }
+  }
+}
+
 exports.notFound = function(error) {
   return {
     body: { error },

@@ -13,6 +13,7 @@ module.exports = function(req, _, next) {
   if (!authHeader) {
     req.isLoggedIn = false
     next()
+    return
   }
   let authHeaderRegex = /bearer\s+(\S+)/i
   let match = authHeader.match(authHeaderRegex)

@@ -1,3 +1,4 @@
+const authorize = require('../middleware/authorize')
 const { mapControllerRoutes, action } = require('./route-utils')
 
 module.exports = mapControllerRoutes('authentication', function (app, controller) {
@@ -5,5 +6,5 @@ module.exports = mapControllerRoutes('authentication', function (app, controller
         .post(action(controller.login))
 
     app.route('/users/:id/password')
-        .put(action(controller.updatePassword))
+        .put(authorize, action(controller.updatePassword))
 })
