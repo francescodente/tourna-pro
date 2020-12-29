@@ -166,8 +166,7 @@ PUT /users/:id/password
 
 ```js
 {
-    identifier: "",
-    password: "",
+    oldPassword: "",
     newPassword: ""
 }
 ```
