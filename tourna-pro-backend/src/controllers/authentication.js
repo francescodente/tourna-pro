@@ -1,11 +1,13 @@
 const { User } = require("../models")
-const { compareHash } = require("../services/hashing-service")
+const { compareHash, generateHash } = require("../services/hashing-service")
 const { generateToken } = require("../services/token-service")
-const { badRequest, ok } = require("../utils/action-results")
+const { badRequest, ok, notFound } = require("../utils/action-results")
 
 function loginFailed() {
   return badRequest('Invalid credentials')
 }
+
+const requiredFields = ['_id', 'password', 'salt']
 
 exports.login = async function (req) {
   let user = await User.findOne({
@@ -13,7 +15,7 @@ exports.login = async function (req) {
       { username: req.body.identifier },
       { email: req.body.identifier }
     ]
-  }, ['_id', 'password', 'salt'])
+  }, requiredFields)
 
   if (!user) {
     return loginFailed()
@@ -28,5 +30,21 @@ exports.login = async function (req) {
 }
 
 exports.updatePassword = async function (req) {
+  let user = await User.findOneById(req.params.id, requiredFields)
+  
+  if (!user) {
+    return notFound(`Could not find user with id ${req.params.id}`)
+  }
 
+  if (!compareHash(req.body.oldPassword, user.password, user.salt)) {
+    return badRequest('The old password is incorrect')
+  }
+
+  let { hash: newHash, salt: newSalt } = generateHash(req.body.newPassword)
+  await user.updateOne({
+    password: newHash,
+    salt: newSalt
+  })
+
+  return ok({ })
 }
