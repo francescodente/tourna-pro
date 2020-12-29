@@ -5,12 +5,16 @@ function errorMessage(id) {
   return `Could not found tournament with id ${id}`
 }
 
+function ownersDTO(res){
+  return res.owners
+}
+
 exports.getOwners = async function (req) {
   let owners = await Tournament.findById(req.params.id).select('owners')
   if (!owners) {
     return notFound(errorMessage(req.params.id))
   }
-  return ok(owners)
+  return ok(ownersDTO(owners))
 }
 
 exports.addOwner = async function (req) {

@@ -1,11 +1,15 @@
 const { Tournament } = require('../models')
-const { ok, created, notFound, notImplemented } = require('../utils/action-results')
+const { ok, created, notFound, notImplemented, notAllowed } = require('../utils/action-results')
 
 const defaultStatus = "PENDING"
 const defaultPageSize = 30
 
-function errorMessage(id) {
+function tournamentNotFound(id) {
   return `Could not found tournament with id ${id}`
+}
+
+function tournamentNotAllowed(id) {
+  return `Could not update tournament with id ${id} because the status is ACTIVE`
 }
 
 function tournamentDto(tournament) {
@@ -53,29 +57,30 @@ exports.createTournament = async function (req) {
 
 //TODO review
 exports.getAllTournaments = async function (req) {
-  let num = req.params.pageNum || 1
-  let size = req.params.pageSize || defaultPageSize
+  let num = req.query.pageNum || 0
+  let size = req.query.pageSize || defaultPageSize
   let query = Tournament.find()
     .sort('-date')
     .skip(num * size)
     .limit(size)
 
-  if (req.params.mode) {
-    query = query.where('mode').equals(req.params.mode)
+  if (req.query.mode) {
+    query = query.where('mode').equals(req.query.mode)
   }
-  if (req.params.from) {
-    query = query.where('date').gt(req.params.from)
+  if (req.query.from) {
+    query = query.where('date').gt(req.query.from)
   }
-  if (req.params.to) {
-    query = query.where('date').lt(req.params.to)
+  if (req.query.to) {
+    query = query.where('date').lt(req.query.to)
   }
-  if (req.params.activities) {
-    query = query.where('activity').in(req.params.activities)
+  if (req.query.activities) {
+    console.log(req.query.activities)
+    let a = JSON.parse(req.query.activities)
+    query = query.where('activity').in(a)
   }
-  if (req.params.location) {
-    query = query.where('location').equals(req.params.location)
+  if (req.query.location) {
+    query = query.where('location').equals(req.query.location)
   }
-
   let tournaments = await query.exec();
   return ok(tournaments.map(a => tournamentDto(a)))
 }
@@ -83,13 +88,20 @@ exports.getAllTournaments = async function (req) {
 exports.getTournamentById = async function (req) {
   let tournament = await Tournament.findById(req.params.id);
   if (!tournament) {
-    return notFound(errorMessage(req.params.id))
+    return notFound(tournamentNotFound(req.params.id))
   }
   return ok(tournamentDto(tournament))
 }
 
 exports.updateTournament = async function (req) {
-  let updatedTournament = await Tournament.findByIdAndUpdate(req.params.id, {
+  let updatedTournament = await Tournament.findById(req.params.id)
+  if (!updatedTournament) {
+    return notFound(tournamentNotFound(req.params.id))
+  }
+  if(updatedTournament.status == 'ACTIVE'){
+    return notAllowed(tournamentNotAllowed(req.oarams.id))
+  }
+  updatedTournament = await Tournament.findByIdAndUpdate(req.params.id, {
     name: req.body.name,
     description: req.body.description,
     date: new Date(req.body.date),
@@ -104,16 +116,14 @@ exports.updateTournament = async function (req) {
     visibility: req.body.visibility,
     status: req.body.status,
   }, { new: true })
-  if (!updatedTournament) {
-    return notFound(errorMessage(req.params.id))
-  }
+
   return ok(tournamentDto(updatedTournament))
 }
 
 exports.removeTournament = async function (req) {
-  let deletedTournament = await Tournament.findeByIdAndRemove(req.params.id)
+  let deletedTournament = await Tournament.findByIdAndRemove(req.params.id)
   if (!deletedTournament) {
-    return notFound(errorMessage(req.params.id))
+    return notFound(tournamentNotFound(req.params.id))
   }
   return ok(tournamentDto(deletedTournament))
 }

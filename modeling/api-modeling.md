@@ -40,7 +40,8 @@ mode: "TEAMS"/"INDIVIDUAL"
 activities: 0,1,2,...
 location: ""
 distanceKm: 0.0
-pagination: 0/30
+pageNum
+pageSize
 ```
 
 Returns: List of [Tournament DTO](#tournamentDto)
@@ -127,8 +128,8 @@ GET /tournamenttypes
 {
     types: [
         {
-            id: 0,
-            type: ""
+            id: "",
+            name: ""
         },
         ...
     ]
