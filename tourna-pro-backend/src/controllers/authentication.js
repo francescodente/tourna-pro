@@ -26,7 +26,7 @@ exports.login = async function (req) {
   }
 
   let accessToken = await generateToken(user)
-  return ok({ accessToken })
+  return ok({ accessToken, userId: user._id })
 }
 
 exports.updatePassword = async function (req) {

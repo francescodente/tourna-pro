@@ -154,6 +154,7 @@ Returns:
 
 ```js
 {
+    userId: "",
     accessToken: ""
 }
 ```
