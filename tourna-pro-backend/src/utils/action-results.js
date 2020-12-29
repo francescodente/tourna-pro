@@ -35,6 +35,13 @@ exports.notFound = function(error) {
   }
 }
 
+exports.notAllowed = function(error) {
+  return {
+    body: { error },
+    status: 404
+  }
+}
+
 exports.notImplemented = function() {
   return {
     status: 500,

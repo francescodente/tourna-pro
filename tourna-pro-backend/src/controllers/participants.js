@@ -24,17 +24,27 @@ exports.getParticipants = async function (req) {
 
 exports.retireParticipant = async function (req) {
   let tournament = await Tournament.findById(req.params.id)
+  if(!tournament){
+    return notFound(tournamentNotFound(req.params.id))
+  }
   switch (tournament.status) {
     case 'PENDING':
-      let deleted = tournament.participants.find(p => p.id == req.params.id)
+      let deleted = tournament.participants.find(p => p.id == req.params.participantId)
+      if(!deleted){
+        return notFound(participantNotFound(req.params.participantId, req.params.id))
+      }
       tournament.participants.remove({ id: req.params.participantId })
       await tournament.save()
       return ok(participantDto(deleted))
     case 'ACTIVE':
-      //what here?
-      break;
+      let toRetire = tournament.participants.find(p => p.id == req.params.id)
+      if(!toRetire){
+        return notFound(participantNotFound(req.params.participantId, req.params.id))
+      }
+      toRetire["status"] = 'RETIRED'
+      await tournament.save()
+      return ok(participantDto(toRetire))
     default:
-      //ERROR??
-      break;
+      return notAllowed(`Tournament with id ${req.params.id} is in a state where you can no more retire`);
   }
 }
