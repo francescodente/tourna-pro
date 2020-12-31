@@ -16,7 +16,7 @@ exports.getAllAchievements = function (req) {
 }
 
 function errorMessage(id) {
-  return `Could not found user with id ${id}`
+  return `Could not find user with id ${id}`
 }
 
 exports.getAchievementByUser = async function (req) {
