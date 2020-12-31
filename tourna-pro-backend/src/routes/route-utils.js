@@ -20,7 +20,6 @@ exports.action = function (f) {
   return async function (req, res) {
     try {
       printSeparator()
-      printSeparator()
       console.log(`${req.method} ${req.originalUrl}`)
       console.log(`Body: ${encodePrettily(req.body)}`)
       printSeparator()
@@ -28,7 +27,6 @@ exports.action = function (f) {
       console.log(`Status: ${result.status}`)
       console.log(`Response: ${encodePrettily(result.body)}`)
       res.setResult(result)
-      printSeparator()
       printSeparator()
     } catch (error) {
       res.setResult(internalServerError(error))

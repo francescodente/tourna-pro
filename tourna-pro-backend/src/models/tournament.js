@@ -1,4 +1,4 @@
-const { mongo } = require('mongoose')
+const { mongo, Mongoose } = require('mongoose')
 const { createSchema } = require('./model-utils')
 
 module.exports = createSchema('Tournament', 'Tournaments', mongoose => ({
@@ -37,5 +37,5 @@ module.exports = createSchema('Tournament', 'Tournaments', mongoose => ({
       date: Date
     }
   ],
-  owners: [mongoose.ObjectId]
+  owners: [{type: mongoose.ObjectId, ref:'User'}]
 }))
