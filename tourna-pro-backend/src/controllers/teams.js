@@ -21,7 +21,7 @@ exports.createTeam = async function (req) {
 }
 
 exports.getAllTeams = async function (req) {
-  let allTeams = await Team.findById(req.params.id).select('teams')
+  let allTeams = await Team.findById(req.params.id)
   return ok(allTeams)
 }
 
