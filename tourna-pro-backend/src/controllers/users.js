@@ -76,7 +76,7 @@ exports.modifyUser = async function (req) {
     username: req.body.username
   }, { new: true })
 
-  if (!user) {
+  if (!updatedUser) {
     return userNotFound(req.params.id)
   }
 
