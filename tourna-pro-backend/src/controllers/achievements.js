@@ -2,12 +2,21 @@ const { User } = require('../models');
 const Achievements = require('../models/achievements')
 const { ok, notFound } = require('../utils/action-results')
 
+function achievementDto(achievement) {
+  return {
+    id: achievement.id,
+    name: achievement.name,
+    description: achievement.description,
+    image: achievement.description
+  }
+}
+
 exports.getAllAchievements = function (req) {
-  return Promise.resolve(ok(Achievements));
+  return Promise.resolve(ok(Achievements.map(achievementDto)));
 }
 
 function errorMessage(id) {
-  return `Could not found user with id ${id}`
+  return `Could not find user with id ${id}`
 }
 
 exports.getAchievementByUser = async function (req) {

@@ -28,6 +28,15 @@ exports.unauthorized = function() {
   }
 }
 
+exports.forbidden = function() {
+  return {
+    status: 403,
+    body: {
+      error: 'User is not authorized to perform this action'
+    }
+  }
+}
+
 exports.notFound = function(error) {
   return {
     body: { error },
