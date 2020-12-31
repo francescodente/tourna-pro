@@ -5,7 +5,7 @@ module.exports = createSchema('Tournament', 'Tournaments', mongoose => ({
   name: String,
   description: String,
   date: Date,
-  activity: mongoose.ObjectId,
+  activity: String,
   type: String, // ROUND_ROBIN | KNOCKOUT
   location: String,
   mode: String, // TEAMS | INDIVIDUAL
