@@ -1,5 +1,5 @@
 const { ok } = require('../utils/action-results')
-const Types = require('../models/tournament-types')
+const {types} = require('../models/tournament-types')
 
 function tournamentTypeDto(tournamentType) {
   return {
@@ -9,5 +9,5 @@ function tournamentTypeDto(tournamentType) {
 }
 
 exports.getAllTournamentsTypes = function (req) {
-  return Promise.resolve(ok(Types.map(tournamentTypeDto)))
+  return Promise.resolve(ok(types.map(tournamentTypeDto)))
 }

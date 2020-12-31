@@ -1,5 +1,5 @@
 const { User } = require('../models');
-const Achievements = require('../models/achievements')
+const {achievements} = require('../models/achievements')
 const { ok, notFound } = require('../utils/action-results')
 
 function achievementDto(achievement) {
@@ -12,7 +12,7 @@ function achievementDto(achievement) {
 }
 
 exports.getAllAchievements = function (req) {
-  return Promise.resolve(ok(Achievements.map(achievementDto)));
+  return Promise.resolve(ok(achievements.map(achievementDto)));
 }
 
 function errorMessage(id) {

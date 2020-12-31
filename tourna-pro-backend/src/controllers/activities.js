@@ -1,4 +1,4 @@
-const activities = require('../models/activities')
+const {activities} = require('../models/activities')
 const { ok } = require('../utils/action-results')
 
 function activityDto(activity) {
@@ -9,5 +9,5 @@ function activityDto(activity) {
 }
 
 exports.getAllActivities = function (req) {
-  return ok(activities.map(activityDto))
+  return Promise.resolve(ok(activities.map(activityDto)))
 }
