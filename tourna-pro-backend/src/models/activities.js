@@ -1,4 +1,4 @@
-module.exports = [
+const values = [
   {
     id: 'VOLLEYBALL',
     name: 'Pallavolo'
@@ -16,3 +16,9 @@ module.exports = [
     name: 'Briscola'
   }
 ]
+
+exports.activityExists = function(a){
+  return values.map(x=>x.id).includes(a)
+}
+
+exports.activities = values

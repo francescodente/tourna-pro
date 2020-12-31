@@ -1,5 +1,9 @@
 const { Tournament } = require('../models')
-const { ok, created, notFound, notImplemented, notAllowed } = require('../utils/action-results')
+const { ok, created, notFound, notAllowed, badRequest } = require('../utils/action-results')
+const {activityExists} = require('../models/activities')
+const {typeExists} = require('../models/tournament-types')
+const {genderExists} = require('../models/genders')
+const {modeExists} = require('../models/tournament-modes')
 
 const defaultStatus = "PENDING"
 const defaultPageSize = 30
@@ -33,6 +37,18 @@ function tournamentDto(tournament) {
 
 
 exports.createTournament = async function (req) {
+  if(!activityExists(req.body.activityId)){
+    return badRequest(`Selected activity: "${req.body.activityId}" does not exist`)
+  }
+  if(!typeExists(req.body.type)){
+    return badRequest(`Selected type: "${req.body.type}" is not supported`)
+  }
+  if(!modeExists(req.body.mode)){
+    return badRequest(`Selected mode: "${req.body.mode}" is not supported`)
+  }
+  if(!genderExists(req.body.gender)){
+    return badRequest(`Selected gender: "${req.body.mode}" is not supported`)
+  }
   let tournamentModel = new Tournament({
     name: req.body.name,
     description: req.body.description,

@@ -1,4 +1,4 @@
-module.exports = [
+const values = [
     {
         id: "LUPO_SOLITARIO",
         name: "Lupo Solitario",
@@ -19,3 +19,9 @@ module.exports = [
     },
 
 ]
+
+exports.achievementExists = function(achievement){
+  return values.map(x => x.id).includes(achievement)
+}
+
+exports.achievements = values
