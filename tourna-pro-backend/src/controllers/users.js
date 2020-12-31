@@ -22,8 +22,10 @@ function userNotFound(id) {
   return notFound(`Could not find user with id ${id}`)
 }
 
-async function usernameOrEmailAlreadyInUse(username, email) {
+async function usernameOrEmailAlreadyInUse(username, email, id) {
+  let idFilter = id ? { _id: { $ne: id } } : { }
   return await User.exists({
+    ...idFilter,
     $or: [{ email }, { username }]
   })
 }
@@ -67,7 +69,7 @@ exports.getUser = async function (req) {
 }
 
 exports.modifyUser = async function (req) {
-  if (await usernameOrEmailAlreadyInUse(req.body.username, req.body.email)) {
+  if (await usernameOrEmailAlreadyInUse(req.body.username, req.body.email, req.params.id)) {
     return badRequest('Username or email already taken')
   }
 
@@ -76,7 +78,7 @@ exports.modifyUser = async function (req) {
     username: req.body.username
   }, { new: true })
 
-  if (!user) {
+  if (!updatedUser) {
     return userNotFound(req.params.id)
   }
 
