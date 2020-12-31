@@ -51,9 +51,18 @@ exports.notAllowed = function(error) {
   }
 }
 
-exports.notImplemented = function() {
+exports.internalServerError = function(error) {
   return {
     status: 500,
+    body: {
+      error
+    }
+  }
+}
+
+exports.notImplemented = function() {
+  return {
+    status: 501,
     body: {
       error: 'Not implemented'
     }
