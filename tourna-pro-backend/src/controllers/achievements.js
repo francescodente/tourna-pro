@@ -15,5 +15,5 @@ exports.getAchievementByUser = async function (req) {
   if (!userAchievements) {
     return notFound(errorMessage(req.params.id))
   }
-  return ok(userAchievements)
+  return ok(userAchievements.unlockedAchievements)
 }

@@ -201,7 +201,7 @@ Body
 
 Returns: [UserRegister DTO](#userdto)
 
-### Modify User
+### Update User
 
 ```text
 PUT /users/:id
@@ -286,7 +286,7 @@ Returns:
 }
 ```
 
-### Modify Interests From User
+### Update User Interests
 
 ```text
 Put /users/:id/interests
@@ -330,7 +330,7 @@ GET /achievements
 }
 ```
 
-### Get Achievement by User
+### Get User Achievements
 
 ```text
 GET /users/:id/achievements
@@ -365,9 +365,11 @@ Returns: [Team DTO](#teamDto)
 
 ```text
 GET /teams
+
+user: id
 ```
 
-Returns: list of [Team DTO](#teamDto)
+Returns: list of [Team DTO](#teamDto) optionally filtered by user
 
 ### Update Team
 

@@ -7,6 +7,7 @@ function activityDto(activity) {
     name: activity.name
   }
 }
+
 exports.getAllActivities = function (req) {
   return ok(activities.map(activityDto))
 }

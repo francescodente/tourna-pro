@@ -2,7 +2,7 @@ const { User } = require('../models');
 const { ok, notFound } = require('../utils/action-results');
 
 function interestsDto(interests) {
-  return interests;
+  return interests.interests;
 }
 
 function errorMessage(id) {
