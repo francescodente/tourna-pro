@@ -47,7 +47,7 @@ exports.notFound = function(error) {
 exports.notAllowed = function(error) {
   return {
     body: { error },
-    status: 404
+    status: 405
   }
 }
 
