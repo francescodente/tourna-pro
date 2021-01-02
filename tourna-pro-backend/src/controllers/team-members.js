@@ -1,5 +1,5 @@
 const { Team } = require('../models')
-const { ok, notFound } = require('../utils/action-results')
+const { ok, notFound, notAllowed } = require('../utils/action-results')
 
 function notFoundMessage(id) {
   return `Can not found team with id ${id}`
