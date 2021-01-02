@@ -6,7 +6,7 @@ module.exports = createSchema('User', 'Users', mongoose => ({
   password: String,
   salt: String,
   imageUrl: String,
-  person: mongoose.ObjectId,
+  person: [{type: mongoose.ObjectId, ref:'Person'}],
   interests: [String],
   unlockedAchievements: [String]
 }))
