@@ -5,10 +5,11 @@ function teamDto(team) {
   return {
     id: team._id,
     name: team.name,
-    membersCount: 0,
+    membersCount: team.members.length,
     creatorId: team.creatorId
   }
 }
+
 
 exports.createTeam = async function (req) {
   let teamModel = new Team({
@@ -21,8 +22,12 @@ exports.createTeam = async function (req) {
 }
 
 exports.getAllTeams = async function (req) {
-  let allTeams = await Team.findById(req.params.id)
-  return ok(allTeams)
+  let query = Team.find()
+  if(req.query.user){
+    query = query.where({members: req.query.user})
+  }
+  let allTeams = await query
+  return ok(allTeams.map(x=>teamDto(x)))
 }
 
 exports.updateTeam = async function (req) {
@@ -35,7 +40,7 @@ exports.updateTeam = async function (req) {
 }
 
 exports.deleteTeam = async function (req) {
-  let deleteTeam = await Team.findeByIdAndRemove(req.params.id)
+  let deleteTeam = await Team.findByIdAndRemove(req.params.id)
   return ok(teamDto(deleteTeam))
 }
 

@@ -5,12 +5,16 @@ function errorMessage(id) {
   return `Can not found team with id ${id}`
 }
 
+function teamMembersDto(members){
+  return members.members
+}
+
 exports.getTeamMembers = async function (req) {
   let teamMembers = await Team.findById(req.params.id).select('members')
   if (!teamMembers) {
     return notFound(errorMessage(req.params.id))
   }
-  return ok(teamMembers)
+  return ok(teamMembersDto(teamMembers))
 }
 
 exports.addMember = async function (req) {
@@ -20,7 +24,7 @@ exports.addMember = async function (req) {
   if (!updatedTeam) {
     return notFound(errorMessage(req.params.id))
   }
-  return ok(updatedTeam.members);
+  return ok(teamMembersDto(updatedTeam));
 }
 
 exports.removeMember = async function (req) {
@@ -30,5 +34,5 @@ exports.removeMember = async function (req) {
   if (!updatedTeam) {
     return notFound(errorMessage(req.params.id))
   }
-  return ok(updatedTeam.members);
+  return ok(teamMembersDto(updatedTeam));
 }
