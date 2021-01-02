@@ -1,5 +1,5 @@
 const { Team } = require('../models')
-const { ok, created, notAllowed } = require('../utils/action-results')
+const { ok, created, notAllowed, notFound } = require('../utils/action-results')
 
 function teamDto(team) {
   return {
@@ -8,6 +8,10 @@ function teamDto(team) {
     membersCount: team.members.length,
     creatorId: team.creatorId
   }
+}
+
+function notFoundMessage(id){
+  return `Could not found team with id ${id}`
 }
 
 
@@ -33,6 +37,9 @@ exports.getAllTeams = async function (req) {
 
 exports.updateTeam = async function (req) {
   let team = await Team.findById(req.params.id)
+  if(!team){
+    return notFound(notFoundMessage(req.params.id))
+  }
   if(!team.members.includes(req.userId)){
     return notAllowed(`User with id ${req.userId} is not a member of team ${req.params.id}`)
   }
@@ -45,15 +52,21 @@ exports.updateTeam = async function (req) {
 
 exports.deleteTeam = async function (req) {
   let team = await Team.findById(req.params.id)
+  if(!team){
+    return notFound(notFoundMessage(req.params.id))
+  }
   if(team.creatorId != req.userId){
     return notAllowed(`User with id ${req.userId} is not the creator of team ${req.params.id}`)
-  }
+  } 
   let deleteTeam = await Team.findByIdAndRemove(req.params.id)
   return ok(teamDto(deleteTeam))
 }
 
 exports.setTeamImage = async function (req) {
   let team = await Team.findById(req.params.id)
+  if(!team){
+    return notFound(notFoundMessage(req.params.id))
+  }
   if(!team.members.includes(req.userId)){
     return notAllowed(`User with id ${req.userId} is not a member of team ${req.params.id}`)
   }

@@ -1,7 +1,7 @@
 const { Team } = require('../models')
 const { ok, notFound } = require('../utils/action-results')
 
-function errorMessage(id) {
+function notFoundMessage(id) {
   return `Can not found team with id ${id}`
 }
 
@@ -12,13 +12,16 @@ function teamMembersDto(members){
 exports.getTeamMembers = async function (req) {
   let teamMembers = await Team.findById(req.params.id).select('members')
   if (!teamMembers) {
-    return notFound(errorMessage(req.params.id))
+    return notFound(notFoundMessage(req.params.id))
   }
   return ok(teamMembersDto(teamMembers))
 }
 
 exports.addMember = async function (req) {
   let team = await Team.findById(req.params.id)
+  if(!team){
+    return notFound(notFoundMessage(req.params.id))
+  }
   if(!team.members.includes(req.userId)){
     return notAllowed(`User with id ${req.userId} is not a member of team ${req.params.id}`)
   }
@@ -26,13 +29,16 @@ exports.addMember = async function (req) {
     { $addToSet: { members: req.body.userId } },
     { new: true })
   if (!updatedTeam) {
-    return notFound(errorMessage(req.params.id))
+    return notFound(notFoundMessage(req.params.id))
   }
   return ok(teamMembersDto(updatedTeam));
 }
 
 exports.removeMember = async function (req) {
   let team = await Team.findById(req.params.id)
+  if(!team){
+    return notFound(notFoundMessage(req.params.id))
+  }
   if(!team.members.includes(req.userId)){
     return notAllowed(`User with id ${req.userId} is not a member of team ${req.params.id}`)
   }
@@ -43,7 +49,7 @@ exports.removeMember = async function (req) {
     { $pull: { members: req.params.userId } },
     { new: true })
   if (!updatedTeam) {
-    return notFound(errorMessage(req.params.id))
+    return notFound(notFoundMessage(req.params.id))
   }
   return ok(teamMembersDto(updatedTeam));
 }
