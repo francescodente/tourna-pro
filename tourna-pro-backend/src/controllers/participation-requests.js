@@ -1,6 +1,6 @@
 const { ParticipationRequests, Tournament } = require('../models');
 const { isIndividual, isTeam } = require('../models/tournament-modes');
-const { ok, created, notFound, notAllowed, badRequest } = require('../utils/action-results')
+const { ok, created, notFound, notAllowed, badRequest, forbidden } = require('../utils/action-results')
 
 function participationRequestsDto(participationRequest, person) {
   return {
@@ -23,7 +23,7 @@ function requestNotFound(id, reqId) {
   return `Could not found request with id ${reqId} for tournament with id ${id}`
 }
 
-function notAllowedMessage(id, mode) {
+function forbiddenMessage(id, mode) {
   return `Participant is not allowed for tournament ${id} that is for ${mode}`
 }
 
@@ -38,7 +38,7 @@ exports.addParticipationRequest = async function (req) {
         return badRequest("Person not defined")
       }
       if(!isIndividual(tournament.mode)){
-        return notAllowed(notAllowedMessage(req.params.id, tournament.mode))
+        return forbidden(forbiddenMessage(req.params.id, tournament.mode))
       }
       break;
     case 'USER':
@@ -46,7 +46,7 @@ exports.addParticipationRequest = async function (req) {
         return badRequest("UserId not defined")
       }
       if(!isIndividual(tournament.mode)){
-        return notAllowed(notAllowedMessage(req.params.id, tournament.mode))
+        return forbidden(forbiddenMessage(req.params.id, tournament.mode))
       }
       break;
     case 'TEAM':
@@ -54,7 +54,7 @@ exports.addParticipationRequest = async function (req) {
         return badRequest("TeamId not defined")
       }
       if(!isTeam(tournament.mode)){
-        return notAllowed(notAllowedMessage(req.params.id, tournament.mode))
+        return forbidden(forbiddenMessage(req.params.id, tournament.mode))
       }
       break;
     default: return badRequest("Unsupported type")
