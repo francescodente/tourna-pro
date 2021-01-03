@@ -8,5 +8,7 @@ module.exports = mapControllerRoutes('participation-requests', function (app, co
 
     app.route('/tournaments/:id/requests/:requestId')
         .delete(authorize, action(controller.removeParticipationRequest))
-        .put(authorize, action(controller.updateParticipationRequest))
+       
+    app.route('/tournaments/:id/requests/:requestId/status')
+        .put(authorize, action(controller.updateParticipationRequestStatus))
 })
