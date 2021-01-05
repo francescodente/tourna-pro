@@ -79,7 +79,9 @@ exports.getAllTournaments = async function (req) {
     .sort('-date')
     .skip(num * size)
     .limit(size)
-
+  if(req.query.ownedBy){
+    query = query.where({owners: req.query.ownedBy})
+  }
   if (req.query.mode) {
     query = query.where('mode').equals(req.query.mode)
   }
@@ -98,6 +100,11 @@ exports.getAllTournaments = async function (req) {
     query = query.where('location').equals(req.query.location)
   }
   let tournaments = await query.exec();
+  
+  if(req.query.subscribedBy){
+    //TODO
+  }
+
   return ok(tournaments.map(a => tournamentDto(a)))
 }
 
