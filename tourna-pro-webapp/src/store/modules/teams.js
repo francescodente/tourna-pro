@@ -1,33 +1,39 @@
-function requestTeams() {
-  return Promise.resolve([
-    {
-      id: 1,
-      name: 'Inazuma Eleven',
-      image: 'https://cdn.myanimelist.net/s/common/uploaded_files/1442407024-2d1f72c28647fc4a278cdd6fd0b14eb1.jpeg',
-      members: 11
-    },
-    {
-      id: 2,
-      name: 'Rin Tin Team',
-      image: 'https://cdn.myanimelist.net/s/common/uploaded_files/1442407024-2d1f72c28647fc4a278cdd6fd0b14eb1.jpeg',
-      members: 12
-    }
-  ])
-}
-
 const state = {
-  teams: []
+  teams: [],
+  members: {},
+  logs: {}
 }
 
 const getters = {
-  myTeams: state => state.teams
+  getTeams: state => state.teams,
+  getTeamMembers: (state, id) => state.members[id] || [],
+  getTeamLogs: (state, id) => state.logs[id] || []
 }
 
 const actions = {
   async fetchTeams({commit}) {
-    let teams = await requestTeams();
 
-    commit('setTeams', teams)
+  },
+  async fetchTeamMembers() {
+
+  },
+  async createTeam() {
+
+  },
+  async deleteTeam() {
+
+  },
+  async modifyTeam() {
+
+  },
+  async addMember() {
+
+  },
+  async removeMember() {
+
+  },
+  async fetchTeamLogs() {
+
   }
 }
 
