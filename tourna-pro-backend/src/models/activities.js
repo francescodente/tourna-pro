@@ -1,9 +1,5 @@
 const values = [
   {
-    id: 'VOLLEYBALL',
-    name: 'Pallavolo'
-  },
-  {
     id: 'SOCCER',
     name: 'Calcio'
   },
@@ -14,6 +10,26 @@ const values = [
   {
     id: 'BRISCOLA',
     name: 'Briscola'
+  },
+  {
+    id: 'BEER_PONG',
+    name: 'Beer Pong'
+  },
+  {
+    id: 'BURACO',
+    name: 'Burraco'
+  },
+  {
+    id: 'BEACH_VOLLEY',
+    name: 'Beach Volley'
+  },
+  {
+    id: 'MTG',
+    name: 'Magic The Gathering'
+  },
+  {
+    id: 'YGO',
+    name: 'Yu-Gi-Oh'
   }
 ]
 
