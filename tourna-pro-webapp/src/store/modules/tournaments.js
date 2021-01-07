@@ -1,15 +1,19 @@
 const state = {
   subscribedTournaments: [],
   managedTournaments: [],
+  personalRequests: [],
+  tournamentRequests: {},
   matches: {},
   logs: {}
 }
 
 const getters = {
+  getPersonalSubscriptionRequests: state => state.personalRequests,
   getSubscribedTournaments: state => state.subscribedTournaments,
   getManagedTournaments: state => state.managedTournaments,
   getTournamentMatches: (state, id) => state.matches[id] || [],
-  getTournamentLogs: (state, id) => state.logs[id] || []
+  getTournamentLogs: (state, id) => state.logs[id] || [],
+  getTournamentRequests: (state, id) => state.tournamentRequests[id] || []
 }
 
 const actions = {
@@ -17,7 +21,20 @@ const actions = {
     let subscribedTournaments = [] //TODO replace with endpoint
     commit('setSubscribedTournaments', subscribedTournaments)
   },
+  async fetchPersonalSubscriptionRequest({commit}){
+    let subscriptionRequests = [] //TODO replace with endpoint
+    commit('setPersonalSubscriptionRequests', subscriptionRequests)
+  },
+  async subscribeToTournament({commit}, tournamentId){
+    let request = {} //TODO replace with endpoint
+    commit('addPersonalSubscriptionRequest', request)
+  },
+  async retireRequestToTournament({commit}, tournamentId, requestId){
+    let request = {} //TODO replace with endpoint
+    commit('removePersonalSubscriptionRequest', requestId)
+  },
   async retireFromTournament({ commit }, tournamentId) {
+    //TODO retire participant
     commit('removeSubscribedTournament', tournamentId)
   },
   async fetchManagedTournaments({ commit }) {
@@ -63,6 +80,11 @@ const mutations = {
   removeSubscribedTournament: (state, tournamentId) => {
     state.subscribedTournaments = state.subscribedTournaments.filter(t => t.id == tournamentId)
   },
+
+  fetchPersonalSubscriptionRequest: (state,requests) => state.personalRequests = requests,
+  addPersonalSubscriptionRequest: (state, request) => state.personalRequests.push(request)
+
+
   setManagedTournaments: (state, tournaments) => state.managedTournaments = tournaments,
   addManagedTournament: (state, tournament) => state.managedTournaments.push(tournament),
   removeManagedTournament: (state, tournament) => {
