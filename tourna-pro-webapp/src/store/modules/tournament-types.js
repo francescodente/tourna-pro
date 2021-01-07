@@ -7,12 +7,14 @@ const getters = {
 }
 
 const actions = {
-  async fetchTournamentTypes() {
-    
+  async fetchTournamentTypes({commit}) {
+    let types = [] //TODO replace with endpoint call
+    commit('setTournamentTypes', types)
   }
 }
 
 const mutations = {
+  setTournamentTypes: (state, types) => state.tournamentTypes = types
 }
 
 export default {

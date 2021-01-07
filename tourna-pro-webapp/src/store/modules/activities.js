@@ -7,12 +7,14 @@ const getters = {
 }
 
 const actions = {
-  async fetchActivities() {
-    
+  async fetchActivities({commit}) {
+    let activities = [] //TODO replace with endpoint call
+    commit('setActivities', activities)
   }
 }
 
 const mutations = {
+  setActivities: (state, activities) => state.activities = activities
 }
 
 export default {
