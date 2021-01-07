@@ -1,6 +1,6 @@
 const { ParticipationRequests, Tournament, Team } = require('../models');
 const { isIndividual, isTeam } = require('../models/tournament-modes');
-const { ok, created, notFound, notAllowed, badRequest, forbidden } = require('../utils/action-results')
+const { ok, created, notFound, badRequest, forbidden } = require('../utils/action-results')
 
 function participationRequestsDto(participationRequest, person) {
   return {

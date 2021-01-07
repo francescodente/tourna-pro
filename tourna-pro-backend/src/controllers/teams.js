@@ -1,12 +1,14 @@
 const { Team } = require('../models')
-const { ok, created, notAllowed, notFound, forbidden } = require('../utils/action-results')
+const { ok, created, notFound, forbidden } = require('../utils/action-results')
+const { setImage, imageUrl } = require('./image-utils')
 
-function teamDto(team) {
+function teamDto(team, req) {
   return {
     id: team._id,
     name: team.name,
     membersCount: team.members.length,
-    creatorId: team.creatorId
+    creatorId: team.creatorId,
+    imageUrl: imageUrl(team.imageId, req)
   }
 }
 
@@ -19,11 +21,10 @@ exports.createTeam = async function (req) {
   let teamModel = new Team({
     name: req.body.name,
     members: [req.userId],
-    creatorId: req.userId,
-    imageUrl: ""
+    creatorId: req.userId
   })
   let team = await teamModel.save()
-  return created(teamDto(team))
+  return created(teamDto(team, req))
 }
 
 exports.getAllTeams = async function (req) {
@@ -32,7 +33,7 @@ exports.getAllTeams = async function (req) {
     query = query.where({members: req.query.user})
   }
   let allTeams = await query
-  return ok(allTeams.map(x=>teamDto(x)))
+  return ok(allTeams.map(x=>teamDto(x, req)))
 }
 
 exports.updateTeam = async function (req) {
@@ -47,7 +48,7 @@ exports.updateTeam = async function (req) {
     name: req.body.name,
     membersCount: req.body.membersCount,
   }, { new: true })
-  return ok(teamDto(updatedTeam))
+  return ok(teamDto(updatedTeam, req))
 }
 
 exports.deleteTeam = async function (req) {
@@ -59,7 +60,7 @@ exports.deleteTeam = async function (req) {
     return forbidden(`User with id ${req.userId} is not the creator of team ${req.params.id}`)
   } 
   let deleteTeam = await Team.findByIdAndRemove(req.params.id)
-  return ok(teamDto(deleteTeam))
+  return ok(teamDto(deleteTeam, req))
 }
 
 exports.setTeamImage = async function (req) {
@@ -70,5 +71,5 @@ exports.setTeamImage = async function (req) {
   if(!team.members.includes(req.userId)){
     return forbidden(`User with id ${req.userId} is not a member of team ${req.params.id}`)
   }
-  return notImplemented()
+  return await setImage(req.file, team, req)
 }

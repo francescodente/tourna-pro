@@ -6,10 +6,6 @@ function printSeparator() {
   console.log("===========================================================================================")
 }
 
-function encodePrettily(obj) {
-  return JSON.stringify(obj, null, 2)
-}
-
 exports.mapControllerRoutes = function (controllerName, mapper) {
   const controllersFolder = useMock ? 'mock-controllers' : 'controllers'
   const controller = require(`../${controllersFolder}/${controllerName}`)
@@ -21,16 +17,13 @@ exports.action = function (f) {
     try {
       printSeparator()
       console.log(`${req.method} ${req.originalUrl}`)
-      console.log(`Body: ${encodePrettily(req.body)}`)
+      console.log('Body:', req.body)
       printSeparator()
       let result = (f ? await f(req) : notImplemented()) || notImplemented()
-      console.log(`Status: ${result.status}`)
-      console.log(`Response: ${encodePrettily(result.body)}`)
       res.setResult(result)
       printSeparator()
     } catch (error) {
       res.setResult(internalServerError(error))
     }
-
   }
 }

@@ -1,11 +1,11 @@
 const { User, Person } = require('../models')
 const { generateHash } = require('../services/hashing-service')
-const { ok, created, notImplemented, badRequest, notFound } = require('../utils/action-results')
+const { ok, created, badRequest, notFound } = require('../utils/action-results')
+const { setImage, imageUrl } = require('./image-utils')
 
-function userDto(user, person) {
+function userDto(user, person, req) {
   return {
     id: user._id,
-    personId: person._id,
     firstName: person.firstName,
     lastName: person.lastName,
     telephone: person.telephone,
@@ -14,7 +14,7 @@ function userDto(user, person) {
     city: person.city,
     email: user.email,
     username: user.username,
-    imageUrl: user.imageUrl || null
+    imageUrl: user.imageId ? imageUrl(user.imageId, req) : null
   }
 }
 
@@ -56,7 +56,7 @@ exports.registerUser = async function (req) {
     unlockedAchievements: []
   })
   let user = await userModel.save()
-  return created(userDto(user, person))
+  return created(userDto(user, person, req))
 }
 
 exports.getUser = async function (req) {
@@ -65,7 +65,7 @@ exports.getUser = async function (req) {
     return userNotFound(req.params.id)
   }
   let person = await Person.findById(user.person)
-  return ok(userDto(user, person))
+  return ok(userDto(user, person, req))
 }
 
 exports.modifyUser = async function (req) {
@@ -91,9 +91,13 @@ exports.modifyUser = async function (req) {
     city: req.body.city
   }, { new: true })
 
-  return ok(userDto(updatedUser, updatedPerson))
+  return ok(userDto(updatedUser, updatedPerson, req))
 }
 
 exports.setProfilePicture = async function (req) {
-  return notImplemented()
+  let user = await User.findById(req.params.id)
+  if (!user) {
+    return userNotFound(req.params.id)
+  }
+  return await setImage(req.file, user, req)
 }

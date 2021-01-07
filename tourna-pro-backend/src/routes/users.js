@@ -1,6 +1,7 @@
 const authorize = require('../middleware/authorize')
 const userPermissions = require('../middleware/user-permissions')
 const { mapControllerRoutes, action } = require('./route-utils')
+const { upload } = require('./upload-utils')
 
 module.exports = mapControllerRoutes('users', function(app, controller) {
   app.route('/users')
@@ -11,5 +12,5 @@ module.exports = mapControllerRoutes('users', function(app, controller) {
     .put(authorize, userPermissions(req => req.params.id), action(controller.modifyUser))
   
   app.route('/users/:id/image')
-    .put(authorize, userPermissions(req => req.params.id), action(controller.setProfilePicture))
+    .put(authorize, upload.single('profile_picture'), userPermissions(req => req.params.id), action(controller.setProfilePicture))
 })

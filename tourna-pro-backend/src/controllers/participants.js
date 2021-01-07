@@ -1,6 +1,5 @@
-const { isValidObjectId } = require('mongoose')
 const { Tournament, ParticipationRequests, Team } = require('../models')
-const { ok, notFound, forbidden } = require('../utils/action-results')
+const { ok, notFound, forbidden, badRequest } = require('../utils/action-results')
 
 function tournamentNotFound(id) {
   return `Could not found tournament with id ${id}`
@@ -67,6 +66,6 @@ exports.retireParticipant = async function (req) {
       await tournament.save()
       return ok(participantDto(toRetire))
     default:
-      return notAllowed(`Tournament with id ${req.params.id} is in a state where you can no more retire`);
+      return badRequest(`Tournament with id ${req.params.id} is in a state where you can no more retire`);
   }
 }

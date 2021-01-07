@@ -1,5 +1,5 @@
 const { User } = require('../models');
-const {achievements} = require('../models/achievements')
+const { achievements } = require('../models/achievements')
 const { ok, notFound } = require('../utils/action-results')
 
 function achievementDto(achievement) {

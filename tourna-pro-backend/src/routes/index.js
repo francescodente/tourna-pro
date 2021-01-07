@@ -3,6 +3,7 @@ module.exports = function(app) {
   require('./achievements')(app)
   require('./activities')(app)
   require('./authentication')(app)
+  require('./images')(app)
   require('./interests')(app)
   require('./teams')(app)
   require('./tournament-owners')(app)

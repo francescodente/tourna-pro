@@ -17,7 +17,7 @@ async function startServer() {
 
   app.use(function(_, res, next) {
     res.setResult = function(result) {
-      this.status(result.status).json(result.body)
+      result(this)
     }
     next()
   })

@@ -1,5 +1,5 @@
 const { Tournament } = require('../models')
-const { ok, created, notFound, notAllowed, badRequest } = require('../utils/action-results')
+const { ok, created, notFound, badRequest } = require('../utils/action-results')
 const {activityExists} = require('../models/activities')
 const {typeExists} = require('../models/tournament-types')
 const {genderExists} = require('../models/genders')
@@ -115,7 +115,7 @@ exports.updateTournament = async function (req) {
     return notFound(tournamentNotFound(req.params.id))
   }
   if(updatedTournament.status == 'ACTIVE'){
-    return notAllowed(tournamentNotAllowed(req.oarams.id))
+    return badRequest(tournamentNotAllowed(req.oarams.id))
   }
   updatedTournament = await Tournament.findByIdAndUpdate(req.params.id, {
     name: req.body.name,
