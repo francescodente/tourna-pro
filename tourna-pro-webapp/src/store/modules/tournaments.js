@@ -82,7 +82,7 @@ const mutations = {
   },
 
   fetchPersonalSubscriptionRequest: (state,requests) => state.personalRequests = requests,
-  addPersonalSubscriptionRequest: (state, request) => state.personalRequests.push(request)
+  addPersonalSubscriptionRequest: (state, request) => state.personalRequests.push(request),
 
 
   setManagedTournaments: (state, tournaments) => state.managedTournaments = tournaments,
