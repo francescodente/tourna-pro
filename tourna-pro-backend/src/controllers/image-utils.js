@@ -1,5 +1,6 @@
 const fs = require('fs').promises
 const { Image } = require('../models')
+const { ok, badRequest } = require('../utils/action-results')
 
 const supportedMimeTypes = [
   'image/jpeg',
@@ -22,7 +23,7 @@ async function storeImage(file) {
 }
 
 exports.imageUrl = function (id, req) {
-  return `${req.protocol}://${req.headers.host}/images/${id}`
+  return id ? `${req.protocol}://${req.headers.host}/images/${id}` : null
 }
 
 exports.setImage = async function(file, entity, req) {

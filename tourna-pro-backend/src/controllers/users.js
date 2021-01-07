@@ -14,7 +14,7 @@ function userDto(user, person, req) {
     city: person.city,
     email: user.email,
     username: user.username,
-    imageUrl: user.imageId ? imageUrl(user.imageId, req) : null
+    imageUrl: imageUrl(user.imageId, req)
   }
 }
 
