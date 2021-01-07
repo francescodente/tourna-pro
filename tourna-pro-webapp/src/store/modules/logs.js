@@ -7,15 +7,22 @@ const getters = {
 }
 
 const actions = {
-  async fetchUserLogs() {
-
+  async fetchUserLogs({ commit }) {
+    let userLogs = [] //TODO replace with endpoint
+    commit('setUserLogs', userLogs)
   },
-  async markLogAsRead() {
-
+  async markLogAsRead({ commit }, readId) {
+    let readLog = {} //TODO replace with endpoint
+    commit('setReadLog', readLog)
   }
 }
 
 const mutations = {
+  setUserLogs: (state, userLogs) => state.userLogs = userLogs,
+  setReadLog: (state, readLog) => {
+    state.userLogs = state.userLogs.filter(x => x.id != readLog.id)
+    state.userLog.push(readLog)
+  }
 }
 
 export default {

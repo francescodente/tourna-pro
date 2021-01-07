@@ -11,18 +11,37 @@ const getters = {
 }
 
 const actions = {
-  async fetchUser() {
-    
-  },
-  async updateUser() {
+  async fetchUser({ commit }) {
+    let user = {} //TODO replace with endpoint
+    commit('setUser', user)
+    let achievements = {} //TODO replace with endpoint
+    commit('setAchievements', user.id, achievements)
+    let interests = {} //TODO replace with endpoint
+    commit('setInterests', user.id, interests)
 
   },
-  async registerUser() {
-
+  async updateUser({ commit }) {
+    let user = {} //TODO replace with endpoint
+    commit('setUser', user)
+    let achievements = {} //TODO replace with endpoint
+    commit('setAchievements', user.id, achievements)
+    let interests = {} //TODO replace with endpoint
+    commit('setInterests', user.id, interests)
+  },
+  async registerUser({ commit }) {
+    let user = {} //TODO replace with endpoint
+    commit('setUser', user)
+    let achievements = {} //TODO replace with endpoint
+    commit('setAchievements', user.id, achievements)
+    let interests = {} //TODO replace with endpoint
+    commit('setInterests', user.id, interests)
   }
 }
 
 const mutations = {
+  setUser: (state, user) => state.users[user.id] = user,
+  setAchievements: (state, userId, achievements) => state.achievements[userId] = achievements,
+  setInterests: (state, userId, interests) => state.interests[userId] = interests,
 }
 
 export default {

@@ -7,12 +7,14 @@ const getters = {
 }
 
 const actions = {
-  async fetchAchievements() {
-
+  async fetchAchievements({commit}) {
+    let achievements = [] //TODO replace with endpoint
+    commit('setAchievements', achievements)
   }
 }
 
 const mutations = {
+  setAchievements: (state, achievements) => state.achievements = achievements
 }
 
 export default {
