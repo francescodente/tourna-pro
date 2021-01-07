@@ -12,8 +12,14 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    userId
   },
   mutations: {
+    initStore: (state) => {
+      if (localStorage.getItem('userId')) {
+        state.userId = localStorage.getItem('userId')
+      }
+    }
   },
   actions: {
   },

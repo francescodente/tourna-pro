@@ -8,7 +8,7 @@ const getters = {
 
 const actions = {
   async fetchTournamentTypes({commit}) {
-    let types = [] //TODO replace with endpoint call
+    let types = [] //TODO replace with endpoint
     commit('setTournamentTypes', types)
   }
 }

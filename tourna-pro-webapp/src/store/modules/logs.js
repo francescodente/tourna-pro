@@ -12,7 +12,7 @@ const actions = {
     commit('setUserLogs', userLogs)
   },
   async markLogAsRead({ commit }, readId) {
-    let readLog = {} //TODO replsace with endpoint
+    let readLog = {} //TODO replace with endpoint
     commit('setReadLog', readLog)
   }
 }

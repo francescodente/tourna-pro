@@ -11,34 +11,48 @@ const getters = {
 }
 
 const actions = {
-  async fetchTeams({commit}) {
-
+  async fetchTeams({ commit }) {
+    let teams = [] //TODO replace with endpoint
+    commit('setTeams', teams)
   },
-  async fetchTeamMembers() {
-
+  async fetchTeamMembers({ commit }, teamId) {
+    let teamMembers = [] //TODO replace with endpoint
+    commit('setMembers', teamId, teamMembers)
   },
-  async createTeam() {
-
+  async createTeam({ commit }) {
+    let team = {} //TODO replace with endpoint
+    commit('addTeam', team)
   },
-  async deleteTeam() {
-
+  async deleteTeam({ commit }) {
+    let team = {} //TODO replace with endpoint
+    commit('removeTeam', team)
   },
-  async modifyTeam() {
-
+  async modifyTeam({ commit }) {
+    let team = {} //TODO replace with endpoint
+    commit('removeTeam', team)
+    commit('addTeam', team)
   },
-  async addMember() {
-
+  async addMember({ commit }) {
+    let teamMembers = [] //TODO replace with endpoint
+    commit('setMembers', teamId, teamMembers)
   },
-  async removeMember() {
-
+  async removeMember({ commit }) {
+    let teamMembers = [] //TODO replace with endpoint
+    commit('setMembers', teamId, teamMembers)
   },
-  async fetchTeamLogs() {
-
+  async fetchTeamLogs({ commit }) {
+    let teamLogs = [] //TODO replace with endpoint
+    commit('setLogs', teamId, teamLogs)
   }
 }
 
 const mutations = {
-  setTeams: (state, teams) => state.teams = teams
+  setTeams: (state, teams) => state.teams = teams,
+  setMembers: (state, teamId, teamMembers) => state.members[teamId] = teamMembers,
+  addTeam: (state, team) => state.teams.push(team),
+  removeTeam: (state, team) => state.teams = state.teams.filter(t => t.id == team.id),
+  setLogs: (state, teamId, teamLogs) => state.logs[teamId] = teamLogs
+
 }
 
 export default {

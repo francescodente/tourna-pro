@@ -8,7 +8,7 @@ const getters = {
 
 const actions = {
   async fetchAchievements({commit}) {
-    let achievements = [] //TODO replace with endpoint call
+    let achievements = [] //TODO replace with endpoint
     commit('setAchievements', achievements)
   }
 }
