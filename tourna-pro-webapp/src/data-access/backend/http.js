@@ -11,14 +11,10 @@ export default {
     })
   },
   post(url, body) {
-    return client.post(url, {
-      data: body
-    })
+    return client.post(url, body)
   },
   put(url, body) {
-    return client.put(url, {
-      data: body
-    })
+    return client.put(url, body)
   },
   delete(url) {
     return client.delete(url)
