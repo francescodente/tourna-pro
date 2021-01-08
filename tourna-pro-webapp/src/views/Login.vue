@@ -29,6 +29,7 @@ import SimpleBorder from '../components/ui/SimpleBorder.vue'
 import SimpleCheckbox from '../components/ui/SimpleCheckbox.vue'
 import SimpleForm from '../components/ui/SimpleForm.vue'
 import SimpleInput from '../components/ui/SimpleInput.vue'
+import dataAccess from '../data-access'
 export default {
   components: { SimpleForm, SimpleInput, SimpleCheckbox, SimpleBorder },
   data() {
@@ -39,9 +40,11 @@ export default {
     }
   },
   methods: {
-    onSubmit() {
-      console.log(`${this.username} ${this.password}`)
-    }
+    onSubmit: async function() {
+      //TODO login
+      let res = await dataAccess.authentication.login(username, password)
+      console.log(res)
+    },
   }
 }
 </script>
