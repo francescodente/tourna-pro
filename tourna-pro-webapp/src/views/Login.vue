@@ -41,9 +41,14 @@ export default {
   },
   methods: {
     onSubmit: async function() {
-      //TODO login
-      let res = await dataAccess.authentication.login(username, password)
-      console.log(res)
+      try{
+         let res = await dataAccess.authentication.login(username, password)
+        console.log(res)
+      }
+      catch(error){
+        console.log(error)
+      }
+     
     },
   }
 }

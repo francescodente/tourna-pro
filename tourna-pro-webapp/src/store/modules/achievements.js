@@ -1,3 +1,5 @@
+import backend from '../../data-access'
+
 const state = {
   achievements: []
 }
@@ -8,7 +10,7 @@ const getters = {
 
 const actions = {
   async fetchAchievements({commit}) {
-    let achievements = [] //TODO replace with endpoint
+    let achievements = await backend.achievements.getAll()
     commit('setAchievements', achievements)
   }
 }
