@@ -1,3 +1,6 @@
+import userPermissions from '../../../../tourna-pro-backend/src/middleware/user-permissions'
+import backend from '../../data-access'
+
 const state = {
   users: {},
   interests: {},
@@ -11,29 +14,25 @@ const getters = {
 }
 
 const actions = {
-  async fetchUser({ commit }) {
-    let user = {} //TODO replace with endpoint
+  async fetchUser({ commit }, userId) {
+    let user = await backend.users.getUser(userId)
     commit('setUser', user)
-    let achievements = {} //TODO replace with endpoint
+    let achievements = await backend.achievements.getByUser(userId) //user.id?
     commit('setAchievements', user.id, achievements)
-    let interests = {} //TODO replace with endpoint
+    let interests = await backend.interests.getAll(userId) //user.id?
     commit('setInterests', user.id, interests)
 
   },
-  async updateUser({ commit }) {
-    let user = {} //TODO replace with endpoint
+  async updateUser({ commit }, userId) {
+    let user = await backend.users.updateUser(userId)
     commit('setUser', user)
-    let achievements = {} //TODO replace with endpoint
-    commit('setAchievements', user.id, achievements)
-    let interests = {} //TODO replace with endpoint
+    let interests = await backend.interests.update(userId)
     commit('setInterests', user.id, interests)
   },
-  async registerUser({ commit }) {
-    let user = {} //TODO replace with endpoint
+  async registerUser({ commit }, user, userId) {
+    let user = await backend.users.register(user)
     commit('setUser', user)
-    let achievements = {} //TODO replace with endpoint
-    commit('setAchievements', user.id, achievements)
-    let interests = {} //TODO replace with endpoint
+    let interests = await backend.interests.update(userId)
     commit('setInterests', user.id, interests)
   }
 }
