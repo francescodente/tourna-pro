@@ -1,8 +1,26 @@
 import axios from 'axios';
+import store from '../../store'
 
 const client = axios.create({
   baseURL: 'http://localhost:3000'
 })
+
+client.interceptors.response.use(
+  (res) => res,
+  (error) => {
+    store.dispatch('setError', error.response.data.error || "C'è stato un errore con la tua richiesta al server.")
+    return Promise.reject(error)
+  }
+)
+
+client.interceptors.request.use((config) => {
+  if(store.getters.accessToken){
+    config.headers.authentication = `Bearer ${store.getters.accessToken}`;
+  }
+  return config;
+}, (error) => {
+  return Promise.reject(error);
+});
 
 export default {
   get(url, query) {

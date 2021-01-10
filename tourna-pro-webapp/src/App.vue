@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <error-popup/>
     <title-bar :appName="name" />
     <div class="main-container">
       <router-view/>
@@ -8,11 +9,13 @@
 </template>
 
 <script>
+import ErrorPopup from './components/ui/ErrorPopup.vue'
 import TitleBar from './components/ui/TitleBar.vue'
 
 export default {
   components: {
-    TitleBar
+    TitleBar,
+    ErrorPopup
   },
   data: function() {
     return {

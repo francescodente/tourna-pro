@@ -25,32 +25,34 @@
 </template>
 
 <script>
-import SimpleBorder from '../components/ui/SimpleBorder.vue'
-import SimpleCheckbox from '../components/ui/SimpleCheckbox.vue'
-import SimpleForm from '../components/ui/SimpleForm.vue'
-import SimpleInput from '../components/ui/SimpleInput.vue'
-import dataAccess from '../data-access'
+import SimpleBorder from "../components/ui/SimpleBorder.vue";
+import SimpleCheckbox from "../components/ui/SimpleCheckbox.vue";
+import SimpleForm from "../components/ui/SimpleForm.vue";
+import SimpleInput from "../components/ui/SimpleInput.vue";
+import dataAccess from "../data-access";
 export default {
   components: { SimpleForm, SimpleInput, SimpleCheckbox, SimpleBorder },
   data() {
     return {
-      username: '',
-      password: '',
-      showPassword: false
-    }
+      username: "",
+      password: "",
+      showPassword: false,
+    };
   },
   methods: {
-    onSubmit: async function() {
-      try{
-         let res = await dataAccess.authentication.login(username, password)
-        console.log(res)
-      }
-      catch(error){
-        console.log(error)
-      }
+    onSubmit: async function () {
+      try {
+        var res = await dataAccess.authentication.login(
+          this.username,
+          this.password
+        );
+        localStorage.setItem("userId", res.data.userId);
+        localStorage.setItem("accessToken", res.data.accessToken);
+        this.$store.dispatch("initStore");
+      } catch (error) {}
     },
-  }
-}
+  },
+};
 </script>
 
 <style lang="scss" scoped>

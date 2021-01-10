@@ -1,5 +1,4 @@
-import userPermissions from '../../../../tourna-pro-backend/src/middleware/user-permissions'
-import backend from '../../data-access'
+import dataAccess from '../../data-access'
 
 const state = {
   users: {},
@@ -15,24 +14,24 @@ const getters = {
 
 const actions = {
   async fetchUser({ commit }, userId) {
-    let user = await backend.users.getUser(userId)
+    let user = await dataAccess.users.getUser(userId)
     commit('setUser', user)
-    let achievements = await backend.achievements.getByUser(userId) //user.id?
+    let achievements = await dataAccess.achievements.getByUser(userId) //user.id?
     commit('setAchievements', user.id, achievements)
-    let interests = await backend.interests.getAll(userId) //user.id?
+    let interests = await dataAccess.interests.getAll(userId) //user.id?
     commit('setInterests', user.id, interests)
 
   },
   async updateUser({ commit }, userId) {
-    let user = await backend.users.updateUser(userId)
+    let user = await dataAccess.users.updateUser(userId)
     commit('setUser', user)
-    let interests = await backend.interests.update(userId)
+    let interests = await dataAccess.interests.update(userId)
     commit('setInterests', user.id, interests)
   },
-  async registerUser({ commit }, user, userId) {
-    let user = await backend.users.register(user)
+  async registerUser({ commit }, userBody) {
+    let user = await dataAccess.users.register(userBody)
     commit('setUser', user)
-    let interests = await backend.interests.update(userId)
+    let interests = await dataAccess.interests.update(user.id)
     commit('setInterests', user.id, interests)
   }
 }

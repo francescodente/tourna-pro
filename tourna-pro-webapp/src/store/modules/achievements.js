@@ -1,4 +1,4 @@
-import backend from '../../data-access'
+import dataAccess from '../../data-access'
 
 const state = {
   achievements: []
@@ -10,7 +10,7 @@ const getters = {
 
 const actions = {
   async fetchAchievements({commit}) {
-    let achievements = await backend.achievements.getAll()
+    let achievements = await dataAccess.achievements.getAll()
     commit('setAchievements', achievements)
   }
 }
