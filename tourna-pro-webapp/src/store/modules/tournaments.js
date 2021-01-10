@@ -1,3 +1,6 @@
+import store from '..'
+import dataAccess from '../../data-access'
+
 const state = {
   subscribedTournaments: [],
   managedTournaments: [],
@@ -8,20 +11,20 @@ const state = {
 }
 
 const getters = {
-  getPersonalSubscriptionRequests: state => state.personalRequests,
-  getSubscribedTournaments: state => state.subscribedTournaments,
-  getManagedTournaments: state => state.managedTournaments,
-  getTournamentMatches: (state, id) => state.matches[id] || [],
-  getTournamentLogs: (state, id) => state.logs[id] || [],
-  getTournamentRequests: (state, id) => state.tournamentRequests[id] || []
+  personalRequests: state => state.personalRequests,
+  subscribedTournaments: state => state.subscribedTournaments,
+  managedTournaments: state => state.managedTournaments,
+  tournamentMatches: (state, id) => state.matches[id] || [],
+  tournamentLogs: (state, id) => state.logs[id] || [],
+  tournamentRequests: (state, id) => state.tournamentRequests[id] || []
 }
 
 const actions = {
   async fetchSubscribedTournaments({ commit }) {
-    let subscribedTournaments = [] //TODO replace with endpoint
-    commit('setSubscribedTournaments', subscribedTournaments)
+    let subscribedTournaments = await dataAccess.tournaments.getAll({subscribedBy: store.getters.userId})
+    commit('setSubscribedTournaments', subscribedTournaments.data)
   },
-  async fetchPersonalSubscriptionRequest({commit}){
+  async fetchPersonalSubscriptionRequests({commit}){
     let subscriptionRequests = [] //TODO replace with endpoint
     commit('setPersonalSubscriptionRequests', subscriptionRequests)
   },
@@ -38,8 +41,8 @@ const actions = {
     commit('removeSubscribedTournament', tournamentId)
   },
   async fetchManagedTournaments({ commit }) {
-    let managedTournaments = [] //TODO replace with endpoint
-    commit('setManagedTournaments', managedTournaments)
+    let managedTournaments = await dataAccess.tournaments.getAll({ownedBy: store.getters.userId})
+    commit('setManagedTournaments', managedTournaments.data)
   },
   async createTournament({ commit }) {
     let createdTournament = {} //TODO replace with endpoint
@@ -81,7 +84,7 @@ const mutations = {
     state.subscribedTournaments = state.subscribedTournaments.filter(t => t.id == tournamentId)
   },
 
-  fetchPersonalSubscriptionRequest: (state,requests) => state.personalRequests = requests,
+  setPersonalSubscriptionRequests: (state,requests) => state.personalRequests = requests,
   addPersonalSubscriptionRequest: (state, request) => state.personalRequests.push(request),
 
 

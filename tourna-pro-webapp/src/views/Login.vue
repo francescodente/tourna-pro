@@ -20,6 +20,7 @@
         v-model="showPassword"
         identifier="showpassword"
       />
+      <span>Non hai un account? <router-link :to="{name: 'Register'}">Registrati</router-link></span>
     </simple-form>
   </simple-border>
 </template>
@@ -49,6 +50,7 @@ export default {
         localStorage.setItem("userId", res.data.userId);
         localStorage.setItem("accessToken", res.data.accessToken);
         this.$store.dispatch("initStore");
+        this.$router.push({name: 'MyTournaments'});
       } catch (error) {}
     },
   },

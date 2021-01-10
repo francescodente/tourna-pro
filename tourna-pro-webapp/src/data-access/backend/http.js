@@ -15,7 +15,7 @@ client.interceptors.response.use(
 
 client.interceptors.request.use((config) => {
   if(store.getters.accessToken){
-    config.headers.authentication = `Bearer ${store.getters.accessToken}`;
+    config.headers.Authorization = `Bearer ${store.getters.accessToken}`;
   }
   return config;
 }, (error) => {
