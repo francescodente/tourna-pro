@@ -1,28 +1,36 @@
 <template>
   <router-link tag="div" :to="`/tournaments/${tournament.id}`">
-    <b-card :class="`common ${status}`">
+    <b-card :class="'common ' + cssStyle(tournament.status)">
       <div class="headline">
         <h5 class="title">{{ tournament.name }}</h5>
-        <p>{{ `${tournament.ageGroup}, ${tournament.gender}` }}</p>
+        <p>{{ `Età: ${tournament.minAge} - ${tournament.maxAge}, Genere: ${tournament.gender}` }}</p>
       </div>
       <div class="row col">
-        <text-icon :text="tournament.place" icon="fas fa-map-marker-alt" :iconColor="iconColor" />
+        <text-icon
+          :text="tournament.location"
+          icon="fas fa-map-marker-alt"
+          :iconColor="iconColor(tournament.status)"
+        />
       </div>
       <div class="my-row">
         <div class="day">
-          <text-icon :text="tournament.date" icon="far fa-calendar-alt" :iconColor="iconColor" />
+          <text-icon
+            :text="date(tournament.date)"
+            icon="far fa-calendar-alt"
+            :iconColor="iconColor(tournament.status)"
+          />
         </div>
         <div class="total">
           <text-icon
-            :text="`${tournament.partecipants}/${tournament.total} ${
+            :text="`${tournament.currentParticipants}/${tournament.maxParticipants} ${
               tournament.type == 'team' ? 'Squadre' : 'Partecipanti'
             }`"
             icon="fas fa-users"
-            :iconColor="iconColor"
+            :iconColor="iconColor(tournament.status)"
           />
         </div>
       </div>
-      <div class="badge badge-pill">{{ "#" + tournament.activity }}</div>
+      <div class="badge badge-pill">{{ "#" + tournament.activityId }}</div>
     </b-card>
   </router-link>
 </template>
@@ -40,19 +48,21 @@ export default {
     tournament: Object,
     status: String,
   },
-  computed: {
-    iconColor: function () {
-      switch (this.status) {
-        case 'ACTIVE':
-          return style.colorComplementary
-          break;
-        case 'FUTURE':
-          return style.colorSecondary1
-          break;
-        default:
-          return 'inherit'
-      }
-    }
+  methods: {
+    date: function(date){
+      var converted = new Date(date)
+      return converted.toLocaleDateString()
+    },
+    cssStyle: function (status) {
+      if (status == "PENDING") return "FUTURE";
+      else if (status == "ACTIVE") return "ACTIVE";
+      else return "";
+    },
+    iconColor: function (status) {
+      if (status == "PENDING") return style.colorSecondary1;
+      else if (status == "ACTIVE") return style.colorComplementary;
+      else return style.colorSecondary1;
+    },
   },
 };
 </script>
