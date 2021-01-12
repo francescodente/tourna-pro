@@ -119,9 +119,7 @@ exports.getAllTournaments = async function (req) {
         }
       }
     ]
-    console.log(aggregateArray)
     let requests = await ParticipationRequest.aggregate(aggregateArray)
-    console.log(requests)
     filter._id = {$in: requests.map(r => r.tournamentId)}
   }
 
