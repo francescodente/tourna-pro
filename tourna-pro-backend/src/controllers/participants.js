@@ -1,4 +1,4 @@
-const { Tournament, ParticipationRequests, Team } = require('../models')
+const { Tournament, ParticipationRequest, Team } = require('../models')
 const { ok, notFound, forbidden, badRequest } = require('../utils/action-results')
 
 function tournamentNotFound(id) {
@@ -40,7 +40,7 @@ exports.retireParticipant = async function (req) {
   if (!tournament) {
     return notFound(tournamentNotFound(req.params.id))
   }
-  let participationRequest = await ParticipationRequests.findById(req.params.participantId)
+  let participationRequest = await ParticipationRequest.findById(req.params.participantId)
   if (!participationRequest) {
     return notFound(participantNotFound(req.params.participantId, req.params.id))
   }

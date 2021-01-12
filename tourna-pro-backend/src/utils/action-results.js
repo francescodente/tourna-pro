@@ -14,7 +14,7 @@ exports.badRequest = error => jsonResult(400, { error })
 
 exports.unauthorized = () => jsonResult(401, { error: 'User is not authenticated' })
 
-exports.forbidden = () => jsonResult(403, { error: 'User is not authorized to perform this action' })
+exports.forbidden = (error) => jsonResult(403, { error: error || 'User is not authorized to perform this action' })
 
 exports.notFound = error => jsonResult(404, { error })
 

@@ -1,9 +1,12 @@
-const { Tournament } = require('../models')
+const { Tournament, ParticipationRequest, Team } = require('../models')
 const { ok, created, notFound, badRequest } = require('../utils/action-results')
-const {activityExists} = require('../models/activities')
-const {typeExists} = require('../models/tournament-types')
-const {genderExists} = require('../models/genders')
-const {modeExists} = require('../models/tournament-modes')
+const { activityExists } = require('../models/activities')
+const { typeExists } = require('../models/tournament-types')
+const { genderExists } = require('../models/genders')
+const { modeExists, isTeam } = require('../models/tournament-modes')
+const team = require('../models/team')
+
+const mongoose = require('mongoose');
 
 const defaultStatus = "PENDING"
 const defaultPageSize = 30
@@ -20,6 +23,7 @@ function tournamentDto(tournament) {
   return {
     id: tournament._id,
     maxParticipants: tournament.maxParticipants,
+    currentParticipants: tournament.participants.length,
     date: tournament.date,
     name: tournament.name,
     activityId: tournament.activity,
@@ -37,16 +41,16 @@ function tournamentDto(tournament) {
 
 
 exports.createTournament = async function (req) {
-  if(!activityExists(req.body.activityId)){
+  if (!activityExists(req.body.activityId)) {
     return badRequest(`Selected activity: "${req.body.activityId}" does not exist`)
   }
-  if(!typeExists(req.body.type)){
+  if (!typeExists(req.body.type)) {
     return badRequest(`Selected type: "${req.body.type}" is not supported`)
   }
-  if(!modeExists(req.body.mode)){
+  if (!modeExists(req.body.mode)) {
     return badRequest(`Selected mode: "${req.body.mode}" is not supported`)
   }
-  if(!genderExists(req.body.gender)){
+  if (!genderExists(req.body.gender)) {
     return badRequest(`Selected gender: "${req.body.mode}" is not supported`)
   }
   let tournamentModel = new Tournament({
@@ -71,39 +75,60 @@ exports.createTournament = async function (req) {
   return created(tournamentDto(tournament))
 }
 
-//TODO review
 exports.getAllTournaments = async function (req) {
   let num = req.query.pageNum || 0
   let size = req.query.pageSize || defaultPageSize
-  let query = Tournament.find()
+  let filter = {}
+
+  if (req.query.ownedBy) {
+    filter.owners = req.query.ownedBy
+  }
+  if (req.query.mode) {
+    filter.mode = req.query.mode
+  }
+  if (req.query.from) {
+    filter.date = { $gte: req.query.from }
+  }
+  if (req.query.to) {
+    filter.date = { $lte: req.query.from }
+  }
+  if (req.query.activities) {
+    let a = JSON.parse(req.query.activities)
+    filter.activity = { $in: a }
+  }
+  if (req.query.location) {
+    filter.location = req.query.location
+  }
+  if (req.query.subscribedBy) {
+    let aggregateArray = [
+      {
+        $lookup: {
+          from: 'Teams',
+          localField: 'teamId',
+          foreignField: '_id',
+          as: 'team'
+        }
+      },
+      {
+        $match: {
+          $or: [
+            { userId: mongoose.Types.ObjectId(req.query.subscribedBy)},
+            { 'team.members':  mongoose.Types.ObjectId(req.query.subscribedBy)}
+          ]
+         
+        }
+      }
+    ]
+    console.log(aggregateArray)
+    let requests = await ParticipationRequest.aggregate(aggregateArray)
+    console.log(requests)
+    filter._id = {$in: requests.map(r => r.tournamentId)}
+  }
+
+  let tournaments = await Tournament.find(filter)
     .sort('-date')
     .skip(num * size)
     .limit(size)
-  if(req.query.ownedBy){
-    query = query.where({owners: req.query.ownedBy})
-  }
-  if (req.query.mode) {
-    query = query.where('mode').equals(req.query.mode)
-  }
-  if (req.query.from) {
-    query = query.where('date').gt(req.query.from)
-  }
-  if (req.query.to) {
-    query = query.where('date').lt(req.query.to)
-  }
-  if (req.query.activities) {
-    console.log(req.query.activities)
-    let a = JSON.parse(req.query.activities)
-    query = query.where('activity').in(a)
-  }
-  if (req.query.location) {
-    query = query.where('location').equals(req.query.location)
-  }
-  let tournaments = await query.exec();
-  
-  if(req.query.subscribedBy){
-    //TODO
-  }
 
   return ok(tournaments.map(a => tournamentDto(a)))
 }
@@ -121,7 +146,7 @@ exports.updateTournament = async function (req) {
   if (!updatedTournament) {
     return notFound(tournamentNotFound(req.params.id))
   }
-  if(updatedTournament.status == 'ACTIVE'){
+  if (updatedTournament.status == 'ACTIVE') {
     return badRequest(tournamentNotAllowed(req.oarams.id))
   }
   updatedTournament = await Tournament.findByIdAndUpdate(req.params.id, {

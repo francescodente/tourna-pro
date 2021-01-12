@@ -1,4 +1,4 @@
-const { ParticipationRequests, Tournament, Team } = require('../models');
+const { ParticipationRequest, Tournament, Team } = require('../models');
 const { isIndividual, isTeam } = require('../models/tournament-modes');
 const { ok, created, notFound, badRequest, forbidden } = require('../utils/action-results')
 
@@ -10,8 +10,8 @@ function participationRequestsDto(participationRequest, person) {
       firstName: person.firstName,
       lastName: person.lastName
     } : undefined,
-    userId: 0,
-    teamId: 0,
+    userId: participationRequest.userId,
+    teamId: participationRequest.teamId,
     status: participationRequest.status
   };
 }
@@ -70,7 +70,7 @@ exports.addParticipationRequest = async function (req) {
       if (!team) {
         return notFound(teamNotFound(req.body.teamId))
       }
-      if (!team.members.include(req.userId)) {
+      if (!team.members.includes(req.userId)) {
         return forbidden("Can not make a participation request for a team the user is not member of")
       }
       break;
@@ -78,10 +78,7 @@ exports.addParticipationRequest = async function (req) {
   }
   let participationRequestModel = new ParticipationRequest({
     type: req.body.type,
-    person: {
-      firstName: req.body.person.firstName,
-      lastName: req.body.person.lastName
-    },
+    person: req.body.person,
     userId: req.body.userId,
     teamId: req.body.teamId,
     tournamentId: req.params.id,
@@ -92,7 +89,7 @@ exports.addParticipationRequest = async function (req) {
 }
 
 exports.getAllParticipationRequests = async function (req) {
-  let requests = await ParticipationRequests.find().where('tournamentId').equals(req.params.id)
+  let requests = await ParticipationRequest.find().where('tournamentId').equals(req.params.id)
   if (!requests) {
     return notFound(tournamentNotFound(req.params.id))
   }
@@ -100,7 +97,7 @@ exports.getAllParticipationRequests = async function (req) {
 }
 
 exports.removeParticipationRequest = async function (req) {
-  let participationRequest = await ParticipationRequests.findById(req.params.requestId)
+  let participationRequest = await ParticipationRequest.findById(req.params.requestId)
   if (!participationRequest) {
     return notFound(requestNotFound(req.params.id, req.params.requestId))
   }
@@ -133,21 +130,30 @@ exports.removeParticipationRequest = async function (req) {
 
 exports.updateParticipationRequestStatus = async function (req) {
   let tournament = await Tournament.findById(req.params.id)
-  if (!tournament.owners.include(req.userId)) {
+  if (!tournament.owners.includes(req.userId)) {
     return forbidden("Only tournament owners can update participation request status")
   }
-  let updatedParticpationRequest = await ParticipationRequests.findByIdAndUpdate(req.params.requestId, 
-    {status: req.body.status}, {new: true})
-  if(!updatedParticpationRequest){
+  let participationRequest = await ParticipationRequest.findById(req.params.requestId)
+  if(!participationRequest){
     return notFound(requestNotFound(req.params.id, req.params.requestId))
   }
+  if(req.body.status == 'PENDING'){
+    return forbidden("Can not change the value to pending");
+  }
+  if(['REJECTED','APPROVED'].includes(req.body.status) && participationRequest.status != 'PENDING'){
+    return forbidden("Can not change the value to a confirmed or rejected request");
+  }
+  participationRequest.status = req.body.status
+  await participationRequest.save()
+  
   if(req.body.status == 'APPROVED'){
     tournament.participants.push({
-      id: updatedParticpationRequest.requestId,
+      id: participationRequest._id,
       status: 'ACTIVE'
     })
     await tournament.save()
   }
-  return ok(participationRequestsDto(updatedParticpationRequest))
+
+  return ok(participationRequestsDto(participationRequest))
 }
 

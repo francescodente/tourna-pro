@@ -17,7 +17,7 @@ module.exports = createSchema('Tournament', 'Tournaments', mongoose => ({
   status: String, // PENDING | ACTIVE | SUSPENDED | ENDED
   participants: [
     {
-      id: [{type: mongoose.ObjectId, ref:'ParticipationRequest'}],
+      id: {type: mongoose.ObjectId, ref:'ParticipationRequest'},
       status: String, // ACTIVE | RETIRED
     }
   ],
@@ -25,11 +25,11 @@ module.exports = createSchema('Tournament', 'Tournaments', mongoose => ({
     {
       id: mongoose.ObjectId,
       participant1: {
-        id: [{type: mongoose.ObjectId, ref:'ParticipationRequest'}],
+        id: {type: mongoose.ObjectId, ref:'ParticipationRequest'},
         score: Number,
       },
       participant2: {
-        id: [{type: mongoose.ObjectId, ref:'ParticipationRequest'}],
+        id: {type: mongoose.ObjectId, ref:'ParticipationRequest'},
         score: Number,
       },
       notes: String,
