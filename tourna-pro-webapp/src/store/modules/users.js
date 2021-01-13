@@ -16,22 +16,22 @@ const actions = {
   async fetchUser({ commit }, userId) {
     let user = await dataAccess.users.getUser(userId)
     commit('setUser', user)
-    let achievements = await dataAccess.achievements.getByUser(userId) //user.id?
+    let achievements = await dataAccess.achievements.getByUser(userId)
     commit('setAchievements', user.id, achievements)
-    let interests = await dataAccess.interests.getAll(userId) //user.id?
+    let interests = await dataAccess.interests.getAll(userId)
     commit('setInterests', user.id, interests)
 
   },
-  async updateUser({ commit }, userId) {
-    let user = await dataAccess.users.updateUser(userId)
+  async updateUser({ commit }, userBody, allInterests) {
+    let user = await dataAccess.users.updateUser(userBody.id, allInterests)
     commit('setUser', user)
-    let interests = await dataAccess.interests.update(userId)
+    let interests = await dataAccess.interests.update(userBody.id, allInterests)
     commit('setInterests', user.id, interests)
   },
-  async registerUser({ commit }, userBody) {
+  async registerUser({ commit }, userBody, allInterests) {
     let user = await dataAccess.users.register(userBody)
     commit('setUser', user)
-    let interests = await dataAccess.interests.update(user.id)
+    let interests = await dataAccess.interests.update(user.id, allInterests)
     commit('setInterests', user.id, interests)
   }
 }
