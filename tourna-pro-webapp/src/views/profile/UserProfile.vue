@@ -23,12 +23,12 @@
     <div class="info">
       <text-icon
         icon="fas fa-birthday-cake"
-        :text="String(user.birthDay)"
+        :text="String(user.birthDate)"
         :iconColor="style.colorPrimary"
       />
       <text-icon
         icon="fas fa-phone-alt"
-        :text="String(user.telephoneNumber)"
+        :text="String(user.telephone)"
         :iconColor="style.colorPrimary"
       />
       <text-icon
@@ -72,6 +72,7 @@
 </template>
 
 <script>
+import { mapActions, mapGetters } from "vuex";
 import Achievement from "../../components/profile/Achievement.vue";
 import Avatar from "../../components/profile/Avatar.vue";
 import SectionHeader from "../../components/profile/SectionHeader.vue";
@@ -88,26 +89,23 @@ export default {
   data: function () {
     return {
       style,
-      user: {
-        firstName: "Mario",
-        lastName: "Rossi",
-        userName: "@mario_rossi123",
-        birthDay: "16/10/1997",
-        telephoneNumber: "3483680498",
-        gender: "M",
-        bio: "Ciao, mi chiamo Mario e ho una passione per gli sport di squadra",
-        interests: ["calcetto", "pallavolo", "basket"],
-        achievements: [
-          {
-            id: 1,
-            name: "Lupo Solitario",
-            date: "21/03/2019",
-            description: "Partecipa al tuo primo torneo come solista.",
-            image: "",
-          },
-        ],
-      },
     };
+  },
+  methods: {
+    ...mapActions([
+      "fetchUser",
+    ]),
+  },
+  computed: {
+    ...mapGetters([
+      "user",
+      "userInterests",
+      "userAchievements",
+      "userId"
+    ]),
+  },
+  async created() {
+    await this.fetchUser(this.userId)
   },
 };
 </script>

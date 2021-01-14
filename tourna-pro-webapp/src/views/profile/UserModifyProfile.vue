@@ -2,7 +2,7 @@
   <div class="main">
 
     <avatar size="5em" />
-    <div class="nickname">{{ user.userName }}</div>
+    <div class="nickname">{{ user.username }}</div>
 
     <div class="inputs">
       <user-info :value="user"/>
@@ -19,6 +19,7 @@
 </template>
 
 <script>
+import { mapActions, mapGetters } from "vuex";
 import Avatar from "../../components/profile/Avatar.vue";
 import UserInfo from "../../components/registration/UserInfo.vue";
 import SimpleInput from "../../components/ui/SimpleInput.vue";
@@ -27,27 +28,23 @@ export default {
   components: { Avatar, UserInfo, SimpleInput },
   data: function () {
     return {
-      user: {
-        firstName: "Mario",
-        lastName: "Rossi",
-        userName: "@mario_rossi123",
-        birthDay: "16/10/1997",
-        telephoneNumber: "3483680498",
-        city: "Roma",
-        gender: "M",
-        bio: "Ciao, mi chiamo Mario e ho una passione per gli sport di squadra",
-        interests: ["calcetto", "pallavolo", "basket"],
-        achievements: [
-          {
-            id: 1,
-            name: "Lupo Solitario",
-            date: "21/03/2019",
-            description: "Partecipa al tuo primo torneo come solista.",
-            image: "",
-          },
-        ],
-      },
     };
+  },
+  methods: {
+    ...mapActions([
+      "updateUser"
+    ]),
+  },
+  computed: {
+    ...mapGetters([
+      "user",
+      "userInterests",
+      "userAchievements",
+      "userId"
+    ]),
+  },
+  async created() {
+    await this.updateUser(this.userId,this.userInterests)
   },
 };
 </script>
