@@ -1,5 +1,5 @@
 const { Tournament, ParticipationRequest, Team } = require('../models')
-const { ok, created, notFound, badRequest } = require('../utils/action-results')
+const { ok, created, notFound, badRequest, forbidden } = require('../utils/action-results')
 const { activityExists } = require('../models/activities')
 const { typeExists } = require('../models/tournament-types')
 const { genderExists } = require('../models/genders')
@@ -19,7 +19,40 @@ function tournamentNotAllowed(id) {
   return `Could not update tournament with id ${id} because the status is ACTIVE`
 }
 
-function tournamentDto(tournament) {
+async function isSubscribed(userId, tournament) {
+  let participants = tournament.participants.filter(x => x.status == 'ACTIVE')
+  if (!participants)
+    return false
+  let requests = await ParticipationRequest.aggregate(
+    [
+      {
+        $lookup: {
+          from: 'Teams',
+          localField: 'teamId',
+          foreignField: '_id',
+          as: 'team'
+        }
+      },
+      {
+        $match: {
+          $and: [
+            { _id: { $in: participants.map(x => x.id) } },
+            {
+              $or: [
+                { userId: mongoose.Types.ObjectId(userId) },
+                { 'team.members': mongoose.Types.ObjectId(userId) }
+              ]
+            }
+          ]
+        }
+      }
+    ])
+    if(requests){
+      return true;
+    }
+}
+
+function tournamentDto(tournament, userId, isSubscribed) {
   return {
     id: tournament._id,
     maxParticipants: tournament.maxParticipants,
@@ -35,7 +68,9 @@ function tournamentDto(tournament) {
     minAge: tournament.minAge,
     gender: tournament.gender,
     visibility: tournament.visibility,
-    status: tournament.status
+    status: tournament.status,
+    owned: tournament.owners.includes(userId),
+    subscribed: isSubscribed
   }
 }
 
@@ -72,7 +107,7 @@ exports.createTournament = async function (req) {
     owners: [req.userId]
   })
   let tournament = await tournamentModel.save()
-  return created(tournamentDto(tournament))
+  return created(tournamentDto(tournament, req.userId, false))
 }
 
 exports.getAllTournaments = async function (req) {
@@ -112,15 +147,15 @@ exports.getAllTournaments = async function (req) {
       {
         $match: {
           $or: [
-            { userId: mongoose.Types.ObjectId(req.query.subscribedBy)},
-            { 'team.members':  mongoose.Types.ObjectId(req.query.subscribedBy)}
+            { userId: mongoose.Types.ObjectId(req.query.subscribedBy) },
+            { 'team.members': mongoose.Types.ObjectId(req.query.subscribedBy) }
           ]
-         
+
         }
       }
     ]
     let requests = await ParticipationRequest.aggregate(aggregateArray)
-    filter._id = {$in: requests.map(r => r.tournamentId)}
+    filter._id = { $in: requests.map(r => r.tournamentId) }
   }
 
   let tournaments = await Tournament.find(filter)
@@ -128,7 +163,7 @@ exports.getAllTournaments = async function (req) {
     .skip(num * size)
     .limit(size)
 
-  return ok(tournaments.map(a => tournamentDto(a)))
+  return ok(tournaments.map(a => tournamentDto(a, req.query.ownedBy || req.userId)))
 }
 
 exports.getTournamentById = async function (req) {
@@ -136,7 +171,7 @@ exports.getTournamentById = async function (req) {
   if (!tournament) {
     return notFound(tournamentNotFound(req.params.id))
   }
-  return ok(tournamentDto(tournament))
+  return ok(tournamentDto(tournament, req.userId, await isSubscribed(req.userId, tournament)))
 }
 
 exports.updateTournament = async function (req) {
@@ -144,8 +179,11 @@ exports.updateTournament = async function (req) {
   if (!updatedTournament) {
     return notFound(tournamentNotFound(req.params.id))
   }
+  if(!updatedTournament.owners.includes(req.userId)){
+    return forbidden()
+  }
   if (updatedTournament.status == 'ACTIVE') {
-    return badRequest(tournamentNotAllowed(req.oarams.id))
+    return forbidden(tournamentNotAllowed(req.params.id))
   }
   updatedTournament = await Tournament.findByIdAndUpdate(req.params.id, {
     name: req.body.name,
@@ -163,7 +201,7 @@ exports.updateTournament = async function (req) {
     status: req.body.status,
   }, { new: true })
 
-  return ok(tournamentDto(updatedTournament))
+  return ok(tournamentDto(updatedTournament, req.userId, await isSubscribed(req.userId, updatedTournament)))
 }
 
 exports.removeTournament = async function (req) {
@@ -171,7 +209,7 @@ exports.removeTournament = async function (req) {
   if (!deletedTournament) {
     return notFound(tournamentNotFound(req.params.id))
   }
-  return ok(tournamentDto(deletedTournament))
+  return ok(tournamentDto(deletedTournament, req.userId, await isSubscribed(req.userId, deletedTournament)))
 }
 
 

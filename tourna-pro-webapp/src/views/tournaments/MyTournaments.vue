@@ -39,9 +39,8 @@ export default {
   },
   methods: {
     ...mapActions([
-      "fetchSubscribedTournaments",
+      "fetchTournaments",
       "fetchPersonalSubscriptionRequests",
-      "fetchManagedTournaments",
     ]),
   },
   computed: {
@@ -52,9 +51,8 @@ export default {
     ]),
   },
   async created() {
-    await this.fetchSubscribedTournaments()
+    await this.fetchTournaments()
     await this.fetchPersonalSubscriptionRequests()
-    await this.fetchManagedTournaments()
   },
 };
 </script>
