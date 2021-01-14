@@ -56,7 +56,6 @@ export default {
   },
   created: async function () {
     await this.fetchTournament(this.$route.params.id)
-    console.log(this.tournament(this.$route.params.id))
   }
 };
 </script>
