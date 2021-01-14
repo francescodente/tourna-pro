@@ -15,7 +15,7 @@
           <score-board-tab />
         </tab>
         <tab v-if="activeTournament.subscribed == true" title="Attività">
-          <activity-tab />
+          <activity-tab :logs="logs" />
         </tab>
         <tab title="Azioni">
           <action-tab :owner="activeTournament.owned" :subscribed="activeTournament.subscribed" :active="activeTournament.active" />
@@ -46,16 +46,20 @@ export default {
     ActivityTab,
   },
   computed: {
-    ...mapGetters(['tournament', 'userId']),
+    ...mapGetters(['tournament', 'userId', 'tournamentLogs']),
+    logs: function(){
+      return this.tournamentLogs(this.$route.params.id)
+    },
     activeTournament: function(){
       return this.tournament(this.$route.params.id)
     }
   },
   methods: {
-    ...mapActions(['fetchTournament'])
+    ...mapActions(['fetchTournament', 'fetchTournamentLogs'])
   },
   created: async function () {
     await this.fetchTournament(this.$route.params.id)
+    await this.fetchTournamentLogs(this.$route.params.id)
   }
 };
 </script>

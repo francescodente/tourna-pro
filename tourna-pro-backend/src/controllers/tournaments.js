@@ -47,9 +47,9 @@ async function isSubscribed(userId, tournament) {
         }
       }
     ])
-    if(requests){
-      return true;
-    }
+  if (requests) {
+    return true;
+  }
 }
 
 function tournamentDto(tournament, userId, isSubscribed) {
@@ -115,8 +115,8 @@ exports.getAllTournaments = async function (req) {
   let size = req.query.pageSize || defaultPageSize
   let filter = {}
 
-  if (req.query.ownedBy) {
-    filter.owners = req.query.ownedBy
+  if (req.query.owned) {
+    filter.owners = req.userId
   }
   if (req.query.mode) {
     filter.mode = req.query.mode
@@ -134,28 +134,29 @@ exports.getAllTournaments = async function (req) {
   if (req.query.location) {
     filter.location = req.query.location
   }
-  if (req.query.subscribedBy) {
-    let aggregateArray = [
-      {
-        $lookup: {
-          from: 'Teams',
-          localField: 'teamId',
-          foreignField: '_id',
-          as: 'team'
-        }
-      },
-      {
-        $match: {
-          $or: [
-            { userId: mongoose.Types.ObjectId(req.query.subscribedBy) },
-            { 'team.members': mongoose.Types.ObjectId(req.query.subscribedBy) }
-          ]
-
-        }
+  let aggregateArray = [
+    {
+      $lookup: {
+        from: 'Teams',
+        localField: 'teamId',
+        foreignField: '_id',
+        as: 'team'
       }
-    ]
-    let requests = await ParticipationRequest.aggregate(aggregateArray)
-    filter._id = { $in: requests.map(r => r.tournamentId) }
+    },
+    {
+      $match: {
+        $or: [
+          { userId: mongoose.Types.ObjectId(req.userId) },
+          { 'team.members': mongoose.Types.ObjectId(req.userId) }
+        ]
+
+      }
+    }
+  ]
+  let requests = await ParticipationRequest.aggregate(aggregateArray)
+  let subscribedTournaments = requests.map(x => x.tournamentId)
+  if (req.query.subscribed) {
+    filter._id = { $in: subscribedTournaments }
   }
 
   let tournaments = await Tournament.find(filter)
@@ -163,7 +164,9 @@ exports.getAllTournaments = async function (req) {
     .skip(num * size)
     .limit(size)
 
-  return ok(tournaments.map(a => tournamentDto(a, req.query.ownedBy || req.userId)))
+  subscribedTournaments = subscribedTournaments.map(x => x.toString())
+  
+  return ok(tournaments.map(t => tournamentDto(t, req.userId, subscribedTournaments.includes(t._id.toString()))))
 }
 
 exports.getTournamentById = async function (req) {
@@ -179,7 +182,7 @@ exports.updateTournament = async function (req) {
   if (!updatedTournament) {
     return notFound(tournamentNotFound(req.params.id))
   }
-  if(!updatedTournament.owners.includes(req.userId)){
+  if (!updatedTournament.owners.includes(req.userId)) {
     return forbidden()
   }
   if (updatedTournament.status == 'ACTIVE') {
@@ -209,7 +212,7 @@ exports.removeTournament = async function (req) {
   if (!deletedTournament) {
     return notFound(tournamentNotFound(req.params.id))
   }
-  return ok(tournamentDto(deletedTournament, req.userId, await isSubscribed(req.userId, deletedTournament)))
+  return ok(tournamentDto(deletedTournament, req.userId, false))
 }
 
 

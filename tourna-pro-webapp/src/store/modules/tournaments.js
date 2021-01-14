@@ -22,18 +22,16 @@ const getters = {
 const actions = {
   async fetchTournament({ state, commit }, id) {
     let tournament = state.tournaments.find(x => x.id == id)
-    if(!tournament) {
+    if (!tournament) {
       tournament = await dataAccess.tournaments.get(id)
     }
     commit('addTournament', tournament.data)
   },
   async fetchTournaments({ commit }) {
-    let subscribedTournaments = await dataAccess.tournaments.getAll({ subscribedBy: store.getters.userId })
-    let managedTournaments = await dataAccess.tournaments.getAll({ ownedBy: store.getters.userId })
+    let subscribedTournaments = await dataAccess.tournaments.getAll({ subscribed: true })
+    let managedTournaments = await dataAccess.tournaments.getAll({ owned: true })
     let subscribed = subscribedTournaments.data
     let managed = managedTournaments.data
-    subscribed.forEach(x => x.subscribed = true)
-    managed.forEach(x => x.owned = true)
     commit('setTournaments', subscribed.concat(managed))
   },
   async subscribeToTournament({ commit }, tournamentId) {
@@ -73,7 +71,7 @@ const actions = {
   async lockMatches({ commit }) {
 
   },
-  async fetchTournamentLogs({ commit }) {
+  async fetchTournamentLogs({ commit }, tournamentId) {
 
   },
 

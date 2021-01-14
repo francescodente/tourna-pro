@@ -6,7 +6,7 @@
     <detail-row title="Genere" :value="tournament.gender"/>
     <detail-row title="Età" :value="`${tournament.minAge} - ${tournament.maxAge}`"/>
     <detail-row title="Luogo" :value="tournament.location"/>
-    <detail-row title="Data" :value="date(tournament.date)"/>
+    <detail-row title="Data" :value="tournament.date | dateFormat"/>
 
   <div v-if="tournament.status == 'active'" class="match-link">
     <router-link tag="div" :to="this.$route.path +'/matches'">Vai alle partite</router-link>
@@ -22,12 +22,6 @@ export default {
   name: 'DetailsTab',
   props: {
     tournament: Object
-  },
-  methods:{
-      date: function(date){
-      var converted = new Date(date)
-      return converted.toLocaleDateString()
-    },
   }
 }
 </script>

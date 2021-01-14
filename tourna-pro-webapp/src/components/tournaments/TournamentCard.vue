@@ -15,7 +15,7 @@
       <div class="my-row">
         <div class="day">
           <text-icon
-            :text="date(tournament.date)"
+            :text="tournament.date | dateFormat"
             icon="far fa-calendar-alt"
             :iconColor="iconColor(tournament.status)"
           />
@@ -49,10 +49,6 @@ export default {
     status: String,
   },
   methods: {
-    date: function(date){
-      var converted = new Date(date)
-      return converted.toLocaleDateString()
-    },
     cssStyle: function (status) {
       if (status == "PENDING") return "FUTURE";
       else if (status == "ACTIVE") return "ACTIVE";

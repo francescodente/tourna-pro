@@ -1,8 +1,8 @@
 <template>
   <div>
-    <div v-for="a in activities" class="activity" :key="a.id">
-      <date-text :date="a.date" :dateColor="style.colorSecondary2">
-        {{a.text}}
+    <div v-for="l in logs" class="activity" :key="l.id">
+      <date-text :date="l.date" :dateColor="style.colorSecondary2">
+        {{l.text}}
       </date-text>
     </div>
   </div>
@@ -14,23 +14,14 @@ import style from '../../../style/export.scss'
 export default {
   components: {DateText},
   name: 'ActivityTab',
+  props:
+  {
+    logs: Array
+  },
   data: function() {
     return {
-      style,
-      activities: [
-        {
-          id: 1,
-          date: '10/11/2020',
-          text: 'La tua squadra si è iscritta al torneo',
-        },
-        {
-          id: 2,
-          date: '12/11/2020',
-          text: 'La tua squadra si è ritirata dal torneo',
-        }
-      ]
+      style
     }
-      
   }
 }
 </script>
