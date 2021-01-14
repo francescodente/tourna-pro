@@ -30,6 +30,7 @@
 </template>
 
 <script>
+import { mapActions, mapGetters } from "vuex";
 import SimpleCheckbox from "../../components/ui/SimpleCheckbox.vue";
 import SimpleForm from "../../components/ui/SimpleForm.vue";
 import SimpleInput from "../../components/ui/SimpleInput.vue";
@@ -47,8 +48,22 @@ export default {
   },
   methods: {
     onSubmit() {
-      console.log(`${this.username} ${this.password}`);
+      console.log(`${user.username} ${user.password}`);
     },
+    ...mapActions([
+      "fetchUser"
+    ]),
+  },
+  computed: {
+    ...mapGetters([
+      "user",
+      "userInterests",
+      "userAchievements",
+      "userId"
+    ]),
+  },
+  async created() {
+    await this.fetchUser(this.userId,this.userInterests)
   },
 };
 </script>
