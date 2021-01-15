@@ -15,30 +15,29 @@ const getters = {
 const actions = {
   async fetchUser({ commit }, userId) {
     let user = await dataAccess.users.getUser(userId)
-    commit('setUser', user.data)
     let achievements = await dataAccess.achievements.getByUser(userId)
-    commit('setAchievements', user.data.id, achievements.data)
     let interests = await dataAccess.interests.getAll(userId)
-    commit('setInterests', user.data.id, interests.data)
+    commit('setUser', user, achievements, interests)
+
   },
-  async updateUser({ commit }, userBody, allInterests) {
+  async updateUser({ state, commit }, userBody, allInterests) {
     let user = await dataAccess.users.updateUser(userBody.id, allInterests)
-    commit('setUser', user.data)
     let interests = await dataAccess.interests.update(userBody.id, allInterests)
-    commit('setInterests', user.data.id, interests.data)
+    commit('setUser', user, state.achievements, interests)
   },
-  async registerUser({ commit }, userBody, allInterests) {
+  async registerUser({state, commit }, userBody, allInterests) {
     let user = await dataAccess.users.register(userBody)
-    commit('setUser', user.data)
     let interests = await dataAccess.interests.update(user.id, allInterests)
-    commit('setInterests', user.data.id, interests.data)
+    commit('setUser', user, state.achievements, interests)
   }
 }
 
 const mutations = {
-  setUser: (state, user) => state.users[user.id] = user,
-  setAchievements: (state, userId, achievements) => state.achievements[userId] = achievements,
-  setInterests: (state, userId, interests) => state.interests[userId] = interests,
+  setUser: (state, user, achievements, interests) => {
+    state.users[user.id] = user
+    state.achievements[user.id] = achievements
+    state.interests[user.id] = interests
+  }
 }
 
 export default {

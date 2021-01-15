@@ -7,7 +7,7 @@ const client = axios.create({
 })
 
 client.interceptors.response.use(
-  (res) => res,
+  (res) => res.data,
   (error) => {
     if (error.response.status == 401) {
       router.push({ name: "Login" })

@@ -25,13 +25,13 @@ const actions = {
     if (!tournament) {
       tournament = await dataAccess.tournaments.get(id)
     }
-    commit('addTournament', tournament.data)
+    commit('addTournament', tournament)
   },
   async fetchTournaments({ commit }) {
     let subscribedTournaments = await dataAccess.tournaments.getAll({ subscribed: true })
     let managedTournaments = await dataAccess.tournaments.getAll({ owned: true })
-    let subscribed = subscribedTournaments.data
-    let managed = managedTournaments.data
+    let subscribed = subscribedTournaments
+    let managed = managedTournaments
     commit('setTournaments', subscribed.concat(managed))
   },
   async subscribeToTournament({ commit }, tournamentId) {
