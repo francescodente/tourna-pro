@@ -14,10 +14,11 @@ Vue.config.productionTip = false
 
 setupFilters(Vue)
 
+store.dispatch('initStore');
+
 new Vue({
   router,
   store,
-  beforeCreate() { this.$store.dispatch('initStore') },
   render: h => h(App)
 }).$mount('#app')
 
