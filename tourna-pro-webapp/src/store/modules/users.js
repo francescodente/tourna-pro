@@ -7,9 +7,9 @@ const state = {
 }
 
 const getters = {
-  getUser: (state, id) => state.users[id] || null,
-  getUserInterests: (state, id) => state.interests[id] || [],
-  getUserAchievements: (state, id) => state.achievements[id] || []
+  getUser: state => id => state.users[id] || null,
+  getUserInterests: state => id => state.interests[id] || [],
+  getUserAchievements: state => id => state.achievements[id] || []
 }
 
 const actions = {

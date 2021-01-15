@@ -14,6 +14,11 @@ export default [
     component: TeamDetails
   },
   {
+    path: 'teams/create',
+    name: 'TeamCreate',
+    component: TeamEdit
+  },
+  {
     path: 'teams/:id/edit',
     name: 'TeamEdit',
     component: TeamEdit
