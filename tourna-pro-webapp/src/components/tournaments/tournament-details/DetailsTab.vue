@@ -1,14 +1,14 @@
 <template>
   <div class="main">
-    <detail-row title="Modalità" :value="details.type"/>
-    <detail-row title="Attività" :value="details.activity"/>
-    <detail-row title="Partecipanti" :value="`${details.partecipants}/${details.total}`"/>
-    <detail-row title="Genere" :value="details.gender"/>
-    <detail-row title="Età" :value="details.ageGroup"/>
-    <detail-row title="Luogo" :value="details.place"/>
-    <detail-row title="Data" :value="details.date"/>
+    <detail-row title="Modalità" :value="tournament.type"/>
+    <detail-row title="Attività" :value="tournament.activityId"/>
+    <detail-row title="Partecipanti" :value="`${tournament.currentParticipants}/${tournament.maxParticipants}`"/>
+    <detail-row title="Genere" :value="tournament.gender"/>
+    <detail-row title="Età" :value="`${tournament.minAge} - ${tournament.maxAge}`"/>
+    <detail-row title="Luogo" :value="tournament.location"/>
+    <detail-row title="Data" :value="tournament.date | dateFormat"/>
 
-  <div v-if="details.active" class="match-link">
+  <div v-if="tournament.status == 'active'" class="match-link">
     <router-link tag="div" :to="this.$route.path +'/matches'">Vai alle partite</router-link>
   </div>
   </div>
@@ -21,7 +21,7 @@ export default {
   components: { DetailRow },
   name: 'DetailsTab',
   props: {
-    details: Object
+    tournament: Object
   }
 }
 </script>

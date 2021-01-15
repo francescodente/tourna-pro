@@ -1,24 +1,24 @@
 <template>
-  <div>
+  <div v-if="activeTournament">
     <div class="container">
-      <headline> {{ tournament.name }} </headline>
+      <headline> {{ activeTournament.name }} </headline>
       <div class="text">
-        {{ tournament.description }}
+        {{ activeTournament.description }}
       </div>
     </div>
     <div class="tab-container">
       <tab-view>
         <tab title="Dettagli" :selected="true">
-          <details-tab :details="details"/>
+          <details-tab :tournament="activeTournament"/>
         </tab>
-        <tab v-if="tournament.active == true" title="Tabellone">
+        <tab v-if="activeTournament.active == true" title="Tabellone">
           <score-board-tab />
         </tab>
-        <tab v-if="subscribed == true" title="Attività">
-          <activity-tab />
+        <tab v-if="activeTournament.subscribed == true" title="Attività">
+          <activity-tab :logs="logs" />
         </tab>
         <tab title="Azioni">
-          <action-tab :owner="owner" :subscribed="subscribed" :active="tournament.active" />
+          <action-tab :owner="activeTournament.owned" :subscribed="activeTournament.subscribed" :active="activeTournament.active" />
         </tab>
       </tab-view>
     </div>
@@ -26,6 +26,7 @@
 </template>
 
 <script>
+import { mapActions, mapGetters } from 'vuex';
 import ActionTab from "../../components/tournaments/tournament-details/ActionTab.vue";
 import ActivityTab from "../../components/tournaments/tournament-details/ActivityTab.vue";
 import DetailsTab from "../../components/tournaments/tournament-details/DetailsTab.vue";
@@ -35,27 +36,6 @@ import Tab from "../../components/ui/TabView/Tab.vue";
 import TabView from "../../components/ui/TabView/TabView.vue";
 export default {
   name: "TournamentDetails",
-  data: function () {
-    return {
-      tournament: {
-        id: 1,
-        name: "Torneo di prova con nome lungo",
-        description:
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut condimentum purus at aliquet pharetra. Integer feugiat in mi sed tempor. Integer varius sollicitudin augue et auctor. Nunc finibus mollis nisi, posuere gravida enim euismod id. Sed lobortis, mi vel pulvinar varius, quam neque feugiat risus, vitae lobortis magna tortor eu sapien. ",
-        ageGroup: "Under 24",
-        gender: "Maschile",
-        place: "Palazzetto dello Sport",
-        date: "10/12/2020",
-        partecipants: 2,
-        total: 5,
-        type: "team",
-        activity: "calcetto",
-        active: true
-      },
-      owner: false,
-      subscribed: true
-    };
-  },
   components: {
     Headline,
     TabView,
@@ -66,14 +46,20 @@ export default {
     ActivityTab,
   },
   computed: {
-    details() {
-      var {ageGroup, gender, place, date, partecipants, total, type, activity, active} = this.tournament
-      var obj = {ageGroup, gender, place, date, partecipants, total, type, activity, active}
-      return obj
+    ...mapGetters(['tournament', 'userId', 'tournamentLogs']),
+    logs: function(){
+      return this.tournamentLogs(this.$route.params.id)
     },
-    actions(){
-      return [];
+    activeTournament: function(){
+      return this.tournament(this.$route.params.id)
     }
+  },
+  methods: {
+    ...mapActions(['fetchTournament', 'fetchTournamentLogs'])
+  },
+  created: async function () {
+    await this.fetchTournament(this.$route.params.id)
+    await this.fetchTournamentLogs(this.$route.params.id)
   }
 };
 </script>

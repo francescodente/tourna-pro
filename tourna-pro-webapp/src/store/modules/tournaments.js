@@ -2,8 +2,7 @@ import store from '..'
 import dataAccess from '../../data-access'
 
 const state = {
-  subscribedTournaments: [],
-  managedTournaments: [],
+  tournaments: [],
   personalRequests: [],
   tournamentRequests: {},
   matches: {},
@@ -11,38 +10,37 @@ const state = {
 }
 
 const getters = {
+  tournament: state => id => state.tournaments.find(x => x.id == id) || null,
   personalRequests: state => state.personalRequests,
-  subscribedTournaments: state => state.subscribedTournaments,
-  managedTournaments: state => state.managedTournaments,
-  tournamentMatches: (state, id) => state.matches[id] || [],
-  tournamentLogs: (state, id) => state.logs[id] || [],
-  tournamentRequests: (state, id) => state.tournamentRequests[id] || []
+  subscribedTournaments: state => state.tournaments.filter(x => x.subscribed),
+  managedTournaments: state => state.tournaments.filter(x => x.owned),
+  tournamentMatches: state => id => state.matches[id] || [],
+  tournamentLogs: state => id => state.logs[id] || [],
+  tournamentRequests: state => id => state.tournamentRequests[id] || []
 }
 
 const actions = {
-  async fetchSubscribedTournaments({ commit }) {
-    let subscribedTournaments = await dataAccess.tournaments.getAll({subscribedBy: store.getters.userId})
-    commit('setSubscribedTournaments', subscribedTournaments.data)
+  async fetchTournament({ state, commit }, id) {
+    let tournament = state.tournaments.find(x => x.id == id)
+    if (!tournament) {
+      tournament = await dataAccess.tournaments.get(id)
+    }
+    commit('addTournament', tournament.data)
   },
-  async fetchPersonalSubscriptionRequests({commit}){
-    let subscriptionRequests = [] //TODO replace with endpoint
-    commit('setPersonalSubscriptionRequests', subscriptionRequests)
+  async fetchTournaments({ commit }) {
+    let subscribedTournaments = await dataAccess.tournaments.getAll({ subscribed: true })
+    let managedTournaments = await dataAccess.tournaments.getAll({ owned: true })
+    let subscribed = subscribedTournaments.data
+    let managed = managedTournaments.data
+    commit('setTournaments', subscribed.concat(managed))
   },
-  async subscribeToTournament({commit}, tournamentId){
+  async subscribeToTournament({ commit }, tournamentId) {
     let request = {} //TODO replace with endpoint
     commit('addPersonalSubscriptionRequest', request)
-  },
-  async retireRequestToTournament({commit}, tournamentId, requestId){
-    let request = {} //TODO replace with endpoint
-    commit('removePersonalSubscriptionRequest', requestId)
   },
   async retireFromTournament({ commit }, tournamentId) {
     //TODO retire participant
     commit('removeSubscribedTournament', tournamentId)
-  },
-  async fetchManagedTournaments({ commit }) {
-    let managedTournaments = await dataAccess.tournaments.getAll({ownedBy: store.getters.userId})
-    commit('setManagedTournaments', managedTournaments.data)
   },
   async createTournament({ commit }) {
     let createdTournament = {} //TODO replace with endpoint
@@ -73,26 +71,42 @@ const actions = {
   async lockMatches({ commit }) {
 
   },
-  async fetchTournamentLogs({ commit }) {
+  async fetchTournamentLogs({ commit }, tournamentId) {
 
-  }
+  },
+
+  async fetchPersonalSubscriptionRequests({ commit }) {
+    let subscriptionRequests = [] //TODO replace with endpoint
+    commit('setPersonalSubscriptionRequests', subscriptionRequests)
+  },
+  async retireRequestToTournament({ commit }, tournamentId, requestId) {
+    let request = {} //TODO replace with endpoint
+    commit('removePersonalSubscriptionRequest', requestId)
+  },
 }
 
 const mutations = {
-  setSubscribedTournaments: (state, tournaments) => state.subscribedTournaments = tournaments,
+  addTournament: (state, tournament) => {
+    state.tournaments.push(tournament)
+  },
+
+  setTournaments: (state, tournaments) => {
+    state.tournaments = tournaments
+  },
+
   removeSubscribedTournament: (state, tournamentId) => {
     state.subscribedTournaments = state.subscribedTournaments.filter(t => t.id == tournamentId)
   },
 
-  setPersonalSubscriptionRequests: (state,requests) => state.personalRequests = requests,
-  addPersonalSubscriptionRequest: (state, request) => state.personalRequests.push(request),
-
-
-  setManagedTournaments: (state, tournaments) => state.managedTournaments = tournaments,
   addManagedTournament: (state, tournament) => state.managedTournaments.push(tournament),
+
   removeManagedTournament: (state, tournament) => {
     state.managedTournaments = state.managedTournaments.filter(t => t.id == tournament.id)
-  }
+  },
+
+  setPersonalSubscriptionRequests: (state, requests) => state.personalRequests = requests,
+
+  addPersonalSubscriptionRequest: (state, request) => state.personalRequests.push(request),
 }
 
 export default {

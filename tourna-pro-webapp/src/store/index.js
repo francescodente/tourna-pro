@@ -22,13 +22,14 @@ export default new Vuex.Store({
     error: state => state.error
   },
   mutations: {
-    initStore: (state) => {
+    initStore: function(state) {
       if (localStorage.getItem('userId')) {
         state.userId = localStorage.getItem('userId')
       }
       if (localStorage.getItem('accessToken')) {
         state.accessToken = localStorage.getItem('accessToken')
       }
+      console.log("OK")
     },
     setError: (state, error) => {
       state.error = error
@@ -36,7 +37,7 @@ export default new Vuex.Store({
   },
   actions: {
     dismissError({ commit }) { commit('setError', null) },
-    setError({ commit }, error) { commit('setError', error) },
+    setError({ commit }, error) {  commit('setError', error) },
     initStore({ commit }) { commit('initStore') }
   },
   modules: {
