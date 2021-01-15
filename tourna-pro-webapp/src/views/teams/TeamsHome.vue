@@ -4,7 +4,7 @@
     <div class="teams-container">
       <team-card class="card" :team="team" v-for="team in getTeams" :key="team.id" @click="teamClicked(team)" />
     </div>
-    <floating-button icon="fas fa-plus" />
+    <floating-button icon="fas fa-plus" @click="$router.push({ name: 'TeamCreate' })" />
   </div>
 </template>
 
@@ -20,7 +20,9 @@ export default {
     },
     ...mapActions(['fetchTeams'])
   },
-  computed: mapGetters(['getTeams']),
+  computed: {
+    ...mapGetters(['getTeams'])
+  },
   created() {
     this.fetchTeams()
   }

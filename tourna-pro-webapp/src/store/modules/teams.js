@@ -5,9 +5,10 @@ const state = {
 }
 
 const getters = {
-  getTeams: state => state.teams,
-  getTeamMembers: (state, id) => state.members[id] || [],
-  getTeamLogs: (state, id) => state.logs[id] || []
+  team: state => id => state.teams.find(t => t.id == id),
+  teams: state => state.teams,
+  teamMembers: state => id => state.members[id] || [],
+  teamLogs: state => id => state.logs[id] || []
 }
 
 const actions = {

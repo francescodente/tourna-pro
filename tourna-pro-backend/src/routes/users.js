@@ -5,6 +5,7 @@ const { upload } = require('./upload-utils')
 
 module.exports = mapControllerRoutes('users', function(app, controller) {
   app.route('/users')
+    .get(authorize, action(controller.searchUsers))
     .post(action(controller.registerUser))
   
   app.route('/users/:id')
