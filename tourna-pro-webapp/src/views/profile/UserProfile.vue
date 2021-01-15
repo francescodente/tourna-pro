@@ -3,8 +3,10 @@
     <div class="top-row">
       <avatar size="4em" />
       <div class="user-name">
-        <span class="name">{{ user.firstName + " " + user.lastName }}</span>
-        <span>{{ user.userName }}</span>
+        <span class="name">{{
+          activeUser.firstName + " " + activeUser.lastName
+        }}</span>
+        <span>{{ activeUser.userName }}</span>
       </div>
       <router-link :to="this.$route.path + '/password'">
         <span class="options"><i class="fas fa-lg fa-cog"></i></span>
@@ -92,20 +94,21 @@ export default {
     };
   },
   methods: {
-    ...mapActions([
-      "fetchUser",
-    ]),
+    ...mapActions(["fetchUser"]),
   },
   computed: {
     ...mapGetters([
-      "user",
-      "userInterests",
-      "userAchievements",
+      "user", 
+      "userInterests", 
+      "userAchievements", 
       "userId"
     ]),
+    activeUser: function () {
+      return this.user(this.userId);
+    },
   },
   async created() {
-    await this.fetchUser(this.userId)
+    await this.fetchUser(this.userId);
   },
 };
 </script>
