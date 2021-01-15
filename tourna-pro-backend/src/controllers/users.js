@@ -3,6 +3,10 @@ const { generateHash } = require('../services/hashing-service')
 const { ok, created, badRequest, notFound } = require('../utils/action-results')
 const { setImage, imageUrl } = require('./image-utils')
 
+const mongoose = require('mongoose');
+
+const defaultPageSize = 30
+
 function userDto(user, person, req) {
   return {
     id: user._id,
@@ -57,6 +61,34 @@ exports.registerUser = async function (req) {
   })
   let user = await userModel.save()
   return created(userDto(user, person, req))
+}
+
+exports.searchUsers = async function (req) {
+  let num = Number(req.query.pageNum || 0)
+  let size = Number(req.query.pageSize || defaultPageSize)
+  let filter = {}
+  if (req.query.username) {
+    filter.username = { $regex: req.query.username, $options: 'i' }
+  }
+  if (req.query.userIds) {
+    filter._id = { $in: JSON.parse(req.query.userIds).map(x => mongoose.Types.ObjectId(x)) }
+  }
+  let users = await User.aggregate([
+    { $match: filter },
+    { $sort: { username: 1 } },
+    { $skip: num * size },
+    { $limit: size },
+    {
+      $lookup: {
+        from: 'People',
+        localField: 'person',
+        foreignField: '_id',
+        as: 'personObject'
+      }
+    }
+  ])
+
+  return ok(users.map(x => userDto(x, x.personObject[0], req)))
 }
 
 exports.getUser = async function (req) {
