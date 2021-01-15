@@ -1,4 +1,5 @@
 import axios from 'axios';
+import router from '../../router';
 import store from '../../store'
 
 const client = axios.create({
@@ -8,13 +9,16 @@ const client = axios.create({
 client.interceptors.response.use(
   (res) => res,
   (error) => {
+    if (error.response.status == 401) {
+      router.push({ name: "Login" })
+    }
     store.dispatch('setError', error.response.data.error || "C'è stato un errore con la tua richiesta al server.")
     return Promise.reject(error)
   }
 )
 
 client.interceptors.request.use((config) => {
-  if(store.getters.accessToken){
+  if (store.getters.accessToken) {
     config.headers.Authorization = `Bearer ${store.getters.accessToken}`;
   }
   return config;
