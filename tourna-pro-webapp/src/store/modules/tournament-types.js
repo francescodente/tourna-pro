@@ -1,14 +1,17 @@
+import dataAccess from '../../data-access'
+
 const state = {
   tournamentTypes: []
 }
 
 const getters = {
-  getTournamentTypes: state => state.tournamentTypes
+  tournamentTypes: state => state.tournamentTypes,
+  tournamentType: state => type => state.tournamentTypes.find(x => x.id == type)
 }
 
 const actions = {
   async fetchTournamentTypes({commit}) {
-    let types = [] //TODO replace with endpoint
+    let types = await dataAccess.tournamentTypes.getAll()
     commit('setTournamentTypes', types)
   }
 }

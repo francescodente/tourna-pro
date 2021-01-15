@@ -23,7 +23,7 @@
         <div class="total">
           <text-icon
             :text="`${tournament.currentParticipants}/${tournament.maxParticipants} ${
-              tournament.type == 'team' ? 'Squadre' : 'Partecipanti'
+              tournament.mode == 'TEAM' ? 'Squadre' : 'Partecipanti'
             }`"
             icon="fas fa-users"
             :iconColor="iconColor(tournament.status)"

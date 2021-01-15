@@ -20,7 +20,6 @@ const actions = {
     commit('setAchievements', user.data.id, achievements.data)
     let interests = await dataAccess.interests.getAll(userId)
     commit('setInterests', user.data.id, interests.data)
-    console.log(state.users[user.data.id])  
   },
   async updateUser({ commit }, userBody, allInterests) {
     let user = await dataAccess.users.updateUser(userBody.id, allInterests)

@@ -1,14 +1,17 @@
+import dataAccess from '../../data-access'
+
 const state = {
   activities: []
 }
 
 const getters = {
-  getActivities: state => state.activities
+  activities: state => state.activities,
+  activity: state => id => state.activities.find(x => x.id == id) || undefined
 }
 
 const actions = {
   async fetchActivities({commit}) {
-    let activities = [] //TODO replace with endpoint
+    let activities = await dataAccess.activities.getAll()
     commit('setActivities', activities)
   }
 }

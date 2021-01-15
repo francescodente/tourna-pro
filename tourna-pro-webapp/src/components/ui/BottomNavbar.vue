@@ -1,7 +1,17 @@
 <template>
   <div class="navbar-container">
-    <div class="button-container" v-for="(button, index) in buttons" :key="button.linkTo">
-      <router-link :class="{'navbar-button': true, 'navbar-button-main': index == Math.floor(buttons.length / 2) }" :to="button.linkTo">
+    <div
+      class="button-container"
+      v-for="(button, index) in buttons"
+      :key="button.linkTo"
+    >
+      <router-link
+        :class="{
+          'navbar-button': true,
+          'navbar-button-main': index == Math.floor(buttons.length / 2),
+        }"
+        :to="button.linkTo"
+      >
         <i :class="button.icon"></i>
       </router-link>
     </div>
@@ -10,38 +20,38 @@
 
 <script>
 export default {
-  data() {
-    return {
-      buttons: [
+  computed: {
+    buttons: function () {
+      return [
         {
-          icon: 'far fa-handshake',
-          linkTo: '/teams'
+          icon: "far fa-handshake",
+          linkTo: "/teams",
         },
         {
-          icon: 'far fa-compass',
-          linkTo: '/explore'
+          icon: "far fa-compass",
+          linkTo: "/explore",
         },
         {
-          icon: 'fas fa-trophy',
-          linkTo: '/tournaments'
+          icon: "fas fa-trophy",
+          linkTo: "/tournaments",
         },
         {
-          icon: 'far fa-bell',
-          linkTo: '/notifications'
+          icon: "far fa-bell",
+          linkTo: "/notifications",
         },
         {
-          icon: 'far fa-user',
-          linkTo: '/user/1'
-        }
-      ]
-    }
+          icon: "far fa-user",
+          linkTo: `/user/${this.$store.getters.userId}`,
+        },
+      ];
+    },
   },
   methods: {
     navigateTo(route) {
-      this.$router.push(route)
-    }
-  }
-}
+      this.$router.push(route);
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>

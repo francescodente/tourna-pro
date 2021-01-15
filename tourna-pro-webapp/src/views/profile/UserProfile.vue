@@ -1,5 +1,5 @@
 <template>
-  <div class="main">
+  <div v-if="activeUser" class="main">
     <div class="top-row">
       <avatar size="4em" />
       <div class="user-name">
@@ -25,26 +25,26 @@
     <div class="info">
       <text-icon
         icon="fas fa-birthday-cake"
-        :text="String(user.birthDate)"
+        :text="activeUser.birthDate | dateFormat"
         :iconColor="style.colorPrimary"
       />
       <text-icon
         icon="fas fa-phone-alt"
-        :text="String(user.telephone)"
+        :text="activeUser.telephone"
         :iconColor="style.colorPrimary"
       />
       <text-icon
         icon="fas fa-mars"
-        :text="String(user.gender)"
+        :text="activeUser.gender"
         :iconColor="style.colorPrimary"
       />
     </div>
-
+    <!-- Comment 
     <div class="bio">
       <div class="about-me">Su di me:</div>
       <div>{{ user.bio }}</div>
     </div>
-
+    -->
     <div class="interests">
       <section-header class="header" :color="style.colorPrimaryLightest">
         <span>Interessi</span>
@@ -97,11 +97,13 @@ export default {
     ...mapActions(["fetchUser"]),
   },
   computed: {
+    userId: function(){
+      return this.$route.params.id
+    },
     ...mapGetters([
       "user", 
       "userInterests", 
-      "userAchievements", 
-      "userId"
+      "userAchievements"
     ]),
     activeUser: function () {
       return this.user(this.userId);

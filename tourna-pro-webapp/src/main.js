@@ -15,6 +15,8 @@ Vue.config.productionTip = false
 setupFilters(Vue)
 
 store.dispatch('initStore');
+store.dispatch('fetchActivities');
+store.dispatch('fetchTournamentTypes')
 
 new Vue({
   router,
