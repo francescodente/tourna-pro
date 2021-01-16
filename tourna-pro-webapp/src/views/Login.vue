@@ -47,8 +47,8 @@ export default {
           this.username,
           this.password
         );
-        localStorage.setItem("userId", res.data.userId);
-        localStorage.setItem("accessToken", res.data.accessToken);
+        localStorage.setItem("userId", res.userId);
+        localStorage.setItem("accessToken", res.accessToken);
         this.$store.dispatch("initStore");
         this.$router.push({name: 'MyTournaments'});
       } catch (error) {}

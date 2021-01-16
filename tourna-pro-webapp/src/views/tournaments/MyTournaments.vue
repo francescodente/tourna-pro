@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
+import dataAccess from '@/data-access'
 import CreateNewTournamentTab from "../../components/tournaments/my-tournaments/CreateNewTournamentTab.vue";
 import ManagedByMeTab from "../../components/tournaments/my-tournaments/ManagedByMeTab.vue";
 import SubscribedToTab from "../../components/tournaments/my-tournaments/SubscribedToTab.vue";
@@ -35,20 +35,19 @@ export default {
   data: function () {
     return {
       style,
+      subscribedTournaments: [],
+      managedTournaments: [],
+      personalRequests: []
     };
   },
   methods: {
-    ...mapActions([
-      "fetchTournaments",
-      "fetchPersonalSubscriptionRequests",
-    ]),
-  },
-  computed: {
-    ...mapGetters([
-      "personalRequests",
-      "subscribedTournaments",
-      "managedTournaments",
-    ]),
+    async fetchTournaments() {
+      this.subscribedTournaments = await dataAccess.tournaments.getAll({ subscribed: true })
+      this.managedTournaments = await dataAccess.tournaments.getAll({ owned: true })
+    },
+    async fetchPersonalSubscriptionRequests() {
+
+    }
   },
   async created() {
     await this.fetchTournaments()

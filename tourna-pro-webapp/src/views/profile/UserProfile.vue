@@ -1,12 +1,12 @@
 <template>
-  <div v-if="activeUser" class="main">
+  <div v-if="user" class="main">
     <div class="top-row">
       <avatar size="4em" />
       <div class="user-name">
         <span class="name">{{
-          activeUser.firstName + " " + activeUser.lastName
+          user.firstName + " " + user.lastName
         }}</span>
-        <span>{{ activeUser.userName }}</span>
+        <span>{{ user.userName }}</span>
       </div>
       <router-link :to="this.$route.path + '/password'">
         <span class="options"><i class="fas fa-lg fa-cog"></i></span>
@@ -25,17 +25,17 @@
     <div class="info">
       <text-icon
         icon="fas fa-birthday-cake"
-        :text="activeUser.birthDate | dateFormat"
+        :text="user.birthDate | dateFormat"
         :iconColor="style.colorPrimary"
       />
       <text-icon
         icon="fas fa-phone-alt"
-        :text="activeUser.telephone"
+        :text="user.telephone"
         :iconColor="style.colorPrimary"
       />
       <text-icon
         icon="fas fa-mars"
-        :text="activeUser.gender"
+        :text="user.gender"
         :iconColor="style.colorPrimary"
       />
     </div>
@@ -52,7 +52,7 @@
           <i class="fas fa-ellipsis-h"></i>
         </router-link>
       </section-header>
-      <div v-for="i in user.interests" :key="i" class="badge badge-pill">
+      <div v-for="i in interests" :key="i" class="badge badge-pill">
         {{ "#" + i }}
       </div>
     </div>
@@ -64,7 +64,7 @@
       </section-header>
       <div class="achievements">
         <achievement
-          v-for="a in user.achievements"
+          v-for="a in achievements"
           :key="a.id"
           :achievement="a"
         />
@@ -74,7 +74,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
+import dataAccess from '@/data-access'
 import Achievement from "../../components/profile/Achievement.vue";
 import Avatar from "../../components/profile/Avatar.vue";
 import SectionHeader from "../../components/profile/SectionHeader.vue";
@@ -91,26 +91,25 @@ export default {
   data: function () {
     return {
       style,
+      user: null,
+      achievements: [],
+      interests: []
     };
   },
   methods: {
-    ...mapActions(["fetchUser"]),
+    async fetchUser() {
+      this.user = await dataAccess.users.getUser(this.userId)
+      this.achievements = await dataAccess.achievements.getByUser(this.userId)
+      this.interests = await dataAccess.interests.getAll(this.userId)
+    }
   },
   computed: {
-    userId: function(){
+    userId(){
       return this.$route.params.id
-    },
-    ...mapGetters([
-      "user", 
-      "userInterests", 
-      "userAchievements"
-    ]),
-    activeUser: function () {
-      return this.user(this.userId);
-    },
+    }
   },
   async created() {
-    await this.fetchUser(this.userId);
+    await this.fetchUser();
   },
 };
 </script>

@@ -3,10 +3,8 @@
     <h1>Nuova Squadra</h1>
 
     <team-editor
-      :name.sync="name"
-      :members="members"
-      @member-added="addMember"
-      @member-deleted="deleteMember"
+      initialName=""
+      :initialMembers="[]"
       @submit="onSubmit" />
   </div>
 </template>
@@ -24,27 +22,16 @@ export default {
   props: {
     icon: String,
   },
-  data() {
-    return {
-      name: '',
-      members: []
-    }
-  },
   methods: {
-    addMember(member) {
-      console.log(member)
-      this.members.push(member)
-    },
-    deleteMember(id) {
-      this.members = this.members.filter(x => x.id != id)
-    },
-    onSubmit() {
-      dataAccess
+    async onSubmit(name, members) {
+      let team = await dataAccess.teams.create({ name })
+      for (let m of members) {
+        await dataAccess.teamMembers.addMember(team.id, {
+          userId: m.id
+        })
+      }
+      this.$router.push({ name: 'TeamDetails', params: { id: team.id }})
     }
-  },
-  async created() {
-    await this.$store.dispatch('fetchUser', this.$store.getters.userId)
-    this.members.push(this.$store.getters.user(this.$store.getters.userId))
   }
 };
 </script>

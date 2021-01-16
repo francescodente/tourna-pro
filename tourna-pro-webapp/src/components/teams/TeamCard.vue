@@ -1,8 +1,9 @@
 <template>
   <router-link class="team-card" tag="div" :to="`/teams/${team.id}`">
-    <image-fit :src="team.image" :alt="`${team.name}'s team image`" />
+    <image-fit v-if="team.imageUrl" :src="team.imageUrl" :alt="`${team.name}'s team image`" />
+    <image-fit v-else :src="require('@/assets/logo.png')" alt="This team has no image" />
     <overlay-bar class="team-overlay" :title="team.name">
-      <text-icon icon="fas fa-user-friends" :text="String(team.members)" />
+      <text-icon icon="fas fa-user-friends" :text="String(team.membersCount)" />
     </overlay-bar>
   </router-link>
 </template>

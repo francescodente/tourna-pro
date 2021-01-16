@@ -11,20 +11,16 @@
 <script>
 import TeamCard from '../../components/teams/TeamCard.vue'
 import FloatingButton from '../../components/ui/FloatingButton.vue'
-import { mapGetters, mapActions } from 'vuex'
+import dataAccess from '@/data-access'
 export default {
   components: { TeamCard, FloatingButton },
-  methods: {
-    teamClicked() {
-      
-    },
-    ...mapActions(['fetchTeams'])
+  data() {
+    return {
+      teams: []
+    }
   },
-  computed: {
-    ...mapGetters(['teams'])
-  },
-  created() {
-    this.fetchTeams()
+  async created() {
+    this.teams = await dataAccess.teams.getAll()
   }
 }
 </script>

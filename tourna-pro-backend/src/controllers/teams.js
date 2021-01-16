@@ -6,14 +6,14 @@ function teamDto(team, req) {
   return {
     id: team._id,
     name: team.name,
-    membersCount: team.members.length,
     creatorId: team.creatorId,
+    members: team.members,
     imageUrl: imageUrl(team.imageId, req)
   }
 }
 
 function notFoundMessage(id){
-  return `Could not found team with id ${id}`
+  return `Could not find team with id ${id}`
 }
 
 
@@ -25,6 +25,14 @@ exports.createTeam = async function (req) {
   })
   let team = await teamModel.save()
   return created(teamDto(team, req))
+}
+
+exports.getTeam = async function (req) {
+  let team = await Team.findById(req.params.id)
+  if (!team) {
+    return notFound(notFoundMessage(req.params.id))
+  }
+  return ok(teamDto(team, req))
 }
 
 exports.getAllTeams = async function (req) {

@@ -1,24 +1,24 @@
 <template>
-  <div v-if="activeTournament">
+  <div v-if="tournament">
     <div class="container">
-      <headline> {{ activeTournament.name }} </headline>
+      <headline> {{ tournament.name }} </headline>
       <div class="text">
-        {{ activeTournament.description }}
+        {{ tournament.description }}
       </div>
     </div>
     <div class="tab-container">
       <tab-view>
         <tab title="Dettagli" :selected="true">
-          <details-tab :tournament="activeTournament"/>
+          <details-tab :tournament="tournament"/>
         </tab>
-        <tab v-if="activeTournament.active == true" title="Tabellone">
+        <tab v-if="tournament.active == true" title="Tabellone">
           <score-board-tab />
         </tab>
-        <tab v-if="activeTournament.subscribed == true" title="Attività">
+        <tab v-if="tournament.subscribed == true" title="Attività">
           <activity-tab :logs="logs" />
         </tab>
         <tab title="Azioni">
-          <action-tab :owner="activeTournament.owned" :subscribed="activeTournament.subscribed" :active="activeTournament.active" />
+          <action-tab :owner="tournament.owned" :subscribed="tournament.subscribed" :active="tournament.active" />
         </tab>
       </tab-view>
     </div>
@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex';
+import dataAccess from '@/data-access'
 import ActionTab from "../../components/tournaments/tournament-details/ActionTab.vue";
 import ActivityTab from "../../components/tournaments/tournament-details/ActivityTab.vue";
 import DetailsTab from "../../components/tournaments/tournament-details/DetailsTab.vue";
@@ -45,21 +45,20 @@ export default {
     ScoreBoardTab,
     ActivityTab,
   },
-  computed: {
-    ...mapGetters(['tournament', 'userId', 'tournamentLogs']),
-    logs: function(){
-      return this.tournamentLogs(this.$route.params.id)
-    },
-    activeTournament: function(){
-      return this.tournament(this.$route.params.id)
+  data() {
+    return {
+      tournament: null,
+      logs: []
     }
   },
   methods: {
-    ...mapActions(['fetchTournament', 'fetchTournamentLogs'])
+    async fetchTournament() {
+      this.tournament = await dataAccess.tournaments.get(this.$route.params.id)
+      this.logs = [] // TODO: replace with backend call
+    }
   },
   created: async function () {
-    await this.fetchTournament(this.$route.params.id)
-    await this.fetchTournamentLogs(this.$route.params.id)
+    await this.fetchTournament()
   }
 };
 </script>

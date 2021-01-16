@@ -2,36 +2,36 @@
   <div class="main">
     <h2 class="headline">Modifica i tuoi interessi</h2>
     <activity-info v-model="selectedActivities" :value="selectedActivities" />
+
+    <floating-button icon="fas fa-check" @click="updateUser" />
   </div>
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
+import dataAccess from '@/data-access'
 import ActivityInfo from "../../components/registration/ActivityInfo.vue";
 import Headline from "../../components/tournaments/tournament-details/Headline.vue";
+import FloatingButton from '../../components/ui/FloatingButton.vue';
 
 export default {
-  components: { ActivityInfo, Headline },
+  components: { ActivityInfo, Headline, FloatingButton },
   data() {
     return {
-      selectedActivities: this.userInterests,
+      selectedActivities: []
     };
   },
   methods: {
-    ...mapActions([
-      "updateUser"
-    ]),
+    async updateUser() {
+      await dataAccess.interests.update(this.userId, this.selectedActivities)
+    }
   },
   computed: {
-    ...mapGetters([
-      "user",
-      "userInterests",
-      "userAchievements",
-      "userId"
-    ]),
+    userId() {
+      return this.$route.params.id
+    }
   },
   async created() {
-    await this.updateUser(this.userId,this.userInterests);
+      this.selectedActivities = await dataAccess.interests.getAll(this.userId)
   },
 };
 </script>

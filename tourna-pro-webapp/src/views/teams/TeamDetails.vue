@@ -1,13 +1,13 @@
 <template>
-  <div>
+  <div v-if="team">
     <div class="image-container">
-      <image-fit :src="team.image" :alt="`${team.name} image`" />
+      <image-fit :src="team.imageUrl || require('@/assets/logo.png')" :alt="`${team.name}'s team image`" />
       <overlay-bar :title="team.name">
         <router-link
           class="link"
           router-link
           tag="span"
-          :to="this.$route.path + '/edit'"
+          :to="{ name: 'TeamEdit', params: { id: teamId }}"
         >
           <i class="fas fa-cog"></i>
         </router-link>
@@ -16,12 +16,12 @@
 
     <tab-view>
       <tab title="Membri" :selected="true" :color="style.colorComplementary">
-        <team-member-list :members="members" />
+        <team-member-list :members="members" :canDelete="false" />
       </tab>
       <tab title="Attività" :color="style.colorComplementary">
-        <div v-for="a in activities" :key="a.id">
-          <date-text class="activity" :date="a.date" :dateColor="style.colorComplementary">
-            {{ a.text }}
+        <div v-for="log in logs" :key="log.id">
+          <date-text class="activity" :date="log.date" :dateColor="style.colorComplementary">
+            {{ log.text }}
           </date-text>
         </div>
       </tab>
@@ -30,6 +30,7 @@
 </template>
 
 <script>
+import dataAccess from '@/data-access'
 import TeamMemberList from "../../components/teams/TeamMemberList.vue";
 import DateText from "../../components/ui/DateText.vue";
 import ImageFit from "../../components/ui/ImageFit.vue";
@@ -44,39 +45,22 @@ export default {
   data() {
     return {
       style,
-      team: {
-        id: 1,
-        name: "Inazuma Eleven",
-        image:
-          "https://cdn.myanimelist.net/s/common/uploaded_files/1442407024-2d1f72c28647fc4a278cdd6fd0b14eb1.jpeg",
-        members: 11,
-      },
-      members: [
-        {
-          id: 1,
-          firstName: "Luigi",
-          lastName: "Verdi",
-        },
-        {
-          id: 2,
-          firstName: "Mario",
-          lastName: "Rossi",
-        },
-      ],
-      activities: [
-        {
-          id: 1,
-          date: "20/01/2020",
-          text: "La squadra ha vinto il torneo"
-        },
-        {
-          id: 2,
-          date: "18/01/2020",
-          text: "La squadra si è iscritta al torneo"
-        }
-      ]
-    };
+      team: null,
+      members: [],
+      logs: []
+    }
   },
+  computed: {
+    teamId() {
+      return this.$route.params.id
+    }
+  },
+  async created() {
+    this.team = await dataAccess.teams.get(this.teamId)
+    this.members = await dataAccess.users.search({
+      userIds: JSON.stringify(this.team.members)
+    })
+  }
 };
 </script>
 

@@ -8,6 +8,7 @@ module.exports = mapControllerRoutes('teams', function (app, controller) {
         .get(authorize, action(controller.getAllTeams))
 
     app.route('/teams/:id')
+        .get(authorize, action(controller.getTeam))
         .put(authorize, action(controller.updateTeam))
         .delete(authorize, action(controller.deleteTeam))
 

@@ -1,25 +1,19 @@
 <template>
   <div class="main">
 
-    <avatar size="5em" />
-    <div class="nickname">{{ user.username }}</div>
+    <div v-if="user">
+      <avatar size="5em" />
+      <div class="nickname">{{ user.username }}</div>
 
-    <div class="inputs">
-      <user-info :value="user"/>
-      <simple-input
-        label="Bio"
-        type="text"
-        v-model="user.bio"
-        identifier="bio"
-        @input="$emit('input', currentValue)"
-      />
+      <div class="inputs">
+        <user-info :value="user"/>
+      </div>
     </div>
-
   </div>
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
+import dataAccess from '@/data-access'
 import Avatar from "../../components/profile/Avatar.vue";
 import UserInfo from "../../components/registration/UserInfo.vue";
 import SimpleInput from "../../components/ui/SimpleInput.vue";
@@ -28,23 +22,21 @@ export default {
   components: { Avatar, UserInfo, SimpleInput },
   data: function () {
     return {
+      user: null
     };
   },
   methods: {
-    ...mapActions([
-      "updateUser"
-    ]),
+    async fetchUser() {
+      this.user = await dataAccess.users.getUser(this.userId)
+    }
   },
   computed: {
-    ...mapGetters([
-      "user",
-      "userInterests",
-      "userAchievements",
-      "userId"
-    ]),
+    userId() {
+      return this.$route.params.id
+    }
   },
   async created() {
-    await this.updateUser(this.userId,this.userInterests)
+    await this.fetchUser()
   },
 };
 </script>

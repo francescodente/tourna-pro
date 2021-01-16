@@ -1,7 +1,7 @@
 <template>
   <simple-form submitMessage="Cambia Password" @submit="onSubmit" class="form">
     <simple-input
-      label="Password"
+      label="Password Attuale"
       :type="showPassword ? 'text' : 'password'"
       v-model="password"
       identifier="password"
@@ -30,7 +30,6 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
 import SimpleCheckbox from "../../components/ui/SimpleCheckbox.vue";
 import SimpleForm from "../../components/ui/SimpleForm.vue";
 import SimpleInput from "../../components/ui/SimpleInput.vue";
@@ -47,24 +46,11 @@ export default {
     };
   },
   methods: {
-    onSubmit() {
-      console.log(`${user.username} ${user.password}`);
+    async onSubmit() {
+      // TODO: add checks for new/confirm password equality
+      await dataAccess.authentication.changePassword(this.$route.params.id, this.password, this.newPassword)
     },
-    ...mapActions([
-      "fetchUser"
-    ]),
-  },
-  computed: {
-    ...mapGetters([
-      "user",
-      "userInterests",
-      "userAchievements",
-      "userId"
-    ]),
-  },
-  async created() {
-    await this.fetchUser(this.userId,this.userInterests)
-  },
+  }
 };
 </script>
 

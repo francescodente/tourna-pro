@@ -5,8 +5,7 @@
         type="text"
         placeholder="Nome della squadra"
         autocomplete="off"
-        :value="currentName"
-        @input="$emit('update:name', currentName)"/>
+        v-model="currentName"/>
     </div>
 
     <h2>Aggiungi membri</h2>
@@ -16,10 +15,10 @@
 
     <div class="members">
       <h2>Membri</h2>
-      <team-member-list :members="members" :canDelete="true" :canSelect="false" @member-deleted="deleteMember"/>
+      <team-member-list :members="currentMembers" :canDelete="true" :canSelect="false" @member-deleted="deleteMember"/>
     </div>
 
-    <floating-button v-if="disabled == false" icon="fas fa-check" @click="$emit('submit')" />
+    <floating-button v-if="disabled == false" icon="fas fa-check" @click="onSubmit" />
   </div>
 </template>
 
@@ -33,25 +32,28 @@ import UserAutoComplete from '../ui/UserAutoComplete.vue';
 export default {
   components: {TeamMemberList, FloatingButton, UserAutoComplete},
   props: {
-    name: String,
-    members: Array,
+    initialName: String,
+    initialMembers: Array,
     disabled: Boolean
   },
   data() {
     return {
-      currentName: this.name,
-      memberToAdd: ''
+      currentName: this.initialName,
+      currentMembers: [...this.initialMembers]
     }
   },
   methods: {
     addMember(member) {
-      if (this.members.map(x => x.id).includes(member.id)) {
+      if (this.currentMembers.map(x => x.id).includes(member.id)) {
         return
       }
-      this.$emit('member-added', member)
+      this.currentMembers.push(member)
     },
     deleteMember(id) {
-      this.$emit('member-deleted', id)
+      this.currentMembers = this.currentMembers.filter(x => x.id != id)
+    },
+    onSubmit() {
+      this.$emit('submit', this.currentName, this.currentMembers)
     }
   }
 };
