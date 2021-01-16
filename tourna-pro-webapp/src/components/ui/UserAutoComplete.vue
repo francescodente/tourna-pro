@@ -7,10 +7,17 @@
       v-model="query"
       @focus="setVisible()"
       @blur="setHidden"
-      @input="updateResults()"/>
-    <div class="pop-over" v-show="visible && results.length > 0">
+      @input="updateResults()"
+    />
+    
+    <div
+      class="pop-over"
+      v-show="hovering || visible && results.length > 0"
+      @mouseenter="hovering = true"
+      @mouseleave="hovering = false"
+    >
       <div v-for="result in results" :key="result.id">
-        <team-member :canDelete="false" :member="result" />
+        <team-member :canDelete="false" :canSelect="true" :member="result" @selected="onSelection(result)" />
       </div>
     </div>
   </div>
@@ -25,6 +32,7 @@ export default {
   data() {
     return {
       visible: false,
+      hovering: false,
       query: '',
       results: []
     }
@@ -47,6 +55,12 @@ export default {
       this.results = await dataAccess.users.search({
         username: `^${escaped}`
       })
+    },
+    onSelection(result) {
+      this.query = ''
+      this.results = []
+      this.hovering = false
+      this.$emit('selected', result)
     }
   }
 }
@@ -65,6 +79,7 @@ export default {
   max-height: 40vh;
   background-color: white;
   border: 1px solid lightgray;
+  z-index: 100;
 }
 
 input {

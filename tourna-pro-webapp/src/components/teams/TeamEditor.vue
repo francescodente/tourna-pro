@@ -11,12 +11,12 @@
 
     <h2>Aggiungi membri</h2>
     <div class="add-members input-container">
-      <user-auto-complete />
+      <user-auto-complete @selected="addMember"/>
     </div>
 
     <div class="members">
       <h2>Membri</h2>
-      <team-member-list :members="members" :canDelete="true" @member-deleted="deleteMember"/>
+      <team-member-list :members="members" :canDelete="true" :canSelect="false" @member-deleted="deleteMember"/>
     </div>
 
     <floating-button v-if="disabled == false" icon="fas fa-check" @click="$emit('submit')" />
@@ -39,15 +39,16 @@ export default {
   },
   data() {
     return {
-      memberSearch: '',
       currentName: this.name,
       memberToAdd: ''
     }
   },
   methods: {
-    addMember() {
-      this.$emit('member-added', null)
-      this.memberSearch = ''
+    addMember(member) {
+      if (this.members.map(x => x.id).includes(member.id)) {
+        return
+      }
+      this.$emit('member-added', member)
     },
     deleteMember(id) {
       this.$emit('member-deleted', id)

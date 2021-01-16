@@ -5,6 +5,7 @@
       :key="member.id"
       :member="member"
       :canDelete="canDelete"
+      :canSelect="canSelect"
       @deleted="$emit('member-deleted', member.id)"
     />
   </div>
@@ -16,7 +17,14 @@ export default {
   components: { TeamMember },
   props: {
     members: Array,
-    canDelete: Boolean
+    canDelete: {
+      type: Boolean,
+      default: true,
+    },
+    canSelect: {
+      type: Boolean,
+      default: true
+    }
   }
 }
 </script>

@@ -1,10 +1,10 @@
 <template>
-  <div class="team-member">
+  <div :class="classes" @click="onSelect">
     <avatar />
     <div class="member-username">
       {{ member.username }} <span class="real-name">({{ member.firstName }} {{ member.lastName }})</span>
     </div>
-    <a v-if="canDelete && member.id != $store.getters.userId" @click="$emit('deleted', $event)" class="red">
+    <a v-if="canDelete && member.id != $store.getters.userId" @click="$emit('deleted', $event)" class="delete-button">
       <i class="fas fa-times"></i>
     </a>
   </div>
@@ -16,7 +16,30 @@ export default {
   components: { Avatar },
   props: {
     member: Object,
-    canDelete: Boolean
+    canDelete: {
+      type: Boolean,
+      default: true
+    },
+    canSelect: {
+      type: Boolean,
+      default: true
+    }
+  },
+  methods: {
+    onSelect() {
+      if (!this.canSelect) {
+        return
+      }
+      this.$emit('selected')
+    }
+  },
+  computed: {
+    classes() {
+      return {
+        'team-member': true,
+        'clickable': this.canSelect
+      }
+    }
   }
 }
 </script>
@@ -27,10 +50,15 @@ export default {
   flex-direction: row;
   justify-content: start;
   align-items: center;
-  padding: 15px;
+  padding: 18px;
   font-weight: bold;
   //border-bottom: 1px solid $color-not-focus-text;
   box-shadow: 0px 3px 7px -2px rgba(0,0,0,0.2);
+
+  &.clickable:hover {
+    background-color: #eeeeee;
+    cursor: pointer;
+  }
 
   .member-username {
     flex: 1;
@@ -42,8 +70,12 @@ export default {
     }
   }
 
-  .red{
+  .delete-button {
     color: $color-secondary2;
+    font-size: 1.3rem;
+    &:hover {
+      cursor: pointer;
+    }
   }
 }
 </style>
