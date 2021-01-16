@@ -1,19 +1,17 @@
 <template>
   <div>
-    <div class="teamname">
-      <input type="text" name="name" id="name" :value="currentName" @input="$emit('update:name', currentName)"/>
-      <div class="icon">
-        <i class="fa fa-edit fa-lg"></i>
-      </div>
+    <div class="input-container">
+      <input
+        type="text"
+        placeholder="Nome della squadra"
+        autocomplete="off"
+        :value="currentName"
+        @input="$emit('update:name', currentName)"/>
     </div>
-    <div class="add">
-      <h2>Aggiungi membro</h2>
-      <div class="adduser">
-        <input type="text" name="user" id="user" v-model="memberToAdd"/>
-        <button @click="addMember">
-          <i class="fa fa-plus" />
-        </button>
-      </div>
+
+    <h2>Aggiungi membri</h2>
+    <div class="add-members input-container">
+      <user-auto-complete />
     </div>
 
     <div class="members">
@@ -21,7 +19,7 @@
       <team-member-list :members="members" :canDelete="true" @member-deleted="deleteMember"/>
     </div>
 
-    <floating-button icon="fas fa-check" @click="$emit('submit')" />
+    <floating-button v-if="disabled == false" icon="fas fa-check" @click="$emit('submit')" />
   </div>
 </template>
 
@@ -30,31 +28,40 @@ import { mapGetters } from 'vuex';
 import TeamMemberList from '../../components/teams/TeamMemberList.vue';
 import FloatingButton from '../../components/ui/FloatingButton.vue';
 import style from "../../style/export.scss";
+import UserAutoComplete from '../ui/UserAutoComplete.vue';
 
 export default {
-  components: {TeamMemberList, FloatingButton},
+  components: {TeamMemberList, FloatingButton, UserAutoComplete},
   props: {
     name: String,
-    members: Array
+    members: Array,
+    disabled: Boolean
   },
   data() {
     return {
+      memberSearch: '',
       currentName: this.name,
       memberToAdd: ''
     }
   },
   methods: {
-    async addMember() {
-      this.$emit('added-member')
+    addMember() {
+      this.$emit('member-added', null)
+      this.memberSearch = ''
     },
     deleteMember(id) {
-      this.$emit('removed-member', id)
+      this.$emit('member-deleted', id)
     }
   }
 };
 </script>
 
 <style lang="scss" scoped>
+
+.input-container {
+  width: 100%;
+  padding: 10px;
+}
 
 h2 {
   margin: 0px;
@@ -66,44 +73,13 @@ h2 {
 
 input {
   border: none;
-  flex-grow: 1;
+  width: 100%;
   border-bottom: 1px solid black;
-  margin-left: 5%;
-  margin-right: 5%;
   background-color: transparent;
 }
 
-.teamname {
-  width: 100%;
-  margin-top: 10px;
-  color: $color-complementary;
-  display: flex;
-  align-content: left;
-  margin-bottom:10px;
-  .icon {
-    width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    margin-left: 10px;
-    padding-left: 3px;
-  }
-}
-
-.adduser {
-  display: flex;
-  padding: 10px 0px;
+.add-members {
   background-color: $color-complementary-background;
-  button {
-    width: 40px;
-    height: 40px;
-    margin-right: 10px;
-    border-radius: 50%;
-    background-color: $color-complementary;
-    color: white;
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
-    border: 4px solid $color-complementary-light;
-  }
 }
 
 </style>

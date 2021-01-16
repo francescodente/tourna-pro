@@ -1,12 +1,18 @@
 import TeamsHome from '../views/teams/TeamsHome.vue'
 import TeamDetails from '../views/teams/TeamDetails.vue'
 import TeamEdit from '../views/teams/TeamEdit.vue'
+import TeamCreate from '../views/teams/TeamCreate.vue'
 
 export default [
   {
-    path: 'teams',
-    name: 'Teams',
-    component: TeamsHome
+    path: 'create-team',
+    name: 'TeamCreate',
+    component: TeamCreate
+  },
+  {
+    path: 'teams/:id/edit',
+    name: 'TeamEdit',
+    component: TeamEdit
   },
   {
     path: 'teams/:id',
@@ -14,13 +20,8 @@ export default [
     component: TeamDetails
   },
   {
-    path: 'teams/create',
-    name: 'TeamCreate',
-    component: TeamEdit
-  },
-  {
-    path: 'teams/:id/edit',
-    name: 'TeamEdit',
-    component: TeamEdit
+    path: 'teams',
+    name: 'Teams',
+    component: TeamsHome
   }
 ]

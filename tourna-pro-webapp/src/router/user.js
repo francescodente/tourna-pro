@@ -5,11 +5,6 @@ import UserInterest from '../views/profile/UserInterest.vue'
 
 export default [
   {
-    path: 'user/:id',
-    name: 'UserProfile',
-    component: UserProfile
-  },
-  {
     path: 'user/:id/edit',
     name: 'UserModifyProfile',
     component: UserModifyProfile
@@ -23,5 +18,10 @@ export default [
     path: 'user/:id/interests',
     name: 'UserInterest',
     component: UserInterest
+  },
+  {
+    path: 'user/:id',
+    name: 'UserProfile',
+    component: UserProfile
   }
 ]

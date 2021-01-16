@@ -1,10 +1,10 @@
 <template>
   <div class="team-member">
     <avatar />
-    <div class="member-name">
-      {{ member.firstName }} {{ member.lastName }}
+    <div class="member-username">
+      {{ member.username }} <span class="real-name">({{ member.firstName }} {{ member.lastName }})</span>
     </div>
-    <a v-if="canDelete" @click="$emit('deleted', $event)" class="red">
+    <a v-if="canDelete && member.id != $store.getters.userId" @click="$emit('deleted', $event)" class="red">
       <i class="fas fa-times"></i>
     </a>
   </div>
@@ -32,10 +32,14 @@ export default {
   //border-bottom: 1px solid $color-not-focus-text;
   box-shadow: 0px 3px 7px -2px rgba(0,0,0,0.2);
 
-  .member-name {
+  .member-username {
     flex: 1;
     text-align: left;
     margin-left: 10px;
+
+    .real-name {
+      color: gray;
+    }
   }
 
   .red{
