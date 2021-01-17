@@ -14,7 +14,7 @@
         <action-button actionName="Aggiungi partecipante non registrato" icon="fas fa-user-plus" />
         <action-button actionName="Gestisci iscrizioni" icon="fas fa-check-square" />
       </div>
-        <action-button actionName="Nomina amministratore" icon="fas fa-crown" />
+        <action-button actionName="Nomina amministratore" icon="fas fa-crown" @trigger="nameAdmin()" />
     </div>
     <div class="user-actions" v-if="!owner">
       <action-button actionName="Contatta l'organizzatore" icon="fas fa-phone-alt" />
@@ -41,6 +41,11 @@ export default {
     owner: Boolean,
     active: Boolean,
     subscribed: Boolean
+  },
+  methods: {
+    nameAdmin() {
+      this.$router.push({name: 'NameAdmin'})
+    }
   }
 };
 </script>
