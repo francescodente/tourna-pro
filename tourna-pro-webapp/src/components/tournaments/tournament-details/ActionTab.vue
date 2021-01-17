@@ -1,23 +1,20 @@
 <template>
   <div class="main">
-    <div class="base-actions">
-      <action-button actionName="Condividi" icon="fas fa-share-alt" />
-    </div>
     <div class="owner-actions" v-if="owner">
+      <action-button actionName="Nomina amministratore" icon="fas fa-crown" @trigger="nameAdmin()" />
       <div class="active-tournament" v-if="active">
         <action-button actionName="Inserisci risultati" icon="fas fa-clipboard-list" />
       </div>
       <div class="inactive-tournament" v-if="!active">
-        <action-button actionName="Elimina il torneo" icon="far fa-trash-alt" />
-        <action-button actionName="Modifica il torneo" icon="far fa-edit" />
-        <action-button actionName="Avvia il torneo" icon="fas fa-flag" />
         <action-button actionName="Aggiungi partecipante non registrato" icon="fas fa-user-plus" />
         <action-button actionName="Gestisci iscrizioni" icon="fas fa-check-square" />
+        <action-button actionName="Avvia il torneo" icon="fas fa-flag" />
+        <action-button actionName="Modifica il torneo" icon="far fa-edit" />
+        <action-button actionName="Elimina il torneo" icon="far fa-trash-alt" />
       </div>
-        <action-button actionName="Nomina amministratore" icon="fas fa-crown" @trigger="nameAdmin()" />
+        
     </div>
     <div class="user-actions" v-if="!owner">
-      <action-button actionName="Contatta l'organizzatore" icon="fas fa-phone-alt" />
       <div class="unsubscribed-actions" v-if="!subscribed && !active">
         <action-button actionName="Iscriviti al torneo" icon="far fa-check-square" />
       </div>
@@ -27,6 +24,10 @@
         <action-button actionName="Visualizza partite" icon="fas fa-clipboard-list" />
         </div>
       </div>
+      <action-button actionName="Contatta l'organizzatore" icon="fas fa-phone-alt" />
+    </div>
+        <div class="base-actions">
+      <action-button actionName="Condividi" icon="fas fa-share-alt" />
     </div>
   </div>
 </template>
@@ -54,10 +55,9 @@ export default {
 .main {
   padding-top: 10px;
   height: 100%;
+  display:flex;
+  flex-direction: column;
 }
 
-div{
-  display: flex;
-  flex-direction: column-reverse;
-}
+
 </style>

@@ -1,6 +1,6 @@
 <template>
   <div class="main">
-    <simple-form submitMessage="Crea">
+    <simple-form class="form-style" submitMessage="Crea">
       <simple-input label="Nome" type="text" v-model="name" identifier="name" />
       <simple-text-area label="Descrizione" v-model="description" />
       <simple-radio-group
@@ -166,9 +166,12 @@ export default {
 
 <style lang="scss" scoped>
 .main {
-  height: 90%;
+  height: 100%;
   width: 90%;
   margin-left: 5%;
-  margin-top: 15px;
+}
+
+.form-style {
+  padding: 20px 0px;
 }
 </style>

@@ -70,12 +70,11 @@ export default {
   height: 100%;
 
   .container {
-    flex-shrink: 0;
+    min-height: 30%;
   }
 
   .tab-container{
-    flex-grow: 1;
-    margin-top:20px;
+    max-height: 70%;
     color: $color-secondary2;
   }
 }
