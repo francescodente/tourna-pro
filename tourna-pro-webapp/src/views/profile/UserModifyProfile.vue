@@ -2,7 +2,7 @@
   <div class="main">
 
     <div v-if="user">
-      <avatar size="5em" />
+      <avatar size="5em" :src="user.imageUrl" />
       <div class="nickname">{{ user.username }}</div>
 
       <div class="inputs">

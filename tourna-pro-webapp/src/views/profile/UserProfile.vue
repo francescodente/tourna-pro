@@ -1,7 +1,7 @@
 <template>
   <div v-if="user" class="main">
     <div class="top-row">
-      <avatar size="4em" />
+      <avatar size="4em" :src="user.imageUrl"/>
       <div class="user-name">
         <span class="name">{{
           user.firstName + " " + user.lastName

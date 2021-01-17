@@ -1,6 +1,6 @@
 <template>
   <div :class="classes" @click="onSelect">
-    <avatar />
+    <avatar :src="user.imageUrl"/>
     <div class="user-username">
       {{ user.username }} <span class="real-name">({{ user.firstName }} {{ user.lastName }})</span>
     </div>
