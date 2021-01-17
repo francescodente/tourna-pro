@@ -1,7 +1,7 @@
 <template>
   <div class="main">
-    <detail-row title="Modalità" :value="tournament.type"/>
-    <detail-row title="Attività" :value="tournament.activityId"/>
+    <detail-row title="Modalità" :value="tournament.type | tournamentType"/>
+    <detail-row title="Attività" :value="tournament.activityId | activityFromId"/>
     <detail-row title="Partecipanti" :value="`${tournament.currentParticipants}/${tournament.maxParticipants}`"/>
     <detail-row title="Genere" :value="tournament.gender"/>
     <detail-row title="Età" :value="`${tournament.minAge} - ${tournament.maxAge}`"/>

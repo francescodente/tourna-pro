@@ -92,7 +92,7 @@ exports.createTournament = async function (req) {
     name: req.body.name,
     description: req.body.description,
     date: new Date(req.body.date),
-    activity: req.body.activity,
+    activity: req.body.activityId,
     type: req.body.type,
     location: req.body.location,
     mode: req.body.mode,

@@ -1,11 +1,11 @@
 const values = [
     {
       id: 'ROUND_ROBIN',
-      name: 'Round robin'
+      name: "All'italiana"
     }, 
     {
       id: 'KNOCKOUT',
-      name: 'Knockout'
+      name: "Eliminazione diretta"
     }
 ]
 

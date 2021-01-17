@@ -6,16 +6,20 @@ function dateFormat(date){
 
 function tournamentType(type){
   let t = store.getters.tournamentType(type)
-  return t? t.name : "undefined"
+  return t? t.name : "Sconosciuto"
 }
 
 function tournamentMode(mode) {
-  //TODO implement also in backend
+  switch (mode) {
+    case 'INDIVIDUAL': return 'Individuale'
+    case 'TEAMS': return 'A squadre'
+    default: return 'Sconosciuto'
+  }
 }
 
 function activityFromId(activityId){
   let a = store.getters.activity(activityId)
-  return a? a.name : "undefined"
+  return a? a.name : "Sconosciuto"
 }
 
 export default function (vue) {

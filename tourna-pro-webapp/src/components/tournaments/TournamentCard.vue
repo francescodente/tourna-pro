@@ -30,7 +30,7 @@
           />
         </div>
       </div>
-      <div class="badge badge-pill">{{ "#" + tournament.activityId }}</div>
+      <div class="badge badge-pill">#{{ tournament.activityId | activityFromId }}</div>
     </b-card>
   </router-link>
 </template>
