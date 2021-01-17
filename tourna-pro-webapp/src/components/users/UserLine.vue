@@ -52,6 +52,7 @@ export default {
   align-items: center;
   padding: 18px;
   font-weight: bold;
+  color:black;
   //border-bottom: 1px solid $color-not-focus-text;
   box-shadow: 0px 3px 7px -2px rgba(0,0,0,0.2);
 

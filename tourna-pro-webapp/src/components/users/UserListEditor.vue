@@ -1,13 +1,13 @@
 <template>
   <div>
-    <h2>{{ title }}</h2>
-    <div class="add-users">
+    <h2 :style="'background-color: '+mainColor">{{ title }}</h2>
+    <div class="add-users" :style="'background-color: '+backgroundColor">
       <user-auto-complete @selected="addUser"/>
     </div>
 
-    <h2>{{ subTitle }}</h2>
+    <h2 :style="'background-color: '+mainColor">{{ subTitle }}</h2>
     <div class="users-list">
-      <user-list :users="currentUsers" :canDelete="true" :canSelect="false" @userDeleted="deleteUser" />
+      <user-list :users="value" :canDelete="true" :canSelect="false" @userDeleted="deleteUser" />
     </div>
   </div>
 </template>
@@ -20,25 +20,20 @@ export default {
   props: {
     value: Array,
     title: String,
-    subTitle: String
-  },
-  data() {
-    return {
-      currentUsers: [...this.value]
-    }
+    subTitle: String,
+    mainColor: {type: String, default: 'inherit'},
+    backgroundColor: {type: String, default: 'inherit'}
   },
   methods: {
     addUser(user) {
-      if (this.currentUsers.map(x => x.id).includes(user.id)) {
+      if (this.value.map(x => x.id).includes(user.id)) {
         return
       }
-      this.currentUsers.push(user)
-      this.$emit('input', this.currentUsers)
+      this.$emit('input', [...this.value, user])
       this.$emit('userAdded', user)
     },
     deleteUser(user) {
-      this.currentUsers = this.currentUsers.filter(x => x.id != user.id)
-      this.$emit('input', this.currentUsers)
+      this.$emit('input', this.value.filter(x => x.id != user.id))
       this.$emit('userDeleted', user)
     }
   }
@@ -50,13 +45,11 @@ h2 {
   margin: 0px;
   width: 100%;
   padding: 10px;
-  color: white;
-  background-color: $color-complementary;
+  color: inherit;
 }
 
 .add-users {
   width: 100%;
   padding: 10px;
-  background-color: $color-complementary-background;
 }
 </style>

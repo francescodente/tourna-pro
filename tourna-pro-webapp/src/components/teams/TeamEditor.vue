@@ -5,47 +5,63 @@
         type="text"
         placeholder="Nome della squadra"
         autocomplete="off"
-        v-model="currentName"/>
+        v-model="currentName"
+      />
     </div>
 
-    <user-list-editor title="Aggiungi Membri" subTitle="Membri" v-model="currentMembers" />
+    <user-list-editor
+      title="Aggiungi Membri"
+      subTitle="Membri"
+      v-model="currentMembers"
+      :mainColor="style.colorComplementary"
+      :backgroundColor="style.colorComplementaryBackground"
+      class="list-editor"
+    />
 
-    <floating-button v-if="disabled == false" icon="fas fa-check" @click="onSubmit" />
+    <floating-button
+      v-if="disabled == false"
+      icon="fas fa-check"
+      @click="onSubmit"
+    />
   </div>
 </template>
 
 <script>
-import FloatingButton from '../../components/ui/FloatingButton.vue';
+import FloatingButton from "../../components/ui/FloatingButton.vue";
 import style from "../../style/export.scss";
-import UserAutoComplete from '../ui/UserAutoComplete.vue';
-import UserListEditor from '../users/UserListEditor.vue';
+import UserAutoComplete from "../ui/UserAutoComplete.vue";
+import UserListEditor from "../users/UserListEditor.vue";
 
 export default {
-  components: {FloatingButton, UserAutoComplete, UserListEditor},
+  components: { FloatingButton, UserAutoComplete, UserListEditor },
   props: {
     initialName: String,
     initialMembers: Array,
-    disabled: Boolean
+    disabled: Boolean,
   },
   data() {
     return {
+      style,
       currentName: this.initialName,
-      currentMembers: [...this.initialMembers]
-    }
+      currentMembers: [...this.initialMembers],
+    };
   },
   methods: {
     onSubmit() {
-      this.$emit('submit', this.currentName, this.currentMembers)
-    }
-  }
+      this.$emit("submit", this.currentName, this.currentMembers);
+    },
+  },
 };
 </script>
 
 <style lang="scss" scoped>
-
 .input-container {
   width: 100%;
   padding: 10px;
+}
+
+.list-editor{
+  color: white;
 }
 
 input {
@@ -54,5 +70,4 @@ input {
   border-bottom: 1px solid black;
   background-color: transparent;
 }
-
 </style>
