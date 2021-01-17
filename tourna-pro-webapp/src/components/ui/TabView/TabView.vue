@@ -42,6 +42,8 @@ export default {
 .all {
   height: 100%;
   max-width:100%;
+  display: flex;
+  flex-direction: column;
 }
 
 
@@ -51,6 +53,7 @@ export default {
   overflow-x:scroll;
   padding:0px;
   margin:0px;
+  flex-shrink: 0;
   display:flex;
   flex-direction: row;
   li{
@@ -68,7 +71,8 @@ export default {
 }
 
 .tabs-body{
-  height:100%;
+  flex-grow: 1;
+  overflow-y: scroll;
 }
 
 .is-active{

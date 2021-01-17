@@ -55,11 +55,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.form {
-  display: flex;
-  flex-direction: column;
-  justify-content: start;
-  align-items: center;
-  margin-top: 5%;
-}
+
 </style>

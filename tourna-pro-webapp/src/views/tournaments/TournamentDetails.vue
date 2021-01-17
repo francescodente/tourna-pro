@@ -1,5 +1,5 @@
 <template>
-  <div v-if="tournament">
+  <div v-if="tournament" class="details-container">
     <div class="container">
       <headline> {{ tournament.name }} </headline>
       <div class="text">
@@ -64,9 +64,19 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.tab-container{
-  margin-top:20px;
-  color: $color-secondary2;
-}
+.details-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 
+  .container {
+    flex-shrink: 0;
+  }
+
+  .tab-container{
+    flex-grow: 1;
+    margin-top:20px;
+    color: $color-secondary2;
+  }
+}
 </style>

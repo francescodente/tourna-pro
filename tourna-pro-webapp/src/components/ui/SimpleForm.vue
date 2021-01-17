@@ -19,13 +19,9 @@ export default {
 
 <style lang="scss" scoped>
 form {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
+  width: 100%;
 
   .input-container {
-    overflow-y: scroll;
-    flex: 1 0 0px;
     margin-bottom: 20px;
   }
 

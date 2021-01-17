@@ -23,10 +23,10 @@ export default {
 <style lang="scss" scoped>
 .bg {
   height: 100%;
-  padding: 0% 3%;
+  padding: 30px 20px;
 }
 
 .tournament-card{
-  margin-top: 30px;
+  margin-bottom: 30px;
 }
 </style>

@@ -21,7 +21,7 @@ export default {
   height: 100%;
 
   .home-content {
-    padding-bottom: 10vh;
+    padding-bottom: $bottom-navbar-height;
     height: 100%;
     overflow: auto;
   }
