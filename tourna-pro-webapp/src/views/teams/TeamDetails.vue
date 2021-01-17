@@ -1,7 +1,7 @@
 <template>
   <div v-if="team">
     <div class="image-container">
-      <image-fit :src="team.imageUrl || require('@/assets/logo.png')" :alt="`${team.name}'s team image`" />
+      <image-fit :src="team.imageUrl || require('@/assets/defaultTeamImage.png')" :alt="`${team.name}'s team image`" />
       <overlay-bar :title="team.name">
         <router-link
           class="link"

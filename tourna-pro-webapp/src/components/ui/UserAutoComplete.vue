@@ -16,19 +16,17 @@
       @mouseenter="hovering = true"
       @mouseleave="hovering = false"
     >
-      <div v-for="result in results" :key="result.id">
-        <team-member :canDelete="false" :canSelect="true" :member="result" @selected="onSelection(result)" />
-      </div>
+      <team-member-list :canDelete="false" :canSelect="true" :members="results" @memberSelected="onSelection" />
     </div>
   </div>
 </template>
 
 <script>
 import dataAccess from '../../data-access'
-import TeamMember from '../teams/TeamMember.vue'
+import TeamMemberList from '../teams/TeamMemberList.vue'
 
 export default {
-  components: { TeamMember },
+  components: { TeamMemberList },
   data() {
     return {
       visible: false,

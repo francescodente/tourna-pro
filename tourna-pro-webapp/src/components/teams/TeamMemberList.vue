@@ -6,7 +6,8 @@
       :member="member"
       :canDelete="canDelete"
       :canSelect="canSelect"
-      @deleted="$emit('member-deleted', member.id)"
+      @selected="$emit('memberSelected', member)"
+      @deleted="$emit('memberDeleted', member)"
     />
   </div>
 </template>

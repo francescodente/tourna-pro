@@ -30,7 +30,7 @@ export default {
       if (!this.canSelect) {
         return
       }
-      this.$emit('selected')
+      this.$emit('selected', this.member)
     }
   },
   computed: {
