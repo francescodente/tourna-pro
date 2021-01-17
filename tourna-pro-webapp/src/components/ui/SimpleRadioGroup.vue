@@ -42,6 +42,7 @@ export default {
   }
 
   label {
+    color:black;
     margin-left: 5px;
     margin-right: 20px;
   }
