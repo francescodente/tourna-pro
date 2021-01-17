@@ -7,16 +7,16 @@
 
     <h2>{{ subTitle }}</h2>
     <div class="users-list">
-      <team-member-list :members="currentUsers" :canDelete="true" :canSelect="false" @memberDeleted="deleteUser" />
+      <user-list :users="currentUsers" :canDelete="true" :canSelect="false" @userDeleted="deleteUser" />
     </div>
   </div>
 </template>
 
 <script>
-import TeamMemberList from '../teams/TeamMemberList.vue'
+import UserList from '../users/UserList.vue'
 import UserAutoComplete from '../ui/UserAutoComplete.vue'
 export default {
-  components: { UserAutoComplete, TeamMemberList },
+  components: { UserAutoComplete, UserList },
   props: {
     value: Array,
     title: String,

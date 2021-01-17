@@ -16,17 +16,17 @@
       @mouseenter="hovering = true"
       @mouseleave="hovering = false"
     >
-      <team-member-list :canDelete="false" :canSelect="true" :members="results" @memberSelected="onSelection" />
+      <user-list :canDelete="false" :canSelect="true" :users="results" @userSelected="onSelection" />
     </div>
   </div>
 </template>
 
 <script>
 import dataAccess from '../../data-access'
-import TeamMemberList from '../teams/TeamMemberList.vue'
+import UserList from '../users/UserList.vue'
 
 export default {
-  components: { TeamMemberList },
+  components: { UserList },
   data() {
     return {
       visible: false,

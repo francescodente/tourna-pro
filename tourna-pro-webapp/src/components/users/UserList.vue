@@ -1,23 +1,23 @@
 <template>
-  <div class="member-list">
-    <team-member
-      v-for="member in members"
-      :key="member.id"
-      :member="member"
+  <div class="user-list">
+    <user-line
+      v-for="user in users"
+      :key="user.id"
+      :user="user"
       :canDelete="canDelete"
       :canSelect="canSelect"
-      @selected="$emit('memberSelected', member)"
-      @deleted="$emit('memberDeleted', member)"
+      @selected="$emit('userSelected', user)"
+      @deleted="$emit('userDeleted', user)"
     />
   </div>
 </template>
 
 <script>
-import TeamMember from './TeamMember.vue'
+import UserLine from './UserLine.vue'
 export default {
-  components: { TeamMember },
+  components: { UserLine },
   props: {
-    members: Array,
+    users: Array,
     canDelete: {
       type: Boolean,
       default: true,

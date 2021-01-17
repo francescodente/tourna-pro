@@ -15,14 +15,13 @@
 </template>
 
 <script>
-import TeamMemberList from '../../components/teams/TeamMemberList.vue';
 import FloatingButton from '../../components/ui/FloatingButton.vue';
 import style from "../../style/export.scss";
 import UserAutoComplete from '../ui/UserAutoComplete.vue';
 import UserListEditor from '../users/UserListEditor.vue';
 
 export default {
-  components: {TeamMemberList, FloatingButton, UserAutoComplete, UserListEditor},
+  components: {FloatingButton, UserAutoComplete, UserListEditor},
   props: {
     initialName: String,
     initialMembers: Array,

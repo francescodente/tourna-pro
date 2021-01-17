@@ -1,10 +1,10 @@
 <template>
   <div :class="classes" @click="onSelect">
     <avatar />
-    <div class="member-username">
-      {{ member.username }} <span class="real-name">({{ member.firstName }} {{ member.lastName }})</span>
+    <div class="user-username">
+      {{ user.username }} <span class="real-name">({{ user.firstName }} {{ user.lastName }})</span>
     </div>
-    <a v-if="canDelete && member.id != $store.getters.userId" @click="$emit('deleted', $event)" class="delete-button">
+    <a v-if="canDelete && user.id != $store.getters.userId" @click="$emit('deleted', $event)" class="delete-button">
       <i class="fas fa-times"></i>
     </a>
   </div>
@@ -15,7 +15,7 @@ import Avatar from '../profile/Avatar.vue'
 export default {
   components: { Avatar },
   props: {
-    member: Object,
+    user: Object,
     canDelete: {
       type: Boolean,
       default: true
@@ -30,13 +30,13 @@ export default {
       if (!this.canSelect) {
         return
       }
-      this.$emit('selected', this.member)
+      this.$emit('selected', this.user)
     }
   },
   computed: {
     classes() {
       return {
-        'team-member': true,
+        'team-user': true,
         'clickable': this.canSelect
       }
     }
@@ -45,7 +45,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.team-member {
+.team-user {
   display: flex;
   flex-direction: row;
   justify-content: start;
@@ -60,7 +60,7 @@ export default {
     cursor: pointer;
   }
 
-  .member-username {
+  .user-username {
     flex: 1;
     text-align: left;
     margin-left: 10px;

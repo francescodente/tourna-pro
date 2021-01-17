@@ -16,7 +16,7 @@
 
     <tab-view>
       <tab title="Membri" :selected="true" :color="style.colorComplementary">
-        <team-member-list :members="members" :canDelete="false" />
+        <user-list :users="members" :canDelete="false" :canSelect="true" @userSelected="onMemberSelected" />
       </tab>
       <tab title="Attività" :color="style.colorComplementary">
         <div v-for="log in logs" :key="log.id">
@@ -31,7 +31,7 @@
 
 <script>
 import dataAccess from '@/data-access'
-import TeamMemberList from "../../components/teams/TeamMemberList.vue";
+import UserList from "../../components/users/UserList.vue";
 import DateText from "../../components/ui/DateText.vue";
 import ImageFit from "../../components/ui/ImageFit.vue";
 import OverlayBar from "../../components/ui/OverlayBar.vue";
@@ -41,7 +41,7 @@ import TabView from "../../components/ui/TabView/TabView.vue";
 import style from "../../style/export.scss";
 
 export default {
-  components: { ImageFit, OverlayBar, TabView, Tab, TeamMemberList, DateText },
+  components: { ImageFit, OverlayBar, TabView, Tab, UserList, DateText },
   data() {
     return {
       style,
@@ -53,6 +53,11 @@ export default {
   computed: {
     teamId() {
       return this.$route.params.id
+    }
+  },
+  methods: {
+    onMemberSelected(member) {
+      this.$router.push({ name: 'UserProfile', params: { id: member.id }})
     }
   },
   async created() {

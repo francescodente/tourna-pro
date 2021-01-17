@@ -7,12 +7,10 @@
 <script>
 import { mapGetters } from 'vuex';
 import TeamEditor from '../../components/teams/TeamEditor.vue';
-import TeamMemberList from '../../components/teams/TeamMemberList.vue';
-import FloatingButton from '../../components/ui/FloatingButton.vue';
 import style from "../../style/export.scss";
 
 export default {
-  components: {TeamMemberList, FloatingButton, TeamEditor},
+  components: {TeamEditor},
   props: {
     icon: String,
   },
