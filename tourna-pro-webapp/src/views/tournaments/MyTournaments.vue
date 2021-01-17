@@ -9,7 +9,7 @@
       </tab>
 
       <tab title="Crea nuovo">
-        <create-new-tournament-tab />
+        <create-tournament/>
       </tab>
     </tab-view>
   </div>
@@ -17,19 +17,20 @@
 
 <script>
 import dataAccess from '@/data-access'
-import CreateNewTournamentTab from "../../components/tournaments/my-tournaments/CreateNewTournamentTab.vue";
+
 import ManagedByMeTab from "../../components/tournaments/my-tournaments/ManagedByMeTab.vue";
 import SubscribedToTab from "../../components/tournaments/my-tournaments/SubscribedToTab.vue";
 import Tab from "../../components/ui/TabView/Tab.vue";
 import TabView from "../../components/ui/TabView/TabView.vue";
 import style from "../../style/export.scss";
+import CreateTournament from './CreateTournament.vue';
 export default {
   components: {
-    CreateNewTournamentTab,
     TabView,
     Tab,
     SubscribedToTab,
     ManagedByMeTab,
+    CreateTournament,
   },
   name: "MyTournaments",
   data: function () {

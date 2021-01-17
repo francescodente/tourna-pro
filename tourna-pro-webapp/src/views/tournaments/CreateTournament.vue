@@ -1,11 +1,8 @@
 <template>
   <div class="main">
-    <simple-form submitMessage="Crea nuovo">
+    <simple-form submitMessage="Crea">
       <simple-input label="Nome" type="text" v-model="name" identifier="name" />
-      <simple-text-area
-        label="Descrizione"
-        v-model="description"
-      />
+      <simple-text-area label="Descrizione" v-model="description" />
       <simple-radio-group
         label="Modalità"
         v-model="mode"
@@ -13,29 +10,37 @@
         group="mode"
         :inline="true"
       />
+
+      <simple-radio-group
+        label="Tipologia"
+        v-model="type"
+        :options="displayTypes"
+        group="type"
+        :inline="true"
+      />
       <simple-dropdown
         label="Attività"
-        :options="activities"
+        :options="displayActivities"
         v-model="activity"
         identifier="activity"
       />
-      <simple-input
+      <simple-number
         label="Numero massimo di partecipanti"
-        type="number"
-        v-model="maxNumber"
+        v-model="maxParticipants"
         identifier="maxNumber"
+        min="1"
       />
-      <simple-input
+      <simple-number
         label="Età massima"
-        type="number"
         v-model="maxAge"
         identifier="maxAge"
+        min="0"
       />
-      <simple-input
+      <simple-number
         label="Età minima"
-        type="number"
         v-model="minAge"
         identifier="minAge"
+        min="0"
       />
       <simple-dropdown
         label="Partecipanti"
@@ -55,40 +60,37 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+import dataAccess from "@/data-access";
 import SimpleDropdown from "../../components/ui/SimpleDropdown.vue";
 import SimpleForm from "../../components/ui/SimpleForm.vue";
 import SimpleInput from "../../components/ui/SimpleInput.vue";
+import SimpleNumber from "../../components/ui/SimpleNumber.vue";
 import SimpleRadioGroup from "../../components/ui/SimpleRadioGroup.vue";
-import SimpleTextArea from '../../components/ui/SimpleTextArea.vue';
+import SimpleTextArea from "../../components/ui/SimpleTextArea.vue";
 export default {
-  components: { SimpleForm, SimpleInput, SimpleDropdown, SimpleRadioGroup, SimpleTextArea },
+  components: {
+    SimpleForm,
+    SimpleInput,
+    SimpleDropdown,
+    SimpleRadioGroup,
+    SimpleTextArea,
+    SimpleNumber,
+  },
   name: "CreateTournament",
   data: function () {
     return {
-      name: "Nuovo Torneo",
+      name: "",
       description: "",
       mode: "",
-      maxNumber: 1,
+      type: "",
+      maxParticipants: "1",
       activity: "",
-      maxAge: 0,
-      minAge: 0,
+      maxAge: "0",
+      minAge: "0",
       gender: "",
       place: "",
       date: "",
-      activities: [
-        {
-          value: "calcetto",
-          display: "calcetto",
-        },
-        {
-          value: "pallavolo",
-          display: "pallavolo",
-        },
-        {
-          value: "basket",
-          display: "basket",
-        },
-      ],
       genders: [
         {
           value: "M",
@@ -99,21 +101,64 @@ export default {
           display: "Donne",
         },
         {
-          value: "UNDEFINED",
+          value: undefined,
           display: "Misti",
         },
       ],
       modes: [
         {
           value: "TEAMS",
-          display: "Squadre",
+          display: "A squadre",
         },
         {
-          value: "SINGLE",
-          display: "Singoli",
+          value: "INDIVIDUAL",
+          display: "Individuale",
         },
       ],
     };
+  },
+  computed: {
+    ...mapGetters(["activities", "tournamentTypes"]),
+    displayActivities() {
+      return this.activities.map((a) => ({ value: a.id, display: a.name }));
+    },
+    displayTypes() {
+      return this.tournamentTypes.map((t) => ({
+        value: t.id,
+        display: t.name,
+      }));
+    },
+  },
+  methods: {
+    createTournament() {
+      //TODO complete checks
+      if(!this.name){
+        return
+      }
+      if(!this.place){
+        return
+      }
+      if(!this.date){
+        return
+      }
+      if(!this.description){
+        return
+      }
+      dataAccess.tournaments.create({
+        maxParticipants: this.maxParticipants,
+        date: this.date,
+        name: this.name,
+        activityId: this.activity,
+        type: this.type,
+        location: this.place,
+        description: this.description,
+        mode: this.mode,
+        maxAge: this.maxAge,
+        minAge: this.minAge,
+        gender: this.gender,
+        visibility: "PUBLIC",
+      });
+    },
   },
 };
 </script>
