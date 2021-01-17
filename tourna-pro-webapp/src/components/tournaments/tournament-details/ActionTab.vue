@@ -48,6 +48,7 @@ export default {
 <style lang="scss" scoped>
 .main {
   padding-top: 10px;
+  height: 100%;
 }
 
 div{
