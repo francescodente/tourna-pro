@@ -21,6 +21,8 @@ h2{
 hr{
   margin-top:0px;
   margin-bottom: 8px;
-  border: 2px solid $color-secondary2;
+  height: 4px;
+  border: none;
+  background: $color-secondary2;
 }
 </style>
