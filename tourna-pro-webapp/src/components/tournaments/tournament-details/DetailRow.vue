@@ -39,6 +39,8 @@ export default {
 hr {
   margin-top: -3px;
   margin-bottom: 12px;
-  border: 1px solid $color-secondary2-lightest;
+  height: 2px;
+  border: none;
+  background: $color-secondary2-lightest;
 }
 </style>
