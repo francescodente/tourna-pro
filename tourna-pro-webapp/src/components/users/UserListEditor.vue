@@ -2,7 +2,7 @@
   <div>
     <h2 :style="'background-color: '+mainColor">{{ title }}</h2>
     <div class="add-users" :style="'background-color: '+backgroundColor">
-      <user-auto-complete @selected="addUser"/>
+      <user-auto-complete @selected="addUser" :exclude="value"/>
     </div>
 
     <h2 :style="'background-color: '+mainColor">{{ subTitle }}</h2>

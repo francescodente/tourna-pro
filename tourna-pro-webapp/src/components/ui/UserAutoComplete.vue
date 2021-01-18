@@ -6,17 +6,22 @@
       autocomplete="off"
       v-model="query"
       @focus="setVisible()"
-      @blur="setHidden"
+      @blur="setHidden()"
       @input="updateResults()"
     />
     
     <div
       class="pop-over"
-      v-show="hovering || visible && results.length > 0"
+      v-if="hovering || (visible && results)"
       @mouseenter="hovering = true"
       @mouseleave="hovering = false"
     >
-      <user-list :canDelete="false" :canSelect="true" :users="results" @userSelected="onSelection" />
+      <div v-if="results && results.length > 0" class="results">
+        <user-list :canDelete="false" :canSelect="true" :users="results" @userSelected="onSelection" />
+      </div>
+      <div v-else class="results empty">
+        Nessun utente corrisponde alla tua ricerca
+      </div>
     </div>
   </div>
 </template>
@@ -27,36 +32,41 @@ import UserList from '../users/UserList.vue'
 
 export default {
   components: { UserList },
+  props: {
+    exclude: Array
+  },
   data() {
     return {
       visible: false,
       hovering: false,
       query: '',
-      results: []
+      results: null
     }
   },
   methods: {
     setVisible() {
       this.visible = true
+      this.updateResults()
     },
     setHidden() {
       this.visible = false
     },
     async updateResults() {
       if (this.query.length == 0) {
-        this.results = []
+        this.results = null
         return
       }
 
       let escaped = this.query.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&')
 
       this.results = await dataAccess.users.search({
-        username: `^${escaped}`
+        username: `^${escaped}`,
+        exclude: JSON.stringify(this.exclude.map(x => x.id))
       })
     },
     onSelection(result) {
       this.query = ''
-      this.results = []
+      this.results = null
       this.hovering = false
       this.$emit('selected', result)
     }
@@ -76,8 +86,14 @@ export default {
   width: 100%;
   max-height: 40vh;
   background-color: white;
-  border: 1px solid lightgray;
+  border: 1px solid gray;
   z-index: 100;
+  overflow-y: scroll;
+}
+
+.empty {
+  color: gray;
+  padding: 10px;
 }
 
 input {

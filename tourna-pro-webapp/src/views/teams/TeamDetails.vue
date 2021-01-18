@@ -1,6 +1,6 @@
 <template>
-  <div v-if="team">
-    <div class="image-container">
+  <div v-if="team" class="main">
+    <div class="team-image-container">
       <image-fit :src="team.imageUrl || require('@/assets/defaultTeamImage.png')" :alt="`${team.name}'s team image`" />
       <overlay-bar :title="team.name">
         <router-link
@@ -14,18 +14,20 @@
       </overlay-bar>
     </div>
 
-    <tab-view>
-      <tab title="Membri" :selected="true" :color="style.colorComplementary">
-        <user-list :users="members" :canDelete="false" :canSelect="true" @userSelected="onMemberSelected" />
-      </tab>
-      <tab title="Attività" :color="style.colorComplementary">
-        <div v-for="log in logs" :key="log.id">
-          <date-text class="activity" :date="log.date" :dateColor="style.colorComplementary">
-            {{ log.text }}
-          </date-text>
-        </div>
-      </tab>
-    </tab-view>
+    <div class="tab-container">
+      <tab-view>
+        <tab title="Membri" :selected="true" :color="style.colorComplementary">
+          <user-list :users="members" :canDelete="false" :canSelect="true" @userSelected="onMemberSelected" />
+        </tab>
+        <tab title="Attività" :color="style.colorComplementary">
+          <div v-for="log in logs" :key="log.id">
+            <date-text class="activity" :date="log.date" :dateColor="style.colorComplementary">
+              {{ log.text }}
+            </date-text>
+          </div>
+        </tab>
+      </tab-view>
+    </div>
   </div>
 </template>
 
@@ -70,28 +72,37 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.image-container {
-  height: 25vh;
-  position: relative;
+.main {
+  height: 100%;
 
-  .description-container {
-    position: absolute;
-    bottom: 0px;
-    background-color: rgba(0, 0, 0, 0.5);
-    width: 100%;
-    color: white;
-    display: flex;
+  $image-percentage: 25%;
+  .team-image-container {
+    height: $image-percentage;
+    position: relative;
+
+    .description-container {
+      position: absolute;
+      bottom: 0px;
+      background-color: rgba(0, 0, 0, 0.5);
+      width: 100%;
+      color: white;
+      display: flex;
+    }
   }
-}
 
-.link:hover {
-  cursor: pointer;
-}
+  .tab-container {
+    height: 100% - $image-percentage;
+  }
+
+  .link:hover {
+    cursor: pointer;
+  }
 
 
-.activity{
-  padding: 10px;
-  border-bottom: 1.5px solid $color-complementary;
-  background-color: $color-complementary-background;
+  .activity{
+    padding: 10px;
+    border-bottom: 1.5px solid $color-complementary;
+    background-color: $color-complementary-background;
+  }
 }
 </style>

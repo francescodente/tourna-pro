@@ -53,8 +53,7 @@ exports.updateTeam = async function (req) {
     return forbidden(`User with id ${req.userId} is not a member of team ${req.params.id}`)
   }
   let updatedTeam = await Team.findByIdAndUpdate(req.params.id, {
-    name: req.body.name,
-    membersCount: req.body.membersCount,
+    name: req.body.name
   }, { new: true })
   return ok(teamDto(updatedTeam, req))
 }

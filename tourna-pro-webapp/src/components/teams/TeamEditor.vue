@@ -37,7 +37,7 @@ export default {
   props: {
     initialName: String,
     initialMembers: Array,
-    disabled: Boolean,
+    disabled: Boolean
   },
   data() {
     return {

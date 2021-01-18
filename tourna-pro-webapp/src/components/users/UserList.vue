@@ -1,7 +1,7 @@
 <template>
   <div class="user-list">
     <user-line
-      v-for="user in users"
+      v-for="user in usersWithLoggedInUserFirst"
       :key="user.id"
       :user="user"
       :canDelete="canDelete"
@@ -25,6 +25,17 @@ export default {
     canSelect: {
       type: Boolean,
       default: true
+    }
+  },
+  computed: {
+    usersWithLoggedInUserFirst() {
+      let userId = this.$store.getters.userId
+      let loggedInUser = this.users.find(x => x.id == userId)
+      if (loggedInUser) {
+        return [loggedInUser, ...this.users.filter(x => x.id != userId)]
+      } else {
+        return this.users
+      }
     }
   }
 }

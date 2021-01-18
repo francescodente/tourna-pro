@@ -3,8 +3,9 @@
     <h1>Nuova Squadra</h1>
 
     <team-editor
+      v-if="user"
       initialName=""
-      :initialMembers="[]"
+      :initialMembers="[user]"
       @submit="onSubmit" />
   </div>
 </template>
@@ -20,6 +21,11 @@ export default {
   props: {
     icon: String,
   },
+  data() {
+    return {
+      user: null
+    }
+  },
   methods: {
     async onSubmit(name, members) {
       let team = await dataAccess.teams.create({ name })
@@ -30,6 +36,9 @@ export default {
       }
       this.$router.push({ name: 'TeamDetails', params: { id: team.id }})
     }
+  },
+  async created() {
+    this.user = await dataAccess.users.getUser(this.$store.getters.userId)
   }
 };
 </script>

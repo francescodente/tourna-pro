@@ -1,7 +1,7 @@
 import store from '../store'
 function dateFormat(date){
-    var converted = new Date(date)
-    return converted.toLocaleDateString()
+  var converted = new Date(date)
+  return converted.toLocaleDateString()
 }
 
 function tournamentType(type){

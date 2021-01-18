@@ -70,8 +70,15 @@ exports.searchUsers = async function (req) {
   if (req.query.username) {
     filter.username = { $regex: req.query.username, $options: 'i' }
   }
-  if (req.query.userIds) {
-    filter._id = { $in: JSON.parse(req.query.userIds).map(x => mongoose.Types.ObjectId(x)) }
+  if (req.query.userIds || req.query.exclude) {
+    let idFilters = []
+    if (req.query.userIds) {
+      idFilters.push({ _id: { $in: JSON.parse(req.query.userIds).map(x => mongoose.Types.ObjectId(x)) } })
+    }
+    if (req.query.exclude) {
+      idFilters.push({ _id: { $nin: JSON.parse(req.query.exclude).map(x => mongoose.Types.ObjectId(x)) } })
+    }
+    filter.$and = idFilters
   }
   let users = await User.aggregate([
     { $match: filter },
