@@ -1,5 +1,5 @@
 const { User } = require('../models');
-const activities = require('../models/activities');
+const {activities} = require('../models/activities');
 const { ok, notFound, badRequest } = require('../utils/action-results');
 
 function interestsDto(interests) {
@@ -19,7 +19,8 @@ exports.getUserInterests = async function (req) {
 }
 
 exports.modifyInterestsFromUser = async function (req) {
-  if(!req.body.interests.every(x => activities.map(a => a.id).includes(x))){
+  let ids = activities.map(a => a.id)
+  if(!req.body.interests.every(x => ids.includes(x))){
     return badRequest("Some activities do not match with system activities")
   }
   let updatedInterests = await User.findByIdAndUpdate(req.params.id, {

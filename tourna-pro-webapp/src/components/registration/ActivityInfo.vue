@@ -4,7 +4,7 @@
       class="activity-item"
       v-for="activity in activities"
       :key="activity.id"
-      :value="selectedActivities.includes(activity.id)"
+      :value="value.includes(activity.id)"
       :name="activity.name"
       @input="activitySelectionChanged(activity.id, $event)"
     />
@@ -19,20 +19,15 @@ export default {
   props: {
 		value: Array
 	},
-	data() {
-		return {
-      selectedActivities: [...this.value],
-		}
-  },
   methods: {
     activitySelectionChanged(id, selected) {
-      let a = this.selectedActivities
+      let a = this.value
       if (selected) {
-        if (!this.selectedActivities.includes(id)) {
-          a = [...this.selectedActivities, id]
+        if (!this.value.includes(id)) {
+          a = [...this.value, id]
         }
       } else {
-        a = this.selectedActivities.filter(x => x != id)
+        a = this.value.filter(x => x != id)
       }
       this.$emit('input', a)
     }

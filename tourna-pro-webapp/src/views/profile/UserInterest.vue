@@ -8,30 +8,32 @@
 </template>
 
 <script>
-import dataAccess from '@/data-access'
+import dataAccess from "@/data-access";
 import ActivityInfo from "../../components/registration/ActivityInfo.vue";
 import Headline from "../../components/tournaments/tournament-details/Headline.vue";
-import FloatingButton from '../../components/ui/FloatingButton.vue';
+import FloatingButton from "../../components/ui/FloatingButton.vue";
+import { mapGetters } from 'vuex';
 
 export default {
   components: { ActivityInfo, Headline, FloatingButton },
   data() {
     return {
-      selectedActivities: []
+      selectedActivities: [],
     };
   },
   methods: {
     async updateUser() {
-      await dataAccess.interests.update(this.userId, this.selectedActivities)
-    }
+      await dataAccess.interests.update(this.userId, this.selectedActivities);
+    },
   },
   computed: {
     userId() {
-      return this.$route.params.id
-    }
+      return this.$route.params.id;
+    },
+    ...mapGetters(['activities'])
   },
   async created() {
-      this.selectedActivities = await dataAccess.interests.getAll(this.userId)
+    this.selectedActivities = await dataAccess.interests.getAll(this.userId);
   },
 };
 </script>
