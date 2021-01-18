@@ -1,5 +1,6 @@
 <template>
   <div class="main">
+    <yes-no-popup ref="modal"/>
     <div class="owner-actions" v-if="owner">
       <action-button actionName="Nomina amministratore" icon="fas fa-crown" @trigger="nameAdmin" />
       <div class="active-tournament" v-if="active">
@@ -8,7 +9,7 @@
       <div class="inactive-tournament" v-if="!active">
         <action-button actionName="Aggiungi partecipante non registrato" icon="fas fa-user-plus" />
         <action-button actionName="Gestisci iscrizioni" icon="fas fa-check-square" @trigger="manageSubscriptions" />
-        <action-button actionName="Avvia il torneo" icon="fas fa-flag" />
+        <action-button actionName="Avvia il torneo" icon="fas fa-flag" @trigger="startTournament" />
         <action-button actionName="Modifica il torneo" icon="far fa-edit" />
         <action-button actionName="Elimina il torneo" icon="far fa-trash-alt" />
       </div>
@@ -34,14 +35,21 @@
 
 <script>
 import ActionButton from "../../ui/ActionButton.vue";
+import YesNoPopup from '../../ui/YesNoPopup.vue';
 
 export default {
-  components: { ActionButton },
+  components: { ActionButton, YesNoPopup },
   name: "ActionTab",
   props: {
     owner: Boolean,
     active: Boolean,
     subscribed: Boolean
+  },
+  data(){
+    return {
+      title: '',
+      text: ''
+    }
   },
   methods: {
     nameAdmin() {
@@ -49,6 +57,10 @@ export default {
     },
     manageSubscriptions() {
       this.$router.push({name: 'ManageSubscriptions'})
+    },
+    async startTournament(){
+      let res = await this.$refs["modal"].show("Avvia il torneo", "Sei sicuro di voler avviare il torneo?")
+      console.log(res)
     }
   }
 };
