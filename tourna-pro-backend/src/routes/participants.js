@@ -5,6 +5,6 @@ module.exports = mapControllerRoutes('participants', function (app, controller) 
     app.route('/tournaments/:id/participants')
         .get(authorize, action(controller.getParticipants))
 
-    app.route('/tournaments/:id/participant/:participantId')
+    app.route('/tournaments/:id/participants/:participantId')
         .delete(authorize, action(controller.retireParticipant))
 })

@@ -22,7 +22,7 @@ exports.getParticipants = async function (req) {
   return ok(participants.map(x => participantDto(x)))
 }
 
-function validRetireRequest(request, userId, tournament) {
+async function validRetireRequest(request, userId, tournament) {
   switch (request.mode) {
     case 'PERSON':
       return tournament.owners.include(userId)
@@ -44,7 +44,7 @@ exports.retireParticipant = async function (req) {
   if (!participationRequest) {
     return notFound(participantNotFound(req.params.participantId, req.params.id))
   }
-  if (!validRetireRequest(participationRequest, req.userId, tournament)) {
+  if (await !validRetireRequest(participationRequest, req.userId, tournament)) {
     return forbidden(`User ${req.userId} can not retire participant ${req.params.participantId}`)
   }
   switch (tournament.status) {
@@ -58,7 +58,8 @@ exports.retireParticipant = async function (req) {
       await ParticipationRequests.findByIdAndRemove(req.params.participantId)
       return ok(participantDto(deleted))
     case 'ACTIVE':
-      let toRetire = tournament.participants.find(p => p.id == req.params.id)
+      console.log(tournament.participants)
+      let toRetire = tournament.participants.find(p => p.id == req.params.participantId)
       if (!toRetire) {
         return notFound(participantNotFound(req.params.participantId, req.params.id))
       }

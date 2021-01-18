@@ -11,5 +11,6 @@ module.exports = function(app) {
   require('./tournament-types')(app)
   require('./team-members')(app)
   require('./participation-requests')(app)
+  require('./participants')(app)
   require('./matches')(app)
 }

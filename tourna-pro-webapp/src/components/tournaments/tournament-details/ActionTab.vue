@@ -40,7 +40,7 @@
         />
       </div>
       <div class="subscribed-actions" v-if="subscribed">
-        <action-button actionName="Ritirati dal torneo" icon="fas fa-times" />
+        <action-button actionName="Ritirati dal torneo" icon="fas fa-times" @trigger="retireFromTournament"/>
         <div class="active-tournament" v-if="active">
           <action-button
             actionName="Visualizza partite"
@@ -63,6 +63,7 @@
 import dataAccess from '@/data-access'
 import ActionButton from "../../ui/ActionButton.vue";
 import YesNoPopup from '../../ui/YesNoPopup.vue';
+import { mapGetters } from 'vuex';
 
 export default {
   components: { ActionButton, YesNoPopup },
@@ -78,7 +79,11 @@ export default {
       text: ''
     }
   },
+  computed: {
+    ...mapGetters(['userId'])
+  }, 
   methods: {
+    //OWNER ACTIONS
     nameAdmin() {
       this.$router.push({name: 'NameAdmin'})
     },
@@ -97,6 +102,14 @@ export default {
       if(res){
         await dataAccess.tournaments.delete(this.$route.params.id)
         this.$router.push({name: 'MyTournaments'})
+      }
+    },
+    //USER ACTIONS
+    async retireFromTournament(){
+      let res = await this.$refs["yes-no"].show("Ritirati dal torneo", "Vuoi ritirarti la tua iscrizione al torneo?")
+      if(res){
+        await dataAccess.participants.delete(this.$route.params.id, this.userId)
+        this.$router.go(0) //refresh
       }
     }
   }
