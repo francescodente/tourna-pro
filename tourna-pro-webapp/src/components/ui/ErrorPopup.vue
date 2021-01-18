@@ -1,5 +1,5 @@
 <template>
-  <b-modal ref="my-modal" id="modal-center" hide-footer centered title="C'è stato un errore!" @close="dismiss">
+  <b-modal ref="my-modal" id="modal-center" hide-footer centered title="C'è stato un errore!" @hide="dismiss">
     <p class="my-4">{{error}}</p>
   </b-modal>
 </template>

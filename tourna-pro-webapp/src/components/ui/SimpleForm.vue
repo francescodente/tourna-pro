@@ -28,6 +28,7 @@ form {
   .form-submit {
     width: 100%;
     height: 60px;
+    margin-top: 3em;
   }
 
   input[type=submit] {
