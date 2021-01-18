@@ -93,7 +93,7 @@ exports.getAllParticipationRequests = async function (req) {
   if (!requests) {
     return notFound(tournamentNotFound(req.params.id))
   }
-  return ok(requests)
+  return ok(requests.map(x => participationRequestsDto(x)))
 }
 
 exports.removeParticipationRequest = async function (req) {
