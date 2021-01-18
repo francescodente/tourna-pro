@@ -151,7 +151,6 @@ export default {
         gender: this.gender,
         visibility: "PUBLIC",
       };
-      console.log(tournament);
       let res = await dataAccess.tournaments.create(tournament);
       this.$router.push({name: 'TournamentDetails', params: {id: res.id}})
     },
