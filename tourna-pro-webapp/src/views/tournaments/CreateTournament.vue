@@ -1,6 +1,10 @@
 <template>
   <div class="main">
-    <simple-form class="form-style" submitMessage="Crea">
+    <simple-form
+      class="form-style"
+      submitMessage="Crea"
+      @submit="createTournament"
+    >
       <simple-input label="Nome" type="text" v-model="name" identifier="name" />
       <simple-text-area label="Descrizione" v-model="description" />
       <simple-radio-group
@@ -68,6 +72,7 @@ import SimpleInput from "../../components/ui/SimpleInput.vue";
 import SimpleNumber from "../../components/ui/SimpleNumber.vue";
 import SimpleRadioGroup from "../../components/ui/SimpleRadioGroup.vue";
 import SimpleTextArea from "../../components/ui/SimpleTextArea.vue";
+import tournamentTypes from "../../data-access/backend/tournament-types";
 export default {
   components: {
     SimpleForm,
@@ -101,7 +106,7 @@ export default {
           display: "Donne",
         },
         {
-          value: undefined,
+          value: "NONE",
           display: "Misti",
         },
       ],
@@ -130,21 +135,9 @@ export default {
     },
   },
   methods: {
-    createTournament() {
+    async createTournament() {
       //TODO complete checks
-      if(!this.name){
-        return
-      }
-      if(!this.place){
-        return
-      }
-      if(!this.date){
-        return
-      }
-      if(!this.description){
-        return
-      }
-      dataAccess.tournaments.create({
+      let tournament = {
         maxParticipants: this.maxParticipants,
         date: this.date,
         name: this.name,
@@ -157,7 +150,10 @@ export default {
         minAge: this.minAge,
         gender: this.gender,
         visibility: "PUBLIC",
-      });
+      };
+      console.log(tournament);
+      let res = await dataAccess.tournaments.create(tournament);
+      this.$router.push({name: 'TournamentDetails', params: {id: res.id}})
     },
   },
 };
