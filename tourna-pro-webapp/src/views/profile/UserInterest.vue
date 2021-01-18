@@ -1,7 +1,7 @@
 <template>
   <div class="main">
     <h2 class="headline">Modifica i tuoi interessi</h2>
-    <activity-info v-model="selectedActivities" />
+    <activity-info v-if="selectedActivities" v-model="selectedActivities" />
 
     <floating-button icon="fas fa-check" @click="updateUser" />
   </div>
@@ -17,12 +17,13 @@ export default {
   components: { ActivityInfo, Headline, FloatingButton },
   data() {
     return {
-      selectedActivities: [],
+      selectedActivities: null,
     };
   },
   methods: {
     async updateUser() {
-      await dataAccess.interests.update(this.userId, this.selectedActivities);
+      await dataAccess.interests.update(this.userId, this.selectedActivities)
+      this.$router.push({ name: 'UserProfile', params: { id: this.userId } })
     },
   },
   computed: {
@@ -31,7 +32,7 @@ export default {
     }
   },
   async created() {
-    this.selectedActivities = await dataAccess.interests.getAll(this.userId);
+    this.selectedActivities = await dataAccess.interests.getAll(this.userId)
   },
 };
 </script>
