@@ -1,7 +1,7 @@
 <template>
   <div class="main">
     <h2 class="headline">Modifica i tuoi interessi</h2>
-    <activity-info v-model="selectedActivities" :value="selectedActivities" />
+    <activity-info v-model="selectedActivities" />
 
     <floating-button icon="fas fa-check" @click="updateUser" />
   </div>

@@ -12,6 +12,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import ActivityToggle from './ActivityToggle.vue'
 export default {
   components: { ActivityToggle },
@@ -21,37 +22,23 @@ export default {
 	data() {
 		return {
       selectedActivities: [...this.value],
-      activities: [
-        {
-          id: 1,
-          name: 'Pallavolo'
-        },
-        {
-          id: 2,
-          name: 'Basket'
-        },
-        {
-          id: 3,
-          name: 'Briscola'
-        },
-        {
-          id: 4,
-          name: 'Calcetto'
-        },
-      ]
 		}
   },
   methods: {
     activitySelectionChanged(id, selected) {
+      let a = this.selectedActivities
       if (selected) {
         if (!this.selectedActivities.includes(id)) {
-          this.selectedActivities.push(id)
+          a = [...this.selectedActivities, id]
         }
       } else {
-        this.selectedActivities = this.selectedActivities.filter(x => x != id)
+        a = this.selectedActivities.filter(x => x != id)
       }
-      this.$emit('input', this.selectedActivities)
+      this.$emit('input', a)
     }
+  },
+  computed: {
+    ...mapGetters(['activities'])
   }
 }
 </script>
