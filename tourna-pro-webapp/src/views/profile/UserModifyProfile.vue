@@ -1,7 +1,7 @@
 <template>
   <div v-if="user">
     <avatar size="5em" :src="user.imageUrl" />
-    <div class="nickname">{{ user.username }}</div>
+    <div class="nickname">@{{ user.username }}</div>
 
     <div class="inputs">
       <simple-form submitMessage="Salva Modifiche">
@@ -54,5 +54,4 @@ export default {
   width: 90%;
   margin-left: 5%;
 }
-
 </style>
