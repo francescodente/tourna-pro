@@ -1,13 +1,13 @@
 <template>
   <div class="main">
     <div class="owner-actions" v-if="owner">
-      <action-button actionName="Nomina amministratore" icon="fas fa-crown" @trigger="nameAdmin()" />
+      <action-button actionName="Nomina amministratore" icon="fas fa-crown" @trigger="nameAdmin" />
       <div class="active-tournament" v-if="active">
         <action-button actionName="Inserisci risultati" icon="fas fa-clipboard-list" />
       </div>
       <div class="inactive-tournament" v-if="!active">
         <action-button actionName="Aggiungi partecipante non registrato" icon="fas fa-user-plus" />
-        <action-button actionName="Gestisci iscrizioni" icon="fas fa-check-square" />
+        <action-button actionName="Gestisci iscrizioni" icon="fas fa-check-square" @trigger="manageSubscriptions" />
         <action-button actionName="Avvia il torneo" icon="fas fa-flag" />
         <action-button actionName="Modifica il torneo" icon="far fa-edit" />
         <action-button actionName="Elimina il torneo" icon="far fa-trash-alt" />
@@ -46,6 +46,9 @@ export default {
   methods: {
     nameAdmin() {
       this.$router.push({name: 'NameAdmin'})
+    },
+    manageSubscriptions() {
+      this.$router.push({name: 'ManageSubscriptions'})
     }
   }
 };
