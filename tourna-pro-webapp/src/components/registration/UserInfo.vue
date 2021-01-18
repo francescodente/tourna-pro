@@ -28,7 +28,7 @@
     <simple-input
       label="Telefono"
       type="tel"
-      v-model="currentValue.telephoneNumber"
+      v-model="currentValue.telephone"
       identifier="telephone"
 			@input="$emit('input', currentValue)"
     />

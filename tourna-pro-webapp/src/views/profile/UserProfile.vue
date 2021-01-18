@@ -1,13 +1,14 @@
 <template>
   <div v-if="user" class="main">
     <div class="top-row">
-      <avatar size="4em" :src="user.imageUrl"/>
+      <avatar size="4em" :src="user.imageUrl" />
       <div class="user-name">
-        <span class="name">{{
-          user.firstName + " " + user.lastName
-        }}</span>
-        <span>{{ user.userName }}</span>
+        <span class="name">{{ user.firstName + " " + user.lastName }}</span>
+        <span>{{ user.username }}</span>
       </div>
+      <router-link :to="this.$route.path + '/login'">
+        <span class="logout"><i class="fas fa-sign-out-alt"></i></span>
+      </router-link>
       <router-link :to="this.$route.path + '/password'">
         <span class="options"><i class="fas fa-lg fa-cog"></i></span>
       </router-link>
@@ -63,18 +64,14 @@
         <i class="fas fa-question-circle"></i>
       </section-header>
       <div class="achievements">
-        <achievement
-          v-for="a in achievements"
-          :key="a.id"
-          :achievement="a"
-        />
+        <achievement v-for="a in achievements" :key="a.id" :achievement="a" />
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import dataAccess from '@/data-access'
+import dataAccess from "@/data-access";
 import Achievement from "../../components/profile/Achievement.vue";
 import Avatar from "../../components/profile/Avatar.vue";
 import SectionHeader from "../../components/profile/SectionHeader.vue";
@@ -93,20 +90,20 @@ export default {
       style,
       user: null,
       achievements: [],
-      interests: []
+      interests: [],
     };
   },
   methods: {
     async fetchUser() {
-      this.user = await dataAccess.users.getUser(this.userId)
-      this.achievements = await dataAccess.achievements.getByUser(this.userId)
-      this.interests = await dataAccess.interests.getAll(this.userId)
-    }
+      this.user = await dataAccess.users.getUser(this.userId);
+      this.achievements = await dataAccess.achievements.getByUser(this.userId);
+      this.interests = await dataAccess.interests.getAll(this.userId);
+    },
   },
   computed: {
-    userId(){
-      return this.$route.params.id
-    }
+    userId() {
+      return this.$route.params.id;
+    },
   },
   async created() {
     await this.fetchUser();
@@ -134,6 +131,15 @@ export default {
   .name {
     font-weight: bold;
     color: black;
+  }
+
+  .logout {
+    display: flex;
+    padding: 10px;
+    border-radius: 50%;
+    background-color: $color-primary;
+    color: white;
+    margin-right: 1%;
   }
 
   .options {

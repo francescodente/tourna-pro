@@ -49,7 +49,10 @@ export default {
 }
 
 .inputs{
-  margin-top: 15px;
+  margin-top: 5%;
+  height: 100%;
+  width: 90%;
+  margin-left: 5%;
 }
 
 </style>

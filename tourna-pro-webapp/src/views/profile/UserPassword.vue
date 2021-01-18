@@ -48,12 +48,21 @@ export default {
   methods: {
     async onSubmit() {
       // TODO: add checks for new/confirm password equality
-      await dataAccess.authentication.changePassword(this.$route.params.id, this.password, this.newPassword)
+      await dataAccess.authentication.changePassword(
+        this.$route.params.id,
+        this.password,
+        this.newPassword
+      );
     },
-  }
+  },
 };
 </script>
 
 <style lang="scss" scoped>
-
+.form {
+  margin-top: 5%;
+  height: 100%;
+  width: 90%;
+  margin-left: 5%;
+}
 </style>
