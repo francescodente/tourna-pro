@@ -20,7 +20,9 @@ export default {
     }
   },
   async created() {
-    this.teams = await dataAccess.teams.getAll()
+    this.teams = await dataAccess.teams.getAll({
+      user: this.$store.getters.userId
+    })
   }
 }
 </script>

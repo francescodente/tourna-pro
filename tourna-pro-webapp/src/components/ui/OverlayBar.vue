@@ -1,5 +1,5 @@
 <template>
-  <div class="overlay-container">
+  <div :class="['overlay-container', hoverable ? 'hoverable' : '']">
     <div class="info-bar">
       <span class="title">{{ title }}</span>
       <slot></slot>
@@ -10,7 +10,8 @@
 <script>
 export default {
   props: {
-    title: String
+    title: String,
+    hoverable: Boolean
   }
 }
 </script>
@@ -21,6 +22,10 @@ export default {
   width: 100%;
   position: absolute;
   bottom: 0px;
+
+  &.hoverable:hover {
+    background-color: rgba(0, 0, 0, 0.2);
+  }
 
   .info-bar {
     color: white;

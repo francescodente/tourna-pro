@@ -2,7 +2,8 @@
   <router-link class="team-card" tag="div" :to="`/teams/${team.id}`">
     <image-fit v-if="team.imageUrl" :src="team.imageUrl" :alt="`${team.name}'s team image`" />
     <image-fit v-else :src="require('@/assets/defaultTeamImage.png')" alt="This team has no image" />
-    <overlay-bar class="team-overlay" :title="team.name">
+    <div class="hover-background"></div>
+    <overlay-bar class="team-overlay" :title="team.name" :hoverable="true">
       <text-icon icon="fas fa-user-friends" :text="String(team.members.length)" />
     </overlay-bar>
   </router-link>
@@ -29,6 +30,16 @@ export default {
   border: 4px solid $color-complementary;
   border-radius: 10px;
   overflow: hidden;
+
+  .hover-background {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+
+    &:hover {
+      background-color: rgba(0,0,0,0.2);
+    }
+  }
 
   .team-overlay:hover {
     cursor: pointer;
