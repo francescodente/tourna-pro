@@ -3,14 +3,14 @@
     <div class="top-row">
       <avatar size="4em" :src="user.imageUrl" />
       <div class="user-name">
-        <span class="name">{{ user.firstName + " " + user.lastName }}</span>
-        <span>{{ user.username }}</span>
+        <span class="name" size="10%">{{ user.firstName + " " + user.lastName }}</span>
+        <span>@{{ user.username }}</span>
       </div>
-      <router-link :to="this.$route.path + '/login'">
-        <span class="logout"><i class="fas fa-sign-out-alt"></i></span>
-      </router-link>
+      <span class="logout" v-on:click="logoutUser"
+        ><i class="fas fa-sign-out-alt fa-lg"></i
+      ></span>
       <router-link :to="this.$route.path + '/password'">
-        <span class="options"><i class="fas fa-lg fa-cog"></i></span>
+        <span class="options"><i class="fas fa-lg fa-cog fa-lg"></i></span>
       </router-link>
     </div>
 
@@ -25,17 +25,17 @@
 
     <div class="info">
       <text-icon
-        icon="fas fa-birthday-cake"
+        icon="fas fa-birthday-cake fa-lg"
         :text="user.birthDate | dateFormat"
         :iconColor="style.colorPrimary"
       />
       <text-icon
-        icon="fas fa-phone-alt"
+        icon="fas fa-phone-alt fa-lg"
         :text="user.telephone"
         :iconColor="style.colorPrimary"
       />
       <text-icon
-        icon="fas fa-mars"
+        icon="fas fa-mars fa-2x"
         :text="user.gender"
         :iconColor="style.colorPrimary"
       />
@@ -53,9 +53,12 @@
           <i class="fas fa-ellipsis-h"></i>
         </router-link>
       </section-header>
-      <div v-for="i in interests" :key="i" class="badge badge-pill">
-        {{ "#" + i }}
+      <div v-if="interests.length > 0">
+        <div v-for="i in interests" :key="i" class="badge badge-pill">
+          #{{ i | activityFromId }}
+        </div>
       </div>
+      <div v-else>Non hai ancora selezionato i tuoi interessi!</div>
     </div>
 
     <div>
@@ -63,8 +66,11 @@
         <span>Achievements</span>
         <i class="fas fa-question-circle"></i>
       </section-header>
-      <div class="achievements">
+      <div class="achievements" v-if="achievements.lengh > 0">
         <achievement v-for="a in achievements" :key="a.id" :achievement="a" />
+      </div>
+      <div class="achievements" v-else>
+        Non hai ancora sbloccato nessun achievements!
       </div>
     </div>
   </div>
@@ -77,6 +83,7 @@ import Avatar from "../../components/profile/Avatar.vue";
 import SectionHeader from "../../components/profile/SectionHeader.vue";
 import TextIcon from "../../components/ui/TextIcon.vue";
 import style from "../../style/export.scss";
+import router from "../../router";
 
 export default {
   components: {
@@ -98,6 +105,9 @@ export default {
       this.user = await dataAccess.users.getUser(this.userId);
       this.achievements = await dataAccess.achievements.getByUser(this.userId);
       this.interests = await dataAccess.interests.getAll(this.userId);
+    },
+    async logoutUser() {
+      router.push({ name: "Login" });
     },
   },
   computed: {
@@ -139,7 +149,7 @@ export default {
     border-radius: 50%;
     background-color: $color-primary;
     color: white;
-    margin-right: 1%;
+    margin-right: 0.5em;
   }
 
   .options {

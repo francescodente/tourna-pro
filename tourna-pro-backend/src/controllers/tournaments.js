@@ -86,7 +86,7 @@ exports.createTournament = async function (req) {
     return badRequest(`Selected mode: "${req.body.mode}" is not supported`)
   }
   if (!genderExists(req.body.gender)) {
-    return badRequest(`Selected gender: "${req.body.mode}" is not supported`)
+    return badRequest(`Selected gender: "${req.body.gender}" is not supported`)
   }
   let tournamentModel = new Tournament({
     name: req.body.name,
@@ -133,6 +133,16 @@ exports.getAllTournaments = async function (req) {
   }
   if (req.query.location) {
     filter.location = req.query.location
+  }
+  if(req.query.status) {
+    filter.status = req.query.status
+  }
+  if(req.query.gender){
+    filter.gender = {$in: [req.query.gender, "NONE"]}
+  }
+  if(req.query.age){
+    filter.minAge = {$lte: req.query.age}
+    filter.maxAge = {$gte: req.query.age}
   }
   let aggregateArray = [
     {
