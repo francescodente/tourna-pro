@@ -1,6 +1,6 @@
 <template>
   <router-link tag="div" :to="`/tournaments/${tournament.id}`">
-    <b-card :class="'common ' + cssStyle(tournament.status)">
+    <b-card :class="'common ' + cssStyle(status)">
       <div class="headline">
         <h5 class="title">{{ tournament.name }}</h5>
         <p>{{ `Età: ${tournament.minAge} - ${tournament.maxAge}, Genere: ${tournament.gender}` }}</p>
@@ -9,7 +9,7 @@
         <text-icon
           :text="tournament.location"
           icon="fas fa-map-marker-alt"
-          :iconColor="iconColor(tournament.status)"
+          :iconColor="iconColor(status)"
         />
       </div>
       <div class="my-row">
@@ -17,7 +17,7 @@
           <text-icon
             :text="tournament.date | dateFormat"
             icon="far fa-calendar-alt"
-            :iconColor="iconColor(tournament.status)"
+            :iconColor="iconColor(status)"
           />
         </div>
         <div class="total">
@@ -26,7 +26,7 @@
               tournament.mode == 'TEAM' ? 'Squadre' : 'Partecipanti'
             }`"
             icon="fas fa-users"
-            :iconColor="iconColor(tournament.status)"
+            :iconColor="iconColor(status)"
           />
         </div>
       </div>
@@ -52,12 +52,12 @@ export default {
     cssStyle: function (status) {
       if (status == "PENDING") return "FUTURE";
       else if (status == "ACTIVE") return "ACTIVE";
-      else return "";
+      else return "exploring";
     },
     iconColor: function (status) {
       if (status == "PENDING") return style.colorSecondary1;
       else if (status == "ACTIVE") return style.colorComplementary;
-      else return style.colorSecondary1;
+      else return style.colorSecondary2;
     },
   },
 };
@@ -123,10 +123,14 @@ export default {
   }
 }
 .exploring {
-  background-color: $color-secondary2;
+  .title {
+    color: $color-secondary2;
+  }
+  //background-color: $color-secondary1;
   border-color: $color-secondary2-lightest;
   .badge {
     color: $color-secondary2;
+    border-color: $color-secondary2-lightest;
   }
 }
 </style>

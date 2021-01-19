@@ -29,7 +29,11 @@
           @trigger="startTournament"
         />
         <action-button actionName="Modifica il torneo" icon="far fa-edit" />
-        <action-button actionName="Elimina il torneo" icon="far fa-trash-alt" @trigger="deleteTournament" />
+        <action-button
+          actionName="Elimina il torneo"
+          icon="far fa-trash-alt"
+          @trigger="deleteTournament"
+        />
       </div>
     </div>
     <div class="user-actions" v-if="!owner">
@@ -37,10 +41,15 @@
         <action-button
           actionName="Iscriviti al torneo"
           icon="far fa-check-square"
+          @trigger="requestSubscription"
         />
       </div>
       <div class="subscribed-actions" v-if="subscribed">
-        <action-button actionName="Ritirati dal torneo" icon="fas fa-times" @trigger="retireFromTournament"/>
+        <action-button
+          actionName="Ritirati dal torneo"
+          icon="fas fa-times"
+          @trigger="retireFromTournament"
+        />
         <div class="active-tournament" v-if="active">
           <action-button
             actionName="Visualizza partite"
@@ -60,10 +69,10 @@
 </template>
 
 <script>
-import dataAccess from '@/data-access'
+import dataAccess from "@/data-access";
 import ActionButton from "../../ui/ActionButton.vue";
-import YesNoPopup from '../../ui/YesNoPopup.vue';
-import { mapGetters } from 'vuex';
+import YesNoPopup from "../../ui/YesNoPopup.vue";
+import { mapGetters } from "vuex";
 
 export default {
   components: { ActionButton, YesNoPopup },
@@ -71,48 +80,80 @@ export default {
   props: {
     owner: Boolean,
     active: Boolean,
-    subscribed: Boolean
+    subscribed: Boolean,
+    team: Boolean,
   },
-  data(){
+  data() {
     return {
-      title: '',
-      text: ''
-    }
+      title: "",
+      text: "",
+    };
   },
   computed: {
-    ...mapGetters(['userId'])
-  }, 
+    ...mapGetters(["userId"]),
+  },
   methods: {
     //OWNER ACTIONS
     nameAdmin() {
-      this.$router.push({name: 'NameAdmin'})
+      this.$router.push({ name: "NameAdmin" });
     },
     manageSubscriptions() {
-      this.$router.push({name: 'ManageSubscriptions'})
+      this.$router.push({ name: "ManageSubscriptions" });
     },
-    async startTournament(){
-      let res = await this.$refs["yes-no"].show("Avvia il torneo", "Sei sicuro di voler avviare il torneo?")
-      if(res){
+    async startTournament() {
+      let res = await this.$refs["yes-no"].show(
+        "Avvia il torneo",
+        "Sei sicuro di voler avviare il torneo?"
+      );
+      if (res) {
         //TODO fill with endpoint to start tournament
       }
-
     },
-    async deleteTournament(){
-      let res = await this.$refs["yes-no"].show("Elimina il torneo", "Questa azione eliminerà il torneo")
-      if(res){
-        await dataAccess.tournaments.delete(this.$route.params.id)
-        this.$router.push({name: 'MyTournaments'})
+    async deleteTournament() {
+      let res = await this.$refs["yes-no"].show(
+        "Elimina il torneo",
+        "Questa azione eliminerà il torneo"
+      );
+      if (res) {
+        await dataAccess.tournaments.delete(this.$route.params.id);
+        this.$router.push({ name: "MyTournaments" });
       }
     },
     //USER ACTIONS
-    async retireFromTournament(){
-      let res = await this.$refs["yes-no"].show("Ritirati dal torneo", "Vuoi ritirarti la tua iscrizione al torneo?")
-      if(res){
-        await dataAccess.participants.delete(this.$route.params.id, this.userId)
-        this.$router.go(0) //refresh
+    async requestSubscription() {
+      if (this.team) {
+        //TODO team subscription flow
+      } else {
+        let res = await this.$refs["yes-no"].show(
+          "Iscriviti al torneo",
+          "Vuoi chiedere di iscriverti al torneo?"
+        );
+        if (res) {
+          let request = {
+            type: "USER",
+            userId: this.userId,
+          };
+          await dataAccess.participationRequests.add(
+            this.$route.params.id,
+            request
+          );
+        }
       }
-    }
-  }
+    },
+    async retireFromTournament() {
+      let res = await this.$refs["yes-no"].show(
+        "Ritirati dal torneo",
+        "Vuoi ritirarti la tua iscrizione al torneo?"
+      );
+      if (res) {
+        await dataAccess.participants.delete(
+          this.$route.params.id,
+          this.userId
+        );
+        this.$router.go(0); //refresh
+      }
+    },
+  },
 };
 </script>
 

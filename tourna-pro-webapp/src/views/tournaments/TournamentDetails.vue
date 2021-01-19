@@ -18,7 +18,12 @@
           <activity-tab :logs="logs" />
         </tab>
         <tab title="Azioni">
-          <action-tab :owner="tournament.owned" :subscribed="tournament.subscribed" :active="tournament.active" />
+          <action-tab 
+          :owner="tournament.owned" 
+          :subscribed="tournament.subscribed" 
+          :active="tournament.status == 'ACTIVE'" 
+          :team="tournament.mode == 'TEAMS'"
+          />
         </tab>
       </tab-view>
     </div>

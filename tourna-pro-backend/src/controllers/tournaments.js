@@ -134,6 +134,16 @@ exports.getAllTournaments = async function (req) {
   if (req.query.location) {
     filter.location = req.query.location
   }
+  if(req.query.status) {
+    filter.status = req.query.status
+  }
+  if(req.query.gender){
+    filter.gender = {$in: [req.query.gender, "NONE"]}
+  }
+  if(req.query.age){
+    filter.minAge = {$lte: req.query.age}
+    filter.maxAge = {$gte: req.query.age}
+  }
   let aggregateArray = [
     {
       $lookup: {
