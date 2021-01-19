@@ -6,6 +6,7 @@
       v-if="user"
       initialName=""
       :initialMembers="[user]"
+      :owner="user.id"
       @submit="onSubmit" />
   </div>
 </template>

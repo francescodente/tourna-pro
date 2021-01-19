@@ -50,7 +50,7 @@ export default {
 
 .tabs-nav{
   width:100%;
-  overflow-x:scroll;
+  overflow-x: auto;
   padding:0px;
   margin:0px;
   flex-shrink: 0;
@@ -72,7 +72,7 @@ export default {
 
 .tabs-body{
   flex-grow: 1;
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 
 .is-active{

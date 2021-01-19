@@ -88,7 +88,7 @@ export default {
   background-color: white;
   border: 1px solid gray;
   z-index: 100;
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 
 .empty {

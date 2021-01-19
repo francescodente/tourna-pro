@@ -39,7 +39,7 @@ export default {
     height: 30%;
     padding: 10px 15px;
     font-size: 1.3rem;
-    background: rgba(85, 85, 85, 0.8);
+    background: rgba(0, 0, 0, 0.5);
 
     .title {
       font-weight: bold;

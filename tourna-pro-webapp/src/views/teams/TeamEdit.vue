@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1>Modifica Squadra</h1>
-    <team-editor v-if="loaded" :initialMembers="initialMembers" :initialName="initialName" @submit="updateTeam" />
+    <team-editor v-if="loaded" :initialMembers="initialMembers" :initialName="team.name" :owner="team.creatorId" @submit="updateTeam" />
   </div>
 </template>
 
@@ -18,7 +18,7 @@ export default {
   data() {
     return {
       loaded: false,
-      initialName: '',
+      team: null,
       initialMembers: []
     }
   },
@@ -51,13 +51,10 @@ export default {
     }
   },
   async created() {
-    let team = await dataAccess.teams.get(this.teamId)
-    let members = await dataAccess.users.search({
-      userIds: JSON.stringify(team.members)
+    this.team = await dataAccess.teams.get(this.teamId)
+    this.initialMembers = await dataAccess.users.search({
+      userIds: JSON.stringify(this.team.members)
     })
-
-    this.initialName = team.name
-    this.initialMembers = members
     this.loaded = true
   }
 };

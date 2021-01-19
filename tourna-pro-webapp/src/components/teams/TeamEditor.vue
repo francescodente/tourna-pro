@@ -15,6 +15,7 @@
       v-model="currentMembers"
       :mainColor="style.colorComplementary"
       :backgroundColor="style.colorComplementaryBackground"
+      :owner="owner"
       class="list-editor"
     />
 
@@ -37,6 +38,7 @@ export default {
   props: {
     initialName: String,
     initialMembers: Array,
+    owner: String,
     disabled: Boolean
   },
   data() {

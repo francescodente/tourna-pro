@@ -7,7 +7,7 @@
 
     <h2 :style="'background-color: '+mainColor">{{ subTitle }}</h2>
     <div class="users-list">
-      <user-list :users="value" :canDelete="true" :canSelect="false" @userDeleted="deleteUser" />
+      <user-list :users="value" :owner="owner" :canDelete="true" :canSelect="false" @userDeleted="deleteUser" />
     </div>
   </div>
 </template>
@@ -21,6 +21,7 @@ export default {
     value: Array,
     title: String,
     subTitle: String,
+    owner: String,
     mainColor: {type: String, default: 'inherit'},
     backgroundColor: {type: String, default: 'inherit'}
   },

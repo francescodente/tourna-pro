@@ -19,9 +19,9 @@ export default {
 <style lang="scss" scoped>
 .home {
   height: 100%;
+  padding-bottom: $bottom-navbar-height;
 
   .home-content {
-    padding-bottom: $bottom-navbar-height;
     height: 100%;
     overflow: auto;
   }

@@ -6,6 +6,7 @@
       :user="user"
       :canDelete="canDelete"
       :canSelect="canSelect"
+      :isOwner="user.id == owner"
       @selected="$emit('userSelected', user)"
       @deleted="$emit('userDeleted', user)"
     />
@@ -18,6 +19,7 @@ export default {
   components: { UserLine },
   props: {
     users: Array,
+    owner: String,
     canDelete: {
       type: Boolean,
       default: true,

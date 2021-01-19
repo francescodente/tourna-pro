@@ -2,7 +2,9 @@
   <div :class="classes" @click="onSelect">
     <avatar :src="user.imageUrl"/>
     <div class="user-username">
-      {{ user.username }} <span class="real-name">({{ user.firstName }} {{ user.lastName }})</span>
+      {{ user.username }}
+      <span class="real-name">({{ user.firstName }} {{ user.lastName }})</span>
+      <i v-if="isOwner" class="fas fa-crown owner"></i>
     </div>
     <a v-if="canDelete && user.id != $store.getters.userId" @click="$emit('deleted', $event)" class="delete-button">
       <i class="fas fa-times"></i>
@@ -16,6 +18,7 @@ export default {
   components: { Avatar },
   props: {
     user: Object,
+    isOwner: Boolean,
     canDelete: {
       type: Boolean,
       default: true
@@ -68,6 +71,11 @@ export default {
 
     .real-name {
       color: gray;
+    }
+
+    .owner {
+      color: $color-secondary1;
+      margin-left: 15px;
     }
   }
 
