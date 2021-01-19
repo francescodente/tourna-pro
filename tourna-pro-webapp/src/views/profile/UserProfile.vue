@@ -53,7 +53,7 @@
           <i class="fas fa-ellipsis-h"></i>
         </router-link>
       </section-header>
-      <div v-if="interests.lengh > 0">
+      <div v-if="interests.length > 0">
         <div v-for="i in interests" :key="i" class="badge badge-pill">
           #{{ i | activityFromId }}
         </div>
