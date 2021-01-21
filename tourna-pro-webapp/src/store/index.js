@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 import tournamentsTypes from './modules/tournament-types'
 import activities from './modules/activities'
 import achievements from './modules/achievements'
+import notifications from './modules/notifications'
 
 Vue.use(Vuex)
 
@@ -39,5 +40,6 @@ export default new Vuex.Store({
     tournamentsTypes,
     achievements,
     activities,
+    notifications
   }
 })

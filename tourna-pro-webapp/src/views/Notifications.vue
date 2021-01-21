@@ -1,52 +1,57 @@
 <template>
   <div>
-    <div v-for="n in notifications" :class="styleClass(n.seen)" :key="n.id">
+    <div v-for="n in notifications" :class="styleClass(n.read)" :key="n.id" @click="openNotification(n)">
       <date-text :date="n.date" :dateColor="style.colorPrimary">
-        {{n.text}}
+        {{ n | formatNotification }}
       </date-text>
     </div>
   </div>
 </template>
 
 <script>
+import dataAccess from '@/data-access'
+import { mapActions, mapGetters } from 'vuex'
 import DateText from '../components/ui/DateText.vue'
 import style from '../style/export.scss'
 export default {
   components: { DateText },
   name: 'Notifications',
-  data: function() {
+  data() {
     return {
       style,
-      notifications: [
-        {
-          id: 1,
-          date: "20/01/2020",
-          text: "La squadra Magici ha vinto il torneo",
-          seen: false
-        },
-        {
-          id: 2,
-          date: "18/01/2020",
-          text: "La squadra Magici si è iscritta al torneo",
-          seen: true
-        }
-      ]
+      notifications: []
     }
   },
   methods: {
-    styleClass: function(seen) {
-      return seen ? 'notification' : 'notification not-seen'
+    ...mapActions(['readNotification']),
+    openNotification(notification) {
+      notification.read = true
+      this.readNotification()
+      dataAccess.logs.markAsRead(this.$store.getters.userId, notification.id)
+    },
+    styleClass(read) {
+      return {
+        'notification': true,
+        'not-read': !read
+      }
     }
+  },
+  async created() {
+    this.notifications = await dataAccess.logs.getUserNotifications(this.$store.getters.userId)
   }
 }
 </script>
 
 <style lang="scss">
-.notification{
+.notification {
   padding: 10px;
   border-bottom: 1.5px solid $color-primary;
+
+  &:hover {
+    cursor: pointer;
+  }
 }
-.not-seen{
+.not-read {
   background-color: $color-primary-background;
 }
 </style>

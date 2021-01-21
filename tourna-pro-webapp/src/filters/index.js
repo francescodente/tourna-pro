@@ -1,4 +1,6 @@
 import store from '../store'
+import formatNotification from './notification-formatter'
+
 function dateFormat(date){
   var converted = new Date(date)
   return converted.toLocaleDateString()
@@ -27,4 +29,5 @@ export default function (vue) {
   vue.filter('tournamentMode', tournamentMode)
   vue.filter('tournamentType', tournamentType)
   vue.filter('activityFromId', activityFromId)
+  vue.filter('formatNotification', formatNotification)
 }
