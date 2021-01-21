@@ -9,6 +9,7 @@
         <router-view v-model="currentStep.model" />
       </simple-form>
     </simple-border>
+    <span class="suggestion">Hai già un account? <router-link :to="{name: 'Login'}">Accedi</router-link></span>
   </div>
 </template>
 
@@ -56,7 +57,7 @@ export default {
   methods: {
     async onSubmit() {
       this.currentStepIndex++
-      if(this.currentStep-1==3){return this.userRegistration}
+      if(this.currentStep-1==3){await this.userRegistration()}
       this.$router.push({ name: this.currentStep.route })
     },
     async userRegistration() {
@@ -101,6 +102,10 @@ export default {
   
   .registration-form {
     flex: 1;
+  }
+
+  .suggestion{
+    padding-bottom:20px;
   }
 }
 </style>

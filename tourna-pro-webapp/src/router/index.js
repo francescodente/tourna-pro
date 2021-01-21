@@ -51,8 +51,7 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  if (to.name !== 'Login' && !store.getters.accessToken) {
-    console.log(store.getters.accessToken)
+  if (!['Login','AuthInfo'].includes(to.name) && !store.getters.accessToken) {
     next({ name: 'Login' })
   }
   else next()

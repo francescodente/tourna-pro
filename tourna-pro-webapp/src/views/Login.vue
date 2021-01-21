@@ -1,28 +1,30 @@
 <template>
-  <simple-border>
-    <simple-form submitMessage="Login" @submit="onSubmit">
-      <simple-input
-        label="Username o Email"
-        type="text"
-        v-model="username"
-        identifier="username"
-      />
+  <div>
+    <simple-border>
+      <simple-form submitMessage="Login" @submit="onSubmit">
+        <simple-input
+          label="Username o Email"
+          type="text"
+          v-model="username"
+          identifier="username"
+        />
 
-      <simple-input
-        label="Password"
-        :type="showPassword ? 'text' : 'password'"
-        v-model="password"
-        identifier="password"
-      />
+        <simple-input
+          label="Password"
+          :type="showPassword ? 'text' : 'password'"
+          v-model="password"
+          identifier="password"
+        />
 
-      <simple-checkbox
-        label="Mostra password"
-        v-model="showPassword"
-        identifier="showpassword"
-      />
-      <span>Non hai un account? <router-link :to="{name: 'Register'}">Registrati</router-link></span>
-    </simple-form>
-  </simple-border>
+        <simple-checkbox
+          label="Mostra password"
+          v-model="showPassword"
+          identifier="showpassword"
+        />
+      </simple-form>
+    </simple-border>
+    <span>Non hai un account?<router-link :to="{ name: 'Register' }"> Registrati</router-link></span>
+  </div>
 </template>
 
 <script>
@@ -50,7 +52,7 @@ export default {
         localStorage.setItem("userId", res.userId);
         localStorage.setItem("accessToken", res.accessToken);
         this.$store.dispatch("initStore");
-        this.$router.push({name: 'MyTournaments'});
+        this.$router.push({ name: "MyTournaments" });
       } catch (error) {}
     },
   },
