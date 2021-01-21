@@ -2,23 +2,22 @@
   <div>
     <div v-for="l in logs" class="activity" :key="l.id">
       <date-text :date="l.date" :dateColor="style.colorSecondary2">
-        {{l.text}}
+        {{ l | formatTournamentLog }}
       </date-text>
     </div>
   </div>
 </template>
-<script>
 
+<script>
 import DateText from '../../../components/ui/DateText.vue'
 import style from '../../../style/export.scss'
 export default {
   components: {DateText},
   name: 'ActivityTab',
-  props:
-  {
+  props: {
     logs: Array
   },
-  data: function() {
+  data() {
     return {
       style
     }

@@ -44,7 +44,7 @@ exports.getTeamLogs = async function (req) {
   })
 }
 
-exports.getTeamLogs = async function (req) {
+exports.getTournamentLogs = async function (req) {
   return await getLogsByFilter(req, {
     tournamentId: req.params.id
   })

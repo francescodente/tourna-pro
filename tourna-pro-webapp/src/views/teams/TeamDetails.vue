@@ -23,7 +23,7 @@
         <tab title="Attività" :color="style.colorComplementary">
           <div v-for="log in logs" :key="log.id">
             <date-text class="activity" :date="log.date" :dateColor="style.colorComplementary">
-              {{ log.text }}
+              {{ log | formatTeamLog }}
             </date-text>
           </div>
         </tab>
@@ -87,6 +87,7 @@ export default {
     this.members = await dataAccess.users.search({
       userIds: JSON.stringify(this.team.members)
     })
+    this.logs = await dataAccess.logs.getTeamLogs(this.teamId)
   }
 };
 </script>

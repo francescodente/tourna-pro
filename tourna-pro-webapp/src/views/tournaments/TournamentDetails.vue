@@ -19,10 +19,10 @@
         </tab>
         <tab title="Azioni">
           <action-tab 
-          :owner="tournament.owned" 
-          :subscribed="tournament.subscribed" 
-          :active="tournament.status == 'ACTIVE'" 
-          :team="tournament.mode == 'TEAMS'"
+            :owner="tournament.owned" 
+            :subscribed="tournament.subscribed" 
+            :active="tournament.status == 'ACTIVE'" 
+            :team="tournament.mode == 'TEAMS'"
           />
         </tab>
       </tab-view>
@@ -59,13 +59,18 @@ export default {
   methods: {
     async fetchTournament() {
       this.tournament = await dataAccess.tournaments.get(this.$route.params.id)
-      this.logs = [] // TODO: replace with backend call
+      this.logs = await dataAccess.logs.getTournamentLogs(this.tournamentId)
     }
   },
-  created: async function () {
+  computed: {
+    tournamentId() {
+      return this.$route.params.id
+    }
+  },
+  async created() {
     await this.fetchTournament()
   }
-};
+}
 </script>
 
 <style lang="scss" scoped>
