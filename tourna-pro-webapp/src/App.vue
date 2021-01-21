@@ -28,10 +28,10 @@ export default {
   },
   created() {
     this.$socket.on('login', () => {
-      console.log('Authenticating with socket.io...')
-      this.initUnreadNotifications(this.$store.getters.userId)
       let accessToken = this.$store.getters.accessToken
       if (accessToken) {
+        console.log('Authenticating with socket.io...')
+        this.initUnreadNotifications(this.$store.getters.userId)
         this.$socket.emit('authenticate', { accessToken })
       }
     })
