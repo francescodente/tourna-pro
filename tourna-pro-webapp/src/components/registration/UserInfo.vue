@@ -20,7 +20,7 @@
     <simple-input
       label="Data di nascita"
       type="date"
-      v-model="currentValue.birthDay"
+      v-model="currentValue.birthDate"
       identifier="birthdate"
 			@input="$emit('input', currentValue)"
     />
@@ -72,7 +72,7 @@ export default {
           display: 'F'
         },
         {
-          value: 'UNDEFINED',
+          value: 'NONE',
           display: 'Preferisco non specificare'
         }
       ]
