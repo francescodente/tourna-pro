@@ -11,10 +11,10 @@
         <tab title="Dettagli" :selected="true">
           <details-tab :tournament="tournament"/>
         </tab>
-        <tab v-if="tournament.active == true" title="Tabellone">
+        <tab v-if="tournament.status == 'ACTIVE'" title="Tabellone">
           <score-board-tab />
         </tab>
-        <tab v-if="tournament.subscribed == true" title="Attività">
+        <tab v-if="tournament.subscribed != 'NONE'" title="Attività">
           <activity-tab :logs="logs" />
         </tab>
         <tab title="Azioni">

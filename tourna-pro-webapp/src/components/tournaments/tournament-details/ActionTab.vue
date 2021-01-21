@@ -37,14 +37,14 @@
       </div>
     </div>
     <div class="user-actions" v-if="!owner">
-      <div class="unsubscribed-actions" v-if="!subscribed && !active">
+      <div class="unsubscribed-actions" v-if="!isSubscribed && !active">
         <action-button
           actionName="Iscriviti al torneo"
           icon="far fa-check-square"
           @trigger="requestSubscription"
         />
       </div>
-      <div class="subscribed-actions" v-if="subscribed">
+      <div class="subscribed-actions" v-if="isSubscribed">
         <action-button
           actionName="Ritirati dal torneo"
           icon="fas fa-times"
@@ -80,7 +80,7 @@ export default {
   props: {
     owner: Boolean,
     active: Boolean,
-    subscribed: Boolean,
+    subscribed: String,
     team: Boolean,
   },
   data() {
@@ -91,6 +91,9 @@ export default {
   },
   computed: {
     ...mapGetters(["userId"]),
+    isSubscribed(){
+      return this.subscribed != 'NONE'
+    }
   },
   methods: {
     //OWNER ACTIONS

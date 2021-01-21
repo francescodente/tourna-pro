@@ -20,9 +20,7 @@ function tournamentNotAllowed(id) {
 }
 
 async function isSubscribed(userId, tournament) {
-  let participants = tournament.participants.filter(x => x.status == 'ACTIVE')
-  if (!participants)
-    return false
+  
   let requests = await ParticipationRequest.aggregate(
     [
       {
@@ -36,7 +34,7 @@ async function isSubscribed(userId, tournament) {
       {
         $match: {
           $and: [
-            { _id: { $in: participants.map(x => x.id) } },
+            { tournamentId: tournament._id},
             {
               $or: [
                 { userId: mongoose.Types.ObjectId(userId) },
@@ -47,8 +45,16 @@ async function isSubscribed(userId, tournament) {
         }
       }
     ])
-  if (requests) {
-    return true;
+  if (requests.length != 0) {
+    console.log(requests)
+    let activeParticipantsId = tournament.participants.filter(x => x.status == 'ACTIVE').map(x => x._id)
+    if(activeParticipantsId.includes(requests[0]._id)){
+      return 'SUBSCRIBED'
+    } else {
+      return 'REQUESTED'
+    }
+  } else {
+    return 'NONE'
   }
 }
 
@@ -184,7 +190,8 @@ exports.getTournamentById = async function (req) {
   if (!tournament) {
     return notFound(tournamentNotFound(req.params.id))
   }
-  return ok(tournamentDto(tournament, req.userId, await isSubscribed(req.userId, tournament)))
+  let subscribed = await isSubscribed(req.userId, tournament)
+  return ok(tournamentDto(tournament, req.userId, subscribed))
 }
 
 exports.updateTournament = async function (req) {
