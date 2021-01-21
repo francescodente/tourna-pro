@@ -62,6 +62,9 @@ export default {
     font-weight: bold;
     flex: 1 1 0;
     color:$color-not-focus-text;
+    &:hover{
+      cursor: pointer;
+    }
     a {
       padding:12px;
       display:block;

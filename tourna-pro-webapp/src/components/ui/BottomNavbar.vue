@@ -1,50 +1,43 @@
 <template>
   <div class="navbar-container">
-    <div
-      class="button-container"
-      v-for="(button, index) in buttons"
-      :key="button.linkTo"
-    >
-      <router-link
-        :class="{
-          'navbar-button': true,
-          'navbar-button-main': index == Math.floor(buttons.length / 2),
-        }"
-        :to="button.linkTo"
-      >
-        <i :class="button.icon"></i>
+    <div class="button-container">
+      <router-link class="navbar-button" :to="{ name: 'Teams' }">
+        <i class="far fa-handshake"></i>
+      </router-link>
+    </div>
+
+    <div class="button-container">
+      <router-link class="navbar-button" :to="{ name: 'Explore' }">
+        <i class="far fa-compass"></i>
+      </router-link>
+    </div>
+
+    <div class="button-container">
+      <router-link class="navbar-button navbar-button-main" :to="{ name: 'MyTournaments' }">
+        <i class="fas fa-trophy"></i>
+      </router-link>
+    </div>
+
+    <div class="button-container">
+      <span v-if="unreadNotifications > 0" class="badge badge-pill badge-danger">{{ unreadNotifications }}</span>
+      <router-link class="navbar-button" :to="{ name: 'Notifications' }">
+        <i class="far fa-bell"></i>
+      </router-link>
+    </div>
+
+    <div class="button-container">
+      <router-link class="navbar-button" :to="{ name: 'UserProfile', params: { id: $store.getters.userId } }">
+        <i class="far fa-user"></i>
       </router-link>
     </div>
   </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 export default {
   computed: {
-    buttons: function () {
-      return [
-        {
-          icon: "far fa-handshake",
-          linkTo: "/teams",
-        },
-        {
-          icon: "far fa-compass",
-          linkTo: "/explore",
-        },
-        {
-          icon: "fas fa-trophy",
-          linkTo: "/tournaments",
-        },
-        {
-          icon: "far fa-bell",
-          linkTo: "/notifications",
-        },
-        {
-          icon: "far fa-user",
-          linkTo: `/user/${this.$store.getters.userId}`,
-        },
-      ];
-    },
+    ...mapGetters(['unreadNotifications'])
   },
   methods: {
     navigateTo(route) {
@@ -69,6 +62,13 @@ export default {
   .button-container {
     flex: 1;
     height: 100%;
+    position: relative;
+
+    .badge {
+      position: absolute;
+      right: 15%;
+      top: 0px;
+    }
 
     &:not(:first-child) {
       border-left: 1px solid $color-primary;

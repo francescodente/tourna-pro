@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="date" :style="{color: dateColor}">
-      {{date}}
+      {{ date | dateFormat }}
     </div>
     <div class="text">
       <slot></slot>

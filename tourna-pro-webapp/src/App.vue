@@ -9,6 +9,7 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 import ErrorPopup from './components/ui/ErrorPopup.vue'
 import TitleBar from './components/ui/TitleBar.vue'
 
@@ -21,6 +22,24 @@ export default {
     return {
       name: 'TournaPro',
     }
+  },
+  methods: {
+    ...mapActions(['newNotification','initUnreadNotifications'])
+  },
+  created() {
+    this.$socket.on('login', () => {
+      console.log('Authenticating with socket.io...')
+      this.initUnreadNotifications(this.$store.getters.userId)
+      let accessToken = this.$store.getters.accessToken
+      if (accessToken) {
+        this.$socket.emit('authenticate', { accessToken })
+      }
+    })
+    
+    this.$socket.on('notification', notification => {
+      console.log(notification)
+      this.newNotification()
+    })
   }
 }
 </script>

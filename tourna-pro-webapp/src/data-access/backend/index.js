@@ -12,6 +12,7 @@ import tournamentOwners from './tournament-owners'
 import tournamentTypes from './tournament-types'
 import tournaments from './tournaments'
 import users from './users'
+import logs from './logs'
 
 export default {
   achievements,
@@ -19,6 +20,7 @@ export default {
   authentication,
   images,
   interests,
+  logs,
   matches,
   participants,
   participationRequests,

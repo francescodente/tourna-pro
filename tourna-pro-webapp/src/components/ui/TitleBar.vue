@@ -1,9 +1,7 @@
 <template>
   <div class="title-bar">
-    <div class="back-button">
-      <a @click.prevent="back">
-        <i class="fas fa-chevron-left"></i>
-      </a>
+    <div class="back-button" @click="back">
+      <i class="fas fa-chevron-left"></i>
     </div>
     {{ appName }}
   </div>
@@ -50,6 +48,7 @@ export default {
 
     &:hover {
       background-color: $color-primary-darker;
+      cursor: pointer;
     }
   }
 }

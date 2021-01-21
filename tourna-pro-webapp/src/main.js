@@ -6,13 +6,19 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import setupFilters from './filters'
+import { io } from 'socket.io-client'
 
 import '@fortawesome/fontawesome-free/css/all.css'
 import '@fortawesome/fontawesome-free/js/all.js'
+import infiniteScroll from 'vue-infinite-scroll'
+
+Vue.prototype.$socket = io('http://localhost:3000')
 
 Vue.config.productionTip = false
 
 setupFilters(Vue)
+
+Vue.use(infiniteScroll)
 
 store.dispatch('initStore');
 store.dispatch('fetchActivities');
@@ -23,4 +29,3 @@ new Vue({
   store,
   render: h => h(App)
 }).$mount('#app')
-

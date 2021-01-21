@@ -13,4 +13,5 @@ module.exports = function(app) {
   require('./participation-requests')(app)
   require('./participants')(app)
   require('./matches')(app)
+  require('./logs')(app)
 }

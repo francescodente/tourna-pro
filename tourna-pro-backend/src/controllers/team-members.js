@@ -1,4 +1,5 @@
 const { Team } = require('../models')
+const { publish } = require('../services/event-bus')
 const { ok, notFound, forbidden } = require('../utils/action-results')
 
 function notFoundMessage(id) {
@@ -31,6 +32,7 @@ exports.addMember = async function (req) {
   if (!updatedTeam) {
     return notFound(notFoundMessage(req.params.id))
   }
+  publish('memberAdded', updatedTeam, req.body.userId, req.userId)
   return ok(teamMembersDto(updatedTeam));
 }
 
@@ -51,5 +53,6 @@ exports.removeMember = async function (req) {
   if (!updatedTeam) {
     return notFound(notFoundMessage(req.params.id))
   }
+  publish('memberRemoved', updatedTeam, req.params.userId, req.userId)
   return ok(teamMembersDto(updatedTeam));
 }
