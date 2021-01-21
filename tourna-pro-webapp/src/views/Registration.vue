@@ -84,8 +84,8 @@ export default {
         password: this.steps[0].model.password,
         interests: this.steps[2].model
       };
-      let res = await dataAccess.users.register(user);
-      this.$router.push({ name: "UserProfile", params: { id: res.id } });
+      await dataAccess.users.register(user);
+      this.$router.push({name: "Login"});
     },
   },
   mounted() {
