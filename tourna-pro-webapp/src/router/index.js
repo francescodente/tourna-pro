@@ -51,10 +51,15 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  if (!['Login','AuthInfo'].includes(to.name) && !store.getters.accessToken) {
+  if(to.matched.filter(x=> x.path == '/register').length != 0){
+    next()
+  } else {
+    if (!['Login'].includes(to.name) && !store.getters.accessToken) {
     next({ name: 'Login' })
   }
   else next()
+  }
+
 })
 
 export default router
