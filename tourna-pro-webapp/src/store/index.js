@@ -19,7 +19,7 @@ export default new Vuex.Store({
     error: state => state.error
   },
   mutations: {
-    initStore: async function(state) {
+    initStore: async function (state) {
       if (localStorage.getItem('userId')) {
         state.userId = localStorage.getItem('userId')
       }
@@ -27,14 +27,21 @@ export default new Vuex.Store({
         state.accessToken = localStorage.getItem('accessToken')
       }
     },
+    resetStore: async function (state) {
+      localStorage.removeItem('userId')
+      localStorage.removeItem('accessToken')
+      state.userId = null
+      state.accessToken = null
+    },
     setError: (state, error) => {
       state.error = error
     }
   },
   actions: {
     dismissError({ commit }) { commit('setError', null) },
-    setError({ commit }, error) {  commit('setError', error) },
-    initStore({ commit }) { commit('initStore') }
+    setError({ commit }, error) { commit('setError', error) },
+    initStore({ commit }) { commit('initStore') },
+    logout({ commit }) { commit('resetStore') }
   },
   modules: {
     tournamentsTypes,

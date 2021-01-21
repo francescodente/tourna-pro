@@ -107,6 +107,7 @@ export default {
       this.interests = await dataAccess.interests.getAll(this.userId);
     },
     async logoutUser() {
+      await this.$store.dispatch('logout');
       router.push({ name: "Login" });
     },
   },
