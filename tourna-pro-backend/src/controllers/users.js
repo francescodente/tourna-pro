@@ -56,7 +56,7 @@ exports.registerUser = async function (req) {
     password: hash,
     salt: salt,
     person: person._id,
-    interests: [],
+    interests: req.body.interests,
     unlockedAchievements: []
   })
   let user = await userModel.save()
