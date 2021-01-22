@@ -1,4 +1,3 @@
-const { mongo, Mongoose } = require('mongoose')
 const { createSchema } = require('./model-utils')
 
 module.exports = createSchema('Tournament', 'Tournaments', mongoose => ({
@@ -21,7 +20,7 @@ module.exports = createSchema('Tournament', 'Tournaments', mongoose => ({
       status: String, // ACTIVE | RETIRED
     }
   ],
-  matches: [
+  matches: [[
     {
       id: mongoose.ObjectId,
       participant1: {
@@ -36,6 +35,6 @@ module.exports = createSchema('Tournament', 'Tournaments', mongoose => ({
       status: String, // PENDING | STARTED | ENDED
       date: Date
     }
-  ],
+  ]],
   owners: [{type: mongoose.ObjectId, ref:'User'}]
 }))
