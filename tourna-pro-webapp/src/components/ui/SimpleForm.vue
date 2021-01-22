@@ -4,7 +4,7 @@
       <slot/>
     </div>
     <div class="form-submit">
-      <input type="submit" :value="submitMessage" />
+      <input type="submit" :value="submitMessage" :disabled="!canSubmit"/>
     </div>
   </form>
 </template>
@@ -12,7 +12,8 @@
 <script>
 export default {
   props: {
-    submitMessage: String
+    submitMessage: String,
+    canSubmit: {default: true, type: Boolean}
   }
 }
 </script>
@@ -42,6 +43,10 @@ form {
 
     &:focus {
       outline: none;
+    }
+
+    &:disabled{
+      background-color: grey;
     }
   }
 }

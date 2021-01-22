@@ -3,7 +3,13 @@
     <label :for="identifier">
       <slot>{{ label }}</slot>
     </label>
-    <select :id="identifier" @input="updated" :value="value">
+    <select
+      :id="identifier"
+      @input="updated"
+      @blur="blur"
+      @focus="focus"
+      :value="value"
+    >
       <option :value="op.value" v-for="op in options" :key="op.value">
         {{ op.display }}
       </option>
@@ -12,19 +18,18 @@
 </template>
 
 <script>
+import eventHandlers from "@/utils/validator-events";
 export default {
   props: {
     options: Array,
     value: String,
     label: String,
-    identifier: String
+    identifier: String,
   },
   methods: {
-    updated(e) {
-      this.$emit('input', e.target.value)
-    }
-  }
-}
+    ...eventHandlers
+  },
+};
 </script>
 
 <style lang="scss" scoped>
@@ -42,14 +47,13 @@ export default {
     border-bottom: 1px solid black;
     width: 100%;
     appearance: none;
-    background-image: url('~@/assets/angle-down-solid.svg');
+    background-image: url("~@/assets/angle-down-solid.svg");
     background-repeat: no-repeat;
-    background-position:right;
+    background-position: right;
     background-position-x: 100%;
     &:focus {
       outline: none;
     }
   }
-
 }
 </style>

@@ -91,9 +91,9 @@ export default {
   },
   computed: {
     ...mapGetters(["userId"]),
-    isSubscribed(){
-      return this.subscribed != 'NONE'
-    }
+    isSubscribed() {
+      return this.subscribed != "NONE";
+    },
   },
   methods: {
     //OWNER ACTIONS
@@ -140,6 +140,7 @@ export default {
             this.$route.params.id,
             request
           );
+          this.$router.go(0); //refresh
         }
       }
     },
@@ -149,10 +150,19 @@ export default {
         "Vuoi ritirarti la tua iscrizione al torneo?"
       );
       if (res) {
-        await dataAccess.participants.delete(
-          this.$route.params.id,
-          this.userId
-        );
+        console.log(this.subscribed)
+        if (this.subscribed == "SUBSCRIBED") {
+          await dataAccess.participants.delete(
+            this.$route.params.id,
+            this.userId
+          );
+        } else if(this.subscribed == "REQUESTED"){
+          //await dataAccess.participationRequest
+          await dataAccess.participationRequests.delete(
+            this.$route.params.id,
+            null //TODO fill
+          );
+        }
         this.$router.go(0); //refresh
       }
     },

@@ -7,6 +7,8 @@
       :id="identifier"
       type="number"
       @input="updated"
+      @blur="blur"
+      @focus="focus"
       :value="value"
       :placeholder="placeholder || label"
       :min="min"
@@ -16,6 +18,7 @@
 </template>
 
 <script>
+import eventHandlers from "@/utils/validator-events";
 export default {
   props: {
     placeholder: String,
@@ -23,12 +26,10 @@ export default {
     label: String,
     identifier: String,
     min: String,
-    max: String
+    max: String,
   },
   methods: {
-    updated(e) {
-      this.$emit("input", e.target.value);
-    },
+    ...eventHandlers
   },
 };
 </script>

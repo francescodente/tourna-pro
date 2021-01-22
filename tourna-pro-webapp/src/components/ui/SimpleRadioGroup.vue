@@ -9,6 +9,8 @@
           :id="op.value"
           :value="op.value"
           @input="updated"
+          @blur="blur"
+          @focus="focus"
         />
         <label :for="op.value">{{ op.display }}</label>
       </div>
@@ -17,17 +19,16 @@
 </template>
 
 <script>
+import eventHandlers from "@/utils/validator-events";
 export default {
   props: {
     group: String,
     options: Array,
     label: String,
-    inline: Boolean
+    inline: Boolean,
   },
   methods: {
-    updated(e) {
-      this.$emit("input", e.target.value);
-    },
+    ...eventHandlers
   },
 };
 </script>
@@ -42,7 +43,7 @@ export default {
   }
 
   label {
-    color:black;
+    color: black;
     margin-left: 5px;
     margin-right: 20px;
   }
