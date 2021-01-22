@@ -36,7 +36,7 @@ export default {
 <style lang="scss" scoped>
 .simple-radio {
   text-align: left;
-  margin-bottom: 15px;
+  margin-top: 15px;
 
   .title {
     font-weight: bold;

@@ -4,7 +4,7 @@
       type="checkbox"
       :checked="value"
       :id="identifier"
-      @input="updated"
+      @input="checkBoxUpdate"
       @blur="blur"
       @focus="focus"
     />
@@ -24,6 +24,9 @@ export default {
   },
   methods: {
     ...eventHandlers,
+    checkBoxUpdate(e) {
+      this.$emit("input", e.target.checked);
+    },
   },
 };
 </script>
@@ -31,6 +34,7 @@ export default {
 <style lang="scss" scoped>
 .simple-checkbox {
   text-align: left;
+  margin-top:15px
 
   label {
     margin-left: 5px;

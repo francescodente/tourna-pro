@@ -37,7 +37,7 @@ export default {
 <style lang="scss" scoped>
 .simple-input {
   text-align: left;
-  margin-bottom: 15px;
+  margin-top: 15px;
 
   label {
     font-weight: bold;
