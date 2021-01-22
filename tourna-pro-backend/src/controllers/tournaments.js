@@ -12,7 +12,7 @@ const defaultStatus = "PENDING"
 const defaultPageSize = 30
 
 function tournamentNotFound(id) {
-  return `Could not found tournament with id ${id}`
+  return `Could not find tournament with id ${id}`
 }
 
 function tournamentNotAllowed(id) {
@@ -79,7 +79,6 @@ function tournamentDto(tournament, userId, isSubscribed) {
     subscribed: isSubscribed
   }
 }
-
 
 exports.createTournament = async function (req) {
   if (!activityExists(req.body.activityId)) {
