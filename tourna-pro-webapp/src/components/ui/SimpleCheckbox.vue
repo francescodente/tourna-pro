@@ -34,7 +34,7 @@ export default {
 <style lang="scss" scoped>
 .simple-checkbox {
   text-align: left;
-  margin-top:15px
+  margin-top:15px;
 
   label {
     margin-left: 5px;
