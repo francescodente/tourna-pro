@@ -9,10 +9,10 @@
         <router-view v-model="currentStep.model" />
       </simple-form>
     </simple-border>
-    <span class="suggestion"
-      >Hai già un account?
-      <router-link :to="{ name: 'Login' }">Accedi</router-link></span
-    >
+    <span class="suggestion">
+      Hai già un account?
+      <router-link :to="{ name: 'Login' }">Accedi</router-link>
+    </span>
   </div>
 </template>
 
@@ -25,11 +25,11 @@ export default {
   components: { SimpleForm, SimpleBorder },
   data() {
     return {
-      currentStepIndex: 0,
       steps: [
         {
           title: "Scegli una password sicura",
           route: "AuthInfo",
+          filled: false,
           model: {
             email: "",
             username: "",
@@ -41,6 +41,7 @@ export default {
         {
           title: "Dicci qualcosa di te",
           route: "UserInfo",
+          filled: false,
           model: {
             firstName: "",
             lastName: "",
@@ -53,6 +54,7 @@ export default {
         {
           title: "A cosa ti piace giocare?",
           route: "ActivityInfo",
+          filled: false,
           model: [],
         },
       ],
@@ -60,11 +62,12 @@ export default {
   },
   methods: {
     async onSubmit() {
+      this.currentStep.filled = true
       if (this.currentStepIndex >= this.steps.length-1) {
         await this.userRegistration();
       } else {
-        this.currentStepIndex++;
-        this.$router.push({ name: this.currentStep.route });
+        let next = this.currentStepIndex + 1
+        this.$router.push({ name: this.steps[next].route });
       }
     },
     async userRegistration() {
@@ -88,12 +91,12 @@ export default {
       this.$router.push({name: "Login"});
     },
   },
-  mounted() {
-    this.currentStepIndex = this.steps
-      .map((x) => x.route)
-      .indexOf(this.$route.name);
-  },
   computed: {
+    currentStepIndex() {
+      return this.steps
+        .map(x => x.route)
+        .indexOf(this.$route.name)
+    },
     currentStep() {
       return this.steps[this.currentStepIndex];
     },
@@ -103,6 +106,12 @@ export default {
         : "Completa";
     },
   },
+  mounted() {
+    let firstNotFilled = this.steps.findIndex(x => !x.filled)
+    if (firstNotFilled && firstNotFilled < this.currentStepIndex) {
+      this.$router.replace({ name: this.steps[firstNotFilled].route })
+    }
+  }
 };
 </script>
 
