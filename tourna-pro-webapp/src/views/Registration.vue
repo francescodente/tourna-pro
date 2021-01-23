@@ -71,21 +71,24 @@ export default {
       }
     },
     async userRegistration() {
-      //TODO complete checks
-      if (this.steps[0].model.password != this.steps[0].model.confirmPassword) {
+      let authInfo = this.steps[0].model
+      let userInfo = this.steps[1].model
+      let interests = this.steps[2].model
+
+      if (authInfo.password != authInfo.confirmPassword) {
         return;
       }
       let user = {
-        firstName: this.steps[1].model.firstName,
-        lastName: this.steps[1].model.lastName,
-        username: this.steps[0].model.username,
-        birthDate: this.steps[1].model.birthDate,
-        email: this.steps[0].model.email,
-        telephone: this.steps[1].model.telephone,
-        gender: this.steps[1].model.gender,
-        city: this.steps[1].model.city,
-        password: this.steps[0].model.password,
-        interests: this.steps[2].model
+        firstName: userInfo.firstName,
+        lastName: userInfo.lastName,
+        username: authInfo.username,
+        birthDate: userInfo.birthDate,
+        email: authInfo.email,
+        telephone: userInfo.telephone,
+        gender: userInfo.gender,
+        city: userInfo.city,
+        password: authInfo.password,
+        interests: interests
       };
       await dataAccess.users.register(user);
       this.$router.push({name: "Login"});
