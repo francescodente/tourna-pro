@@ -150,18 +150,23 @@ export default {
         "Vuoi ritirarti la tua iscrizione al torneo?"
       );
       if (res) {
-        console.log(this.subscribed)
         if (this.subscribed == "SUBSCRIBED") {
           await dataAccess.participants.delete(
             this.$route.params.id,
             this.userId
           );
-        } else if(this.subscribed == "REQUESTED"){
-          //await dataAccess.participationRequest
-          await dataAccess.participationRequests.delete(
+        } else if (this.subscribed == "REQUESTED") {
+          let participation = await dataAccess.participationRequests.getAll(
             this.$route.params.id,
-            null //TODO fill
+            {userId: this.userId }
           );
+          if (participation.length > 0) {
+            await dataAccess.participationRequests.delete(
+              this.$route.params.id,
+              participation[0].id
+            );
+          }
+          console.log(participation)
         }
         this.$router.go(0); //refresh
       }

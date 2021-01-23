@@ -2,6 +2,8 @@ const { ParticipationRequest, Tournament, Team } = require('../models');
 const { isIndividual, isTeam } = require('../models/tournament-modes');
 const { ok, created, notFound, badRequest, forbidden } = require('../utils/action-results')
 
+const mongoose = require('mongoose');
+
 function participationRequestsDto(participationRequest, person) {
   return {
     id: participationRequest._id,
@@ -89,7 +91,35 @@ exports.addParticipationRequest = async function (req) {
 }
 
 exports.getAllParticipationRequests = async function (req) {
-  let requests = await ParticipationRequest.find().where('tournamentId').equals(req.params.id)
+  let requests = null
+  if (req.query.userId) {
+    requests = await ParticipationRequest.aggregate(
+      [
+        {
+          $lookup: {
+            from: 'Teams',
+            localField: 'teamId',
+            foreignField: '_id',
+            as: 'team'
+          }
+        },
+        {
+          $match: {
+            $and: [
+              { tournamentId: mongoose.Types.ObjectId(req.params.id) },
+              {
+                $or: [
+                  { userId: mongoose.Types.ObjectId(req.query.userId) },
+                  { 'team.members': mongoose.Types.ObjectId(req.query.userId) }
+                ]
+              }
+            ]
+          }
+        }
+      ])
+  } else {
+    requests = await ParticipationRequest.find().where('tournamentId').equals(req.params.id)
+  }
   if (!requests) {
     return notFound(tournamentNotFound(req.params.id))
   }
@@ -101,7 +131,7 @@ exports.removeParticipationRequest = async function (req) {
   if (!participationRequest) {
     return notFound(requestNotFound(req.params.id, req.params.requestId))
   }
-  if(participationRequest.status == 'APPROVED') {
+  if (participationRequest.status == 'APPROVED') {
     return forbidden("Can not remove a request that has been approved retire your participation instead")
   }
   switch (participationRequest.type) {
@@ -134,19 +164,19 @@ exports.updateParticipationRequestStatus = async function (req) {
     return forbidden("Only tournament owners can update participation request status")
   }
   let participationRequest = await ParticipationRequest.findById(req.params.requestId)
-  if(!participationRequest){
+  if (!participationRequest) {
     return notFound(requestNotFound(req.params.id, req.params.requestId))
   }
-  if(req.body.status == 'PENDING'){
+  if (req.body.status == 'PENDING') {
     return forbidden("Can not change the value to pending");
   }
-  if(['REJECTED','APPROVED'].includes(req.body.status) && participationRequest.status != 'PENDING'){
+  if (['REJECTED', 'APPROVED'].includes(req.body.status) && participationRequest.status != 'PENDING') {
     return forbidden("Can not change the value to a confirmed or rejected request");
   }
   participationRequest.status = req.body.status
   await participationRequest.save()
-  
-  if(req.body.status == 'APPROVED'){
+
+  if (req.body.status == 'APPROVED') {
     tournament.participants.push({
       id: participationRequest._id,
       status: 'ACTIVE'

@@ -46,7 +46,6 @@ async function isSubscribed(userId, tournament) {
       }
     ])
   if (requests.length != 0) {
-    console.log(requests)
     let activeParticipantsId = tournament.participants.filter(x => x.status == 'ACTIVE').map(x => x._id)
     if(activeParticipantsId.includes(requests[0]._id)){
       return 'SUBSCRIBED'
