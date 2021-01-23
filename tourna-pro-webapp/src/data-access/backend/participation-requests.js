@@ -2,7 +2,7 @@ import http from './http'
 
 export default {
   add: (id, request) => http.post(`/tournaments/${id}/requests`, request),
-  getAll: id => http.get(`/tournaments/${id}/requests`),
+  getAll: (id, filters) => http.get(`/tournaments/${id}/requests`, filters),
   update: (id, requestId, request) => http.post(`/tournaments/${id}/requests/${requestId}/status`, request),
-  delete: (id, participantId) => http.delete(`/tournaments/${id}/participant/${participantId}`)
+  delete: (id, requestId) => http.delete(`/tournaments/${id}/requests/${requestId}`)
 }

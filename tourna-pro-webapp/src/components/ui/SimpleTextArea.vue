@@ -6,6 +6,8 @@
     <textarea
       :id="identifier"
       @input="updated"
+      @blur="blur"
+      @focus="focus"
       :value="value"
       :placeholder="placeholder || label"
       :name="identifier"
@@ -14,6 +16,7 @@
 </template>
 
 <script>
+import eventHandlers from "@/utils/validator-events";
 export default {
   props: {
     placeholder: String,
@@ -22,9 +25,7 @@ export default {
     identifier: String
   },
   methods: {
-    updated(e) {
-      this.$emit("input", e.target.value);
-    },
+    ...eventHandlers
   },
 };
 </script>
@@ -32,7 +33,7 @@ export default {
 <style lang="scss" scoped>
 .simple-area {
   text-align: left;
-  margin-bottom: 15px;
+  margin-top: 15px;
 
   label {
     font-weight: bold;

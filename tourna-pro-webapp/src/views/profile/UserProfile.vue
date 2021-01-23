@@ -6,15 +6,15 @@
         <span class="name" size="10%">{{ user.firstName + " " + user.lastName }}</span>
         <span>@{{ user.username }}</span>
       </div>
-      <span class="logout" v-on:click="logoutUser"
+      <span v-if="isUserProfile" class="logout" v-on:click="logoutUser"
         ><i class="fas fa-sign-out-alt fa-lg"></i
       ></span>
-      <router-link :to="this.$route.path + '/password'">
+      <router-link v-if="isUserProfile" :to="this.$route.path + '/password'">
         <span class="options"><i class="fas fa-lg fa-cog fa-lg"></i></span>
       </router-link>
     </div>
 
-    <router-link :to="this.$route.path + '/edit'">
+    <router-link v-if="isUserProfile" :to="this.$route.path + '/edit'">
       <text-icon
         class="edit-button"
         icon="fas fa-edit"
@@ -22,6 +22,11 @@
         :iconRight="true"
       />
     </router-link>
+    <div v-else class="spacing">
+      <section-header class="header" :color="style.colorPrimary">
+        <span>Informazioni personali</span>
+      </section-header>
+    </div>
 
     <div class="info">
       <text-icon
@@ -40,7 +45,7 @@
         :iconColor="style.colorPrimary"
       />
     </div>
-    <!-- Comment 
+    <!--
     <div class="bio">
       <div class="about-me">Su di me:</div>
       <div>{{ user.bio }}</div>
@@ -49,7 +54,7 @@
     <div class="interests">
       <section-header class="header" :color="style.colorPrimaryLightest">
         <span>Interessi</span>
-        <router-link tag="span" :to="this.$route.path + '/interests'">
+        <router-link v-if="isUserProfile" tag="span" :to="this.$route.path + '/interests'">
           <i class="fas fa-ellipsis-h"></i>
         </router-link>
       </section-header>
@@ -63,14 +68,16 @@
 
     <div>
       <section-header class="header" :color="style.colorComplementaryLight">
-        <span>Achievements</span>
-        <i class="fas fa-question-circle"></i>
+          <span>Achievements</span>
+        <!--
+          <i class="fas fa-question-circle"></i> 
+        -->
       </section-header>
       <div class="achievements" v-if="achievements.lengh > 0">
         <achievement v-for="a in achievements" :key="a.id" :achievement="a" />
       </div>
       <div class="achievements" v-else>
-        Non hai ancora sbloccato nessun achievements!
+        Nessun achievement sbloccato
       </div>
     </div>
   </div>
@@ -84,6 +91,7 @@ import SectionHeader from "../../components/profile/SectionHeader.vue";
 import TextIcon from "../../components/ui/TextIcon.vue";
 import style from "../../style/export.scss";
 import router from "../../router";
+import { mapGetters } from 'vuex';
 
 export default {
   components: {
@@ -102,9 +110,9 @@ export default {
   },
   methods: {
     async fetchUser() {
-      this.user = await dataAccess.users.getUser(this.userId);
-      this.achievements = await dataAccess.achievements.getByUser(this.userId);
-      this.interests = await dataAccess.interests.getAll(this.userId);
+      this.user = await dataAccess.users.getUser(this.pathUser);
+      this.achievements = await dataAccess.achievements.getByUser(this.pathUser);
+      this.interests = await dataAccess.interests.getAll(this.pathUser);
     },
     async logoutUser() {
       await this.$store.dispatch('logout');
@@ -112,9 +120,13 @@ export default {
     },
   },
   computed: {
-    userId() {
+    ...mapGetters(['userId']),
+    pathUser() {
       return this.$route.params.id;
     },
+    isUserProfile(){
+      return this.pathUser == this.userId
+    }
   },
   async created() {
     await this.fetchUser();
@@ -206,5 +218,10 @@ export default {
 
 .achievements {
   margin-top: 10px;
+  text-align: left;
+}
+
+.spacing{
+  padding:10px 0px;
 }
 </style>

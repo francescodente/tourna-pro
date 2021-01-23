@@ -1,20 +1,36 @@
 <template>
   <div>
     <simple-border>
-      <simple-form submitMessage="Login" @submit="onSubmit">
-        <simple-input
-          label="Username o Email"
-          type="text"
-          v-model="username"
-          identifier="username"
-        />
+      <simple-form submitMessage="Login" @submit="onSubmit" :canSubmit="formValid">
+        <simple-validator
+          v-model="usernameok"
+          errorText="Lo username non può essere vuoto"
+          :validator="notEmpty"
+          v-slot="scope"
+        >
+          <simple-input
+            label="Username o Email"
+            type="text"
+            v-model="username"
+            identifier="username"
+            :scope="scope"
+          />
+        </simple-validator>
 
-        <simple-input
-          label="Password"
-          :type="showPassword ? 'text' : 'password'"
-          v-model="password"
-          identifier="password"
-        />
+        <simple-validator
+          v-model="passwordok"
+          errorText="La password non può essere vuota"
+          :validator="notEmpty"
+          v-slot="scope"
+        >
+          <simple-input
+            label="Password"
+            :type="showPassword ? 'text' : 'password'"
+            v-model="password"
+            identifier="password"
+            :scope="scope"
+          />
+        </simple-validator>
 
         <simple-checkbox
           label="Mostra password"
@@ -23,7 +39,11 @@
         />
       </simple-form>
     </simple-border>
-    <span>Non hai un account?<router-link :to="{ name: 'Register' }"> Registrati</router-link></span>
+    <span
+      >Non hai un account?<router-link :to="{ name: 'Register' }">
+        Registrati</router-link
+      ></span
+    >
   </div>
 </template>
 
@@ -32,18 +52,33 @@ import SimpleBorder from "../components/ui/SimpleBorder.vue";
 import SimpleCheckbox from "../components/ui/SimpleCheckbox.vue";
 import SimpleForm from "../components/ui/SimpleForm.vue";
 import SimpleInput from "../components/ui/SimpleInput.vue";
+import SimpleValidator from "../components/ui/SimpleValidator.vue";
 import dataAccess from "../data-access";
 export default {
-  components: { SimpleForm, SimpleInput, SimpleCheckbox, SimpleBorder },
+  components: {
+    SimpleForm,
+    SimpleInput,
+    SimpleCheckbox,
+    SimpleBorder,
+    SimpleValidator,
+  },
   data() {
     return {
       username: "",
       password: "",
       showPassword: false,
+      usernameok: false,
+      passwordok: false,
     };
   },
   methods: {
+    notEmpty(x) {
+      return x != "";
+    },
     onSubmit: async function () {
+      if(!this.formValid){
+        return
+      }
       try {
         var res = await dataAccess.authentication.login(
           this.username,
@@ -54,6 +89,11 @@ export default {
         this.$store.dispatch("initStore");
         this.$router.push({ name: "MyTournaments" });
       } catch (error) {}
+    },
+  },
+  computed: {
+    formValid() {
+      return this.usernameok && this.passwordok;
     },
   },
 };

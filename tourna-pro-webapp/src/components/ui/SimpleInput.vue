@@ -7,6 +7,8 @@
       :id="identifier"
       :type="type"
       @input="updated"
+      @blur="blur"
+      @focus="focus"
       :value="value"
       :placeholder="placeholder || label"
     />
@@ -14,8 +16,10 @@
 </template>
 
 <script>
+import eventHandlers from '@/utils/validator-events'
 export default {
   props: {
+    scope: Object,
     placeholder: String,
     value: String,
     label: String,
@@ -23,17 +27,15 @@ export default {
     type: String,
   },
   methods: {
-    updated(e) {
-      this.$emit("input", e.target.value);
-    },
-  },
+    ...eventHandlers
+  }
 };
 </script>
 
 <style lang="scss" scoped>
 .simple-input {
   text-align: left;
-  margin-bottom: 15px;
+  margin-top: 15px;
 
   label {
     font-weight: bold;
@@ -48,5 +50,9 @@ export default {
       outline: none;
     }
   }
+}
+
+.error .simple-input {
+  color: red;
 }
 </style>

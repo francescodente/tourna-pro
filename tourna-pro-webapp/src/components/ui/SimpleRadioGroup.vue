@@ -9,6 +9,8 @@
           :id="op.value"
           :value="op.value"
           @input="updated"
+          @blur="blur"
+          @focus="focus"
         />
         <label :for="op.value">{{ op.display }}</label>
       </div>
@@ -17,17 +19,16 @@
 </template>
 
 <script>
+import eventHandlers from "@/utils/validator-events";
 export default {
   props: {
     group: String,
     options: Array,
     label: String,
-    inline: Boolean
+    inline: Boolean,
   },
   methods: {
-    updated(e) {
-      this.$emit("input", e.target.value);
-    },
+    ...eventHandlers
   },
 };
 </script>
@@ -35,14 +36,14 @@ export default {
 <style lang="scss" scoped>
 .simple-radio {
   text-align: left;
-  margin-bottom: 15px;
+  margin-top: 15px;
 
   .title {
     font-weight: bold;
   }
 
   label {
-    color:black;
+    color: black;
     margin-left: 5px;
     margin-right: 20px;
   }

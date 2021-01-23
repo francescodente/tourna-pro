@@ -37,14 +37,14 @@
       </div>
     </div>
     <div class="user-actions" v-if="!owner">
-      <div class="unsubscribed-actions" v-if="!isSubscribed && !active">
+      <div class="unsubscribed-actions" v-if="canSubscribe">
         <action-button
           actionName="Iscriviti al torneo"
           icon="far fa-check-square"
           @trigger="requestSubscription"
         />
       </div>
-      <div class="subscribed-actions" v-if="isSubscribed">
+      <div class="subscribed-actions" v-if="canRetire">
         <action-button
           actionName="Ritirati dal torneo"
           icon="fas fa-times"
@@ -91,8 +91,11 @@ export default {
   },
   computed: {
     ...mapGetters(["userId"]),
-    isSubscribed(){
-      return this.subscribed != 'NONE'
+    canSubscribe() {
+      return this.subscribed == "NONE" && !this.active;
+    },
+    canRetire() {
+      return ['SUBSCRIBED', 'REQUESTED'].includes(this.subscribed)
     }
   },
   methods: {
@@ -140,6 +143,7 @@ export default {
             this.$route.params.id,
             request
           );
+          this.$router.go(0); //refresh
         }
       }
     },
@@ -149,10 +153,23 @@ export default {
         "Vuoi ritirarti la tua iscrizione al torneo?"
       );
       if (res) {
-        await dataAccess.participants.delete(
+        let participation = await dataAccess.participationRequests.getAll(
           this.$route.params.id,
-          this.userId
+          { userId: this.userId }
         );
+        if (participation.length > 0) {
+          if (this.subscribed == "SUBSCRIBED") {
+            await dataAccess.participants.delete(
+              this.$route.params.id,
+              participation[0].id
+            );
+          } else if (this.subscribed == "REQUESTED") {
+            await dataAccess.participationRequests.delete(
+              this.$route.params.id,
+              participation[0].id
+            );
+          }
+        }
         this.$router.go(0); //refresh
       }
     },
