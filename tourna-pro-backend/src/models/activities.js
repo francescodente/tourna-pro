@@ -1,11 +1,19 @@
 const compareScores = f => m => {
   const res = f(m.participant1.score, m.participant2.score)
   if (res > 0) {
-    return m.participant1
+    return {
+      winner: m.participant1,
+      loser: m.participant2,
+      draw: false
+    }
   } else if (res < 0) {
-    return m.participant2
+    return {
+      winner: m.participant2,
+      loser: m.participant1,
+      draw: false
+    }
   }
-  return undefined
+  return { draw: true }
 }
 
 const higherScore = compareScores((a, b) => b - a)
@@ -15,42 +23,42 @@ const values = [
   {
     id: 'SOCCER',
     name: 'Calcio',
-    determineWinner: higherScore
+    getMatchResult: higherScore
   },
   {
     id: 'CHESS',
     name: 'Scacchi',
-    determineWinner: higherScore
+    getMatchResult: higherScore
   },
   {
     id: 'BRISCOLA',
     name: 'Briscola',
-    determineWinner: higherScore
+    getMatchResult: higherScore
   },
   {
     id: 'BEER_PONG',
     name: 'Beer Pong',
-    determineWinner: lowerScore
+    getMatchResult: lowerScore
   },
   {
     id: 'BURACO',
     name: 'Burraco',
-    determineWinner: higherScore
+    getMatchResult: higherScore
   },
   {
     id: 'BEACH_VOLLEY',
     name: 'Beach Volley',
-    determineWinner: higherScore
+    getMatchResult: higherScore
   },
   {
     id: 'MTG',
     name: 'Magic The Gathering',
-    determineWinner: higherScore
+    getMatchResult: higherScore
   },
   {
     id: 'YGO',
     name: 'Yu-Gi-Oh',
-    determineWinner: higherScore
+    getMatchResult: higherScore
   }
 ]
 
