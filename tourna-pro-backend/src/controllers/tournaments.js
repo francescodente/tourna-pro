@@ -117,6 +117,19 @@ exports.createTournament = async function (req) {
   return created(tournamentDto(tournament, req.userId, false))
 }
 
+function computeStatus(requests, tournament) {
+  let request = requests.find(x => x.tournamentId == tournament._id)
+  if (!request) {
+    return "NONE"
+  }
+  switch (request.status) {
+    case "PENDING": return "REQUESTED"
+    case "APPROVED": return "SUBSCRIBED"
+    case "REJECTED": return "REJECTED"
+    default: return null
+  }
+}
+
 exports.getAllTournaments = async function (req) {
   let num = req.query.pageNum || 0
   let size = req.query.pageSize || defaultPageSize
@@ -182,8 +195,8 @@ exports.getAllTournaments = async function (req) {
     .limit(size)
 
   subscribedTournaments = subscribedTournaments.map(x => x.toString())
-  
-  return ok(tournaments.map(t => tournamentDto(t, req.userId, subscribedTournaments.includes(t._id.toString()))))
+
+  return ok(tournaments.map(t => tournamentDto(t, req.userId, computeStatus(requests, t))))
 }
 
 exports.getTournamentById = async function (req) {
