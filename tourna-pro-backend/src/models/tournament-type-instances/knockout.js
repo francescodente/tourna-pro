@@ -26,7 +26,7 @@ exports.generateNewRound = function(tournament) {
   let rounds = tournament.matches
   let lastRound = rounds[rounds.length - 1]
   let lastRoundWinners = lastRound
-    ? lastRound.map(m => activity.getMatchResult(m).winner)
+    ? lastRound.map(m => activity.getMatchResult(m, tournament)).map(r => r[r.outcome])
     : shuffleAndPad(tournament.participants)
 
   let newRound = []
@@ -40,19 +40,23 @@ exports.getRoundCount = function(tournament) {
   return Math.ceil(Math.log2(tournament.participants.length))
 }
 
-function getResult(activity, match) {
-  if (match.participant1.score != undefined && match.participant2.score != undefined) {
-    return activity.getMatchResult(match)
-  } else {
+function getResult(activity, tournament, match) {
+  let result = activity.getMatchResult(match, tournament)
+  if (!result) {
     return {
       winner: match.participant1,
       loser: match.participant2
     }
   }
+
+  return {
+    winner: result[result.winner],
+    loser: result[result.loser]
+  }
 }
 
-function computeRankingForRound(activity, currentRound, subsequentRoundRanking) {
-  let results = currentRound.map(m => getResult(activity, m))
+function computeRankingForRound(activity, tournament, currentRound, subsequentRoundRanking) {
+  let results = currentRound.map(m => getResult(activity, tournament, m))
   if (!subsequentRoundRanking) {
     return [
       ...results.map(r => r.winner.id),
@@ -74,7 +78,7 @@ function computeRankingForRoundIndex(activity, tournament, index, subsequentRoun
     return []
   }
   let currentRound = tournament.matches[index]
-  let currentRanking = computeRankingForRound(activity, currentRound, subsequentRoundRanking)
+  let currentRanking = computeRankingForRound(activity, tournament, currentRound, subsequentRoundRanking)
   return [
     ...currentRanking,
     ...computeRankingForRoundIndex(activity, tournament, index - 1, currentRanking)
