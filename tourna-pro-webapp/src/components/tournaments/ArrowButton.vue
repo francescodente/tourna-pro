@@ -26,6 +26,7 @@ export default {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  align-items: baseline;
   margin: 15px 5%;
   padding: 20px 10px;
   border-radius: 20px;
