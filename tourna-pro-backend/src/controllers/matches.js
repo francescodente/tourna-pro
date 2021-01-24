@@ -12,7 +12,7 @@ function matchParticipantDto(participant) {
 
 function matchDto(match) {
   return {
-    id: match.id,
+    id: match._id,
     participant1: matchParticipantDto(match.participant1),
     participant2: matchParticipantDto(match.participant2),
     notes: match.notes,
@@ -72,7 +72,7 @@ exports.startMatch = async function (req) {
   if (tournament.status != 'ACTIVE') {
     return badRequest('Cannot set results if the tournament has ended')
   }
-  let match = tournament.matches[tournament.matches.length - 1].find(x => x.id == req.params.matchId)
+  let match = tournament.matches[tournament.matches.length - 1].find(x => x._id == req.params.matchId)
   if (!match) {
     return notFound(`Cannot find match with id ${req.params.matchId}`)
   }
@@ -97,7 +97,7 @@ exports.updateMatchResult = async function (req) {
   if (tournament.status != 'ACTIVE') {
     return badRequest('Cannot set results if the tournament has ended')
   }
-  let match = tournament.matches[tournament.matches.length - 1].find(x => x.id == req.params.matchId)
+  let match = tournament.matches[tournament.matches.length - 1].find(x => x._id == req.params.matchId)
   if (!match) {
     return notFound(`Cannot find match with id ${req.params.matchId}`)
   }
@@ -123,7 +123,7 @@ exports.startNextRound = async function (req) {
 
   let lastRound = tournament.matches[tournament.matches.length - 1]
   if (lastRound) {
-    if (lastRound.flatMap(m => [m.participant1, m.participant2]).map(p => p.score).some(s => !s)) {
+    if (lastRound.flatMap(m => [m.participant1, m.participant2]).map(p => p.score).some(s => s == undefined)) {
       return badRequest('Cannot proceed to next round if any match of the previous one is missing its result')
     }
     lastRound.forEach(m => {

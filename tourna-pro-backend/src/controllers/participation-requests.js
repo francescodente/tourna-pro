@@ -4,29 +4,26 @@ const { ok, created, notFound, badRequest, forbidden } = require('../utils/actio
 
 const mongoose = require('mongoose');
 
-function participationRequestsDto(participationRequest, person) {
+function participationRequestsDto(participationRequest) {
   return {
     id: participationRequest._id,
     type: participationRequest.type,
-    person: person ? {
-      firstName: person.firstName,
-      lastName: person.lastName
-    } : undefined,
+    participant: participationRequest.participant,
     userId: participationRequest.userId,
     teamId: participationRequest.teamId,
     status: participationRequest.status
   };
 }
 function tournamentNotFound(id) {
-  return `Could not found tournament with id ${id}`
+  return `Could not find tournament with id ${id}`
 }
 
 function teamNotFound(id) {
-  return `Could not found team with id ${id}`
+  return `Could not find team with id ${id}`
 }
 
 function requestNotFound(id, reqId) {
-  return `Could not found request with id ${reqId} for tournament with id ${id}`
+  return `Could not find request with id ${reqId} for tournament with id ${id}`
 }
 
 function forbiddenModeMessage(id, mode) {
@@ -38,16 +35,18 @@ exports.addParticipationRequest = async function (req) {
   if (!tournament) {
     tournamentNotFound(req.params.id)
   }
+  let target = { }
   switch (req.body.type) {
-    case 'PERSON':
-      if (!req.body.person) {
-        return badRequest("Person not defined")
+    case 'PARTICIPANT':
+      if (!req.body.participant) {
+        return badRequest("Participant not defined")
       }
-      if (!isIndividual(tournament.mode)) {
-        return forbidden(forbiddenModeMessage(req.params.id, tournament.mode))
+      if (!tournament.owners.includes(req.userId)) {
+        return forbidden("Only tournament owners can add anonymous participants to a tournament")
       }
-      if (!tournament.owners.include(req.userId)) {
-        return forbidden("Only tournament owners can add people to a tournament")
+      target.participant = {
+        name: req.body.participant.name,
+        telephone: req.body.participant.telephone
       }
       break;
     case 'USER':
@@ -55,18 +54,19 @@ exports.addParticipationRequest = async function (req) {
         return badRequest("UserId not defined")
       }
       if (!isIndividual(tournament.mode)) {
-        return forbidden(forbiddenModeMessage(req.params.id, tournament.mode))
+        return badRequest(forbiddenModeMessage(req.params.id, tournament.mode))
       }
       if (req.body.userId != req.userId) {
         return forbidden("Can not make a participation request for a user different from self")
       }
+      target.userId = req.body.userId
       break;
     case 'TEAM':
       if (!req.body.teamId) {
         return badRequest("TeamId not defined")
       }
       if (!isTeam(tournament.mode)) {
-        return forbidden(forbiddenModeMessage(req.params.id, tournament.mode))
+        return badRequest(forbiddenModeMessage(req.params.id, tournament.mode))
       }
       let team = await Team.findById(req.body.teamId)
       if (!team) {
@@ -75,14 +75,13 @@ exports.addParticipationRequest = async function (req) {
       if (!team.members.includes(req.userId)) {
         return forbidden("Can not make a participation request for a team the user is not member of")
       }
+      target.teamId = req.body.teamId
       break;
     default: return badRequest("Unsupported type")
   }
   let participationRequestModel = new ParticipationRequest({
     type: req.body.type,
-    person: req.body.person,
-    userId: req.body.userId,
-    teamId: req.body.teamId,
+    ...target,
     tournamentId: req.params.id,
     status: 'PENDING'
   })
@@ -135,7 +134,7 @@ exports.removeParticipationRequest = async function (req) {
     return forbidden("Can not remove a request that has been approved retire your participation instead")
   }
   switch (participationRequest.type) {
-    case 'PERSON':
+    case 'PARTICIPANT':
       let tournament = await Tournament.findById(req.params.id)
       if (!tournament.owners.include(req.userId)) {
         return forbidden("Only tournament owners can remove people from a tournament")

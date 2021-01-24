@@ -1,4 +1,4 @@
-const { User, Person } = require('../models')
+const { User } = require('../models')
 const { generateHash } = require('../services/hashing-service')
 const { ok, created, badRequest, notFound } = require('../utils/action-results')
 const { setImage, imageUrl } = require('./image-utils')
@@ -7,15 +7,15 @@ const mongoose = require('mongoose');
 
 const defaultPageSize = 30
 
-function userDto(user, person, req) {
+function userDto(user, req) {
   return {
     id: user._id,
-    firstName: person.firstName,
-    lastName: person.lastName,
-    telephone: person.telephone,
-    birthDate: person.birthDate,
-    gender: person.gender,
-    city: person.city,
+    firstName: user.firstName,
+    lastName: user.lastName,
+    telephone: user.telephone,
+    birthDate: user.birthDate,
+    gender: user.gender,
+    city: user.city,
     email: user.email,
     username: user.username,
     imageUrl: imageUrl(user.imageId, req)
@@ -39,7 +39,14 @@ exports.registerUser = async function (req) {
     return badRequest('Username or email already taken')
   }
 
-  let personModel = new Person({
+  let { hash, salt } = generateHash(req.body.password)
+  let userModel = new User({
+    email: req.body.email,
+    username: req.body.username,
+    password: hash,
+    salt: salt,
+    interests: req.body.interests,
+    unlockedAchievements: [],
     firstName: req.body.firstName,
     lastName: req.body.lastName,
     telephone: req.body.telephone,
@@ -47,20 +54,8 @@ exports.registerUser = async function (req) {
     gender: req.body.gender,
     city: req.body.city
   })
-  let person = await personModel.save()
-
-  let { hash, salt } = generateHash(req.body.password)
-  let userModel = new User({
-    email: req.body.email,
-    username: req.body.username,
-    password: hash,
-    salt: salt,
-    person: person._id,
-    interests: req.body.interests,
-    unlockedAchievements: []
-  })
   let user = await userModel.save()
-  return created(userDto(user, person, req))
+  return created(userDto(user, req))
 }
 
 exports.searchUsers = async function (req) {
@@ -73,29 +68,20 @@ exports.searchUsers = async function (req) {
   if (req.query.userIds || req.query.exclude) {
     let idFilters = []
     if (req.query.userIds) {
-      idFilters.push({ _id: { $in: JSON.parse(req.query.userIds).map(x => mongoose.Types.ObjectId(x)) } })
+      idFilters.push({ _id: { $in: JSON.parse(req.query.userIds) } })
     }
     if (req.query.exclude) {
-      idFilters.push({ _id: { $nin: JSON.parse(req.query.exclude).map(x => mongoose.Types.ObjectId(x)) } })
+      idFilters.push({ _id: { $nin: JSON.parse(req.query.exclude) } })
     }
     filter.$and = idFilters
   }
-  let users = await User.aggregate([
-    { $match: filter },
-    { $sort: { username: 1 } },
-    { $skip: num * size },
-    { $limit: size },
-    {
-      $lookup: {
-        from: 'People',
-        localField: 'person',
-        foreignField: '_id',
-        as: 'personObject'
-      }
-    }
-  ])
 
-  return ok(users.map(x => userDto(x, x.personObject[0], req)))
+  let users = await User.find(filter)
+    .sort('username')
+    .skip(num * size)
+    .limit(size)
+
+  return ok(users.map(x => userDto(x, req)))
 }
 
 exports.getUser = async function (req) {
@@ -103,8 +89,7 @@ exports.getUser = async function (req) {
   if (!user) {
     return userNotFound(req.params.id)
   }
-  let person = await Person.findById(user.person)
-  return ok(userDto(user, person, req))
+  return ok(userDto(user, req))
 }
 
 exports.modifyUser = async function (req) {
@@ -114,14 +99,7 @@ exports.modifyUser = async function (req) {
 
   let updatedUser = await User.findByIdAndUpdate(req.params.id, {
     email: req.body.email,
-    username: req.body.username
-  }, { new: true })
-
-  if (!updatedUser) {
-    return userNotFound(req.params.id)
-  }
-
-  let updatedPerson = await Person.findByIdAndUpdate(updatedUser.person, {
+    username: req.body.username,
     firstName: req.body.firstName,
     lastName: req.body.lastName,
     telephone: req.body.telephone,
@@ -130,7 +108,11 @@ exports.modifyUser = async function (req) {
     city: req.body.city
   }, { new: true })
 
-  return ok(userDto(updatedUser, updatedPerson, req))
+  if (!updatedUser) {
+    return userNotFound(req.params.id)
+  }
+
+  return ok(userDto(updatedUser, req))
 }
 
 exports.setProfilePicture = async function (req) {

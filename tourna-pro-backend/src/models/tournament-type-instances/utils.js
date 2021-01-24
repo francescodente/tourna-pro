@@ -1,8 +1,5 @@
-const mongoose = require('mongoose')
-
 exports.matchBetween = function(a, b) {
   return {
-    id: mongoose.Types.ObjectId(),
     participant1: { id: a.id },
     participant2: { id: b.id },
     status: 'PENDING'

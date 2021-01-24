@@ -16,8 +16,8 @@ const compareScores = f => m => {
   return { draw: true }
 }
 
-const higherScore = compareScores((a, b) => b - a)
-const lowerScore = compareScores((a, b) => a - b)
+const lowerScore = compareScores((a, b) => b - a)
+const higherScore = compareScores((a, b) => a - b)
 
 const values = [
   {

@@ -6,7 +6,12 @@ module.exports = createSchema('User', 'Users', mongoose => ({
   password: String,
   salt: String,
   imageId: {type: mongoose.ObjectId, ref:'Image'},
-  person: { type: mongoose.ObjectId, ref: 'Person' },
+  firstName: String,
+  lastName: String,
+  telephone: String,
+  birthDate: Date,
+  gender: String, // M | F | OTHER
+  city: String,
   interests: [String],
   unlockedAchievements: [String]
 }))

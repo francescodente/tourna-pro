@@ -12,8 +12,9 @@ function shuffleAndPad(participants) {
   let result = []
   for (let i = 0; i < idealSize / 2; i++) {
     result.push(shuffled[i])
-    result.push(shuffled[i + idealSize / 2] || null)
+    result.push(shuffled[i + idealSize / 2] || { id: null })
   }
+  return result
 }
 
 exports.id = 'KNOCKOUT'
@@ -22,7 +23,7 @@ exports.name = "Eliminazione diretta"
 
 exports.generateNewRound = function(tournament) {
   let activity = Activities.findById(tournament.activity)
-  let rounds = tournament.rounds
+  let rounds = tournament.matches
   let lastRound = rounds[rounds.length - 1]
   let lastRoundWinners = lastRound
     ? lastRound.map(m => activity.getMatchResult(m).winner)
@@ -32,6 +33,7 @@ exports.generateNewRound = function(tournament) {
   for (let i = 0; i < lastRoundWinners.length; i += 2) {
     newRound.push(matchBetween(lastRoundWinners[i], lastRoundWinners[i+1]))
   }
+  return newRound
 }
 
 exports.getRoundCount = function(tournament) {
