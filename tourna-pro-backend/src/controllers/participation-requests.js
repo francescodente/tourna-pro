@@ -35,7 +35,7 @@ exports.addParticipationRequest = async function (req) {
   if (!tournament) {
     tournamentNotFound(req.params.id)
   }
-  let target = { }
+  let target = {}
   switch (req.body.type) {
     case 'PARTICIPANT':
       if (!req.body.participant) {
@@ -91,39 +91,35 @@ exports.addParticipationRequest = async function (req) {
 
 exports.getAllParticipationRequests = async function (req) {
   let requests = null
-  if (req.query.userId) {
-    requests = await ParticipationRequest.aggregate(
-      [
-        {
-          $lookup: {
-            from: 'Teams',
-            localField: 'teamId',
-            foreignField: '_id',
-            as: 'team'
-          }
-        },
-        {
-          $match: {
-            $and: [
-              { tournamentId: mongoose.Types.ObjectId(req.params.id) },
-              {
-                $or: [
-                  { userId: mongoose.Types.ObjectId(req.query.userId) },
-                  { 'team.members': mongoose.Types.ObjectId(req.query.userId) }
-                ]
-              }
-            ]
-          }
-        }
-      ])
-  } else {
-    requests = await ParticipationRequest.find().where('tournamentId').equals(req.params.id)
+  let matchObject = {
+    $match: {}
   }
+  let aggregateArray = [];
+  if (req.query.userId) {
+    let lookupTeams = {
+      $lookup: {
+        from: 'Teams',
+        localField: 'teamId',
+        foreignField: '_id',
+        as: 'team'
+      }
+    }
+    aggregateArray.push(lookupTeams)
+    matchObject.$match.$or = [
+      { userId: mongoose.Types.ObjectId(req.query.userId) },
+      { 'team.members': mongoose.Types.ObjectId(req.query.userId) }
+    ]
+  }
+  if (req.query.tournamentId) {
+    matchObject.$match.tournamentId = mongoose.Types.ObjectId(req.query.tournamentId)
+  }
+  if (req.query.status) {
+    matchObject.$match.status = req.query.status
+  }
+  aggregateArray.push(matchObject)
+  requests = await ParticipationRequest.aggregate(aggregateArray)
   if (!requests) {
     return notFound(tournamentNotFound(req.params.id))
-  }
-  if(req.query.status){
-    requests = requests.filter(x => x.status == req.query.status)
   }
   return ok(requests.map(x => participationRequestsDto(x)))
 }
@@ -187,5 +183,9 @@ exports.updateParticipationRequestStatus = async function (req) {
   }
 
   return ok(participationRequestsDto(participationRequest))
+}
+
+exports.getByUser = async function (req) {
+
 }
 
