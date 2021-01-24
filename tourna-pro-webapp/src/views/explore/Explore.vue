@@ -36,7 +36,7 @@ export default {
       gender: user.gender
     }
     this.tournaments = await dataAccess.tournaments.getAll(filters)
-    this.tournaments = this.tournaments.filter(x => !x.subscribed).filter(x => !x.owned)
+    this.tournaments = this.tournaments.filter(x => x.subscribed == 'NONE').filter(x => !x.owned)
   }
 };
 </script>

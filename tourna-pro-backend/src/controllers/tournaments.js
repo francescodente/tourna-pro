@@ -118,7 +118,7 @@ exports.createTournament = async function (req) {
 }
 
 function computeStatus(requests, tournament) {
-  let request = requests.find(x => x.tournamentId == tournament._id)
+  let request = requests.find(x => x.tournamentId.toString() == tournament._id.toString())
   if (!request) {
     return "NONE"
   }
@@ -193,8 +193,6 @@ exports.getAllTournaments = async function (req) {
     .sort('-date')
     .skip(num * size)
     .limit(size)
-
-  subscribedTournaments = subscribedTournaments.map(x => x.toString())
 
   return ok(tournaments.map(t => tournamentDto(t, req.userId, computeStatus(requests, t))))
 }
