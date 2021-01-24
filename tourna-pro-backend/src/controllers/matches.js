@@ -2,27 +2,22 @@ const { Tournament } = require('../models')
 const { notFound, badRequest, ok, forbidden } = require('../utils/action-results')
 const { publish } = require('../services/event-bus')
 const TournamentTypes = require('../models/tournament-types')
+const Activities = require('../models/activities')
 
-function matchParticipantDto(participant) {
-  return {
-    id: participant.id,
-    score: participant.score
-  }
-}
-
-function matchDto(match) {
+function matchDto(match, tournament, activity) {
   return {
     id: match._id,
-    participant1: matchParticipantDto(match.participant1),
-    participant2: matchParticipantDto(match.participant2),
+    participant1: match.participant1.id,
+    participant2: match.participant2.id,
+    result: activity.getMatchResult(match, tournament),
     notes: match.notes,
     status: match.status,
     date: match.date
   }
 }
 
-function roundsDto(rounds) {
-  return rounds.map(x => x.map(matchDto))
+function roundsDto(tournament, activity) {
+  return tournament.matches.map(x => x.map(m => matchDto(m, tournament, activity)))
 }
 
 function participantDto(participant) {
@@ -33,10 +28,11 @@ function participantDto(participant) {
 }
 
 function tournamentDto(tournament) {
+  let activity = Activities.findById(tournament.activity)
   return {
     id: tournament._id,
     status: tournament.status,
-    rounds: roundsDto(tournament.matches),
+    rounds: roundsDto(tournament, activity),
     participants: tournament.participants.map(x => participantDto(x))
   }
 }
@@ -77,7 +73,7 @@ exports.startMatch = async function (req) {
     return notFound(`Cannot find match with id ${req.params.matchId}`)
   }
   if (match.status != 'PENDING') {
-    return badRequest("Cannot start a match that has already started")
+    return badRequest("Cannot start a match that has already been started")
   }
   match.status = 'STARTED'
   await tournament.save()
@@ -121,9 +117,10 @@ exports.startNextRound = async function (req) {
     return forbidUpdate()
   }
 
+  let activity = Activities.findById(tournament.activity)
   let lastRound = tournament.matches[tournament.matches.length - 1]
   if (lastRound) {
-    if (lastRound.flatMap(m => [m.participant1, m.participant2]).map(p => p.score).some(s => s == undefined)) {
+    if (lastRound.some(m => activity.getMatchResult(m, tournament) == null)) {
       return badRequest('Cannot proceed to next round if any match of the previous one is missing its result')
     }
     lastRound.forEach(m => {
