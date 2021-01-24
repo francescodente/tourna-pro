@@ -17,6 +17,7 @@
         <action-button
           actionName="Aggiungi partecipante non registrato"
           icon="fas fa-user-plus"
+          @trigger="addParticipant"
         />
         <action-button
           actionName="Gestisci iscrizioni"
@@ -112,8 +113,9 @@ export default {
         "Sei sicuro di voler avviare il torneo?"
       );
       if (res) {
-        //TODO fill with endpoint to start tournament
+        dataAccess.matches.startRound(this.$route.params.id)
       }
+      this.$router.go(0)
     },
     async deleteTournament() {
       let res = await this.$refs["yes-no"].show(
@@ -124,6 +126,9 @@ export default {
         await dataAccess.tournaments.delete(this.$route.params.id);
         this.$router.push({ name: "MyTournaments" });
       }
+    },
+    addParticipant() {
+      this.$router.push({ name: "AddParticipant" });
     },
     //USER ACTIONS
     async requestSubscription() {

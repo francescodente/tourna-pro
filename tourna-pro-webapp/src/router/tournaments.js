@@ -7,6 +7,7 @@ import Share from '../views/tournaments/Share.vue'
 import CreateTournament from '../views/tournaments/CreateTournament.vue'
 import ManageSubscriptions from '../views/tournaments/ManageSubscriptions.vue'
 import NameAdmin from '../views/tournaments/NameAdmin.vue'
+import AddParticipant from '../views/tournaments/AddParticipant.vue'
 
 export default [
   {
@@ -33,6 +34,11 @@ export default [
     path: 'tournaments/:id/share',
     name: 'Share',
     component: Share
+  },
+  {
+    path: 'tournaments/:id/addparticipant',
+    name: 'AddParticipant',
+    component: AddParticipant
   },
   {
     path: 'tournaments/:id/subscriptions',

@@ -1,7 +1,7 @@
 <template>
   <div class="main">
     <headline class="headline">Richieste di iscrizione </headline>
-    <router-link  tag="div" v-for="r in requests" :key="r.id" :to="requestPath(r)">
+    <router-link  v-for="r in requests" :key="r.id" :to="requestPath(r)" tag="div">
     <arrow-button :text="r.displayText">
       <div>
         <button class="button approve" v-on:click.prevent @click="approveRequest(r.id)"><i class="fas fa-check"></i></button>
@@ -46,12 +46,10 @@ export default {
         case "TEAM": {
           return {name: 'TeamDetails', params: {id: r.teamId}};
         }
-        case "PERSON": {
-          return "person";
-        }
         case "USER": {
           return {name: 'UserProfile', params: {id: r.userId}};
         }
+        default: return "";
       }
     },
     approveRequest(id){
