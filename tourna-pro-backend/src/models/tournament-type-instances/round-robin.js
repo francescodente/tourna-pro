@@ -1,5 +1,5 @@
 const { matchBetween } = require('./utils')
-const Activities = require('./activities')
+const Activities = require('../activities')
 
 exports.id = 'ROUND_ROBIN'
 
@@ -31,4 +31,9 @@ exports.getRoundCount = function(tournament) {
 exports.generateRanking = function(tournament) {
   let activity = Activities.findById(tournament.activity)
   
+  tournament.participants
+    .map(p => ({
+      id: p.id,
+      stats: activity.stats
+    }))
 }

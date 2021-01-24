@@ -1,4 +1,4 @@
-const Activities = require('./activities')
+const Activities = require('../activities')
 const { matchBetween, shuffle } = require('./utils')
 
 function powerOfTwoCeil(x) {
@@ -85,4 +85,8 @@ exports.generateRanking = function(tournament) {
   }
   let activity = Activities.findById(tournament.activity)
   return computeRankingForRoundIndex(activity, tournament, tournament.matches.length - 1)
+    .map(id => ({
+      id,
+      stats: { }
+    }))
 }
