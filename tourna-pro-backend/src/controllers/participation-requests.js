@@ -123,6 +123,9 @@ exports.getAllParticipationRequests = async function (req) {
   if (!requests) {
     return notFound(tournamentNotFound(req.params.id))
   }
+  if(req.query.status){
+    requests = requests.filter(x => x.status == req.query.status)
+  }
   return ok(requests.map(x => participationRequestsDto(x)))
 }
 
