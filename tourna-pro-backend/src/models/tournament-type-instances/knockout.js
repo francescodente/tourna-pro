@@ -90,10 +90,15 @@ exports.generateRanking = function(tournament) {
     return tournament.participants.map(x => x.id)
   }
   let activity = Activities.findById(tournament.activity)
-  return computeRankingForRoundIndex(activity, tournament, tournament.matches.length - 1)
+  let ranking = computeRankingForRoundIndex(activity, tournament, tournament.matches.length - 1)
     .filter(id => id != null)
     .map(id => ({
       id,
-      stats: { }
+      stats: []
     }))
+
+  return {
+    stats: {},
+    ranking
+  }
 }

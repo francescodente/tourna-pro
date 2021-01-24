@@ -1,3 +1,5 @@
+const { points } = require("./stats")
+
 const isRetired = tournament => participant => participant.id == null || tournament.participants.find(x => x.id == participant.id) == 'RETIRED'
 
 const compareScores = f => function(match, tournament) {
@@ -43,54 +45,74 @@ const defaultResult = (defaultWinningScore, defaultLosingScore) => ({
   defaultLosingScore
 })
 
+
+const fixedPoints = (win, draw, loss) => ({
+  assignPoints(result, participantKey) {
+    if (result.outcome == 'draw') {
+      return draw
+    }
+    return result.winner == participantKey ? win : loss
+  }
+})
+
+const defaultFixedPoints = fixedPoints(3, 1, 0)
+
 const values = [
   {
     id: 'SOCCER',
     name: 'Calcio',
     getMatchResult: higherScore,
-    ...defaultResult(3, 0)
+    ...defaultResult(3, 0),
+    ...defaultFixedPoints
   },
   {
     id: 'CHESS',
     name: 'Scacchi',
     getMatchResult: higherScore,
-    ...defaultResult(1, 0)
+    ...defaultResult(1, 0),
+    ...defaultFixedPoints
   },
   {
     id: 'BRISCOLA',
     name: 'Briscola',
     getMatchResult: higherScore,
-    ...defaultResult(2, 0)
+    ...defaultResult(2, 0),
+    ...defaultFixedPoints
   },
   {
     id: 'BEER_PONG',
     name: 'Beer Pong',
     getMatchResult: lowerScore,
-    ...defaultResult(0, 6)
+    ...defaultResult(0, 6),
+    ...defaultFixedPoints
   },
   {
     id: 'BURACO',
     name: 'Burraco',
     getMatchResult: higherScore,
-    ...defaultResult(2005, 0)
+    ...defaultResult(2005, 0),
+    ...defaultFixedPoints
   },
   {
     id: 'BEACH_VOLLEY',
     name: 'Beach Volley',
     getMatchResult: higherScore,
-    ...defaultResult(2, 0)
+    ...defaultResult(2, 0),
+    ...defaultFixedPoints
   },
   {
     id: 'MTG',
     name: 'Magic The Gathering',
     getMatchResult: higherScore,
-    ...defaultResult(2, 0)
+    ...defaultResult(2, 0),
+    ...defaultFixedPoints
   },
   {
     id: 'YGO',
     name: 'Yu-Gi-Oh',
     getMatchResult: higherScore,
-    ...defaultResult(2, 0)
+    ...defaultResult(2, 0),
+    ...defaultFixedPoints
   }
 ]
 

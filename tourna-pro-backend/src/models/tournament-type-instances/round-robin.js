@@ -28,12 +28,46 @@ exports.getRoundCount = function(tournament) {
   return tournament.participants.length - 1
 }
 
+function compareStats(a, b) {
+  for (let i = 0; i < a.length; i++) {
+    let comparison = a[i].stat.compare(a[i].value, b[i].value)
+    if (comparison != 0) {
+      return comparison
+    }
+  }
+  return 0
+}
+
+function statsArrayToObject(stats) {
+  let obj = { }
+  for (let stat of stats) {
+    obj[stat.name] = stat
+  }
+  return obj
+}
+
 exports.generateRanking = function(tournament) {
-  let activity = Activities.findById(tournament.activity)
+  let stats = Activities.findById(tournament.activity).stats
   
-  tournament.participants
+  let ranking = tournament.participants
     .map(p => ({
       id: p.id,
-      stats: activity.stats
+      stats: stats.map(s => ({
+        value: s.compute(tournament, p.id),
+        stat: s
+      }))
     }))
+    .sort((a, b) => compareStats(a.stats, b.stats))
+    .map(x => ({
+      id: x.id,
+      stats: x.stats.map(s => ({
+        key: s.name,
+        value: s.value
+      }))
+    }))
+    
+  return {
+    ranking,
+    stats: statsArrayToObject(stats)
+  }
 }

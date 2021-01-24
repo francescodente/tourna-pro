@@ -39,15 +39,17 @@
         />
       </simple-form>
     </simple-border>
-    <span
-      >Non hai un account?<router-link :to="{ name: 'Register' }">
-        Registrati</router-link
-      ></span
-    >
+    <span>
+      Non hai un account?
+      <router-link :to="{ name: 'Register' }">
+        Registrati
+      </router-link>
+    </span>
   </div>
 </template>
 
 <script>
+import { mapActions } from 'vuex';
 import SimpleBorder from "../components/ui/SimpleBorder.vue";
 import SimpleCheckbox from "../components/ui/SimpleCheckbox.vue";
 import SimpleForm from "../components/ui/SimpleForm.vue";
@@ -72,6 +74,7 @@ export default {
     };
   },
   methods: {
+    ...mapActions(['initUnreadNotifications']),
     notEmpty(x) {
       return x != "";
     },
@@ -86,6 +89,8 @@ export default {
         );
         localStorage.setItem("userId", res.userId);
         localStorage.setItem("accessToken", res.accessToken);
+        this.initUnreadNotifications(this.$store.getters.userId)
+        this.$socket.emit('authenticate', { accessToken })
         this.$store.dispatch("initStore");
         this.$router.push({ name: "MyTournaments" });
       } catch (error) {}
