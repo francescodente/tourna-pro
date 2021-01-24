@@ -37,7 +37,7 @@ export default {
   computed: {
     ...mapGetters(['userId'])
   },
-  created() {
+  async created() {
     this.requests = await dataAccess.requests.getAll({userId: this.userId, status: 'PENDING'})
   }
 };
