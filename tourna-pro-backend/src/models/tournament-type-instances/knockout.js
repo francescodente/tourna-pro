@@ -41,7 +41,7 @@ exports.getRoundCount = function(tournament) {
 }
 
 function getResult(activity, match) {
-  if (match.participant1.score && match.participant2.score) {
+  if (match.participant1.score != undefined && match.participant2.score != undefined) {
     return activity.getMatchResult(match)
   } else {
     return {
@@ -62,7 +62,7 @@ function computeRankingForRound(activity, currentRound, subsequentRoundRanking) 
     return results
       .map(r => ({
         id: r.loser.id,
-        winnerRank: subsequentRoundRanking.findIndex(r.winner.id)
+        winnerRank: subsequentRoundRanking.findIndex(x => x.id == r.winner.id)
       }))
       .sort((a, b) => a.winnerRank - b.winnerRank)
       .map(x => x.id)
@@ -87,6 +87,7 @@ exports.generateRanking = function(tournament) {
   }
   let activity = Activities.findById(tournament.activity)
   return computeRankingForRoundIndex(activity, tournament, tournament.matches.length - 1)
+    .filter(id => id != null)
     .map(id => ({
       id,
       stats: { }

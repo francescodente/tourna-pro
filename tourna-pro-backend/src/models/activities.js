@@ -1,4 +1,7 @@
 const compareScores = f => m => {
+  if (m.participant1.score == undefined || m.participant2.score == undefined) {
+    return null
+  }
   const res = f(m.participant1.score, m.participant2.score)
   if (res > 0) {
     return {
