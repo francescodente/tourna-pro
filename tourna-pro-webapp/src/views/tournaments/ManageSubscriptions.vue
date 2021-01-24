@@ -65,8 +65,7 @@ export default {
   },
   async created() {
     let rawRequests = await dataAccess.participationRequests.getAll(
-      this.$route.params.id,
-      { status: "PENDING" }
+      {tournamentId: this.$route.params.id, status: "PENDING" }
     );
     for (var r of rawRequests) {
       r["displayText"] = await this.requestDisplayText(r);

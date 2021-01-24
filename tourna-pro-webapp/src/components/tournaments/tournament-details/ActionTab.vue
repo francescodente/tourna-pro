@@ -95,8 +95,8 @@ export default {
       return this.subscribed == "NONE" && !this.active;
     },
     canRetire() {
-      return ['SUBSCRIBED', 'REQUESTED'].includes(this.subscribed)
-    }
+      return ["SUBSCRIBED", "REQUESTED"].includes(this.subscribed);
+    },
   },
   methods: {
     //OWNER ACTIONS
@@ -153,10 +153,10 @@ export default {
         "Vuoi ritirarti la tua iscrizione al torneo?"
       );
       if (res) {
-        let participation = await dataAccess.participationRequests.getAll(
-          this.$route.params.id,
-          { userId: this.userId }
-        );
+        let participation = await dataAccess.participationRequests.getAll({
+          tournamentId: this.$route.params.id,
+          userId: this.userId,
+        });
         if (participation.length > 0) {
           if (this.subscribed == "SUBSCRIBED") {
             await dataAccess.participants.delete(
