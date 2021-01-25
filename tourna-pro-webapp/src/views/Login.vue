@@ -89,9 +89,9 @@ export default {
         );
         localStorage.setItem("userId", res.userId);
         localStorage.setItem("accessToken", res.accessToken);
+        this.$store.dispatch("initStore");
         this.initUnreadNotifications(this.$store.getters.userId)
         this.$socket.emit('authenticate', { accessToken })
-        this.$store.dispatch("initStore");
         this.$router.push({ name: "MyTournaments" });
       } catch (error) {}
     },
