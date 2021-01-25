@@ -30,27 +30,21 @@
 
     <div class="info">
       <text-icon
-        icon="fas fa-birthday-cake fa-lg"
+        icon="fas fa-birthday-cake fa-fw"
         :text="user.birthDate | dateFormat"
         :iconColor="style.colorPrimary"
       />
       <text-icon
-        icon="fas fa-phone-alt fa-lg"
+        icon="fas fa-phone-alt fa-fw"
         :text="user.telephone"
         :iconColor="style.colorPrimary"
       />
       <text-icon
-        icon="fas fa-mars fa-2x"
+        icon="fas fa-mars fa-fw"
         :text="user.gender"
         :iconColor="style.colorPrimary"
       />
     </div>
-    <!--
-    <div class="bio">
-      <div class="about-me">Su di me:</div>
-      <div>{{ user.bio }}</div>
-    </div>
-    -->
     <div class="interests">
       <section-header class="header" :color="style.colorPrimaryLightest">
         <span>Interessi</span>
