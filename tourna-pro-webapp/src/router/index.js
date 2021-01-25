@@ -30,6 +30,9 @@ const routes = [
   },
   {
     path: '/',
+    meta: {
+      requiresAuth: true
+    },
     component: Home,
     children: [
       {
@@ -50,16 +53,15 @@ const router = new VueRouter({
   routes
 })
 
-router.beforeEach((to, from, next) => {
-  if(to.matched.filter(x=> x.path == '/register').length != 0){
-    next()
-  } else {
-    if (!['Login'].includes(to.name) && !store.getters.accessToken) {
+router.beforeEach((to, _, next) => {
+  let requiresAuth = to.matched.some(record => record.meta.requiresAuth)
+  if (requiresAuth && !store.getters.accessToken) {
     next({ name: 'Login' })
+  } else if (!requiresAuth && store.getters.accessToken) {
+    next({ name: 'MyTournaments' })
+  } else {
+    next()
   }
-  else next()
-  }
-
 })
 
 export default router
