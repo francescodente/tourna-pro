@@ -1,4 +1,4 @@
-const { points } = require("./stats")
+const { points, pointsScored, pointsTaken, scoreDifference, wins, losses, draws } = require("./stats")
 
 const isRetired = tournament => participant => participant.id == null || tournament.participants.find(x => x.id == participant.id) == 'RETIRED'
 
@@ -11,7 +11,7 @@ const compareScores = f => function(match, tournament) {
   if (isRetiredFromThisTournament(match.participant1)) {
     score.participant1 = this.defaultLosingScore
     score.participant2 = this.defaultWinningScore
-  } else if (isRetiredFromThisTournament(macth.participant2)) {
+  } else if (isRetiredFromThisTournament(match.participant2)) {
     score.participant1 = this.defaultWinningScore
     score.participant2 = this.defaultLosingScore
   }
@@ -63,7 +63,16 @@ const values = [
     name: 'Calcio',
     getMatchResult: higherScore,
     ...defaultResult(3, 0),
-    ...defaultFixedPoints
+    ...defaultFixedPoints,
+    stats: [
+      points('Punti'),
+      wins('Vittorie'),
+      losses('Sconfitte'),
+      draws('Pareggi'),
+      pointsScored('Gol Fatti'),
+      pointsTaken('Gol Subiti'),
+      scoreDifference('Differenza Reti')
+    ]
   },
   {
     id: 'CHESS',

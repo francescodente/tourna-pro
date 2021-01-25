@@ -5,6 +5,7 @@ const TournamentTypes = require('../models/tournament-types')
 const Activities = require('../models/activities')
 
 function matchDto(match, tournament, activity) {
+  activity = activity || Activities.findById(tournament.activity)
   return {
     id: match._id,
     participant1: match.participant1.id,
@@ -32,6 +33,7 @@ function tournamentDto(tournament) {
   return {
     id: tournament._id,
     status: tournament.status,
+    type: tournament.type,
     rounds: roundsDto(tournament, activity),
     participants: tournament.participants.map(x => participantDto(x))
   }
@@ -79,7 +81,7 @@ exports.startMatch = async function (req) {
   await tournament.save()
 
   publish('matchStarted', tournament, match)
-  return ok(matchDto(match))
+  return ok(matchDto(match, tournament))
 }
 
 exports.updateMatchResult = async function (req) {
@@ -105,7 +107,7 @@ exports.updateMatchResult = async function (req) {
   match.participant2.score = req.body.participant2
   await tournament.save()
 
-  return ok(matchDto(match))
+  return ok(matchDto(match, tournament))
 }
 
 exports.startNextRound = async function (req) {

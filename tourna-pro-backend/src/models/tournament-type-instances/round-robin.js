@@ -14,14 +14,12 @@ exports.generateNewRound = function(tournament) {
   let newRound = []
   for (let i = 0; i < matchesCount; i++) {
     let a = i == 0 ? 0 : (i + roundIndex) % idealSize
-    let b = idealSize - i + roundIndex
-    if (b < 0) {
-      b += idealSize
-    }
+    let b = (idealSize - 2 - i + roundIndex) % (idealSize - 1) + 1
     if (a != size && b != size) {
       newRound.push(matchBetween(tournament.participants[a], tournament.participants[b]))
     }
   }
+  return newRound
 }
 
 exports.getRoundCount = function(tournament) {
@@ -57,11 +55,11 @@ exports.generateRanking = function(tournament) {
         stat: s
       }))
     }))
-    .sort((a, b) => compareStats(a.stats, b.stats))
+    .sort((a, b) => compareStats(b.stats, a.stats))
     .map(x => ({
       id: x.id,
       stats: x.stats.map(s => ({
-        key: s.name,
+        key: s.stat.name,
         value: s.value
       }))
     }))
