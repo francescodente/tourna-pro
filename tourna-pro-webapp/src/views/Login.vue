@@ -86,13 +86,13 @@ export default {
         var res = await dataAccess.authentication.login(
           this.username,
           this.password
-        );
-        localStorage.setItem("userId", res.userId);
-        localStorage.setItem("accessToken", res.accessToken);
-        this.$store.dispatch("initStore");
-        this.initUnreadNotifications(this.$store.getters.userId)
-        this.$socket.emit('authenticate', { accessToken })
-        this.$router.push({ name: "MyTournaments" });
+        )
+        localStorage.setItem("userId", res.userId)
+        localStorage.setItem("accessToken", res.accessToken)
+        this.$store.dispatch("initStore")
+        this.initUnreadNotifications(res.userId)
+        this.$socket.emit('authenticate', { accessToken: res.accessToken })
+        this.$router.push({ name: "MyTournaments" })
       } catch (error) {}
     },
   },
