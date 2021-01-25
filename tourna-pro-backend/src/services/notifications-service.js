@@ -5,14 +5,21 @@ async function login(context, token) {
   const result = await validateToken(token)
   if (result.success) {
     context.userId = result.userId
-    onUserAuthenticated(context)
+    console.log(`User with id ${context.userId} connected to notifications service`)
   } else {
     context.socket.emit('login_error', result.errorMessage)
   }
 }
 
-function onUserAuthenticated(context) {
-  console.log(`User with id ${context.userId} connected to notifications service`)
+function logout(context) {
+  onUserDisconnected(context)
+  context.userId = undefined
+}
+
+function onUserDisconnected(context) {
+  if (context.userId) {
+    console.log(`User with id ${context.userId} disconnected from notifications service`)
+  }
 }
 
 function onNewLog(context, log) {
@@ -36,8 +43,9 @@ exports.onConnection = function (socket) {
   let subscription = eventBus.subscribe('newLog', log => onNewLog(context, log))
   socket.emit('login')
   socket.on('authenticate', msg => login(context, msg.accessToken))
+  socket.on('logout', () => logout(context))
   socket.on('disconnect', function () {
-    console.log(`user with id ${context.userId} disconnected`)
+    onUserDisconnected(context)
     subscription.unsubscribe()
   })
 }

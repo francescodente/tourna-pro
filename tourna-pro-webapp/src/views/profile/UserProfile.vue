@@ -116,6 +116,7 @@ export default {
     },
     async logoutUser() {
       await this.$store.dispatch('logout');
+      this.$socket.emit('logout')
       router.push({ name: "Login" });
     },
   },
