@@ -17,8 +17,9 @@ const containsParticipant = id => match =>
   match.participant1.id.toString() == id.toString() ||
   match.participant2.id.toString() == id.toString()
 
-const fromMatches = compare => calculator => name => ({
+const fromMatches = compare => calculator => key => name => ({
   name,
+  key,
   compare,
   compute(tournament, id) {
     let participantMatches = tournament.matches
@@ -36,16 +37,16 @@ const malus = fromMatches((a, b) => b - a)
 
 const even = fromMatches(() => 0)
 
-exports.points = bonus(sum(m => m.activity.assignPoints(m.result, m.thisPlayer)))
+exports.points = bonus(sum(m => m.activity.assignPoints(m.result, m.thisPlayer)))('P')
 
-exports.pointsScored = bonus(sum(m => m.result[m.thisPlayer].score))
+exports.pointsScored = bonus(sum(m => m.result[m.thisPlayer].score))('PS')
 
-exports.pointsTaken = malus(sum(m => m.result[m.otherPlayer].score))
+exports.pointsTaken = malus(sum(m => m.result[m.otherPlayer].score))('PT')
 
-exports.scoreDifference = bonus(sum(m => m.result[m.thisPlayer].score - m.result[m.otherPlayer].score))
+exports.scoreDifference = bonus(sum(m => m.result[m.thisPlayer].score - m.result[m.otherPlayer].score))('SD')
 
-exports.wins = bonus(sum(m => m.result.winner == m.thisPlayer ? 1 : 0))
+exports.wins = bonus(sum(m => m.result.winner == m.thisPlayer ? 1 : 0))('W')
 
-exports.losses = bonus(sum(m => m.result.loser == m.thisPlayer ? 1 : 0))
+exports.losses = bonus(sum(m => m.result.loser == m.thisPlayer ? 1 : 0))('L')
 
-exports.draws = even(sum(m => m.result.outcome == 'draw'))
+exports.draws = even(sum(m => m.result.outcome == 'draw'))('D')

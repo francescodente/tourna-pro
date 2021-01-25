@@ -59,7 +59,7 @@ exports.generateRanking = function(tournament) {
     .map(x => ({
       id: x.id,
       stats: x.stats.map(s => ({
-        key: s.stat.name,
+        key: s.stat.key,
         value: s.value
       }))
     }))
