@@ -1,5 +1,5 @@
 <template>
-  <div :class="classes" @click="onSelect">
+  <list-item class="user-line" :canSelect="canSelect" @selected="$emit('selected', user)">
     <avatar :src="user.imageUrl"/>
     <div class="user-username">
       {{ user.username }}
@@ -9,13 +9,14 @@
     <a v-if="canDelete && user.id != $store.getters.userId" @click="$emit('deleted', $event)" class="delete-button">
       <i class="fas fa-times"></i>
     </a>
-  </div>
+  </list-item>
 </template>
 
 <script>
 import Avatar from '../profile/Avatar.vue'
+import ListItem from '../ui/ListItem.vue'
 export default {
-  components: { Avatar },
+  components: { Avatar, ListItem },
   props: {
     user: Object,
     isOwner: Boolean,
@@ -27,42 +28,14 @@ export default {
       type: Boolean,
       default: true
     }
-  },
-  methods: {
-    onSelect() {
-      if (!this.canSelect) {
-        return
-      }
-      this.$emit('selected', this.user)
-    }
-  },
-  computed: {
-    classes() {
-      return {
-        'team-user': true,
-        'clickable': this.canSelect
-      }
-    }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-.team-user {
-  display: flex;
-  flex-direction: row;
-  justify-content: start;
-  align-items: center;
-  padding: 18px;
+.user-line {
   font-weight: bold;
   color:black;
-  //border-bottom: 1px solid $color-not-focus-text;
-  box-shadow: 0px 3px 7px -2px rgba(0,0,0,0.2);
-
-  &.clickable:hover {
-    background-color: #eeeeee;
-    cursor: pointer;
-  }
 
   .user-username {
     flex: 1;

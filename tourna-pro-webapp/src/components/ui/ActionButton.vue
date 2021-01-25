@@ -1,13 +1,14 @@
 <template>
-  <div class="action-button" @click="$emit('trigger', $event.target)" :style="{color: this.color}">
+  <list-item class="action-button" @selected="$emit('trigger', $event.target)" :style="{color: this.color}">
     <text-icon :icon="icon + ' fa-fw'" :text="actionName"/>
-  </div>
+  </list-item>
 </template>
 
 <script>
+import ListItem from './ListItem.vue'
 import TextIcon from './TextIcon.vue'
 export default {
-  components: { TextIcon },
+  components: { TextIcon, ListItem },
   name: 'ActionButton',
   props: {
     icon: String,
@@ -19,10 +20,6 @@ export default {
 
 <style lang="scss" scoped>
 .action-button{
-  background-color:white;
   font-weight: bold;
-  text-align:left;
-  padding:20px;
-  box-shadow: 0px 1px 6px 0px rgba(0, 0, 0, 0.3);
 }
 </style>
