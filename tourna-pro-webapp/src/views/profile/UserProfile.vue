@@ -6,15 +6,15 @@
         <span class="name" size="10%">{{ user.firstName + " " + user.lastName }}</span>
         <span>@{{ user.username }}</span>
       </div>
-      <span v-if="isUserProfile" class="logout" v-on:click="logoutUser"
-        ><i class="fas fa-sign-out-alt fa-lg"></i
-      ></span>
-      <router-link v-if="isUserProfile" :to="this.$route.path + '/password'">
+      <span v-if="isUserProfile" class="logout" v-on:click="logoutUser">
+        <i class="fas fa-sign-out-alt fa-lg"></i>
+      </span>
+      <router-link v-if="isUserProfile" :to="{ name: 'UserPassword', params: { id: pathUser } }">
         <span class="options"><i class="fas fa-lg fa-cog fa-lg"></i></span>
       </router-link>
     </div>
 
-    <router-link v-if="isUserProfile" :to="this.$route.path + '/edit'">
+    <router-link v-if="isUserProfile" :to="{ name: 'UserModifyProfile', params: {id: pathUser} }">
       <text-icon
         class="edit-button"
         icon="fas fa-edit"
@@ -54,7 +54,7 @@
     <div class="interests">
       <section-header class="header" :color="style.colorPrimaryLightest">
         <span>Interessi</span>
-        <router-link v-if="isUserProfile" tag="span" :to="this.$route.path + '/interests'">
+        <router-link v-if="isUserProfile" tag="span" :to="{ name: 'UserInterest', params: { id: pathUser } }">
           <i class="fas fa-ellipsis-h"></i>
         </router-link>
       </section-header>
