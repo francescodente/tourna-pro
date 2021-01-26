@@ -86,5 +86,26 @@ export default {
       }
     }
   }
+
+  @media screen and (min-width: 576px) and (max-width: 767.98px) {
+    .main-container{
+      .main-content{
+        .main-content-scrollable{
+          width: 80%;
+        }
+      }
+    }
+  }
+
+  @media only screen and (min-width: 768px){
+    .main-container{
+      .main-content{
+        .main-content-scrollable{
+          display: block;
+          width: 750px;
+        }
+      }
+    }
+  }
 }
 </style>
