@@ -1,6 +1,6 @@
 <template>
   <list-item class="participant-line" :canSelect="canSelect" @selected="$emit('selected')">
-    <avatar :src="imageUrl"/>
+    <avatar v-if="!hideImage" :src="imageUrl"/>
     <div class="participant-name">
       {{ name }}
       <span v-if="secondaryName" class="real-name">({{ secondaryName }})</span>
@@ -20,6 +20,7 @@ export default {
   props: {
     name: String,
     secondaryName: String,
+    hideImage: Boolean, 
     imageUrl: String,
     isOwner: {
       type: Boolean,

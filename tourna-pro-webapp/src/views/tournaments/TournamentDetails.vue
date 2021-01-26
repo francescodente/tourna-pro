@@ -11,6 +11,9 @@
         <tab title="Dettagli" :selected="true">
           <details-tab :tournament="tournament"/>
         </tab>
+        <tab title="Partecipanti">
+          <participants-tab :participants="participants" />
+        </tab>
         <tab v-if="tournament.status == 'ACTIVE'" title="Tabellone">
           <score-board-tab :matches="matches" :participants="participants" />
         </tab>
@@ -43,6 +46,7 @@ import ScoreBoardTab from "../../components/tournaments/tournament-details/Score
 import Tab from "../../components/ui/TabView/Tab.vue";
 import TabView from "../../components/ui/TabView/TabView.vue";
 import RankingTab from '../../components/tournaments/tournament-details/RankingTab.vue';
+import ParticipantsTab from '../../components/tournaments/tournament-details/ParticipantsTab.vue';
 export default {
   name: "TournamentDetails",
   components: {
@@ -54,6 +58,7 @@ export default {
     ScoreBoardTab,
     ActivityTab,
     RankingTab,
+    ParticipantsTab,
   },
   data() {
     return {
