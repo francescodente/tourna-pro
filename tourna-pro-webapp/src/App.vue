@@ -2,21 +2,28 @@
   <div id="app">
     <error-popup/>
     <title-bar :appName="name" />
-    <div class="main-container">
-      <router-view/>
+    <div :class="['main-container', isLoggedIn ? 'logged-in' : '']">
+      <div class="main-content">
+        <div class="main-content-scrollable">
+          <router-view/>
+        </div>
+      </div>
     </div>
+    <bottom-navbar v-if="isLoggedIn" />
   </div>
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
+import BottomNavbar from './components/ui/BottomNavbar.vue'
 import ErrorPopup from './components/ui/ErrorPopup.vue'
 import TitleBar from './components/ui/TitleBar.vue'
 
 export default {
   components: {
     TitleBar,
-    ErrorPopup
+    ErrorPopup,
+    BottomNavbar
   },
   data: function() {
     return {
@@ -25,6 +32,9 @@ export default {
   },
   methods: {
     ...mapActions(['newNotification','initUnreadNotifications'])
+  },
+  computed: {
+    ...mapGetters(['isLoggedIn'])
   },
   created() {
     this.$socket.on('login', () => {
@@ -55,7 +65,26 @@ export default {
   .main-container {
     padding-top: $titlebar-height;
     height: 100vh;
-    overflow: auto;
+    background-color: $color-secondary1-background;
+
+    &.logged-in {
+      padding-bottom: $bottom-navbar-height;
+    }
+
+    .main-content {
+      height: 100%;
+      width: 100%;
+      overflow: auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      .main-content-scrollable {
+        background-color: white;
+        flex-grow: 1;
+        width: 100%;
+      }
+    }
   }
 }
 </style>
