@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="table-container">
     <table>
       <tr>
         <th>VS</th>
@@ -65,10 +65,15 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.table-container {
+  height: 100%;
+}
+
 table {
   width: 100%;
   padding: 0px 10px;
   font-size: 1.1rem;
+  min-height: 100%;
 }
 
 $border: 1px solid $color-secondary2;
@@ -83,8 +88,6 @@ td, th {
 th {
   background-color: $color-secondary2;
   color: $color-secondary2-text;
-  // border-bottom: $border;
-  // border-top: $border;
 }
 
 td {

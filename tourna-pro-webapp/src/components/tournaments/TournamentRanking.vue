@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="ranking-container">
     <table>
       <tr>
         <th class>#</th>
@@ -38,10 +38,15 @@ export default {
 
 <style lang="scss" scoped>
 
+.ranking-container {
+  height: 100%;
+}
+
 table {
   width: 100%;
   padding: 0px 10px;
   font-size: 1.1rem;
+  min-height: 100%;
 }
 
 td, th {
