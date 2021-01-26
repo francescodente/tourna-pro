@@ -36,14 +36,6 @@ function compareStats(a, b) {
   return 0
 }
 
-function statsArrayToObject(stats) {
-  let obj = { }
-  for (let stat of stats) {
-    obj[stat.name] = stat
-  }
-  return obj
-}
-
 exports.generateRanking = function(tournament) {
   let stats = Activities.findById(tournament.activity).stats
   
@@ -66,6 +58,6 @@ exports.generateRanking = function(tournament) {
     
   return {
     ranking,
-    stats: statsArrayToObject(stats)
+    stats
   }
 }

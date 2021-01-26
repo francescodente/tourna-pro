@@ -13,6 +13,7 @@ import tournamentTypes from './tournament-types'
 import tournaments from './tournaments'
 import users from './users'
 import logs from './logs'
+import rankings from './rankings'
 
 export default {
   achievements,
@@ -29,5 +30,6 @@ export default {
   tournamentOwners,
   tournamentTypes,
   tournaments,
-  users
+  users,
+  rankings
 }

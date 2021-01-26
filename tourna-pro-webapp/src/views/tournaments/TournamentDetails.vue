@@ -1,5 +1,5 @@
 <template>
-  <div v-if="tournament" class="details-container">
+  <div v-if="loaded" class="details-container">
     <div class="container">
       <headline> {{ tournament.name }} </headline>
       <div class="text">
@@ -12,7 +12,10 @@
           <details-tab :tournament="tournament"/>
         </tab>
         <tab v-if="tournament.status == 'ACTIVE'" title="Tabellone">
-          <score-board-tab />
+          <score-board-tab :matches="matches" />
+        </tab>
+        <tab v-if="tournament.status == 'ACTIVE'" title="Classifica">
+          <ranking-tab :ranking="ranking"/>
         </tab>
         <tab v-if="tournament.subscribed != 'NONE'" title="Attività">
           <activity-tab :logs="logs" />
@@ -39,6 +42,7 @@ import Headline from "../../components/tournaments/tournament-details/Headline.v
 import ScoreBoardTab from "../../components/tournaments/tournament-details/ScoreBoardTab.vue";
 import Tab from "../../components/ui/TabView/Tab.vue";
 import TabView from "../../components/ui/TabView/TabView.vue";
+import RankingTab from '../../components/tournaments/tournament-details/RankingTab.vue';
 export default {
   name: "TournamentDetails",
   components: {
@@ -49,17 +53,15 @@ export default {
     ActionTab,
     ScoreBoardTab,
     ActivityTab,
+    RankingTab,
   },
   data() {
     return {
+      loaded: false,
       tournament: null,
-      logs: []
-    }
-  },
-  methods: {
-    async fetchTournament() {
-      this.tournament = await dataAccess.tournaments.get(this.$route.params.id)
-      this.logs = await dataAccess.logs.getTournamentLogs(this.tournamentId)
+      logs: [],
+      matches: null,
+      ranking: null
     }
   },
   computed: {
@@ -68,7 +70,11 @@ export default {
     }
   },
   async created() {
-    await this.fetchTournament()
+    this.tournament = await dataAccess.tournaments.get(this.tournamentId)
+    this.logs = await dataAccess.logs.getTournamentLogs(this.tournamentId)
+    this.ranking = await dataAccess.rankings.getTournamentRanking(this.tournamentId)
+    this.matches = await dataAccess.matches.getAll(this.tournamentId)
+    this.loaded = true
   }
 }
 </script>
@@ -84,7 +90,7 @@ export default {
   }
 
   .tab-container{
-    max-height: 70%;
+    height: 70%;
     color: $color-secondary2;
   }
 }

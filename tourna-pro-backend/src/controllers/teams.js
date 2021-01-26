@@ -36,11 +36,14 @@ exports.getTeam = async function (req) {
 }
 
 exports.getAllTeams = async function (req) {
-  let query = Team.find()
+  let filter = {}
   if(req.query.user){
-    query = query.where({members: req.query.user})
+    filter.members = req.query.user
   }
-  let allTeams = await query
+  if (req.query.teamIds) {
+    filter._id = { $in: JSON.parse(req.query.teamIds) }
+  }
+  let allTeams = await Team.find(filter)
   return ok(allTeams.map(x=>teamDto(x, req)))
 }
 

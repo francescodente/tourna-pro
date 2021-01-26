@@ -29,8 +29,14 @@ const compareScores = f => function(match, tournament) {
     loser = 'participant1'
   }
   return {
-    participant1: match.participant1,
-    participant2: match.participant2,
+    participant1: {
+      id: match.participant1.id,
+      score: score.participant1
+    },
+    participant2: {
+      id: match.participant2.id,
+      score: score.participant2
+    },
     outcome: winner || 'draw',
     winner,
     loser,
