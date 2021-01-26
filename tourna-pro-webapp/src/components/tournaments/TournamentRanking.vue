@@ -11,7 +11,7 @@
           {{ rank + 1 }}
         </td>
         <td>
-          {{ participant.id }}
+          {{ participantName(participant.id) }}
         </td>
         <td v-for="stat in participant.stats" :key="stat.key">
           {{ stat.value }}
@@ -22,10 +22,16 @@
 </template>
 
 <script>
+import utils from '../../utils/participant-utils'
 export default {
   props: {
     ranking: Object,
-    participantNames: Object
+    participants: Object
+  },
+  methods: {
+    participantName(id) {
+      return utils.findParticipantName(this.participants, id)
+    }
   }
 }
 </script>
@@ -52,10 +58,8 @@ tr:nth-child(odd) {
 
 $border: 2px solid #666666;
 th {
-  background-color: #dddddd;
-  color: black;
-  border-bottom: $border;
-  border-top: $border;
+  background-color: $color-secondary2;
+  color: $color-secondary2-text;
 }
 
 td {

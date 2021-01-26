@@ -12,10 +12,10 @@
           <details-tab :tournament="tournament"/>
         </tab>
         <tab v-if="tournament.status == 'ACTIVE'" title="Tabellone">
-          <score-board-tab :matches="matches" />
+          <score-board-tab :matches="matches" :participants="participants" />
         </tab>
         <tab v-if="tournament.status == 'ACTIVE'" title="Classifica">
-          <ranking-tab :ranking="ranking"/>
+          <ranking-tab :ranking="ranking" :participants="participants" />
         </tab>
         <tab v-if="tournament.subscribed != 'NONE'" title="Attività">
           <activity-tab :logs="logs" />
@@ -61,7 +61,12 @@ export default {
       tournament: null,
       logs: [],
       matches: null,
-      ranking: null
+      ranking: null,
+      participants: {
+        requests: [],
+        teams: [],
+        users: []
+      }
     }
   },
   computed: {
@@ -74,6 +79,18 @@ export default {
     this.logs = await dataAccess.logs.getTournamentLogs(this.tournamentId)
     this.ranking = await dataAccess.rankings.getTournamentRanking(this.tournamentId)
     this.matches = await dataAccess.matches.getAll(this.tournamentId)
+    this.participants.requests = await dataAccess.participationRequests.getAll({
+      tournamentId: this.tournamentId,
+      status: 'APPROVED'
+    })
+    let users = this.participants.requests.map(r => r.userId).filter(id => id)
+    if (users.length > 0) {
+      this.participants.users = await dataAccess.users.search({ userIds: JSON.stringify(users) })
+    }
+    let teams = this.participants.requests.map(p => p.teamId).filter(id => id)
+    if (teams.length > 0) {
+      this.participants.teams = await dataAccess.teams.getAll({ teamIds: JSON.stringify(teams) })
+    }
     this.loaded = true
   }
 }
