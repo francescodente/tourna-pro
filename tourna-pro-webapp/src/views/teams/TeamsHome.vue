@@ -34,4 +34,8 @@ h1{
 .main{
   padding: 10px 20px;
 }
+
+@media screen and (min-width: 576px) and (max-width: 767.98px) {
+  
+}
 </style>
