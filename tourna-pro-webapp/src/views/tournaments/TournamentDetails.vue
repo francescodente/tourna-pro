@@ -11,7 +11,7 @@
         <tab title="Dettagli" :selected="true">
           <details-tab :tournament="tournament"/>
         </tab>
-        <tab title="Partecipanti">
+        <tab :title="`Partecipanti (${participants.requests.length})`">
           <participants-tab :participants="participants" />
         </tab>
         <tab v-if="tournament.status == 'ACTIVE'" title="Tabellone">
