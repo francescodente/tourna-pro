@@ -2,6 +2,7 @@ import TeamsHome from '../views/teams/TeamsHome.vue'
 import TeamDetails from '../views/teams/TeamDetails.vue'
 import TeamEdit from '../views/teams/TeamEdit.vue'
 import TeamCreate from '../views/teams/TeamCreate.vue'
+import UploadTeamImage from '../views/teams/UploadTeamImage.vue'
 
 export default [
   {
@@ -18,6 +19,11 @@ export default [
     path: 'teams/:id',
     name: 'TeamDetails',
     component: TeamDetails
+  },
+  {
+    path: 'teams/:id/image',
+    name: 'UploadTeamImage',
+    component: UploadTeamImage
   },
   {
     path: 'teams',

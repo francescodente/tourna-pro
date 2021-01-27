@@ -6,5 +6,9 @@ export default {
   getAll: filters => http.get(`/teams`, filters),
   update: (id, team) => http.put(`/teams/${id}`, team),
   delete: id => http.delete(`teams/${id}`),
-  updateImage: id => http.put(`/teams/${id}/image`)
+  updateImage: (id, image) => {
+    let formData = new FormData();
+    formData.append("team_picture", image);
+    http.put(`/teams/${id}/image`, formData)
+  }
 }
