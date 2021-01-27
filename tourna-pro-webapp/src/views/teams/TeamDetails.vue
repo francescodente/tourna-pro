@@ -159,7 +159,7 @@ export default {
   }
 
   .link {
-    margin-left:15px;
+    margin-left: 15px;
     &:hover {
       cursor: pointer;
     }
@@ -169,6 +169,22 @@ export default {
     padding: 10px;
     border-bottom: 1.5px solid $color-complementary;
     background-color: $color-complementary-background;
+  }
+
+  @media screen and (min-width: 576px) and (max-width: 768px) {
+    .team-image-container {
+    height: 30%;
+    }
+  }
+  @media screen and (min-width: 768px) and (max-width: 992px) {
+    .team-image-container {
+    height: 35%;
+    }
+  }
+  @media screen and (min-width: 992px) {
+    .team-image-container {
+    height: 40%;
+    }
   }
 }
 </style>
