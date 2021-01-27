@@ -7,7 +7,6 @@
       <tab title="I miei tornei">
         <managed-by-me-tab :tournaments="managedTournaments" />
       </tab>
-
       <tab title="Crea nuovo">
         <create-tournament/>
       </tab>

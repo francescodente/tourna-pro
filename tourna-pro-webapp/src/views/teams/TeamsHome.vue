@@ -2,40 +2,54 @@
   <div class="main">
     <h1>Le mie squadre</h1>
     <div class="teams-container">
-      <team-card class="card" :team="team" v-for="team in teams" :key="team.id" @click="teamClicked(team)" />
+      <team-card
+        class="card"
+        :team="team"
+        v-for="team in teams"
+        :key="team.id"
+        @click="teamClicked(team)"
+      />
     </div>
-    <floating-button icon="fas fa-plus" @click="$router.push({ name: 'TeamCreate' })" />
+    <floating-button
+      icon="fas fa-plus"
+      @click="$router.push({ name: 'TeamCreate' })"
+    />
   </div>
 </template>
 
 <script>
-import TeamCard from '../../components/teams/TeamCard.vue'
-import FloatingButton from '../../components/ui/FloatingButton.vue'
-import dataAccess from '@/data-access'
+import TeamCard from "../../components/teams/TeamCard.vue";
+import FloatingButton from "../../components/ui/FloatingButton.vue";
+import dataAccess from "@/data-access";
 export default {
   components: { TeamCard, FloatingButton },
   data() {
     return {
-      teams: []
-    }
+      teams: [],
+    };
   },
   async created() {
     this.teams = await dataAccess.teams.getAll({
-      user: this.$store.getters.userId
-    })
-  }
-}
+      user: this.$store.getters.userId,
+    });
+  },
+};
 </script>
 
 <style lang="scss" scoped>
-h1{
+h1 {
   color: $color-complementary;
 }
-.main{
+.main {
   padding: 10px 20px;
 }
 
-@media screen and (min-width: 576px) and (max-width: 767.98px) {
-  
+.teams-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+.teams-container > * {
+  flex: 1 1 280px;
+  margin: 1px;
 }
 </style>

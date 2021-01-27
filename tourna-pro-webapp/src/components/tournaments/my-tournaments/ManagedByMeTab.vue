@@ -29,4 +29,13 @@ export default {
 .tournament-card{
   margin-bottom: 30px;
 }
+
+.bg{
+  display: flex;
+  flex-wrap: wrap;
+}
+.bg > *{
+  flex: 1 1 280px;
+  margin: 1px;
+}
 </style>
