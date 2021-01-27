@@ -1,7 +1,7 @@
 <template>
   <div class="main">
     <h1>Le mie squadre</h1>
-    <div class="teams-container">
+    <grid-container>
       <team-card
         class="card"
         :team="team"
@@ -9,7 +9,7 @@
         :key="team.id"
         @click="teamClicked(team)"
       />
-    </div>
+    </grid-container>
     <floating-button
       icon="fas fa-plus"
       @click="$router.push({ name: 'TeamCreate' })"
@@ -21,8 +21,9 @@
 import TeamCard from "../../components/teams/TeamCard.vue";
 import FloatingButton from "../../components/ui/FloatingButton.vue";
 import dataAccess from "@/data-access";
+import GridContainer from '../../components/teams/GridContainer.vue';
 export default {
-  components: { TeamCard, FloatingButton },
+  components: { TeamCard, FloatingButton, GridContainer },
   data() {
     return {
       teams: [],
@@ -42,14 +43,5 @@ h1 {
 }
 .main {
   padding: 10px 20px;
-}
-
-.teams-container {
-  display: flex;
-  flex-wrap: wrap;
-}
-.teams-container > * {
-  flex: 1 1 280px;
-  margin: 1px;
 }
 </style>
