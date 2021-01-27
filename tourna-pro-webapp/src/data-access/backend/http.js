@@ -3,7 +3,7 @@ import router from '../../router';
 import store from '../../store'
 
 const client = axios.create({
-  baseURL: 'http://localhost:3000'
+  baseURL: process.env.VUE_APP_API_URL_BASE
 })
 
 client.interceptors.response.use(

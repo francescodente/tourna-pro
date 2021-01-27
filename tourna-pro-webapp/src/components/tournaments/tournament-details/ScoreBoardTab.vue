@@ -1,7 +1,16 @@
 <template>
-  <div>
-    <knockout-score-board v-if="matches.type == 'KNOCKOUT'" :matches="matches"/>
-    <round-robin-score-board v-if="matches.type == 'ROUND_ROBIN'" :matches="matches"/>
+  <div class="score-board-container">
+    <knockout-score-board
+      v-if="matches.type == 'KNOCKOUT'"
+      :matches="matches"
+      :participants="participants"
+    />
+
+    <round-robin-score-board
+      v-if="matches.type == 'ROUND_ROBIN'"
+      :matches="matches"
+      :participants="participants"
+    />
   </div>
 </template>
 
@@ -13,11 +22,15 @@ export default {
   components: { KnockoutScoreBoard, RoundRobinScoreBoard },
   name: "ScoreBoardTab",
   props: {
+    participants: Object,
     matches: Object
   }
 };
 </script>
 
-<style lang="scss">
-
+<style lang="scss" scoped>
+.score-board-container {
+  height: 100%;
+  overflow: auto;
+}
 </style>

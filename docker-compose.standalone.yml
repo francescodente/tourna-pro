@@ -1,0 +1,11 @@
+version: '3.7'
+
+services:
+  frontend:
+    build:
+      args:
+        - "API_URL_BASE=http://localhost:${BACKEND_PORT}"
+  
+  backend:
+    environment:
+      - "TOURNAPRO_FRONTEND_ORIGIN=http://localhost:${FRONTEND_PORT}"

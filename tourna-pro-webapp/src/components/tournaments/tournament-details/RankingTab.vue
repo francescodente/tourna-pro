@@ -1,6 +1,6 @@
 <template>
   <div class="main">
-    <tournament-ranking :ranking="ranking" />
+    <tournament-ranking :ranking="ranking" :participants="participants" />
   </div>
 </template>
 
@@ -10,11 +10,14 @@ import TournamentRanking from '../TournamentRanking.vue'
 export default {
   components: { TournamentRanking },
   props: {
-    ranking: Object
+    ranking: Object,
+    participants: Object
   }
 }
 </script>
 
 <style lang="scss" scoped>
-
+.main {
+  height: 100%;
+}
 </style>

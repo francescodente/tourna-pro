@@ -32,8 +32,10 @@ h1{
   color: $color-complementary;
 }
 .main{
-  padding-top: 10px;
-  width: 90%;
-  margin-left: 5%;
+  padding: 10px 20px;
+}
+
+@media screen and (min-width: 576px) and (max-width: 767.98px) {
+  
 }
 </style>

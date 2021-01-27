@@ -15,9 +15,10 @@ async function startServer() {
   
   const app = express()
   const server = require('http').createServer(app)
+  console.log(process.env.TOURNAPRO_FRONTEND_ORIGIN)
   const io = require('socket.io')(server, {
     cors: {
-      origin: 'http://localhost:8080',
+      origin: process.env.TOURNAPRO_FRONTEND_ORIGIN,
       methods: ['GET', 'POST']
     }
   })

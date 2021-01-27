@@ -7,16 +7,17 @@ const compareScores = f => function(match, tournament) {
     participant1: match.participant1.score,
     participant2: match.participant2.score
   }
-  const isRetiredFromThisTournament = isRetired(tournament)
-  if (isRetiredFromThisTournament(match.participant1)) {
-    score.participant1 = this.defaultLosingScore
-    score.participant2 = this.defaultWinningScore
-  } else if (isRetiredFromThisTournament(match.participant2)) {
-    score.participant1 = this.defaultWinningScore
-    score.participant2 = this.defaultLosingScore
-  }
   if (score.participant1 == undefined || score.participant2 == undefined) {
-    return null
+    const isRetiredFromThisTournament = isRetired(tournament)
+    if (isRetiredFromThisTournament(match.participant1)) {
+      score.participant1 = this.defaultLosingScore
+      score.participant2 = this.defaultWinningScore
+    } else if (isRetiredFromThisTournament(match.participant2)) {
+      score.participant1 = this.defaultWinningScore
+      score.participant2 = this.defaultLosingScore
+    } else {
+      return null
+    }
   }
   const compare = f(score.participant1, score.participant2)
   let winner = null

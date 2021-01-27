@@ -16,7 +16,8 @@ export default new Vuex.Store({
   getters: {
     userId: state => state.userId,
     accessToken: state => state.accessToken,
-    error: state => state.error
+    error: state => state.error,
+    isLoggedIn: state => state.userId != null
   },
   mutations: {
     initStore: async function (state) {
