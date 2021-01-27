@@ -4,9 +4,7 @@
       <li
         v-for="tab in tabs"
         :class="{ 'is-active': tab.isActive, 'is-not-active': !tab.isActive}"
-        :style="
-        (tab.isActive)?
-          {color: tab.color } : {} "
+        :style="tab.isActive ? { color: tab.color } : {}"
         :key="tab.title"
       >
         <a @click="selectTab(tab)">{{ tab.title }}</a>
@@ -48,42 +46,45 @@ export default {
 
 
 
-.tabs-nav{
-  width:100%;
+.tabs-nav {
+  width: 100%;
   overflow-x: auto;
-  padding:0px;
-  margin:0px;
+  padding: 0px;
+  margin: 0px;
   flex-shrink: 0;
-  display:flex;
+  display: flex;
   flex-direction: row;
-  li{
-    min-width:30%;
+
+  li {
     list-style: none;
     font-weight: bold;
+    white-space: nowrap;
     flex: 1 1 0;
     color:$color-not-focus-text;
-    &:hover{
+
+    &:hover {
       cursor: pointer;
     }
+
     a {
-      padding:12px;
-      display:block;
+      padding: 12px;
+      display: block;
     }
   }
   box-shadow: 0px 0px 10px -5px rgba(0,0,0,0.75);
 }
 
-.tabs-body{
+.tabs-body {
   flex-grow: 1;
   overflow-y: auto;
 }
 
-.is-active{
+.is-active {
   border-bottom: 3.5px solid;
   box-shadow: 0px 2px 10px 0px rgba(0, 0, 0, 0.2);
 }
 
-.is-not-active{
+.is-not-active {
   box-shadow: 0px 2px 1px 0px rgba(0, 0, 0, 0.1);
 }
 </style>

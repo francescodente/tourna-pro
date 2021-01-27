@@ -3,7 +3,9 @@
     <error-popup/>
     <title-bar :appName="name" />
     <div :class="['main-container', isLoggedIn ? 'logged-in' : '']">
+      <div class="background"></div>
       <div class="main-content">
+        <div class="content-background"></div>
         <div class="main-content-scrollable">
           <router-view/>
         </div>
@@ -65,10 +67,17 @@ export default {
   .main-container {
     padding-top: $titlebar-height;
     height: 100vh;
-    background-color: $color-secondary1-background;
 
     &.logged-in {
       padding-bottom: $bottom-navbar-height;
+    }
+    
+    .background {
+      width: 100%;
+      height: 100%;
+      position: fixed;
+      z-index: -2;
+      background-color: $color-secondary1-background;
     }
 
     .main-content {
@@ -79,31 +88,36 @@ export default {
       flex-direction: column;
       align-items: center;
 
-      .main-content-scrollable {
-        background-color: white;
-        flex-grow: 1;
+      .content-background, .main-content-scrollable {
         width: 100%;
       }
-    }
-  }
 
-  @media screen and (min-width: 576px) and (max-width: 767.98px) {
-    .main-container{
-      .main-content{
-        .main-content-scrollable{
-          width: 80%;
+      @media screen and (min-width: 576px) and (max-width: 768px) {
+        .content-background, .main-content-scrollable {
+          width: 550px;
         }
       }
-    }
-  }
-
-  @media only screen and (min-width: 768px){
-    .main-container{
-      .main-content{
-        .main-content-scrollable{
-          display: block;
+      @media screen and (min-width: 768px) and (max-width: 992px) {
+        .content-background, .main-content-scrollable {
           width: 750px;
         }
+      }
+      @media screen and (min-width: 992px) {
+        .content-background, .main-content-scrollable {
+          width: 950px;
+        }
+      }
+
+      .content-background {
+        position: fixed;
+        height: 100%;
+        background-color: white;
+        box-shadow: 0px 0px 7px 7px #00000011;
+        z-index: -1;
+      }
+
+      .main-content-scrollable {
+        height: 100%;
       }
     }
   }
