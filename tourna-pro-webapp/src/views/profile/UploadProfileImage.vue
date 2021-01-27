@@ -21,11 +21,11 @@ export default {
   },
   methods: {
     submitImage: async function (image) {
-      await dataAccess.profile.updateImage(this.$route.params.id, image);
+      await dataAccess.users.updateImage(this.$route.params.id, image);
     },
   },
   async created() {
-    this.team = await dataAccess.users.getUser(this.$route.params.id);
+    this.user = await dataAccess.users.getUser(this.$route.params.id);
   },
 };
 </script>

@@ -4,6 +4,10 @@ export default {
   register: (user) => http.post(`/users`,user),
   getUser: (id) => http.get(`/users/${id}`),
   updateUser: (id, user) => http.put(`/users/${id}`, user),
-  updateImage: (id) => http.put(`/users/${id}/image`),
+  updateImage: (id, image) => {
+    let formData = new FormData();
+    formData.append("profile_picture", image);
+    http.put(`/users/${id}/image`, formData)
+  },
   search: (query) => http.get(`/users`, query)
 }

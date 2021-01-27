@@ -7,7 +7,6 @@
         :guides="false"
         :view-mode="2"
         drag-mode="crop"
-        min-container-height="100px"
         :auto-crop-area="1"
         :zoom-on-wheel="false"
         :background="true"

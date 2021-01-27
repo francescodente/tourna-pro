@@ -3,33 +3,43 @@
     <div class="top-row">
       <avatar size="4em" :src="user.imageUrl" />
       <div class="user-name">
-        <span class="name" size="10%">{{ user.firstName + " " + user.lastName }}</span>
+        <span class="name" size="10%">{{
+          user.firstName + " " + user.lastName
+        }}</span>
         <span>@{{ user.username }}</span>
       </div>
       <span v-if="isUserProfile" class="logout" v-on:click="logoutUser">
         <i class="fas fa-sign-out-alt fa-lg"></i>
       </span>
-      <router-link v-if="isUserProfile" :to="{ name: 'UserPassword', params: { id: pathUser } }">
+      <router-link
+        v-if="isUserProfile"
+        :to="{ name: 'UserPassword', params: { id: pathUser } }"
+      >
         <span class="options"><i class="fas fa-lg fa-cog fa-lg"></i></span>
       </router-link>
     </div>
     <div v-if="isUserProfile" class="modify">
-    <router-link  :to="{ name: 'UploadProfileImage', params: {id: pathUser} }">
-      <text-icon
-        class="edit-button"
-        icon="fas fa-camera"
-        text="Modifica immagine"
-        :iconRight="true"
-      />
-    </router-link>
-    <router-link v-if="isUserProfile" :to="{ name: 'UserModifyProfile', params: {id: pathUser} }">
-      <text-icon
-        class="edit-button"
-        icon="fas fa-edit"
-        text="Modifica informazioni"
-        :iconRight="true"
-      />
-    </router-link>
+      <router-link
+        :to="{ name: 'UploadProfileImage', params: { id: pathUser } }"
+      >
+        <text-icon
+          class="edit-button"
+          icon="fas fa-camera"
+          text="Modifica immagine"
+          :iconRight="true"
+        />
+      </router-link>
+      <router-link
+        v-if="isUserProfile"
+        :to="{ name: 'UserModifyProfile', params: { id: pathUser } }"
+      >
+        <text-icon
+          class="edit-button"
+          icon="fas fa-edit"
+          text="Modifica informazioni"
+          :iconRight="true"
+        />
+      </router-link>
     </div>
     <div v-else class="spacing">
       <section-header class="header" :color="style.colorPrimary">
@@ -57,7 +67,11 @@
     <div class="interests">
       <section-header class="header" :color="style.colorPrimaryLightest">
         <span>Interessi</span>
-        <router-link v-if="isUserProfile" tag="span" :to="{ name: 'UserInterest', params: { id: pathUser } }">
+        <router-link
+          v-if="isUserProfile"
+          tag="span"
+          :to="{ name: 'UserInterest', params: { id: pathUser } }"
+        >
           <i class="fas fa-ellipsis-h"></i>
         </router-link>
       </section-header>
@@ -71,7 +85,7 @@
 
     <div>
       <section-header class="header" :color="style.colorComplementaryLight">
-          <span>Achievements</span>
+        <span>Achievements</span>
         <!--
           <i class="fas fa-question-circle"></i> 
         -->
@@ -79,9 +93,7 @@
       <div class="achievements" v-if="achievements.lengh > 0">
         <achievement v-for="a in achievements" :key="a.id" :achievement="a" />
       </div>
-      <div class="achievements" v-else>
-        Nessun achievement sbloccato
-      </div>
+      <div class="achievements" v-else>Nessun achievement sbloccato</div>
     </div>
   </div>
 </template>
@@ -94,7 +106,7 @@ import SectionHeader from "../../components/profile/SectionHeader.vue";
 import TextIcon from "../../components/ui/TextIcon.vue";
 import style from "../../style/export.scss";
 import router from "../../router";
-import { mapGetters } from 'vuex';
+import { mapGetters } from "vuex";
 
 export default {
   components: {
@@ -114,23 +126,25 @@ export default {
   methods: {
     async fetchUser() {
       this.user = await dataAccess.users.getUser(this.pathUser);
-      this.achievements = await dataAccess.achievements.getByUser(this.pathUser);
+      this.achievements = await dataAccess.achievements.getByUser(
+        this.pathUser
+      );
       this.interests = await dataAccess.interests.getAll(this.pathUser);
     },
     async logoutUser() {
-      await this.$store.dispatch('logout');
-      this.$socket.emit('logout')
+      await this.$store.dispatch("logout");
+      this.$socket.emit("logout");
       router.push({ name: "Login" });
     },
   },
   computed: {
-    ...mapGetters(['userId']),
+    ...mapGetters(["userId"]),
     pathUser() {
       return this.$route.params.id;
     },
-    isUserProfile(){
-      return this.pathUser == this.userId
-    }
+    isUserProfile() {
+      return this.pathUser == this.userId;
+    },
   },
   async created() {
     await this.fetchUser();
@@ -181,19 +195,19 @@ export default {
   }
 }
 .modify {
-display: flex;
-width:100%;
-.edit-button {
-  width:100%;
-  flex-grow:1;
-  margin-top: 20px;
-  margin-bottom: 10px;
-  padding: 5px;
-  border: 2px solid $color-primary-lightest;
-  font-weight: bold;
-  border-radius: 5px;
-  color: $color-primary;
-}
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  .edit-button {
+    flex-grow: 1;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    padding: 5px;
+    border: 2px solid $color-primary-lightest;
+    font-weight: bold;
+    border-radius: 5px;
+    color: $color-primary;
+  }
 }
 
 .info {
@@ -230,7 +244,7 @@ width:100%;
   text-align: left;
 }
 
-.spacing{
-  padding:10px 0px;
+.spacing {
+  padding: 10px 0px;
 }
 </style>
