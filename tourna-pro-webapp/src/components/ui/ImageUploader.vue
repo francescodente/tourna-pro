@@ -1,13 +1,13 @@
 <template>
   <div class="main">
-    <h2>{{ title }}</h2>
     <div class="cropper-container">
-      <vue-cropper class="cropper"
+      <vue-cropper
+        class="cropper"
         ref="cropper"
         :guides="false"
         :view-mode="2"
         drag-mode="crop"
-        :auto-crop-area="1"
+        :auto-crop-area="0.5"
         :zoom-on-wheel="false"
         :background="true"
         :src="imgSrc"
@@ -28,23 +28,29 @@
         />
       </label>
 
-      <label @click="rotateRight" v-if="imgSrc != ''">
+      <label @click="rotateRight" v-if="imgSrc">
         <i class="fa fa-redo fa-lg"></i>
       </label>
-      <label @click="rotateLeft" v-if="imgSrc != ''">
+      <label @click="rotateLeft" v-if="imgSrc">
         <i class="fa fa-undo fa-lg"></i>
       </label>
-      <label @click="zoomIn" v-if="imgSrc != ''">
+      <label
+        @click="dragToMove"
+        v-if="imgSrc"
+      >
+        <span  v-show="dragModeCrop"><i class="fa fa-crop-alt fa-lg"></i></span>
+        <span  v-show="!dragModeCrop"><i  class="fa fa-arrows-alt fa-lg"></i></span>
+      </label>
+      <label @click="zoomIn" v-if="imgSrc">
         <i class="fa fa-search-plus fa-lg"></i>
       </label>
-      <label @click="zoomOut" v-if="imgSrc != ''">
+      <label @click="zoomOut" v-if="imgSrc">
         <i class="fa fa-search-minus fa-lg"></i>
       </label>
+      <label @click="submitImage" v-if="imgSrc">
+        <i class="fa fa-check fa-lg"></i>
+      </label>
     </div>
-
-    <button class="btn submit-button" @click="submitImage">
-      Carica immagine
-    </button>
   </div>
 </template>
 
@@ -66,6 +72,7 @@ export default {
   data() {
     return {
       imgSrc: this.img,
+      dragModeCrop: true,
     };
   },
   methods: {
@@ -104,32 +111,51 @@ export default {
     zoomOut() {
       this.$refs.cropper.relativeZoom(-0.1);
     },
+    dragToMove() {
+      this.$refs.cropper.setDragMode(this.dragModeCrop ? "move" : "crop");
+      this.dragModeCrop = !this.dragModeCrop;
+    },
   },
 };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
-.main{
+.main {
   height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.cropper-container {
+  flex-grow: 1;
 }
 
 .cropper {
-  height: 300px;
+  height: 100%;
 }
 
 .control-panel {
   display: flex;
   color: white;
   background-color: $color-primary-light;
-  padding: 15px 0px;
   flex-direction: row;
   justify-content: space-around;
   align-content: center;
 
   label {
+    flex-grow: 1;
     margin: 0px;
+    padding: 15px 15px;
+    &:hover {
+      cursor: pointer;
+      background-color: $color-primary;
+    }
   }
+}
+
+.selected {
+  background-color: $color-primary;
 }
 
 .submit-button {
