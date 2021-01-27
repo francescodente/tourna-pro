@@ -1,12 +1,21 @@
 <template>
   <div class="main">
     <yes-no-popup ref="yes-no" />
-    <b-modal ref="ownersModal" centered scrollable title="Chiama un organizzatore">
-    <div class="ownerRow" v-for="o in owners" :key="o.id">
-    <user-line :user="o" :canDelete="false" class="user"/>
-    <a class="button" :href="'tel:'+o.telephone"><i class="fa fa-phone-alt"></i></a>
-    <a class="button" :href="'mailto:'+o.email"><i class="fa fa-envelope"></i></a>
-    </div>
+    <b-modal
+      ref="ownersModal"
+      centered
+      scrollable
+      title="Chiama un organizzatore"
+    >
+      <div class="ownerRow" v-for="o in owners" :key="o.id">
+        <user-line :user="o" :canDelete="false" class="user" />
+        <a class="button" :href="'tel:' + o.telephone"
+          ><i class="fa fa-phone-alt"></i
+        ></a>
+        <a class="button" :href="'mailto:' + o.email"
+          ><i class="fa fa-envelope"></i
+        ></a>
+      </div>
     </b-modal>
     <div class="owner-actions" v-if="owner">
       <action-button
@@ -15,10 +24,13 @@
         @trigger="nameAdmin"
       />
       <div class="active-tournament" v-if="active">
-        <action-button
+        <!--
+          <action-button
           actionName="Inserisci risultati"
           icon="fas fa-clipboard-list"
+          @trigger="goToMatches"
         />
+        -->
       </div>
       <div class="inactive-tournament" v-if="!active">
         <action-button
@@ -82,8 +94,8 @@ import dataAccess from "@/data-access";
 import ActionButton from "../../ui/ActionButton.vue";
 import YesNoPopup from "../../ui/YesNoPopup.vue";
 import { mapGetters } from "vuex";
-import ListItem from '../../ui/ListItem.vue';
-import UserLine from '../../users/UserLine.vue';
+import ListItem from "../../ui/ListItem.vue";
+import UserLine from "../../users/UserLine.vue";
 
 export default {
   components: { ActionButton, YesNoPopup, ListItem, UserLine },
@@ -124,9 +136,9 @@ export default {
         "Sei sicuro di voler avviare il torneo?"
       );
       if (res) {
-        dataAccess.matches.startRound(this.$route.params.id)
+        dataAccess.matches.startRound(this.$route.params.id);
       }
-      this.$router.go(0)
+      this.$router.go(0);
     },
     async deleteTournament() {
       let res = await this.$refs["yes-no"].show(
@@ -142,9 +154,14 @@ export default {
       this.$router.push({ name: "AddParticipant" });
     },
     async showOwnerContacts() {
-      let ids = await dataAccess.tournamentOwners.getAll(this.$route.params.id)
-      this.owners = await dataAccess.users.search({userIds: JSON.stringify(ids)})
-      this.$refs["ownersModal"].show()
+      let ids = await dataAccess.tournamentOwners.getAll(this.$route.params.id);
+      this.owners = await dataAccess.users.search({
+        userIds: JSON.stringify(ids),
+      });
+      this.$refs["ownersModal"].show();
+    },
+    goToMatches() {
+      this.$router.push({ name: "Matches" });
     },
     //USER ACTIONS
     async requestSubscription() {
@@ -206,24 +223,24 @@ export default {
   flex-direction: column;
 }
 
-.ownerRow{
-  display:flex;
-  align-items:baseline;
-  .user{
-    flex-grow:2;
+.ownerRow {
+  display: flex;
+  align-items: baseline;
+  .user {
+    flex-grow: 2;
   }
-  .button{
-    flex-grow:1;
+  .button {
+    flex-grow: 1;
     text-align: center;
-    height:100%;
+    height: 100%;
     color: $color-secondary2;
   }
 }
 
-a{
+a {
   text-decoration: none;
-  &:hover{
-    text-decoration:none;
+  &:hover {
+    text-decoration: none;
   }
 }
 </style>

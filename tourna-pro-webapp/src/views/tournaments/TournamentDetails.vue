@@ -8,8 +8,19 @@
     </div>
     <div class="tab-container">
       <tab-view>
-        <tab title="Dettagli" :selected="true">
+        <tab title="Dettagli" :selected="!tournament.owned">
           <details-tab :tournament="tournament"/>
+        </tab>
+        <tab title="Azioni" :selected="tournament.owned">
+          <action-tab 
+            :owner="tournament.owned" 
+            :subscribed="tournament.subscribed" 
+            :active="tournament.status == 'ACTIVE'" 
+            :team="tournament.mode == 'TEAMS'"
+          />
+        </tab>
+         <tab :title="`Gestione Round`">
+          <matches :matches="matches" :participants="participants"/>
         </tab>
         <tab :title="`Partecipanti (${participants.requests.length})`">
           <participants-tab :participants="participants" />
@@ -22,14 +33,6 @@
         </tab>
         <tab v-if="tournament.subscribed != 'NONE'" title="Attività">
           <activity-tab :logs="logs" />
-        </tab>
-        <tab title="Azioni">
-          <action-tab 
-            :owner="tournament.owned" 
-            :subscribed="tournament.subscribed" 
-            :active="tournament.status == 'ACTIVE'" 
-            :team="tournament.mode == 'TEAMS'"
-          />
         </tab>
       </tab-view>
     </div>
@@ -47,6 +50,7 @@ import Tab from "../../components/ui/TabView/Tab.vue";
 import TabView from "../../components/ui/TabView/TabView.vue";
 import RankingTab from '../../components/tournaments/tournament-details/RankingTab.vue';
 import ParticipantsTab from '../../components/tournaments/tournament-details/ParticipantsTab.vue';
+import Matches from './Matches.vue';
 export default {
   name: "TournamentDetails",
   components: {
@@ -59,6 +63,7 @@ export default {
     ActivityTab,
     RankingTab,
     ParticipantsTab,
+    Matches,
   },
   data() {
     return {
