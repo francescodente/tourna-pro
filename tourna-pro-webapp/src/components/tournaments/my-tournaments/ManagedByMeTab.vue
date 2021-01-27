@@ -33,8 +33,10 @@ export default {
 .bg{
   display: flex;
   flex-wrap: wrap;
+  justify-content: space-evenly;
+  flex-basis: auto;
 }
-.bg > *{
+.bg > * {
   flex: 1 1 280px;
   margin: 1px;
 }
