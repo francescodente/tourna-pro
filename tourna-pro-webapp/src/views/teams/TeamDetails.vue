@@ -1,28 +1,51 @@
 <template>
   <div v-if="team" class="main">
-    <yes-no-popup ref="modal"/>
+    <yes-no-popup ref="modal" />
     <div class="team-image-container">
-      <image-fit :src="team.imageUrl || require('@/assets/defaultTeamImage.png')" :alt="`${team.name}'s team image`" />
+      <image-fit
+        :src="team.imageUrl || require('@/assets/defaultTeamImage.png')"
+        :alt="`${team.name}'s team image`"
+      />
       <overlay-bar :title="team.name">
-        <router-link
-          class="link"
-          router-link
-          tag="span"
-          :to="{ name: 'TeamEdit', params: { id: teamId }}"
-        >
-          <i class="fas fa-cog"></i>
-        </router-link>
+        <div>
+          <router-link
+            class="link"
+            router-link
+            tag="span"
+            :to="{ name: 'UploadTeamImage', params: { id: teamId } }"
+          >
+            <i class="fas fa-camera"></i>
+          </router-link>
+          <router-link
+            class="link"
+            router-link
+            tag="span"
+            :to="{ name: 'TeamEdit', params: { id: teamId } }"
+          >
+            <i class="fas fa-cog"></i>
+          </router-link>
+        </div>
       </overlay-bar>
     </div>
 
     <div class="tab-container">
       <tab-view>
         <tab title="Membri" :selected="true" :color="style.colorComplementary">
-          <user-list :users="members" :owner="team.creatorId" :canDelete="false" :canSelect="true" @userSelected="onMemberSelected" />
+          <user-list
+            :users="members"
+            :owner="team.creatorId"
+            :canDelete="false"
+            :canSelect="true"
+            @userSelected="onMemberSelected"
+          />
         </tab>
         <tab title="Attività" :color="style.colorComplementary">
           <div v-for="log in logs" :key="log.id">
-            <date-text class="activity" :date="log.date" :dateColor="style.colorComplementary">
+            <date-text
+              class="activity"
+              :date="log.date"
+              :dateColor="style.colorComplementary"
+            >
               {{ log | formatTeamLog }}
             </date-text>
           </div>
@@ -33,7 +56,8 @@
               icon="fas fa-times"
               actionName="Abbandona la squadra"
               :color="style.colorComplementary"
-              @trigger="leaveTeam" />
+              @trigger="leaveTeam"
+            />
           </div>
         </tab>
       </tab-view>
@@ -42,7 +66,7 @@
 </template>
 
 <script>
-import dataAccess from '@/data-access'
+import dataAccess from "@/data-access";
 import UserList from "../../components/users/UserList.vue";
 import DateText from "../../components/ui/DateText.vue";
 import ImageFit from "../../components/ui/ImageFit.vue";
@@ -51,44 +75,59 @@ import Tab from "../../components/ui/TabView/Tab.vue";
 import TabView from "../../components/ui/TabView/TabView.vue";
 
 import style from "../../style/export.scss";
-import ActionButton from '../../components/ui/ActionButton.vue';
-import YesNoPopup from '../../components/ui/YesNoPopup.vue';
+import ActionButton from "../../components/ui/ActionButton.vue";
+import YesNoPopup from "../../components/ui/YesNoPopup.vue";
 
 export default {
-  components: { ImageFit, OverlayBar, TabView, Tab, UserList, DateText, ActionButton, YesNoPopup },
+  components: {
+    ImageFit,
+    OverlayBar,
+    TabView,
+    Tab,
+    UserList,
+    DateText,
+    ActionButton,
+    YesNoPopup,
+  },
   data() {
     return {
       style,
       team: null,
       members: [],
-      logs: []
-    }
+      logs: [],
+    };
   },
   computed: {
     teamId() {
-      return this.$route.params.id
-    }
+      return this.$route.params.id;
+    },
   },
   methods: {
     onMemberSelected(member) {
-      this.$router.push({ name: 'UserProfile', params: { id: member.id }})
+      this.$router.push({ name: "UserProfile", params: { id: member.id } });
     },
     async leaveTeam() {
-      let result = await this.$refs['modal'].show('Abbandona squadra', `Sei sicuro di voler abbandonare la squadra ${this.team.name}?`)
+      let result = await this.$refs["modal"].show(
+        "Abbandona squadra",
+        `Sei sicuro di voler abbandonare la squadra ${this.team.name}?`
+      );
       if (!result) {
-        return
+        return;
       }
-      await dataAccess.teamMembers.deleteMember(this.teamId, this.$store.getters.userId)
-      this.$router.push({ name: 'TeamsHome' })
-    }
+      await dataAccess.teamMembers.deleteMember(
+        this.teamId,
+        this.$store.getters.userId
+      );
+      this.$router.push({ name: "TeamsHome" });
+    },
   },
   async created() {
-    this.team = await dataAccess.teams.get(this.teamId)
+    this.team = await dataAccess.teams.get(this.teamId);
     this.members = await dataAccess.users.search({
-      userIds: JSON.stringify(this.team.members)
-    })
-    this.logs = await dataAccess.logs.getTeamLogs(this.teamId)
-  }
+      userIds: JSON.stringify(this.team.members),
+    });
+    this.logs = await dataAccess.logs.getTeamLogs(this.teamId);
+  },
 };
 </script>
 
@@ -119,12 +158,14 @@ export default {
     }
   }
 
-  .link:hover {
-    cursor: pointer;
+  .link {
+    margin-left:15px;
+    &:hover {
+      cursor: pointer;
+    }
   }
 
-
-  .activity{
+  .activity {
     padding: 10px;
     border-bottom: 1.5px solid $color-complementary;
     background-color: $color-complementary-background;
