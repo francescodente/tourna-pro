@@ -1,6 +1,13 @@
 <template>
   <div class="main">
     <yes-no-popup ref="yes-no" />
+    <b-modal ref="ownersModal" centered scrollable title="Chiama un organizzatore">
+    <div class="ownerRow" v-for="o in owners" :key="o.id">
+    <user-line :user="o" :canDelete="false" class="user"/>
+    <a class="button" :href="'tel:'+o.telephone"><i class="fa fa-phone-alt"></i></a>
+    <a class="button" :href="'mailto:'+o.email"><i class="fa fa-envelope"></i></a>
+    </div>
+    </b-modal>
     <div class="owner-actions" v-if="owner">
       <action-button
         actionName="Nomina amministratore"
@@ -61,6 +68,7 @@
       <action-button
         actionName="Contatta l'organizzatore"
         icon="fas fa-phone-alt"
+        @trigger="showOwnerContacts"
       />
     </div>
     <div class="base-actions">
@@ -74,9 +82,11 @@ import dataAccess from "@/data-access";
 import ActionButton from "../../ui/ActionButton.vue";
 import YesNoPopup from "../../ui/YesNoPopup.vue";
 import { mapGetters } from "vuex";
+import ListItem from '../../ui/ListItem.vue';
+import UserLine from '../../users/UserLine.vue';
 
 export default {
-  components: { ActionButton, YesNoPopup },
+  components: { ActionButton, YesNoPopup, ListItem, UserLine },
   name: "ActionTab",
   props: {
     owner: Boolean,
@@ -88,6 +98,7 @@ export default {
     return {
       title: "",
       text: "",
+      owners: [],
     };
   },
   computed: {
@@ -129,6 +140,11 @@ export default {
     },
     addParticipant() {
       this.$router.push({ name: "AddParticipant" });
+    },
+    async showOwnerContacts() {
+      let ids = await dataAccess.tournamentOwners.getAll(this.$route.params.id)
+      this.owners = await dataAccess.users.search({userIds: JSON.stringify(ids)})
+      this.$refs["ownersModal"].show()
     },
     //USER ACTIONS
     async requestSubscription() {
@@ -188,5 +204,26 @@ export default {
   height: 100%;
   display: flex;
   flex-direction: column;
+}
+
+.ownerRow{
+  display:flex;
+  align-items:baseline;
+  .user{
+    flex-grow:2;
+  }
+  .button{
+    flex-grow:1;
+    text-align: center;
+    height:100%;
+    color: $color-secondary2;
+  }
+}
+
+a{
+  text-decoration: none;
+  &:hover{
+    text-decoration:none;
+  }
 }
 </style>
