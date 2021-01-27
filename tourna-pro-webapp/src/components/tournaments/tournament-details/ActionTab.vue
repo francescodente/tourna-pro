@@ -90,15 +90,10 @@ import dataAccess from "@/data-access";
 import ActionButton from "../../ui/ActionButton.vue";
 import YesNoPopup from "../../ui/YesNoPopup.vue";
 import { mapGetters } from "vuex";
-<<<<<<< HEAD
-import ListItem from "../../ui/ListItem.vue";
-import UserLine from "../../users/UserLine.vue";
-=======
 import ListItem from '../../ui/ListItem.vue';
 import UserLine from '../../users/UserLine.vue';
 import TeamsSearch from '../../teams/TeamsSearch.vue';
 import TeamLine from '../../teams/TeamLine.vue';
->>>>>>> d0742cb8a330ac5fcf8e522df07641c06ec6a96d
 
 export default {
   components: { ActionButton, YesNoPopup, ListItem, UserLine, TeamsSearch, TeamLine },
