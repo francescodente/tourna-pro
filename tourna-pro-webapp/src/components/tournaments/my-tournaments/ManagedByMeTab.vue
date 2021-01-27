@@ -1,6 +1,6 @@
 <template>
   <div class="bg">
-    <div class="tournaments">
+    <grid-container>
       <tournament-card
         class="tournament-card"
         v-for="tournament in tournaments"
@@ -8,14 +8,15 @@
         :status="tournament.status"
         :tournament="tournament"
       />
-    </div>
+    </grid-container>
   </div>
 </template>
 
 <script>
+import GridContainer from "../../teams/GridContainer.vue";
 import TournamentCard from "../TournamentCard.vue";
 export default {
-  components: { TournamentCard },
+  components: { TournamentCard, GridContainer },
   name: "ManagedByMeTab",
   props: {
     tournaments: Array,
@@ -31,16 +32,5 @@ export default {
 
 .tournament-card {
   margin-bottom: 30px;
-}
-
-.tournaments {
-  display: flex;
-  flex-wrap: wrap;
-  flex-basis: auto;
-  justify-content: space-between;
-}
-.tournaments > * {
-  flex: 0 0 49%;
-  margin: 1px;
 }
 </style>

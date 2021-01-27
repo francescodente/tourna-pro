@@ -8,7 +8,6 @@
         {{ value }}
       </span>
     </div>
-    <hr />
   </div>
 </template>
 
@@ -27,12 +26,15 @@ export default {
   width: 100%;
   display:flex;
   justify-content: space-between;
+  border-bottom: 1px solid $color-secondary2;
+  margin-bottom: 20px;
 }
 
 .title {
   font-weight: bold;
 }
 .value {
+  text-align: right;
   color: black;
 }
 

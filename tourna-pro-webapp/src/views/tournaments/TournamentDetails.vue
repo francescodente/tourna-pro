@@ -2,9 +2,6 @@
   <div v-if="loaded" class="details-container">
     <div class="container">
       <headline> {{ tournament.name }} </headline>
-      <div class="text">
-        {{ tournament.description }}
-      </div>
     </div>
     <div class="tab-container">
       <tab-view>
@@ -112,12 +109,8 @@ export default {
   flex-direction: column;
   height: 100%;
 
-  .container {
-    min-height: 30%;
-  }
-
   .tab-container{
-    height: 70%;
+    flex-grow: 1;
     color: $color-secondary2;
   }
 }
