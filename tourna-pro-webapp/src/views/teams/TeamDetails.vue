@@ -12,7 +12,7 @@
             class="link"
             router-link
             tag="span"
-            :to="{ name: 'UploadTeamImage', params: { id: teamId } }"
+            :to="{ name: 'UploadTeamImage' }"
           >
             <i class="fas fa-camera"></i>
           </router-link>

@@ -22,6 +22,7 @@ export default {
   methods: {
     submitImage: async function (image) {
       await dataAccess.users.updateImage(this.$route.params.id, image);
+      this.$router.push({name:"UserProfile"})
     },
   },
   async created() {

@@ -21,6 +21,7 @@ export default {
   methods: {
     submitImage: async function (image) {
       await dataAccess.teams.updateImage(this.$route.params.id, image);
+      this.$router.push({ name: "TeamDetails" });
     },
   },
   async created() {
