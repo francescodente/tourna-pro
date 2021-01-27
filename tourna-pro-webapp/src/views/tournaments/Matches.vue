@@ -2,22 +2,18 @@
   <div class="main">
     <yes-no-popup ref="yes-no" />
     <b-modal
-      ref="ownersModal"
+      ref="inputResult"
       centered
       scrollable
-      title="Chiama un organizzatore"
+      title="Inserisci il risultato"
+      @hide="checkHidden"
     >
-      <div class="ownerRow" v-for="o in owners" :key="o.id">
-        <user-line :user="o" :canDelete="false" class="user" />
-        <a class="button" :href="'tel:' + o.telephone"
-          ><i class="fa fa-phone-alt"></i
-        ></a>
-        <a class="button" :href="'mailto:' + o.email"
-          ><i class="fa fa-envelope"></i
-        ></a>
-      </div>
+    
+    <input class="inputModal" type="number" v-model="score1"/>
+    -
+    <input class="inputModal" type="number" v-model="score2"/>
     </b-modal>
-    <list-item v-for="m in lastRound" :key="m.id"
+    <list-item v-for="m in lastRound" :canSelect="true" :key="m.id"
       @selected="clickMatch(m)"
     >
       <div class="content">
@@ -45,7 +41,11 @@ export default {
     participants: Object,
   },
   data: function () {
-    return {};
+    return {
+      score1: 0,
+      score2: 0,
+      currentMatch: null
+    };
   },
   methods: {
     participantName(id) {
@@ -58,16 +58,32 @@ export default {
         return m.status;
       }
     },
-    clickMatch(match){
-      if(m.status == 'PENDING'){
+    async clickMatch(match){
+      if(match.status == 'PENDING'){
         let res = await this.$refs['yes-no'].show("Avvia il match", 
         "Tutti i partecipanti di questo match riceveranno una notifica")
         if(res){
-          await dataAccess.matches.startMatch(this.$route.id, match.id)
+          await dataAccess.matches.startMatch(this.$route.params.id, match.id)
         }
       } else {
-
+        this.currentMatch = match
+        this.score1 = match.result ? match.result.participant1.score : 0
+        this.score2 = match.result ? match.result.participant2.score : 0
+        this.$refs['inputResult'].show()
       }
+    },
+    async checkHidden(event){
+      if(event.trigger == 'ok'){
+        await this.onScoreSubmit()
+      }
+    },
+    async onScoreSubmit(){
+      let result = {
+        participant1: this.score1,
+        participant2: this.score2,
+      }
+      let updatedMatch = await dataAccess.matches.update(this.$route.params.id, this.currentMatch.id, result)
+      this.currentMatch.result = updatedMatch.result
     }
   },
   computed: {
@@ -86,8 +102,20 @@ export default {
   align-items: baseline;
 }
 
+.inputModal {
+    font-size: 2rem;
+    width: 100px;
+    text-align: center;
+}
+
 .PENDING {
   color: $color-secondary1;
+  font-size: 9pt;
+  font-weight: bold;
+}
+
+.STARTED {
+  color: $color-complementary;
   font-size: 9pt;
   font-weight: bold;
 }
