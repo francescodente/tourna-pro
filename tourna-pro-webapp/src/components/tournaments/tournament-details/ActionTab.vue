@@ -1,21 +1,17 @@
 <template>
   <div class="main">
     <yes-no-popup ref="yes-no" />
-    <b-modal
-      ref="ownersModal"
-      centered
-      scrollable
-      title="Chiama un organizzatore"
-    >
+    <b-modal ref="ownersModal" centered scrollable title="Chiama un organizzatore">
       <div class="ownerRow" v-for="o in owners" :key="o.id">
-        <user-line :user="o" :canDelete="false" class="user" />
-        <a class="button" :href="'tel:' + o.telephone"
-          ><i class="fa fa-phone-alt"></i
-        ></a>
-        <a class="button" :href="'mailto:' + o.email"
-          ><i class="fa fa-envelope"></i
-        ></a>
+      <user-line :user="o" :canDelete="false" class="user"/>
+      <a class="button" :href="'tel:'+o.telephone"><i class="fa fa-phone-alt"></i></a>
+      <a class="button" :href="'mailto:'+o.email"><i class="fa fa-envelope"></i></a>
       </div>
+    </b-modal>
+    <b-modal ref="teamSubscriptionModal" centered scrollable hide-footer title="Con quale squadra vuoi iscriverti?">
+      <teams-search v-slot="scope">
+        <team-line :canSelect="true" :team="scope.team" @selected="onTeamSubscription" />
+      </teams-search>
     </b-modal>
     <div class="owner-actions" v-if="owner">
       <action-button
@@ -94,11 +90,18 @@ import dataAccess from "@/data-access";
 import ActionButton from "../../ui/ActionButton.vue";
 import YesNoPopup from "../../ui/YesNoPopup.vue";
 import { mapGetters } from "vuex";
+<<<<<<< HEAD
 import ListItem from "../../ui/ListItem.vue";
 import UserLine from "../../users/UserLine.vue";
+=======
+import ListItem from '../../ui/ListItem.vue';
+import UserLine from '../../users/UserLine.vue';
+import TeamsSearch from '../../teams/TeamsSearch.vue';
+import TeamLine from '../../teams/TeamLine.vue';
+>>>>>>> d0742cb8a330ac5fcf8e522df07641c06ec6a96d
 
 export default {
-  components: { ActionButton, YesNoPopup, ListItem, UserLine },
+  components: { ActionButton, YesNoPopup, ListItem, UserLine, TeamsSearch, TeamLine },
   name: "ActionTab",
   props: {
     owner: Boolean,
@@ -164,26 +167,35 @@ export default {
       this.$router.push({ name: "Matches" });
     },
     //USER ACTIONS
+    async makeSubscriptionRequest(question, request) {
+      let res = await this.$refs["yes-no"].show(
+        "Iscriviti al torneo",
+        question
+      );
+      if (res) {
+        await dataAccess.participationRequests.add(
+          this.$route.params.id,
+          request
+        );
+        this.$router.go(0); //refresh
+      }
+    },
     async requestSubscription() {
       if (this.team) {
-        //TODO team subscription flow
+        this.$refs.teamSubscriptionModal.show()
       } else {
-        let res = await this.$refs["yes-no"].show(
-          "Iscriviti al torneo",
-          "Vuoi chiedere di iscriverti al torneo?"
-        );
-        if (res) {
-          let request = {
-            type: "USER",
-            userId: this.userId,
-          };
-          await dataAccess.participationRequests.add(
-            this.$route.params.id,
-            request
-          );
-          this.$router.go(0); //refresh
-        }
+        await this.makeSubscriptionRequest("Vuoi chiedere di iscriverti al torneo?", {
+          type: "USER",
+          userId: this.userId,
+        })
       }
+    },
+    async onTeamSubscription(team) {
+      this.$refs.teamSubscriptionModal.hide()
+      await this.makeSubscriptionRequest("Sei sicuro di volerti iscrivere al torneo con la squadra " + team.name + "?", {
+        type: 'TEAM',
+        teamId: team.id
+      })
     },
     async retireFromTournament() {
       let res = await this.$refs["yes-no"].show(
