@@ -1,15 +1,9 @@
 <template>
   <div class="main">
     <h1>Le mie squadre</h1>
-    <div class="teams-container">
-      <team-card
-        class="card"
-        :team="team"
-        v-for="team in teams"
-        :key="team.id"
-        @click="teamClicked(team)"
-      />
-    </div>
+    <teams-search v-slot="scope">
+      <team-card :team="scope.team"/>
+    </teams-search>
     <floating-button
       icon="fas fa-plus"
       @click="$router.push({ name: 'TeamCreate' })"
@@ -20,19 +14,9 @@
 <script>
 import TeamCard from "../../components/teams/TeamCard.vue";
 import FloatingButton from "../../components/ui/FloatingButton.vue";
-import dataAccess from "@/data-access";
+import TeamsSearch from '../../components/teams/TeamsSearch.vue';
 export default {
-  components: { TeamCard, FloatingButton },
-  data() {
-    return {
-      teams: [],
-    };
-  },
-  async created() {
-    this.teams = await dataAccess.teams.getAll({
-      user: this.$store.getters.userId,
-    });
-  },
+  components: { TeamCard, FloatingButton, TeamsSearch }
 };
 </script>
 
@@ -42,14 +26,5 @@ h1 {
 }
 .main {
   padding: 10px 20px;
-}
-
-.teams-container {
-  display: flex;
-  flex-wrap: wrap;
-}
-.teams-container > * {
-  flex: 1 1 280px;
-  margin: 1px;
 }
 </style>
