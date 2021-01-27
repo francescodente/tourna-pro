@@ -18,7 +18,7 @@ async function startServer() {
   console.log(process.env.TOURNAPRO_FRONTEND_ORIGIN)
   const io = require('socket.io')(server, {
     cors: {
-      origin: process.env.TOURNAPRO_FRONTEND_ORIGIN,
+      origin: process.env.TOURNAPRO_FRONTEND_ORIGIN || 'http://localhost:8080',
       methods: ['GET', 'POST']
     }
   })
