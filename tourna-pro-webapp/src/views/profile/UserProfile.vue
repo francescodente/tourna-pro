@@ -13,15 +13,24 @@
         <span class="options"><i class="fas fa-lg fa-cog fa-lg"></i></span>
       </router-link>
     </div>
-
+    <div v-if="isUserProfile" class="modify">
+    <router-link  :to="{ name: 'UploadProfileImage', params: {id: pathUser} }">
+      <text-icon
+        class="edit-button"
+        icon="fas fa-camera"
+        text="Modifica immagine"
+        :iconRight="true"
+      />
+    </router-link>
     <router-link v-if="isUserProfile" :to="{ name: 'UserModifyProfile', params: {id: pathUser} }">
       <text-icon
         class="edit-button"
         icon="fas fa-edit"
-        text="Modifica profilo"
+        text="Modifica informazioni"
         :iconRight="true"
       />
     </router-link>
+    </div>
     <div v-else class="spacing">
       <section-header class="header" :color="style.colorPrimary">
         <span>Informazioni personali</span>
@@ -171,15 +180,20 @@ export default {
     text-align: right;
   }
 }
-
+.modify {
+display: flex;
+width:100%;
 .edit-button {
-  margin: 20px 0px 10px 0px;
+  width:100%;
+  flex-grow:1;
+  margin-top: 20px;
+  margin-bottom: 10px;
   padding: 5px;
-  width: 100%;
   border: 2px solid $color-primary-lightest;
   font-weight: bold;
   border-radius: 5px;
   color: $color-primary;
+}
 }
 
 .info {

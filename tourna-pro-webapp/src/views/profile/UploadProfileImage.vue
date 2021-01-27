@@ -1,8 +1,9 @@
 <template>
-  <div class="main" v-if="team">
+  <div class="main" v-if="user">
     <image-uploader
-      title="Aggiorna l'immagine della tua squadra"
-      :img="team.imageUrl"
+      title="Aggiorna la tua immagine del profilo"
+      :img="user.imageUrl"
+      :squareRatio="true"
       @submitImage="submitImage"
     />
   </div>
@@ -15,16 +16,16 @@ export default {
   components: { ImageUploader },
   data() {
     return {
-      team: null,
+      user: null,
     };
   },
   methods: {
     submitImage: async function (image) {
-      await dataAccess.teams.updateImage(this.$route.params.id, image);
+      await dataAccess.profile.updateImage(this.$route.params.id, image);
     },
   },
   async created() {
-    this.team = await dataAccess.teams.get(this.$route.params.id);
+    this.team = await dataAccess.users.getUser(this.$route.params.id);
   },
 };
 </script>
