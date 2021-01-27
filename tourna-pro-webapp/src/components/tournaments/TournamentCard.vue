@@ -77,6 +77,8 @@ export default {
   color: black;
   border-radius: 15px;
   border: 3px solid;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .my-row {

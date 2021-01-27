@@ -1,11 +1,14 @@
 <template>
   <div class="bg">
-    <tournament-card class="tournament-card"
-      v-for="tournament in tournaments"
-      :key="tournament.id"
-      :status="tournament.status"
-      :tournament="tournament"
-    />
+    <div class="tournaments">
+      <tournament-card
+        class="tournament-card"
+        v-for="tournament in tournaments"
+        :key="tournament.id"
+        :status="tournament.status"
+        :tournament="tournament"
+      />
+    </div>
   </div>
 </template>
 
@@ -15,7 +18,7 @@ export default {
   components: { TournamentCard },
   name: "ManagedByMeTab",
   props: {
-    tournaments: Array
+    tournaments: Array,
   },
 };
 </script>
@@ -26,18 +29,18 @@ export default {
   padding: 30px 20px;
 }
 
-.tournament-card{
+.tournament-card {
   margin-bottom: 30px;
 }
 
-.bg{
+.tournaments {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-evenly;
   flex-basis: auto;
+  justify-content: space-between;
 }
-.bg > * {
-  flex: 1 1 280px;
+.tournaments > * {
+  flex: 0 0 49%;
   margin: 1px;
 }
 </style>
