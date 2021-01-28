@@ -28,11 +28,11 @@ export default {
       //this.validate(e.target.value)
     },
     input(e){
+      this.$emit("input", this.validator(e.target.value));
       if(!this.firstBlur) this.validate(e.target.value)
     },
     validate(field) {
       let res = this.validator(field)
-      this.$emit("input", res);
       this.showError = !res
       if(!res) {
         this.cssClass = "error common"
