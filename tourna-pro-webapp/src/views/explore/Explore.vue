@@ -30,7 +30,6 @@ export default {
     let interests = await dataAccess.interests.getAll(this.userId)
     let filters = {
       from: new Date(),
-      age: new Date(new Date() - new Date(user.birthDate)).getFullYear() - 1970,
       status: 'PENDING',
       activities: JSON.stringify(interests),
       gender: user.gender

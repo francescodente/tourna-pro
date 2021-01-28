@@ -1,47 +1,40 @@
 <template>
-  <div v-if="user" class="main">
+  <div v-if="user" class="user-profile-container">
     <div class="top-row">
-      <avatar size="4em" :src="user.imageUrl" />
-      <div class="user-name">
-        <span class="name" size="10%">{{
-          user.firstName + " " + user.lastName
-        }}</span>
-        <span>@{{ user.username }}</span>
-      </div>
-      <span v-if="isUserProfile" class="logout" v-on:click="logoutUser">
-        <i class="fas fa-sign-out-alt fa-lg"></i>
-      </span>
-      <router-link
-        v-if="isUserProfile"
-        :to="{ name: 'UserPassword', params: { id: pathUser } }"
-      >
-        <span class="options"><i class="fas fa-lg fa-cog fa-lg"></i></span>
+      <router-link :to="{ name: 'UploadProfileImage', params: { id: pathUser } }">
+        <avatar size="10em" :src="user.imageUrl" />
       </router-link>
+      <div class="user-name-area">
+        <div class="name">{{ user.firstName }} {{ user.lastName }}</div>
+        <div class="username">({{ user.username }})</div>
+        <div class="actions" v-if="isUserProfile">
+          <div class="options" @click="logoutUser">
+            <text-icon
+              icon="fas fa-sign-out-alt fa-lg"
+              text="Logout"
+            />
+          </div>
+        </div>
+      </div>
     </div>
     <div v-if="isUserProfile" class="modify">
-      <router-link
-        :to="{ name: 'UploadProfileImage', params: { id: pathUser } }"
-      >
-        <text-icon
-          class="edit-button"
-          icon="fas fa-camera"
-          text="Modifica immagine"
-          :iconRight="true"
-        />
-      </router-link>
-      <router-link
-        v-if="isUserProfile"
-        :to="{ name: 'UserModifyProfile', params: { id: pathUser } }"
-      >
+      <router-link :to="{ name: 'UserModifyProfile', params: { id: pathUser } }">
         <text-icon
           class="edit-button"
           icon="fas fa-edit"
-          text="Modifica informazioni"
-          :iconRight="true"
+          text="Modifica profilo"
+        />
+      </router-link>
+      <router-link :to="{ name: 'UserPassword', params: { id: pathUser } }">
+        <text-icon
+          class="edit-button"
+          icon="fas fa-cog"
+          text="Modifica password"
         />
       </router-link>
     </div>
-    <div v-else class="spacing">
+
+    <div class="spacing">
       <section-header class="header" :color="style.colorPrimary">
         <span>Informazioni personali</span>
       </section-header>
@@ -80,7 +73,7 @@
           #{{ i | activityFromId }}
         </div>
       </div>
-      <div v-else>Non hai ancora selezionato i tuoi interessi!</div>
+      <placeholder-text class="interests-empty" v-else text="Nessun interesse selezionato!" />
     </div>
 
     <div>
@@ -93,7 +86,7 @@
       <div class="achievements" v-if="achievements.lengh > 0">
         <achievement v-for="a in achievements" :key="a.id" :achievement="a" />
       </div>
-      <div class="achievements" v-else>Nessun achievement sbloccato</div>
+     <placeholder-text v-else text="Nessun achievement sbloccato!" />
     </div>
   </div>
 </template>
@@ -107,6 +100,7 @@ import TextIcon from "../../components/ui/TextIcon.vue";
 import style from "../../style/export.scss";
 import router from "../../router";
 import { mapGetters } from "vuex";
+import PlaceholderText from '../../components/ui/PlaceholderText.vue';
 
 export default {
   components: {
@@ -114,6 +108,7 @@ export default {
     TextIcon,
     SectionHeader,
     Achievement,
+    PlaceholderText,
   },
   data: function () {
     return {
@@ -153,53 +148,60 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.main {
-  width: 90%;
-  margin-left: 5%;
+.user-profile-container {
+  padding: 20px;
 }
 .top-row {
-  margin-top: 15px;
   display: flex;
   flex-direction: row;
-  align-items: center;
-  .user-name {
+  align-items: initial;
+  margin-bottom: 20px;
+  
+  .user-name-area {
     flex-grow: 1;
-    margin-left: 8px;
+    margin-left: 20px;
     display: flex;
     flex-direction: column;
     text-align: left;
-  }
-  .name {
-    font-weight: bold;
-    color: black;
-  }
-
-  .logout {
-    display: flex;
-    padding: 10px;
-    border-radius: 50%;
-    background-color: $color-primary;
-    color: white;
-    margin-right: 0.5em;
-  }
-
-  .options {
-    text-align: center;
-    display: flex;
-    padding: 10px;
-    border-radius: 50%;
-    background-color: $color-primary;
-    color: white;
-    align-self: flex-start;
-    text-align: right;
+    .name {
+      font-size: 1.8rem;
+      font-weight: bold;
+      color: black;
+    }
+    .username {
+      font-size: 1.6rem;
+      color: gray;
+    }
+    .actions {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-end;
+      margin-top: 10px;
+      .options {
+        text-align: center;
+        padding: 10px;
+        border-radius: 5px;
+        background-color: $color-primary;
+        color: white;
+        margin-right: 10px;
+        display: inline-block;
+        &:hover {
+          cursor: pointer;
+        }
+      }
+    }
   }
 }
 .modify {
   display: flex;
   flex-direction: row;
   width: 100%;
+  justify-content: space-between;
+
+  & > * {
+    width: 49%;
+  }
   .edit-button {
-    flex-grow: 1;
     margin-top: 20px;
     margin-bottom: 10px;
     padding: 5px;
@@ -213,6 +215,7 @@ export default {
 .info {
   width: 100%;
   text-align: left;
+  font-size: 1.3rem;
 }
 
 .bio {
@@ -232,6 +235,9 @@ export default {
 .interests {
   margin-top: 15px;
   text-align: left;
+  .interests-empty {
+    text-align: center;
+  }
   .badge {
     background-color: $color-not-focus-text;
     color: white;

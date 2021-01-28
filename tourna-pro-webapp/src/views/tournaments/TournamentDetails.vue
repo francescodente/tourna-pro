@@ -16,7 +16,7 @@
             :team="tournament.mode == 'TEAMS'"
           />
         </tab>
-         <tab :title="`Gestione Round`">
+        <tab v-if="tournament.status == 'ACTIVE'" :title="`Gestione Round`">
           <matches :matches="matches" :participants="participants"/>
         </tab>
         <tab :title="`Partecipanti (${participants.requests.length})`">

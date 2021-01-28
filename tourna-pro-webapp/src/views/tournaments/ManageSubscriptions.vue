@@ -1,6 +1,6 @@
 <template>
   <div class="main">
-    <headline class="headline">Richieste di iscrizione </headline>
+    <headline class="headline">Richieste di iscrizione</headline>
     <router-link  v-for="r in requests" :key="r.id" :to="requestPath(r)" tag="div">
     <arrow-button :text="r.displayText">
       <div>
@@ -77,8 +77,7 @@ export default {
 <style lang="scss" scoped>
 .main {
   height: 100%;
-  width: 90%;
-  margin-left: 5%;
+  padding: 0px 20px;
 }
 
 .button {

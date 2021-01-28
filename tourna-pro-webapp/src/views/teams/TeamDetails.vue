@@ -118,7 +118,7 @@ export default {
         this.teamId,
         this.$store.getters.userId
       );
-      this.$router.push({ name: "TeamsHome" });
+      this.$router.push({ name: "Teams" });
     },
   },
   async created() {

@@ -2,20 +2,17 @@
   <div class="teams-search">
     <div v-if="allTeams && allTeams.length > 0">
       <div class="search-container">
+        <span class="search-icon"><i class="fas fa-search"></i></span>
         <input type="search" placeholder="Filtra" v-model="searchText" />
       </div>
-      <div v-if="filteredTeams.length > 0" class="teams-container">
+      <grid-container v-if="filteredTeams.length > 0">
         <div v-for="team in filteredTeams" :key="team.id">
           <slot :team="team"></slot>
         </div>
-      </div>
-      <div v-else>
-        Nessuna squadra corrisponde alla tua ricerca.
-      </div>
+      </grid-container>
+      <placeholder-text v-else text="Nessuna squadra corrisponde alla tua ricerca" />
     </div>
-    <div v-else-if="allTeams">
-      Non fai ancora parte di una squadra.
-    </div>
+    <placeholder-text v-else-if="allTeams" text="Non fai ancora parte di una squadra" />
   </div>
 </template>
 
@@ -23,9 +20,11 @@
 import dataAccess from '@/data-access'
 import TeamLine from './TeamLine.vue'
 import SimpleInput from '../ui/SimpleInput.vue'
+import GridContainer from './GridContainer.vue'
+import PlaceholderText from '../ui/PlaceholderText.vue'
 
 export default {
-  components: { TeamLine, SimpleInput },
+  components: { TeamLine, SimpleInput, GridContainer, PlaceholderText },
   data() {
     return {
       searchText: '',
@@ -34,7 +33,7 @@ export default {
   },
   computed: {
     filteredTeams() {
-      return this.allTeams.filter(t => t.name.includes(this.searchText))
+      return this.allTeams.filter(t => t.name.toLowerCase().includes(this.searchText.toLowerCase()))
     }
   },
   async created() {
@@ -47,28 +46,25 @@ export default {
 
 <style lang="scss" socped>
 .teams-search {
+  height: 100%;
   .search-container {
     padding: 10px;
 
+    .search-icon {
+      color: gray;
+    }
+
     input {
+      margin-left: 5px;
       width: 50%;
       font-size: 1.2rem;
       border: none;
-      border-bottom: 2px solid black;
+      border-bottom: 1px solid black;
 
       &:focus {
-      outline: none;
+        outline: none;
+      }
     }
-    }
-  }
-
-  .teams-container {
-    display: flex;
-    flex-wrap: wrap;
-  }
-  .teams-container > * {
-    flex: 1 1 280px;
-    margin: 1px;
   }
 }
 </style>

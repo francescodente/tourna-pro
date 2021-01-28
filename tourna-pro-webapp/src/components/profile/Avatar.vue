@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-avatar class="avatar" :size="size" :src="src" :text="text"></b-avatar>
+    <b-avatar class="avatar" :size="size" :src="src || require('@/assets/defaultUserImage.png')"></b-avatar>
   </div>
 </template>
 
@@ -10,15 +10,13 @@ export default {
   props: {
     size: String,
     src: String,
-    text: String,
   }
 };
 </script>
 
 <style lang="scss" scoped>
 .avatar {
-  color: #a66e0c;
-  background-color: #ffc35a;
+  background-color: transparent;
 }
 
 </style>

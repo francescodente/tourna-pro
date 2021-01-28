@@ -24,11 +24,9 @@ export default {
 <style lang="scss" scoped>
 .team-card {
   width: 100%;
-  margin-bottom: 20px;
   height: 20vh;
   position: relative;
-  border: 4px solid $color-complementary;
-  border-radius: 10px;
+  border-radius: 5px;
   overflow: hidden;
 
   .hover-background {

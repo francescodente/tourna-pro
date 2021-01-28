@@ -1,5 +1,6 @@
 <template>
-  <div class="main">
+  <div class="create-tournament">
+    <h2>Inserisci le informazioni per il torneo</h2>
     <simple-form
       class="form-style"
       submitMessage="Crea"
@@ -34,20 +35,8 @@
         identifier="maxNumber"
         min="1"
       />
-      <simple-number
-        label="Età massima"
-        v-model="maxAge"
-        identifier="maxAge"
-        min="0"
-      />
-      <simple-number
-        label="Età minima"
-        v-model="minAge"
-        identifier="minAge"
-        min="0"
-      />
       <simple-dropdown
-        label="Partecipanti"
+        label="Categoria"
         :options="genders"
         v-model="gender"
         identifier="gender"
@@ -72,7 +61,6 @@ import SimpleInput from "../../components/ui/SimpleInput.vue";
 import SimpleNumber from "../../components/ui/SimpleNumber.vue";
 import SimpleRadioGroup from "../../components/ui/SimpleRadioGroup.vue";
 import SimpleTextArea from "../../components/ui/SimpleTextArea.vue";
-import tournamentTypes from "../../data-access/backend/tournament-types";
 export default {
   components: {
     SimpleForm,
@@ -87,27 +75,25 @@ export default {
     return {
       name: "",
       description: "",
-      mode: "",
-      type: "",
-      maxParticipants: "1",
-      activity: "",
-      maxAge: "0",
-      minAge: "0",
-      gender: "",
+      mode: "TEAMS",
+      type: "ROUND_ROBIN",
+      maxParticipants: "8",
+      activity: "SOCCER",
+      gender: "M",
       place: "",
       date: "",
       genders: [
         {
           value: "M",
-          display: "Uomini",
+          display: "Maschile",
         },
         {
           value: "F",
-          display: "Donne",
+          display: "Femminile",
         },
         {
           value: "NONE",
-          display: "Misti",
+          display: "Misto",
         },
       ],
       modes: [
@@ -146,8 +132,8 @@ export default {
         location: this.place,
         description: this.description,
         mode: this.mode,
-        maxAge: this.maxAge,
-        minAge: this.minAge,
+        maxAge: 100,
+        minAge: 0,
         gender: this.gender,
         visibility: "PUBLIC",
       };
@@ -160,13 +146,7 @@ export default {
 
 
 <style lang="scss" scoped>
-.main {
-  height: 100%;
-  width: 90%;
-  margin-left: 5%;
-}
-
-.form-style {
-  padding: 20px 0px;
+.create-tournament {
+  padding: 20px;
 }
 </style>

@@ -21,9 +21,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-h1 {
-  color: $color-complementary;
-}
 .main {
   padding: 10px 20px;
 }

@@ -17,8 +17,15 @@ export default {
   flex-basis: auto;
   justify-content: space-between;
 }
+
 .parent > * {
-  flex: 0 0 49%;
-  margin: 1px;
+  flex: 0 0 100%;
+  margin-bottom: 25px;
+}
+
+@media screen and (min-width: 768px) {
+  .parent > * {
+    flex: 0 0 49%;
+  }
 }
 </style>

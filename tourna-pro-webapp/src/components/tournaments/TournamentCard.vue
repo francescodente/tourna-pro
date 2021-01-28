@@ -3,7 +3,7 @@
     <b-card :class="'common ' + cssStyle(status)">
       <div class="headline">
         <h5 class="title">{{ tournament.name }}</h5>
-        <p>{{ `Età: ${tournament.minAge} - ${tournament.maxAge}, Genere: ${tournament.gender}` }}</p>
+        <p>Categoria: {{ tournament.gender | gender }}</p>
       </div>
       <div class="row col">
         <text-icon

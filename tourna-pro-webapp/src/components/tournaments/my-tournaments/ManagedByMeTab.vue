@@ -1,22 +1,15 @@
 <template>
   <div class="bg">
-    <grid-container>
-      <tournament-card
-        class="tournament-card"
-        v-for="tournament in tournaments"
-        :key="tournament.id"
-        :status="tournament.status"
-        :tournament="tournament"
-      />
-    </grid-container>
+    <tournament-list :tournaments="tournaments" />
   </div>
 </template>
 
 <script>
 import GridContainer from "../../teams/GridContainer.vue";
 import TournamentCard from "../TournamentCard.vue";
+import TournamentList from '../TournamentList.vue';
 export default {
-  components: { TournamentCard, GridContainer },
+  components: { TournamentCard, GridContainer, TournamentList },
   name: "ManagedByMeTab",
   props: {
     tournaments: Array,
@@ -27,10 +20,6 @@ export default {
 <style lang="scss" scoped>
 .bg {
   height: 100%;
-  padding: 30px 20px;
-}
-
-.tournament-card {
-  margin-bottom: 30px;
+  padding: 20px;
 }
 </style>

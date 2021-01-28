@@ -8,6 +8,7 @@
           :name="group"
           :id="op.value"
           :value="op.value"
+          :checked="value == op.value"
           @input="updated"
           @blur="blur"
           @focus="focus"
@@ -22,6 +23,7 @@
 import eventHandlers from "@/utils/validator-events";
 export default {
   props: {
+    value: String,
     group: String,
     options: Array,
     label: String,

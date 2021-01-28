@@ -14,26 +14,7 @@
       </teams-search>
     </b-modal>
     <div class="owner-actions" v-if="owner">
-      <action-button
-        actionName="Nomina amministratore"
-        icon="fas fa-crown"
-        @trigger="nameAdmin"
-      />
-      <div class="active-tournament" v-if="active">
-        <!--
-          <action-button
-          actionName="Inserisci risultati"
-          icon="fas fa-clipboard-list"
-          @trigger="goToMatches"
-        />
-        -->
-      </div>
       <div class="inactive-tournament" v-if="!active">
-        <action-button
-          actionName="Aggiungi partecipante non registrato"
-          icon="fas fa-user-plus"
-          @trigger="addParticipant"
-        />
         <action-button
           actionName="Gestisci iscrizioni"
           icon="fas fa-check-square"
@@ -44,13 +25,22 @@
           icon="fas fa-flag"
           @trigger="startTournament"
         />
-        <action-button actionName="Modifica il torneo" icon="far fa-edit" />
+        <action-button
+          actionName="Aggiungi partecipante non registrato"
+          icon="fas fa-user-plus"
+          @trigger="addParticipant"
+        />
         <action-button
           actionName="Elimina il torneo"
           icon="far fa-trash-alt"
           @trigger="deleteTournament"
         />
       </div>
+      <action-button
+        actionName="Nomina amministratore"
+        icon="fas fa-crown"
+        @trigger="nameAdmin"
+      />
     </div>
     <div class="user-actions" v-if="!owner">
       <div class="unsubscribed-actions" v-if="canSubscribe">

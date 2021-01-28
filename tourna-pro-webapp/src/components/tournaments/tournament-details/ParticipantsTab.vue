@@ -27,18 +27,17 @@
         :canSelect="true"
       />
     </div>
-    <div v-else>
-      Ancora nessun partecipante.
-    </div>
+    <placeholder-text v-else text="Ancora nessun partecipante accettato" />
   </div>
 </template>
 
 <script>
 import TeamLine from '../../teams/TeamLine.vue'
 import ParticipantLine from '../../ui/ParticipantLine.vue'
+import PlaceholderText from '../../ui/PlaceholderText.vue'
 import UserLine from '../../users/UserLine.vue'
 export default {
-  components: { TeamLine, UserLine, ParticipantLine },
+  components: { TeamLine, UserLine, ParticipantLine, PlaceholderText },
   props: {
     participants: Object
   },

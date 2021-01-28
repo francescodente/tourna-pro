@@ -31,11 +31,20 @@ function format(log, formatters) {
   return formatter(log.parameters)
 }
 
+function gender(g) {
+  switch (g) {
+    case 'M': return 'Maschile'
+    case 'F': return 'Femminile'
+    default: return 'Misto'
+  }
+}
+
 export default function (vue) {
   vue.filter('dateFormat', dateFormat)
   vue.filter('tournamentMode', tournamentMode)
   vue.filter('tournamentType', tournamentType)
   vue.filter('activityFromId', activityFromId)
+  vue.filter('gender', gender)
   vue.filter('formatNotification', notification => format(notification, notificationFormatters))
   vue.filter('formatTeamLog', log => format(log, teamLogFormatters))
   vue.filter('tournamentLogFormatters', log => format(log, tournamentLogFormatters))

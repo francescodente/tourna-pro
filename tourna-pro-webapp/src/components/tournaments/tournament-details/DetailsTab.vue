@@ -6,9 +6,8 @@
     </div>
     <detail-row title="Modalità" :value="tournament.type | tournamentType"/>
     <detail-row title="Attività" :value="tournament.activityId | activityFromId"/>
-    <detail-row title="Partecipanti" :value="`${tournament.currentParticipants}/${tournament.maxParticipants}`"/>
-    <detail-row title="Genere" :value="tournament.gender"/>
-    <detail-row title="Età" :value="`${tournament.minAge} - ${tournament.maxAge}`"/>
+    <detail-row title="Numero di partecipanti" :value="`${tournament.currentParticipants}/${tournament.maxParticipants}`"/>
+    <detail-row title="Categoria" :value="tournament.gender | gender"/>
     <detail-row title="Luogo" :value="tournament.location"/>
     <detail-row title="Data" :value="tournament.date | dateFormat"/>
     <div v-if="tournament.status == 'active'" class="match-link">

@@ -1,9 +1,14 @@
 <template>
   <div>
-    <div v-for="n in notifications" :class="styleClass(n.read)" :key="n.id" @click="openNotification(n)">
-      <date-text :date="n.date" :dateColor="style.colorPrimary">
-        {{ n | formatNotification }}
-      </date-text>
+    <div v-if="notifications && notifications.length > 0">
+      <div v-for="n in notifications" :class="styleClass(n.read)" :key="n.id" @click="openNotification(n)">
+        <date-text :date="n.date" :dateColor="style.colorPrimary">
+          {{ n | formatNotification }}
+        </date-text>
+      </div>
+    </div>
+    <div v-else-if="notifications">
+      <placeholder-text text="Ancora nessuna notifica" />
     </div>
   </div>
 </template>
@@ -13,13 +18,14 @@ import dataAccess from '@/data-access'
 import { mapActions, mapGetters } from 'vuex'
 import DateText from '../components/ui/DateText.vue'
 import style from '../style/export.scss'
+import PlaceholderText from '../components/ui/PlaceholderText.vue'
 export default {
-  components: { DateText },
+  components: { DateText, PlaceholderText },
   name: 'Notifications',
   data() {
     return {
       style,
-      notifications: []
+      notifications: null
     }
   },
   methods: {
