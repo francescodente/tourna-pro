@@ -40,7 +40,7 @@ export default {
 
 .tournament-description {
   margin-bottom: 30px;
-  color: black;
+  color: $color-default-text;
   font-size: 1.1rem;
   text-align: left;
   background-color: $color-secondary2-background;

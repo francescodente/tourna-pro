@@ -28,7 +28,7 @@ export default {
 <style lang="scss" scoped>
 .list-container {
   width: 100%;
-  color: black;
+  color: $color-default-text;
 
   .status-name {
     margin-bottom: 20px;

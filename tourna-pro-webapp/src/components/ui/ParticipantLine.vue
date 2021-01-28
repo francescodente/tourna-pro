@@ -41,7 +41,7 @@ export default {
 <style lang="scss" scoped>
 .participant-line {
   font-weight: bold;
-  color:black;
+  color:$color-default-text;
 
   .participant-name {
     flex: 1;

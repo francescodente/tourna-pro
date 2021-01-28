@@ -74,10 +74,14 @@ export default {
 .common {
   text-align: center;
   width: 100%;
-  color: black;
+  color: $color-default-text;
   border-radius: 15px;
   border: 3px solid;
   white-space: nowrap;
+
+  &:hover{
+    cursor: pointer;
+  }
 }
 
 .my-row {
@@ -105,7 +109,7 @@ export default {
   .title {
     color: $color-complementary;
   }
-  //background-color: $color-complementary;
+  background-color: $color-complementary-background;
   border-color: $color-complementary-lightest;
   .badge {
     color: $color-complementary;
@@ -116,7 +120,7 @@ export default {
   .title {
     color: $color-secondary1;
   }
-  //background-color: $color-secondary1;
+  background-color: $color-secondary1-background;
   border-color: $color-secondary1-lightest;
   .badge {
     color: $color-secondary1;
@@ -127,7 +131,7 @@ export default {
   .title {
     color: $color-secondary2;
   }
-  //background-color: $color-secondary1;
+  background-color: $color-secondary1-background;
   border-color: $color-secondary2-lightest;
   .badge {
     color: $color-secondary2;

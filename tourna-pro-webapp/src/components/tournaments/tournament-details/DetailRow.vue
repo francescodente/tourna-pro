@@ -35,7 +35,7 @@ export default {
 }
 .value {
   text-align: right;
-  color: black;
+  color: $color-default-text;
 }
 
 hr {

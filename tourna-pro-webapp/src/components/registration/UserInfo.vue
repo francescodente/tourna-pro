@@ -106,11 +106,11 @@ export default {
       genders: [
         {
           value: "M",
-          display: "M",
+          display: "Maschio",
         },
         {
           value: "F",
-          display: "F",
+          display: "Femmina",
         },
         {
           value: "NONE",
