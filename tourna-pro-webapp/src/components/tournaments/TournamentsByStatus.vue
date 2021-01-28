@@ -33,7 +33,7 @@ export default {
 
 <style lang="scss" scoped>
 .togglers {
-  color: black;
+  color: $color-default-text;
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;

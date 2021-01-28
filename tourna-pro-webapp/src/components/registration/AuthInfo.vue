@@ -35,12 +35,12 @@
     <simple-validator
       v-model="passwordOk"
       errorText="La password non può essere minore di 8 caratteri"
-      :validator="(x) => notEmpty(x) && checkLength(x,8)"
+      :validator="(x) => notEmpty(x) && checkLength(x, 8)"
       v-slot="scope"
     >
       <simple-input
         label="Password"
-        type="password"
+        :type="showPassword ? 'text' : 'password'"
         v-model="currentValue.password"
         identifier="password"
         @input="$emit('input', currentValue)"
@@ -63,6 +63,12 @@
         :scope="scope"
       />
     </simple-validator>
+
+    <simple-checkbox
+      label="Mostra password"
+      v-model="showPassword"
+      identifier="showpassword"
+    />
 
     <simple-validator
       v-model="termsOk"
@@ -100,6 +106,7 @@ export default {
       usernameOk: false,
       passwordOk: false,
       confirmOk: false,
+      showPassword: false,
       termsOk: false,
     };
   },

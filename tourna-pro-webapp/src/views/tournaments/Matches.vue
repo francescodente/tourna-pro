@@ -7,6 +7,9 @@
       scrollable
       title="Inserisci il risultato"
       @hide="checkHidden"
+      cancel-variant="danger"
+      ok-variant="success"
+      cancel-title="Annulla"
     >
     
     <input class="inputModal" type="number" v-model="score1"/>

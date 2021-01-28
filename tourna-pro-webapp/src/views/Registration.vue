@@ -10,7 +10,16 @@
         @submit="onSubmit"
         :canSubmit="currentStep.filled"
       >
-        <router-view v-model="currentStep.model" @filled="setFilled(currentStep, $event)" />
+        <router-view
+          v-model="currentStep.model"
+          @filled="setFilled(currentStep, $event)"
+        />
+
+        <simple-checkbox
+          label="Mostra password"
+          v-model="showPassword"
+          identifier="showpassword"
+        />
       </simple-form>
     </simple-border>
     <span class="suggestion">
@@ -65,8 +74,8 @@ export default {
     };
   },
   methods: {
-    setFilled(step, value){
-      step.filled=value;
+    setFilled(step, value) {
+      step.filled = value;
     },
     async onSubmit() {
       this.currentStep.filled = true;

@@ -166,7 +166,7 @@ export default {
     .name {
       font-size: 1.5rem;
       font-weight: bold;
-      color: black;
+      color: $color-default-text;
     }
     .username {
       font-size: 1.2rem;

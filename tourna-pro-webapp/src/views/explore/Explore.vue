@@ -31,7 +31,7 @@ export default {
     let filters = {
       from: new Date(),
       status: 'PENDING',
-      activities: JSON.stringify(interests),
+      activities: interests.length > 0 ? JSON.stringify(interests) : undefined,
       gender: user.gender
     }
     this.tournaments = await dataAccess.tournaments.getAll(filters)

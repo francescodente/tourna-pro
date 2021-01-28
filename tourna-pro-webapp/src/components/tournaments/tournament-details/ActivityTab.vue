@@ -27,7 +27,7 @@ export default {
 
 <style lang="scss" scoped>
 .activity{
-  color: black;
+  color: $color-default-text;
   padding: 12px;
   margin: 10px;
   background-color: $color-secondary2-background;
