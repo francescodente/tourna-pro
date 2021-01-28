@@ -7,7 +7,7 @@
         :alt="`${team.name}'s team image`"
       />
       <overlay-bar :title="team.name">
-        <div>
+        <div v-if="userBelongsToTeam">
           <router-link
             class="link"
             router-link
@@ -39,7 +39,7 @@
             @userSelected="onMemberSelected"
           />
         </tab>
-        <tab title="Attività" :color="style.colorComplementary">
+        <tab title="Attività" v-if="userBelongsToTeam" :color="style.colorComplementary">
           <div v-for="log in logs" :key="log.id">
             <date-text
               class="activity"
@@ -50,7 +50,7 @@
             </date-text>
           </div>
         </tab>
-        <tab title="Azioni" :color="style.colorComplementary">
+        <tab title="Azioni" v-if="userBelongsToTeam" :color="style.colorComplementary">
           <div class="actions-tab">
             <action-button
               icon="fas fa-times"
@@ -101,6 +101,9 @@ export default {
     teamId() {
       return this.$route.params.id;
     },
+    userBelongsToTeam() {
+      return this.team.members.includes(this.$store.getters.userId)
+    }
   },
   methods: {
     onMemberSelected(member) {
