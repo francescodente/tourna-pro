@@ -10,7 +10,7 @@
         @submit="onSubmit"
         :canSubmit="currentStep.filled"
       >
-        <router-view v-model="currentStep.model" />
+        <router-view v-model="currentStep.model" @filled="setFilled(currentStep, $event)" />
       </simple-form>
     </simple-border>
     <span class="suggestion">
@@ -65,6 +65,9 @@ export default {
     };
   },
   methods: {
+    setFilled(step, value){
+      step.filled=value;
+    },
     async onSubmit() {
       this.currentStep.filled = true;
       if (this.currentStepIndex >= this.steps.length - 1) {

@@ -1,63 +1,98 @@
 <template>
-	<div>
+  <div>
+    <simple-validator
+          v-model="emailOk"
+          errorText="Non una email valida"
+          :validator="x => notEmpty(x) && checkMail(x)"
+          v-slot="scope"
+        >
     <simple-input
       label="Email"
       type="email"
       v-model="currentValue.email"
       identifier="email"
-			@input="$emit('input', currentValue)"
+      :scope="scope"
+      @input="$emit('input', currentValue)"
     />
+    </simple-validator>
 
-		<simple-input
+    <simple-input
       label="Username"
       type="text"
       v-model="currentValue.username"
       identifier="username"
-			@input="$emit('input', currentValue)"
+      @input="$emit('input', currentValue)"
     />
 
-		<simple-input
+    <simple-input
       label="Password"
       type="password"
       v-model="currentValue.password"
       identifier="password"
-			@input="$emit('input', currentValue)"
+      @input="$emit('input', currentValue)"
     />
 
-		<simple-input
+    <simple-input
       label="Conferma password"
       type="password"
       v-model="currentValue.confirmPassword"
       identifier="confirmpassword"
-			@input="$emit('input', currentValue)"
+      @input="$emit('input', currentValue)"
     />
 
-		<simple-checkbox
-			identifier="acceptsConditions"
-			v-model="currentValue.acceptsConditions"
-			@input="$emit('input', currentValue)">
-      Dichiaro di accettare i <a href="#">termini e le condizioni del servizio</a>
+    <simple-checkbox
+      identifier="acceptsConditions"
+      v-model="currentValue.acceptsConditions"
+      @input="$emit('input', currentValue)"
+    >
+      Dichiaro di accettare i
+      <a href="#">termini e le condizioni del servizio</a>
     </simple-checkbox>
-
-	</div>
+  </div>
 </template>
 
 <script>
-import SimpleCheckbox from '../ui/SimpleCheckbox.vue'
-import SimpleInput from '../ui/SimpleInput.vue'
+import Validators from "@/utils/validator-func.js";
+import SimpleCheckbox from "../ui/SimpleCheckbox.vue";
+import SimpleInput from "../ui/SimpleInput.vue";
+import SimpleValidator from '../ui/SimpleValidator.vue';
 export default {
-  components: { SimpleInput, SimpleCheckbox },
+  components: { SimpleInput, SimpleCheckbox, SimpleValidator },
   props: {
-		value: Object
-	},
-	data() {
-		return {
-			currentValue: {...this.value}
-		}
-	}
-}
+    value: Object,
+  },
+  data() {
+    return {
+      currentValue: { ...this.value },
+      emailOk: false,
+      usernameOk: false,
+      passwordOk: false,
+      confirmOk: false,
+      termsOk: false,
+    };
+  },
+  methods: {
+    ...Validators,
+  },
+  computed: {
+    isFilled() {
+      return (
+        this.emailOk &&
+        this.usernameOk &&
+        this.passwordOk &&
+        this.confirmOk &&
+        this.termsOk
+      );
+    },
+  },
+  watch: {
+    isFilled: function (value) {
+      console.log(value)
+      this.$emit("filled", value);
+    },
+  },
+};
 </script>
 
 <style>
-
 </style>
