@@ -1,4 +1,5 @@
 const { Tournament } = require('../models')
+const { publish } = require('../services/event-bus')
 const { ok, notFound } = require('../utils/action-results')
 
 function errorMessage(id) {
@@ -24,6 +25,7 @@ exports.addOwner = async function (req) {
   if (!updatedTournament) {
     return notFound(errorMessage(req.params.id))
   }
+  publish('ownerAdded', req.body.userId, updatedTournament)
   return ok(updatedTournament.owners);
 }
 
@@ -34,5 +36,6 @@ exports.removeOwner = async function (req) {
   if (!updatedTournament) {
     return notFound(errorMessage(req.params.id))
   }
+  publish('ownerRemoved', req.params.userId, updatedTournament)
   return ok(updatedTournament.owners);
 }
