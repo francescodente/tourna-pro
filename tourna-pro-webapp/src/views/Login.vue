@@ -5,7 +5,7 @@
         <simple-validator
           v-model="usernameok"
           errorText="Lo username non può essere vuoto"
-          :validator="notEmpty"
+          :validator="x => notEmpty(x)"
           v-slot="scope"
         >
           <simple-input
@@ -20,7 +20,7 @@
         <simple-validator
           v-model="passwordok"
           errorText="La password non può essere vuota"
-          :validator="notEmpty"
+          :validator="x => notEmpty(x)"
           v-slot="scope"
         >
           <simple-input
@@ -56,6 +56,7 @@ import SimpleForm from "../components/ui/SimpleForm.vue";
 import SimpleInput from "../components/ui/SimpleInput.vue";
 import SimpleValidator from "../components/ui/SimpleValidator.vue";
 import dataAccess from "../data-access";
+import Validators from '@/utils/validator-func.js'
 export default {
   components: {
     SimpleForm,
@@ -75,13 +76,8 @@ export default {
   },
   methods: {
     ...mapActions(['initUnreadNotifications']),
-    notEmpty(x) {
-      return x != "";
-    },
+    ...Validators,
     onSubmit: async function () {
-      if(!this.formValid){
-        return
-      }
       try {
         var res = await dataAccess.authentication.login(
           this.username,

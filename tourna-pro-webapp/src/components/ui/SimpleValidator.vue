@@ -10,7 +10,8 @@ export default {
   data() {
     return {
       cssClass: "common",
-      showError: false
+      showError: false,
+      firstBlur: true,
     }
   },
   props: {
@@ -21,16 +22,17 @@ export default {
   methods: {
     blur(e){
       this.validate(e.target.value)
+      this.firstBlur = false;
     },
     focus(e){
-
+      //this.validate(e.target.value)
     },
     input(e){
-
+      this.$emit("input", this.validator(e.target.value));
+      if(!this.firstBlur) this.validate(e.target.value)
     },
     validate(field) {
       let res = this.validator(field)
-      this.$emit("input", res);
       this.showError = !res
       if(!res) {
         this.cssClass = "error common"
