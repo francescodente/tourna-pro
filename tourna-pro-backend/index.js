@@ -27,6 +27,7 @@ async function startServer() {
     notificationsService.onConnection(socket)
   })
   notificationsService.onStartup()
+  
 
   app.use(bodyParser.urlencoded({ extended: true }))
   app.use(bodyParser.json())

@@ -68,6 +68,7 @@ const values = [
   {
     id: 'SOCCER',
     name: 'Calcio',
+    achievement: 'GOLEADOR',
     getMatchResult: higherScore,
     ...defaultResult(3, 0),
     ...defaultFixedPoints,
@@ -84,6 +85,7 @@ const values = [
   {
     id: 'CHESS',
     name: 'Scacchi',
+    achievement: 'GRAN_MAESTRO_DEGLI_SCACCHI',
     getMatchResult: higherScore,
     ...defaultResult(1, 0),
     ...defaultFixedPoints,
@@ -97,6 +99,7 @@ const values = [
   {
     id: 'BRISCOLA',
     name: 'Briscola',
+    achievement: 'SEI_UN_ASSO',
     getMatchResult: higherScore,
     ...defaultResult(2, 0),
     ...defaultFixedPoints,
@@ -110,6 +113,7 @@ const values = [
   {
     id: 'BEER_PONG',
     name: 'Beer Pong',
+    achievement: 'CECCHINO_UBRIACONE',
     getMatchResult: higherScore,
     ...defaultResult(6, 0),
     ...defaultFixedPoints,
@@ -126,6 +130,7 @@ const values = [
   {
     id: 'BURACO',
     name: 'Burraco',
+    achievement: 'THE_JOKER',
     getMatchResult: higherScore,
     ...defaultResult(2005, 0),
     ...defaultFixedPoints,
@@ -141,6 +146,7 @@ const values = [
   {
     id: 'BEACH_VOLLEY',
     name: 'Beach Volley',
+    achievement: 'RE_DELLA_SPIAGGIA',
     getMatchResult: higherScore,
     ...defaultResult(2, 0),
     ...defaultFixedPoints,
@@ -154,6 +160,7 @@ const values = [
   {
     id: 'MTG',
     name: 'Magic The Gathering',
+    achievement: 'LOTO_NERO',
     getMatchResult: higherScore,
     ...defaultResult(2, 0),
     ...defaultFixedPoints,
@@ -167,6 +174,7 @@ const values = [
   {
     id: 'YGO',
     name: 'Yu-Gi-Oh',
+    achievement: 'PUZZLE_DEL_MILLENNIO',
     getMatchResult: higherScore,
     ...defaultResult(2, 0),
     ...defaultFixedPoints,

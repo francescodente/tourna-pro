@@ -42,12 +42,6 @@ const values = [
     image: ""
   },
   {
-    id: "COLLEZIONISTA",
-    name: "Collezionista",
-    description: "vinci 3 tornei",
-    image: ""
-  },
-  {
     id: "GOLEADOR",
     name: "Goleador",
     description: "Vinci un torneo di Calcio",
@@ -66,9 +60,9 @@ const values = [
     image: ""
   },
   {
-    id: "PUZZLE_DEL_MILLENNIO",
-    name: "Puzzle del Millennio",
-    description: "Vinci un torneo di Yu-Gi-Oh!",
+    id: "LOTO_NERO",
+    name: "Loto Nero",
+    description: "Vinci un torneo di Magic The Gathering!",
     image: ""
   },
   {
@@ -84,8 +78,8 @@ const values = [
     image: ""
   },
   {
-    id: "THE_JOCKER",
-    name: "The Jocker",
+    id: "THE_JOKER",
+    name: "The Joker",
     description: "Vinci un torneo di Burraco",
     image: ""
   },
@@ -95,8 +89,6 @@ const values = [
     description: "Vinci un torneo di Briscola",
     image: ""
   },
-  
-
 ]
 
 exports.achievementExists = function (achievement) {
