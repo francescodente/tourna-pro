@@ -6,7 +6,7 @@
         <i class="fas fa-angle-right"></i>
       </router-link>
     </div>
-    <tournament-list :tournaments="tournaments" />
+    <tournaments-by-status :tournaments="tournaments" />
   </div>
 </template>
 
@@ -14,8 +14,9 @@
 import GridContainer from '../../teams/GridContainer.vue';
 import TournamentCard from "../TournamentCard.vue";
 import TournamentList from '../TournamentList.vue';
+import TournamentsByStatus from '../TournamentsByStatus.vue';
 export default {
-  components: { TournamentCard, GridContainer, TournamentList },
+  components: { TournamentCard, GridContainer, TournamentList, TournamentsByStatus },
   name: "SubscribedToTab",
   props: {
     tournaments: Array,

@@ -1,14 +1,17 @@
 <template>
   <div class="main">
     <headline class="headline">Richieste di iscrizione</headline>
-    <router-link  v-for="r in requests" :key="r.id" :to="requestPath(r)" tag="div">
-    <arrow-button :text="r.displayText">
-      <div>
-        <button class="button approve" v-on:click.prevent @click="approveRequest(r.id)"><i class="fas fa-check"></i></button>
-        <button class="button reject" v-on:click.prevent @click="rejectRequest(r.id)"><i class="fas fa-times"></i></button>
-      </div>
-    </arrow-button>
-    </router-link>
+    <div v-if="requests && requests.length > 0">
+      <router-link v-for="r in requests" :key="r.id" :to="requestPath(r)" tag="div">
+        <arrow-button :text="r.displayText">
+          <div>
+            <button class="button approve" v-on:click.prevent @click="approveRequest(r.id)"><i class="fas fa-check"></i></button>
+            <button class="button reject" v-on:click.prevent @click="rejectRequest(r.id)"><i class="fas fa-times"></i></button>
+          </div>
+        </arrow-button>
+      </router-link>
+    </div>
+    <placeholder-text v-else-if="requests" text="Ancora nessuna richiesta di partecipazione" />
   </div>
 </template>
 
@@ -16,12 +19,13 @@
 import dataAccess from "@/data-access";
 import ArrowButton from "../../components/tournaments/ArrowButton.vue";
 import Headline from "../../components/tournaments/tournament-details/Headline.vue";
+import PlaceholderText from '../../components/ui/PlaceholderText.vue';
 export default {
-  components: { ArrowButton, Headline },
+  components: { ArrowButton, Headline, PlaceholderText },
   name: "ManageSubscription",
   data: function () {
     return {
-      requests: [],
+      requests: null,
     };
   },
   methods: {
@@ -52,12 +56,12 @@ export default {
         default: return "";
       }
     },
-    approveRequest(id){
-      dataAccess.participationRequests.updateStatus(this.$route.params.id, id, 'APPROVED')
+    async approveRequest(id){
+      await dataAccess.participationRequests.updateStatus(this.$route.params.id, id, 'APPROVED')
       this.$router.go(0)
     },
-    rejectRequest(id){
-      dataAccess.participationRequests.updateStatus(this.$route.params.id, id, 'REJECTED')
+    async rejectRequest(id){
+      await dataAccess.participationRequests.updateStatus(this.$route.params.id, id, 'REJECTED')
       this.$router.go(0)
     }
   },

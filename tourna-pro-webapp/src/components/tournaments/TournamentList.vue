@@ -1,14 +1,12 @@
 <template>
-  <div>
-    <grid-container>
-      <tournament-card
-        v-for="tournament in tournaments"
-        :key="tournament.id"
-        :status="tournament.status"
-        :tournament="tournament"
-      />
-    </grid-container>
-  </div>
+  <grid-container>
+    <tournament-card
+      v-for="tournament in tournaments"
+      :key="tournament.id"
+      :status="tournament.status"
+      :tournament="tournament"
+    />
+  </grid-container>
 </template>
 
 <script>
