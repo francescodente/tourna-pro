@@ -46,7 +46,7 @@ export default {
   }
 
   label {
-    color: black;
+    color: $color-default-text;
     margin-left: 5px;
     margin-right: 20px;
   }
