@@ -126,7 +126,7 @@ exports.tournamentEnded = async function (tournament, ranking) {
 
 }
 
-function participantFieldsFromRequest(request) {
+async function participantFieldsFromRequest(request) {
   switch (request.type) {
     case 'USER': {
       let user = await User.findById(request.userId);
