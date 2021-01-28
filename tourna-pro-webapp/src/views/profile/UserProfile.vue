@@ -2,7 +2,7 @@
   <div v-if="user" class="user-profile-container">
     <div class="top-row">
       <router-link :to="{ name: 'UploadProfileImage', params: { id: pathUser } }">
-        <avatar size="10em" :src="user.imageUrl" />
+        <avatar size="8em" :src="user.imageUrl" />
       </router-link>
       <div class="user-name-area">
         <div class="name">{{ user.firstName }} {{ user.lastName }}</div>
@@ -68,8 +68,8 @@
           <i class="fas fa-ellipsis-h"></i>
         </router-link>
       </section-header>
-      <div v-if="interests.length > 0">
-        <div v-for="i in interests" :key="i" class="badge badge-pill">
+      <div v-if="interests.length > 0" class="interests-list">
+        <div v-for="i in interests" :key="i" class="user-interest badge badge-pill">
           #{{ i | activityFromId }}
         </div>
       </div>
@@ -77,7 +77,7 @@
     </div>
 
     <div>
-      <section-header class="header" :color="style.colorComplementaryLight">
+      <section-header class="header" :color="style.colorComplementary">
         <span>Achievements</span>
         <!--
           <i class="fas fa-question-circle"></i> 
@@ -164,14 +164,24 @@ export default {
     flex-direction: column;
     text-align: left;
     .name {
-      font-size: 1.8rem;
+      font-size: 1.5rem;
       font-weight: bold;
       color: black;
     }
     .username {
-      font-size: 1.6rem;
+      font-size: 1.2rem;
       color: gray;
     }
+
+    @media screen and (min-width: 576px) {
+      .name {
+        font-size: 1.8rem;
+      }
+      .username {
+        font-size: 1.6rem;
+      }
+    }
+
     .actions {
       display: flex;
       flex-direction: row;
@@ -183,7 +193,6 @@ export default {
         border-radius: 5px;
         background-color: $color-primary;
         color: white;
-        margin-right: 10px;
         display: inline-block;
         &:hover {
           cursor: pointer;
@@ -197,18 +206,25 @@ export default {
   flex-direction: row;
   width: 100%;
   justify-content: space-between;
+  align-items: stretch;
+  flex-wrap: wrap;
 
   & > * {
-    width: 49%;
+    flex-basis: 100%;
+    margin-bottom: 10px;
   }
   .edit-button {
-    margin-top: 20px;
-    margin-bottom: 10px;
     padding: 5px;
     border: 2px solid $color-primary-lightest;
     font-weight: bold;
     border-radius: 5px;
     color: $color-primary;
+    height: 100%;
+  }
+}
+@media screen and (min-width: 576px) {
+  .modify > * {
+    flex-basis: 49%;
   }
 }
 
@@ -239,9 +255,15 @@ export default {
     text-align: center;
   }
   .badge {
-    background-color: $color-not-focus-text;
+    background-color: #cccccc;
     color: white;
-    margin: 8px 5px 10px 0px;
+    margin-right: 10px;
+  }
+  .interests-list {
+    padding: 15px 0px;
+    .user-interest {
+      font-size: 1.2rem;
+    }
   }
 }
 
@@ -253,4 +275,5 @@ export default {
 .spacing {
   padding: 10px 0px;
 }
+
 </style>
