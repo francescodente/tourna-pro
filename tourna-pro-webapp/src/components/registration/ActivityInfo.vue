@@ -1,5 +1,5 @@
 <template>
-	<div>
+  <div>
     <activity-toggle
       class="activity-item"
       v-for="activity in activities"
@@ -8,34 +8,35 @@
       :name="activity.name"
       @input="activitySelectionChanged(activity.id, $event)"
     />
-	</div>
+  </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import ActivityToggle from './ActivityToggle.vue'
+import { mapGetters } from "vuex";
+import ActivityToggle from "./ActivityToggle.vue";
+
 export default {
   components: { ActivityToggle },
   props: {
-		value: Array
-	},
+    value: Array,
+  },
   methods: {
     activitySelectionChanged(id, selected) {
-      let a = this.value
+      let a = this.value;
       if (selected) {
         if (!this.value.includes(id)) {
-          a = [...this.value, id]
+          a = [...this.value, id];
         }
       } else {
-        a = this.value.filter(x => x != id)
+        a = this.value.filter((x) => x != id);
       }
-      this.$emit('input', a)
-    }
+      this.$emit("input", a);
+    },
   },
   computed: {
-    ...mapGetters(['activities'])
-  }
-}
+    ...mapGetters(["activities"]),
+  },
+};
 </script>
 
 <style lang="scss" scoped>

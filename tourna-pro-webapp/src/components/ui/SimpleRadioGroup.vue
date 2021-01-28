@@ -28,6 +28,7 @@ export default {
     options: Array,
     label: String,
     inline: Boolean,
+    scope: Object,
   },
   methods: {
     ...eventHandlers

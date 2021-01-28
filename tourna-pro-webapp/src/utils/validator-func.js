@@ -12,14 +12,10 @@ export default {
   onlyNumbers: function (x) {
     return /^\d+$/.test(x);
   },
-  phoneNumber: function(x){
-    var phoneno = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
-    if(x.value.match(phoneno)) {
-      return true;
-    }
-    else {
-      alert("message");
-      return false;
-    }
+  minNumber: function(x, n){
+    return Number(x)>=n
+  },
+  checkBox: function(x){
+    return x
   }
 }

@@ -21,10 +21,12 @@ export default {
     identifier: String,
     value: Boolean,
     label: String,
+    scope: Object,
   },
   methods: {
     ...eventHandlers,
     checkBoxUpdate(e) {
+      if(this.scope) this.scope.input(e);
       this.$emit("input", e.target.checked);
     },
   },

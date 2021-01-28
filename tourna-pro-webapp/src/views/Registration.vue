@@ -58,7 +58,7 @@ export default {
         {
           title: "A cosa ti piace giocare?",
           route: "ActivityInfo",
-          filled: false,
+          filled: true,
           model: [],
         },
       ],
@@ -112,9 +112,6 @@ export default {
       return this.currentStepIndex != this.steps.length - 1
         ? "Prossimo"
         : "Completa";
-    },
-    formValid() {
-      return this.emailok && this.usernameok && this.passwordok && this.nomeok;
     },
   },
   mounted() {

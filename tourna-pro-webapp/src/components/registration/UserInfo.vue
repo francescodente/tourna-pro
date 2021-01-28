@@ -1,44 +1,84 @@
 <template>
   <div>
-    <simple-input
-      label="Nome"
-      type="text"
-      v-model="currentValue.firstName"
-      identifier="firstname"
-      @input="$emit('input', currentValue)"
-    />
+    <simple-validator
+      v-model="firstNameOk"
+      errorText="Il nome non può essere vuoto"
+      :validator="(x) => notEmpty(x)"
+      v-slot="scope"
+    >
+      <simple-input
+        label="Nome"
+        type="text"
+        v-model="currentValue.firstName"
+        identifier="firstname"
+        @input="$emit('input', currentValue)"
+        :scope="scope"
+      />
+    </simple-validator>
 
-    <simple-input
-      label="Cognome"
-      type="text"
-      v-model="currentValue.lastName"
-      identifier="lastname"
-      @input="$emit('input', currentValue)"
-    />
+    <simple-validator
+      v-model="lastNameOk"
+      errorText="Il cognome non può essere vuoto"
+      :validator="(x) => notEmpty(x)"
+      v-slot="scope"
+    >
+      <simple-input
+        label="Cognome"
+        type="text"
+        v-model="currentValue.lastName"
+        identifier="lastname"
+        @input="$emit('input', currentValue)"
+        :scope="scope"
+      />
+    </simple-validator>
 
-    <simple-input
-      label="Data di nascita"
-      type="date"
-      v-model="currentValue.birthDate"
-      identifier="birthdate"
-      @input="$emit('input', currentValue)"
-    />
+    <simple-validator
+      v-model="birthDateOk"
+      errorText="La data di nascita non può essere vuota"
+      :validator="(x) => notEmpty(x)"
+      v-slot="scope"
+    >
+      <simple-input
+        label="Data di nascita"
+        type="date"
+        v-model="currentValue.birthDate"
+        identifier="birthdate"
+        @input="$emit('input', currentValue)"
+        :scope="scope"
+      />
+    </simple-validator>
 
-    <simple-input
-      label="Telefono"
-      type="tel"
-      v-model="currentValue.telephone"
-      identifier="telephone"
-      @input="$emit('input', currentValue)"
-    />
+    <simple-validator
+      v-model="telephoneOk"
+      errorText="Il telefono non può essere vuoto"
+      :validator="x => notEmpty(x)"
+      v-slot="scope"
+    >
+      <simple-input
+        label="Telefono"
+        type="tel"
+        v-model="currentValue.telephone"
+        identifier="telephone"
+        @input="$emit('input', currentValue)"
+        :scope="scope"
+      />
+    </simple-validator>
 
-    <simple-input
-      label="Città"
-      type="text"
-      v-model="currentValue.city"
-      identifier="city"
-      @input="$emit('input', currentValue)"
-    />
+    <simple-validator
+      v-model="cityOk"
+      errorText="La città non può essere vuota"
+      :validator="(x) => notEmpty(x)"
+      v-slot="scope"
+    >
+      <simple-input
+        label="Città"
+        type="text"
+        v-model="currentValue.city"
+        identifier="city"
+        @input="$emit('input', currentValue)"
+        :scope="scope"
+      />
+    </simple-validator>
 
     <simple-dropdown
       label="Genere"
@@ -54,8 +94,9 @@
 import Validators from "@/utils/validator-func.js";
 import SimpleDropdown from "../ui/SimpleDropdown.vue";
 import SimpleInput from "../ui/SimpleInput.vue";
+import SimpleValidator from "../ui/SimpleValidator.vue";
 export default {
-  components: { SimpleInput, SimpleDropdown },
+  components: { SimpleInput, SimpleDropdown, SimpleValidator },
   props: {
     value: Object,
   },
