@@ -22,7 +22,15 @@
         />
       </simple-validator>
 
-      <simple-text-area label="Descrizione" v-model="description" /> <!-- !!!!!! -->
+      <simple-validator
+        v-model="descrizioneOk"
+        errorText="La descrizione non può essere vuota"
+        :validator="x => notEmpty(x)"
+        v-slot="scope"
+      >
+      <simple-text-area label="Descrizione" v-model="description" :scope="scope"/>
+      </simple-validator>
+
      
       <simple-radio-group
         label="Modalità"
@@ -46,12 +54,21 @@
         identifier="activity"
       />
 
+      <simple-validator
+        v-model="minNumberOk"
+        errorText="Il numero non può essere minore di 1"
+        :validator="x => minNumber(x, 1) && notEmpty(x)"
+        v-slot="scope"
+      >
       <simple-number
         label="Numero massimo di partecipanti"
         v-model="maxParticipants"
         identifier="maxNumber"
         min="1"
-      /> <!-- !!!!!! che non sia minore di 1 --> 
+        :scope="scope"
+      />
+      </simple-validator>
+
 
       <simple-dropdown
         label="Categoria"
@@ -121,7 +138,7 @@ export default {
       description: "",
       mode: "TEAMS",
       type: "ROUND_ROBIN",
-      maxParticipants: "8",
+      maxParticipants: "",
       activity: "SOCCER",
       gender: "M",
       place: "",
@@ -153,6 +170,8 @@ export default {
       nameok: false,
       dataok: false,
       luogook: false,
+      descrizioneOk: false,
+      minNumberOk: false,
     };
   },
   computed: {
@@ -167,7 +186,7 @@ export default {
       }));
     },
     formValid() {
-      return this.nameok && this.luogook && this.dataok; 
+      return this.nameok && this.luogook && this.dataok && this.descrizioneOk && this.minNumberOk; 
     },
   },
   methods: {

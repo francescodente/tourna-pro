@@ -7,8 +7,8 @@
   >
     <simple-validator
       v-model="pwdok"
-      errorText="La password non può essere vuota"
-      :validator="(x) => notEmpty(x)"
+      errorText="La password non può essere minore di 8 caratteri"
+      :validator="(x) => notEmpty(x) && checkLength(x,8)"
       v-slot="scope"
     >
       <simple-input
@@ -22,8 +22,8 @@
 
     <simple-validator
       v-model="nuovapwdok"
-      errorText="La nuova password non può essere vuota"
-      :validator="(x) => notEmpty(x)"
+      errorText="La nuova password non può essere minore di 8 caratteri"
+      :validator="(x) => notEmpty(x) && checkLength(x,8)"
       v-slot="scope"
     >
       <simple-input
@@ -37,7 +37,7 @@
 
     <simple-validator
       v-model="confermapwdok"
-      errorText="La conferma password non può essere vuota"
+      errorText="La conferma password non è valida"
       :validator="(x) => notEmpty(x)"
       v-slot="scope"
     >

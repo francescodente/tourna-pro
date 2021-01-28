@@ -25,6 +25,7 @@ export default {
     value: String,
     label: String,
     identifier: String,
+    scope: Object,
   },
   methods: {
     ...eventHandlers

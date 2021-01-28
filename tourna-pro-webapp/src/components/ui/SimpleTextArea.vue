@@ -22,7 +22,8 @@ export default {
     placeholder: String,
     value: String,
     label: String,
-    identifier: String
+    identifier: String,
+    scope: Object,
   },
   methods: {
     ...eventHandlers

@@ -27,6 +27,7 @@ export default {
     identifier: String,
     min: String,
     max: String,
+    scope: Object,
   },
   methods: {
     ...eventHandlers
