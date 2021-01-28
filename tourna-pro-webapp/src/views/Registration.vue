@@ -128,11 +128,6 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: start;
-  height: 100%;
-
-  .registration-form {
-    flex: 1;
-  }
 
   .suggestion {
     padding-bottom: 20px;
