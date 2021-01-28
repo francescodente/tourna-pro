@@ -39,7 +39,7 @@
             @userSelected="onMemberSelected"
           />
         </tab>
-        <tab title="Attività" v-if="userBelongsToTeam" :color="style.colorComplementary">
+        <tab title="Attività" :color="style.colorComplementary">
           <div v-for="log in logs" :key="log.id">
             <date-text
               class="activity"
