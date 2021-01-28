@@ -7,7 +7,7 @@ export default {
   updateImage: (id, image) => {
     let formData = new FormData();
     formData.append("profile_picture", image);
-    http.put(`/users/${id}/image`, formData)
+    return http.put(`/users/${id}/image`, formData)
   },
   search: (query) => http.get(`/users`, query)
 }

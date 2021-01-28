@@ -9,6 +9,6 @@ export default {
   updateImage: (id, image) => {
     let formData = new FormData();
     formData.append("team_picture", image);
-    http.put(`/teams/${id}/image`, formData)
+    return http.put(`/teams/${id}/image`, formData)
   }
 }

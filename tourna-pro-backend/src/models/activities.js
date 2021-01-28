@@ -86,49 +86,96 @@ const values = [
     name: 'Scacchi',
     getMatchResult: higherScore,
     ...defaultResult(1, 0),
-    ...defaultFixedPoints
+    ...defaultFixedPoints,
+    stats: [
+      points('Punti'),
+      wins('Vittorie'),
+      losses('Sconfitte'),
+      draws('Pareggi')
+    ]
   },
   {
     id: 'BRISCOLA',
     name: 'Briscola',
     getMatchResult: higherScore,
     ...defaultResult(2, 0),
-    ...defaultFixedPoints
+    ...defaultFixedPoints,
+    stats: [
+      points('Punti'),
+      wins('Vittorie'),
+      losses('Sconfitte'),
+      draws('Pareggi')
+    ]
   },
   {
     id: 'BEER_PONG',
     name: 'Beer Pong',
-    getMatchResult: lowerScore,
-    ...defaultResult(0, 6),
-    ...defaultFixedPoints
+    getMatchResult: higherScore,
+    ...defaultResult(6, 0),
+    ...defaultFixedPoints,
+    stats: [
+      points('Punti'),
+      wins('Vittorie'),
+      losses('Sconfitte'),
+      draws('Pareggi'),
+      pointsScored('Bicchieri centrati'),
+      pointsTaken('Bicchieri bevuti'),
+      scoreDifference('Differenza bicchieri')
+    ]
   },
   {
     id: 'BURACO',
     name: 'Burraco',
     getMatchResult: higherScore,
     ...defaultResult(2005, 0),
-    ...defaultFixedPoints
+    ...defaultFixedPoints,
+    stats: [
+      points('Punti'),
+      wins('Vittorie'),
+      losses('Sconfitte'),
+      draws('Pareggi'),
+      pointsScored('Punti fatti'),
+      scoreDifference('Differenza punti')
+    ]
   },
   {
     id: 'BEACH_VOLLEY',
     name: 'Beach Volley',
     getMatchResult: higherScore,
     ...defaultResult(2, 0),
-    ...defaultFixedPoints
+    ...defaultFixedPoints,
+    stats: [
+      points('Punti'),
+      wins('Vittorie'),
+      losses('Sconfitte'),
+      draws('Pareggi')
+    ]
   },
   {
     id: 'MTG',
     name: 'Magic The Gathering',
     getMatchResult: higherScore,
     ...defaultResult(2, 0),
-    ...defaultFixedPoints
+    ...defaultFixedPoints,
+    stats: [
+      points('Punti'),
+      wins('Vittorie'),
+      losses('Sconfitte'),
+      draws('Pareggi')
+    ]
   },
   {
     id: 'YGO',
     name: 'Yu-Gi-Oh',
     getMatchResult: higherScore,
     ...defaultResult(2, 0),
-    ...defaultFixedPoints
+    ...defaultFixedPoints,
+    stats: [
+      points('Punti'),
+      wins('Vittorie'),
+      losses('Sconfitte'),
+      draws('Pareggi')
+    ]
   }
 ]
 

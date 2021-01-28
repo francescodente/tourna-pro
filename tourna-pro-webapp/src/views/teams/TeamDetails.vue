@@ -7,7 +7,7 @@
         :alt="`${team.name}'s team image`"
       />
       <overlay-bar :title="team.name">
-        <div>
+        <div v-if="userBelongsToTeam">
           <router-link
             class="link"
             router-link
@@ -50,7 +50,7 @@
             </date-text>
           </div>
         </tab>
-        <tab title="Azioni" :color="style.colorComplementary">
+        <tab title="Azioni" v-if="userBelongsToTeam" :color="style.colorComplementary">
           <div class="actions-tab">
             <action-button
               icon="fas fa-times"
@@ -101,6 +101,9 @@ export default {
     teamId() {
       return this.$route.params.id;
     },
+    userBelongsToTeam() {
+      return this.team.members.includes(this.$store.getters.userId)
+    }
   },
   methods: {
     onMemberSelected(member) {
@@ -135,9 +138,8 @@ export default {
 .main {
   height: 100%;
 
-  $image-percentage: 25%;
   .team-image-container {
-    height: $image-percentage;
+    height: 25%;
     position: relative;
 
     .description-container {
@@ -151,7 +153,7 @@ export default {
   }
 
   .tab-container {
-    height: 100% - $image-percentage;
+    height: 75%;
 
     .actions-tab {
       padding-top: 10px;
@@ -173,17 +175,27 @@ export default {
 
   @media screen and (min-width: 576px) and (max-width: 768px) {
     .team-image-container {
-    height: 30%;
+      height: 30%;
+    }
+
+    .tab-container {
+      height: 70%;
     }
   }
   @media screen and (min-width: 768px) and (max-width: 992px) {
     .team-image-container {
-    height: 35%;
+      height: 35%;
+    }
+    .tab-container {
+      height: 65%;
     }
   }
   @media screen and (min-width: 992px) {
     .team-image-container {
-    height: 40%;
+      height: 40%;
+    }
+    .tab-container {
+      height: 60%;
     }
   }
 }

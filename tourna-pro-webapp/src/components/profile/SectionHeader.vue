@@ -1,5 +1,5 @@
 <template>
-  <div class="divisore" :style="{color: color}">
+  <div class="header" :style="{color: color}">
     <slot></slot>
   </div>
 </template>
@@ -15,8 +15,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.divisore{
+.header {
   border-bottom: 2px solid;
+  font-size: 1.3rem;
 }
 
 </style>

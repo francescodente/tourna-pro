@@ -1,6 +1,6 @@
 <template>
   <div class="main">
-    <div class="cropper-container">
+    <div v-if="imgSrc" class="cropper-container">
       <vue-cropper
         class="cropper"
         ref="cropper"
@@ -14,6 +14,14 @@
         alt="Source Image"
         :aspect-ratio="squareRatio ? 1 : 0"
       />
+    </div>
+    <div v-else class="fill">
+      <div>
+        <placeholder-text
+          class="holder"
+          text="Carica una immagine del profilo"
+        />
+      </div>
     </div>
     <div class="control-panel">
       <label>
@@ -34,12 +42,11 @@
       <label @click="rotateLeft" v-if="imgSrc">
         <i class="fa fa-undo fa-lg"></i>
       </label>
-      <label
-        @click="dragToMove"
-        v-if="imgSrc"
-      >
-        <span  v-show="dragModeCrop"><i class="fa fa-crop-alt fa-lg"></i></span>
-        <span  v-show="!dragModeCrop"><i  class="fa fa-arrows-alt fa-lg"></i></span>
+      <label @click="dragToMove" v-if="imgSrc">
+        <span v-show="dragModeCrop"><i class="fa fa-crop-alt fa-lg"></i></span>
+        <span v-show="!dragModeCrop"
+          ><i class="fa fa-arrows-alt fa-lg"></i
+        ></span>
       </label>
       <label @click="zoomIn" v-if="imgSrc">
         <i class="fa fa-search-plus fa-lg"></i>
@@ -59,10 +66,12 @@ import VueCropper from "vue-cropperjs";
 import BlobUtils from "@/utils/url-to-blob";
 import "cropperjs/dist/cropper.css";
 import FloatingButton from "./FloatingButton.vue";
+import PlaceholderText from "./PlaceholderText.vue";
 export default {
   components: {
     VueCropper,
     FloatingButton,
+    PlaceholderText,
   },
   props: {
     title: String,
@@ -126,7 +135,19 @@ export default {
   display: flex;
   flex-direction: column;
 }
+.fill {
+  flex-grow: 1;
 
+  padding: 20px;
+  & > div {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    background-color: #fafafa;
+  }
+}
 .cropper-container {
   flex-grow: 1;
 }
