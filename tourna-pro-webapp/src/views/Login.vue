@@ -72,16 +72,12 @@ export default {
       showPassword: false,
       usernameok: false,
       passwordok: false,
-      
     };
   },
   methods: {
     ...mapActions(['initUnreadNotifications']),
     ...Validators,
     onSubmit: async function () {
-      if(!this.formValid){
-        return
-      }
       try {
         var res = await dataAccess.authentication.login(
           this.username,

@@ -5,7 +5,11 @@
       <h2>{{ currentStep.title }}</h2>
     </div>
     <simple-border class="registration-form">
-      <simple-form :submitMessage="submitMessage" @submit="onSubmit">
+      <simple-form
+        :submitMessage="submitMessage"
+        @submit="onSubmit"
+        :canSubmit="currentStep.filled"
+      >
         <router-view v-model="currentStep.model" />
       </simple-form>
     </simple-border>
@@ -19,7 +23,7 @@
 <script>
 import SimpleForm from "../components/ui/SimpleForm.vue";
 import SimpleBorder from "../components/ui/SimpleBorder.vue";
-import dataAccess from "@/data-access"
+import dataAccess from "@/data-access";
 
 export default {
   components: { SimpleForm, SimpleBorder },
@@ -62,18 +66,18 @@ export default {
   },
   methods: {
     async onSubmit() {
-      this.currentStep.filled = true
-      if (this.currentStepIndex >= this.steps.length-1) {
+      this.currentStep.filled = true;
+      if (this.currentStepIndex >= this.steps.length - 1) {
         await this.userRegistration();
       } else {
-        let next = this.currentStepIndex + 1
+        let next = this.currentStepIndex + 1;
         this.$router.push({ name: this.steps[next].route });
       }
     },
     async userRegistration() {
-      let authInfo = this.steps[0].model
-      let userInfo = this.steps[1].model
-      let interests = this.steps[2].model
+      let authInfo = this.steps[0].model;
+      let userInfo = this.steps[1].model;
+      let interests = this.steps[2].model;
 
       if (authInfo.password != authInfo.confirmPassword) {
         return;
@@ -88,17 +92,15 @@ export default {
         gender: userInfo.gender,
         city: userInfo.city,
         password: authInfo.password,
-        interests: interests
+        interests: interests,
       };
       await dataAccess.users.register(user);
-      this.$router.push({name: "Login"});
+      this.$router.push({ name: "Login" });
     },
   },
   computed: {
     currentStepIndex() {
-      return this.steps
-        .map(x => x.route)
-        .indexOf(this.$route.name)
+      return this.steps.map((x) => x.route).indexOf(this.$route.name);
     },
     currentStep() {
       return this.steps[this.currentStepIndex];
@@ -108,13 +110,16 @@ export default {
         ? "Prossimo"
         : "Completa";
     },
+    formValid() {
+      return this.emailok && this.usernameok && this.passwordok && this.nomeok;
+    },
   },
   mounted() {
-    let firstNotFilled = this.steps.findIndex(x => !x.filled)
+    let firstNotFilled = this.steps.findIndex((x) => !x.filled);
     if (firstNotFilled && firstNotFilled < this.currentStepIndex) {
-      this.$router.replace({ name: this.steps[firstNotFilled].route })
+      this.$router.replace({ name: this.steps[firstNotFilled].route });
     }
-  }
+  },
 };
 </script>
 

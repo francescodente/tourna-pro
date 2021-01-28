@@ -5,9 +5,25 @@
       class="form-style"
       submitMessage="Crea"
       @submit="createTournament"
+      :canSubmit="formValid"
     >
-      <simple-input label="Nome" type="text" v-model="name" identifier="name" />
-      <simple-text-area label="Descrizione" v-model="description" />
+      <simple-validator
+        v-model="nameok"
+        errorText="Il nome non può essere vuoto"
+        :validator="(x) => notEmpty(x)"
+        v-slot="scope"
+      >
+        <simple-input
+          label="Nome"
+          type="text"
+          v-model="name"
+          identifier="name"
+          :scope="scope"
+        />
+      </simple-validator>
+
+      <simple-text-area label="Descrizione" v-model="description" /> <!-- !!!!!! -->
+     
       <simple-radio-group
         label="Modalità"
         v-model="mode"
@@ -29,25 +45,50 @@
         v-model="activity"
         identifier="activity"
       />
+
       <simple-number
         label="Numero massimo di partecipanti"
         v-model="maxParticipants"
         identifier="maxNumber"
         min="1"
-      />
+      /> <!-- !!!!!! che non sia minore di 1 --> 
+
       <simple-dropdown
         label="Categoria"
         :options="genders"
         v-model="gender"
         identifier="gender"
       />
-      <simple-input
-        label="Luogo"
-        type="text"
-        v-model="place"
-        identifier="place"
-      />
-      <simple-input label="Data" type="date" v-model="date" identifier="date" />
+
+      <simple-validator
+        v-model="luogook"
+        errorText="Il luogo non può essere vuoto"
+        :validator="(x) => notEmpty(x)"
+        v-slot="scope"
+      >
+        <simple-input
+          label="Luogo"
+          type="text"
+          v-model="place"
+          identifier="place"
+          :scope="scope"
+        />
+      </simple-validator>
+
+      <simple-validator
+        v-model="dataok"
+        errorText="La data non può essere vuota"
+        :validator="(x) => notEmpty(x)"
+        v-slot="scope"
+      >
+        <simple-input
+          label="Data"
+          type="date"
+          v-model="date"
+          identifier="date"
+          :scope="scope"
+        />
+      </simple-validator>
     </simple-form>
   </div>
 </template>
@@ -61,6 +102,8 @@ import SimpleInput from "../../components/ui/SimpleInput.vue";
 import SimpleNumber from "../../components/ui/SimpleNumber.vue";
 import SimpleRadioGroup from "../../components/ui/SimpleRadioGroup.vue";
 import SimpleTextArea from "../../components/ui/SimpleTextArea.vue";
+import SimpleValidator from "../../components/ui/SimpleValidator.vue";
+import Validators from '@/utils/validator-func.js'
 export default {
   components: {
     SimpleForm,
@@ -69,6 +112,7 @@ export default {
     SimpleRadioGroup,
     SimpleTextArea,
     SimpleNumber,
+    SimpleValidator,
   },
   name: "CreateTournament",
   data: function () {
@@ -106,6 +150,9 @@ export default {
           display: "Individuale",
         },
       ],
+      nameok: false,
+      dataok: false,
+      luogook: false,
     };
   },
   computed: {
@@ -119,8 +166,12 @@ export default {
         display: t.name,
       }));
     },
+    formValid() {
+      return this.nameok && this.luogook && this.dataok; 
+    },
   },
   methods: {
+    ...Validators,
     async createTournament() {
       //TODO complete checks
       let tournament = {
@@ -138,7 +189,7 @@ export default {
         visibility: "PUBLIC",
       };
       let res = await dataAccess.tournaments.create(tournament);
-      this.$router.push({name: 'TournamentDetails', params: {id: res.id}})
+      this.$router.push({ name: "TournamentDetails", params: { id: res.id } });
     },
   },
 };
