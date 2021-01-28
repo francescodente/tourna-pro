@@ -1,16 +1,43 @@
 <template>
   <div class="main">
     <yes-no-popup ref="yes-no" />
-    <b-modal ref="ownersModal" centered scrollable title="Chiama un organizzatore">
+    <b-modal
+      ref="ownersModal"
+      centered
+      scrollable
+      hide-footer
+      title="Chiama un organizzatore"
+    >
       <div class="ownerRow" v-for="o in owners" :key="o.id">
-      <user-line :user="o" :canDelete="false" class="user"/>
-      <a class="button" :href="'tel:'+o.telephone"><i class="fa fa-phone-alt"></i></a>
-      <a class="button" :href="'mailto:'+o.email"><i class="fa fa-envelope"></i></a>
+        <user-line
+          :user="o"
+          :canDelete="false"
+          class="user"
+          @selected="
+            $router.push({ name: 'UserProfile', params: { id: o.id } })
+          "
+        />
+        <a class="button" :href="'tel:' + o.telephone"
+          ><i class="fa fa-phone-alt"></i
+        ></a>
+        <a class="button" :href="'mailto:' + o.email"
+          ><i class="fa fa-envelope"></i
+        ></a>
       </div>
     </b-modal>
-    <b-modal ref="teamSubscriptionModal" centered scrollable hide-footer title="Con quale squadra vuoi iscriverti?">
+    <b-modal
+      ref="teamSubscriptionModal"
+      centered
+      scrollable
+      hide-footer
+      title="Con quale squadra vuoi iscriverti?"
+    >
       <teams-search v-slot="scope">
-        <team-line :canSelect="true" :team="scope.team" @selected="onTeamSubscription" />
+        <team-line
+          :canSelect="true"
+          :team="scope.team"
+          @selected="onTeamSubscription"
+        />
       </teams-search>
     </b-modal>
     <div class="owner-actions" v-if="owner">
@@ -80,13 +107,20 @@ import dataAccess from "@/data-access";
 import ActionButton from "../../ui/ActionButton.vue";
 import YesNoPopup from "../../ui/YesNoPopup.vue";
 import { mapGetters } from "vuex";
-import ListItem from '../../ui/ListItem.vue';
-import UserLine from '../../users/UserLine.vue';
-import TeamsSearch from '../../teams/TeamsSearch.vue';
-import TeamLine from '../../teams/TeamLine.vue';
+import ListItem from "../../ui/ListItem.vue";
+import UserLine from "../../users/UserLine.vue";
+import TeamsSearch from "../../teams/TeamsSearch.vue";
+import TeamLine from "../../teams/TeamLine.vue";
 
 export default {
-  components: { ActionButton, YesNoPopup, ListItem, UserLine, TeamsSearch, TeamLine },
+  components: {
+    ActionButton,
+    YesNoPopup,
+    ListItem,
+    UserLine,
+    TeamsSearch,
+    TeamLine,
+  },
   name: "ActionTab",
   props: {
     owner: Boolean,
@@ -131,7 +165,7 @@ export default {
     async deleteTournament() {
       let res = await this.$refs["yes-no"].show(
         "Elimina il torneo",
-        "Questa azione eliminerà il torneo"
+        "Questa azione eliminerà il torneo. Sei sicuro?"
       );
       if (res) {
         await dataAccess.tournaments.delete(this.$route.params.id);
@@ -167,20 +201,28 @@ export default {
     },
     async requestSubscription() {
       if (this.team) {
-        this.$refs.teamSubscriptionModal.show()
+        this.$refs.teamSubscriptionModal.show();
       } else {
-        await this.makeSubscriptionRequest("Vuoi chiedere di iscriverti al torneo?", {
-          type: "USER",
-          userId: this.userId,
-        })
+        await this.makeSubscriptionRequest(
+          "Vuoi chiedere di iscriverti al torneo?",
+          {
+            type: "USER",
+            userId: this.userId,
+          }
+        );
       }
     },
     async onTeamSubscription(team) {
-      this.$refs.teamSubscriptionModal.hide()
-      await this.makeSubscriptionRequest("Sei sicuro di volerti iscrivere al torneo con la squadra " + team.name + "?", {
-        type: 'TEAM',
-        teamId: team.id
-      })
+      this.$refs.teamSubscriptionModal.hide();
+      await this.makeSubscriptionRequest(
+        "Sei sicuro di volerti iscrivere al torneo con la squadra " +
+          team.name +
+          "?",
+        {
+          type: "TEAM",
+          teamId: team.id,
+        }
+      );
     },
     async retireFromTournament() {
       let res = await this.$refs["yes-no"].show(

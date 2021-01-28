@@ -1,3 +1,5 @@
+@import "./variables.scss";
+
 h1 {
   font-size: 2rem;
   font-weight: bold;
@@ -14,5 +16,27 @@ h2 {
 
   &::-webkit-scrollbar {
     display: none;
+  }
+}
+
+.btn.btn-danger {
+  border: none;
+  background-color: $color-secondary2;
+  &:focus {
+    background-color: $color-secondary2-darkest;
+  }
+  &:active{
+    background-color: $color-secondary2;
+  }
+}
+
+.btn.btn-success {
+  border:none;
+  background-color: $color-complementary;
+  &:focus{
+    background-color: $color-complementary-darkest;
+  }
+  &:active{
+    background-color: $color-complementary;
   }
 }
