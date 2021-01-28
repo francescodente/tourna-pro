@@ -1,4 +1,5 @@
 const { Team } = require('../models')
+const { publish } = require('../services/event-bus')
 const { ok, created, notFound, forbidden } = require('../utils/action-results')
 const { setImage, imageUrl } = require('./image-utils')
 
@@ -24,6 +25,7 @@ exports.createTeam = async function (req) {
     creatorId: req.userId
   })
   let team = await teamModel.save()
+  publish('teamCreated', team, req.userId)
   return created(teamDto(team, req))
 }
 

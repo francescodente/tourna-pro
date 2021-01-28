@@ -188,7 +188,6 @@ exports.updateParticipationRequestStatus = async function (req) {
     publish('requestApproved', participationRequest, tournament)
   } else if (participationRequest.status == 'REJECTED') {
     publish('requestRejected', participationRequest, tournament)
-
   }
 
   return ok(participationRequestsDto(participationRequest))

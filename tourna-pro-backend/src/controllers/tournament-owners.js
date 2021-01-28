@@ -25,7 +25,7 @@ exports.addOwner = async function (req) {
   if (!updatedTournament) {
     return notFound(errorMessage(req.params.id))
   }
-  publish('ownerAdded', req.body.userId, updatedTournament)
+  publish('ownerAdded', req.body.userId, updatedTournament, req.userId)
   return ok(updatedTournament.owners);
 }
 
@@ -36,6 +36,6 @@ exports.removeOwner = async function (req) {
   if (!updatedTournament) {
     return notFound(errorMessage(req.params.id))
   }
-  publish('ownerRemoved', req.params.userId, updatedTournament)
+  publish('ownerRemoved', req.params.userId, updatedTournament, req.userId)
   return ok(updatedTournament.owners);
 }

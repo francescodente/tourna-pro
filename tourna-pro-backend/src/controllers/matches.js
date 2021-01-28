@@ -142,7 +142,7 @@ exports.startNextRound = async function (req) {
     }
     tournament.status = 'ENDED'
     await tournament.save()
-    publish('tournamentEnded', tournament)
+    publish('tournamentEnded', tournament, tournamentType.generateRanking(tournament))
     return ok(tournamentDto(tournament))
   }
 
