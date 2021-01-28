@@ -3,6 +3,7 @@ const { isIndividual, isTeam } = require('../models/tournament-modes');
 const { ok, created, notFound, badRequest, forbidden } = require('../utils/action-results')
 
 const mongoose = require('mongoose');
+const { publish } = require('../services/event-bus');
 
 function participationRequestsDto(participationRequest) {
   return {
@@ -86,6 +87,7 @@ exports.addParticipationRequest = async function (req) {
     status: 'PENDING'
   })
   let tournamentRequest = await participationRequestModel.save()
+  publish('requestAdded', tournamentRequest, tournament)
   return created(participationRequestsDto(tournamentRequest))
 }
 
@@ -180,6 +182,12 @@ exports.updateParticipationRequestStatus = async function (req) {
       status: 'ACTIVE'
     })
     await tournament.save()
+  }
+
+  if (participationRequest.status == 'APPROVED') {
+    publish('requestApproved', participationRequest, tournament)
+  } else if (participationRequest.status == 'REJECTED') {
+    publish('requestRejected', participationRequest, tournament)
   }
 
   return ok(participationRequestsDto(participationRequest))

@@ -7,6 +7,7 @@ const { modeExists, isTeam } = require('../models/tournament-modes')
 const team = require('../models/team')
 
 const mongoose = require('mongoose');
+const { publish } = require('../services/event-bus')
 
 const defaultStatus = "PENDING"
 const defaultPageSize = 30
@@ -114,6 +115,7 @@ exports.createTournament = async function (req) {
     owners: [req.userId]
   })
   let tournament = await tournamentModel.save()
+  publish('tournamentCreated', tournament, req.userId)
   return created(tournamentDto(tournament, req.userId, false))
 }
 

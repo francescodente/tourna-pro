@@ -58,6 +58,62 @@ exports.memberRemoved = async (team, memberId, removedBy) => {
   })
 }
 
+exports.requestAdded = async function (request, tournament) {
+  
+}
+
+exports.requestAccepted = async function (request, tournament) {
+
+}
+
+exports.requestRejected = async function (request, tournament) {
+  
+}
+
+exports.tournamentStarted = async function (tournament) {
+
+}
+
+exports.tournamentEnded = async function (tournament, ranking) {
+
+}
+
+exports.matchStarted = async function (match, tournament) {
+
+}
+
+exports.matchResultUpdated = async function (match, tournament) {
+
+}
+
+exports.roundStarted = async function (tournament) {
+
+}
+
+exports.roundEnded = async function (tournament) {
+
+}
+
+exports.ownerAdded = async function (id, tournament, addedBy) {
+
+}
+
+exports.ownerRemoved = async function (id, tournament, removedBy) {
+
+}
+
+exports.participantRetired = async function (id, tournament) {
+
+}
+
+exports.teamCreated = async function (team, createdBy) {
+
+}
+
+exports.tournamentCreated = async function (tournament, createdBy) {
+
+}
+
 exports.achievementUnlocked = async (achievement, userId) => {
   await publishLog({
     type: 'achievementUnlocked',

@@ -80,7 +80,7 @@ exports.startMatch = async function (req) {
   match.status = 'STARTED'
   await tournament.save()
 
-  publish('matchStarted', tournament, match)
+  publish('matchStarted', match, tournament)
   return ok(matchDto(match, tournament))
 }
 
@@ -107,6 +107,7 @@ exports.updateMatchResult = async function (req) {
   match.participant2.score = req.body.participant2
   await tournament.save()
 
+  publish('matchResultUpdated')
   return ok(matchDto(match, tournament))
 }
 
@@ -127,7 +128,6 @@ exports.startNextRound = async function (req) {
     }
     lastRound.forEach(m => {
       m.status = "ENDED"
-      publish('matchEnded', tournament, m)
     })
   } else {
     if (tournament.participants.length <= 1) {
@@ -142,7 +142,7 @@ exports.startNextRound = async function (req) {
     }
     tournament.status = 'ENDED'
     await tournament.save()
-    publish('tournamentEnded', tournament)
+    publish('tournamentEnded', tournament, tournamentType.generateRanking(tournament))
     return ok(tournamentDto(tournament))
   }
 
@@ -160,6 +160,11 @@ exports.startNextRound = async function (req) {
   if (justStarted) {
     publish('tournamentStarted', tournament)
   }
+
+  if (lastRound) {
+    publish('roundEnded', tournament)
+  }
+
   publish('roundStarted', tournament)
 
   return ok(tournamentDto(tournament))

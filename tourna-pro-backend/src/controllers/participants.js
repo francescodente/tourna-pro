@@ -1,4 +1,5 @@
 const { Tournament, ParticipationRequest, Team } = require('../models')
+const { publish } = require('../services/event-bus')
 const { ok, notFound, forbidden, badRequest } = require('../utils/action-results')
 
 function tournamentNotFound(id) {
@@ -44,7 +45,7 @@ exports.retireParticipant = async function (req) {
   if (!participationRequest) {
     return notFound(participantNotFound(req.params.participantId, req.params.id))
   }
-  if (await !validRetireRequest(participationRequest, req.userId, tournament)) {
+  if (!await validRetireRequest(participationRequest, req.userId, tournament)) {
     return forbidden(`User ${req.userId} can not retire participant ${req.params.participantId}`)
   }
   switch (tournament.status) {
@@ -56,6 +57,7 @@ exports.retireParticipant = async function (req) {
       tournament.participants.remove({ id: req.params.participantId })
       await tournament.save()
       await ParticipationRequests.findByIdAndRemove(req.params.participantId)
+      publish('participantRetired', req.params.participantId, tournament)
       return ok(participantDto(deleted))
     case 'ACTIVE':
       console.log(tournament.participants)
@@ -65,6 +67,7 @@ exports.retireParticipant = async function (req) {
       }
       toRetire["status"] = 'RETIRED'
       await tournament.save()
+      publish('participantRetired', req.params.participantId, tournament)
       return ok(participantDto(toRetire))
     default:
       return badRequest(`Tournament with id ${req.params.id} is in a state where you can no more retire`);
