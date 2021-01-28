@@ -23,10 +23,10 @@ export default {
       this.validate(e.target.value)
     },
     focus(e){
-
+      this.validate(e.target.value)
     },
     input(e){
-
+      this.validate(e.target.value)
     },
     validate(field) {
       let res = this.validator(field)
