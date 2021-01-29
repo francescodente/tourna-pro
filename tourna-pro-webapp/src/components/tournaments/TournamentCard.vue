@@ -131,7 +131,7 @@ export default {
   .title {
     color: $color-secondary2;
   }
-  background-color: $color-secondary1-background;
+  background-color: $color-secondary2-background;
   border-color: $color-secondary2-lightest;
   .badge {
     color: $color-secondary2;

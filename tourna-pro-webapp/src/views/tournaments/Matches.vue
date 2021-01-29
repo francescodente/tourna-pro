@@ -11,13 +11,20 @@
       ok-variant="success"
       cancel-title="Annulla"
     >
-    
-      <input class="inputModal" type="number" v-model="score1"/>
-      -
-      <input class="inputModal" type="number" v-model="score2"/>
+      <div class="result-inputs">
+        <div class="participant-input">
+          <span v-if="currentMatch" class="input-name">{{ participantName(currentMatch.participant1) }}</span>
+          <input class="inputModal" type="number" v-model="score1"/>
+        </div>
+        <div class="participant-input">
+          <span v-if="currentMatch" class="input-name">{{ participantName(currentMatch.participant2) }}</span>
+          <input class="inputModal" type="number" v-model="score2"/>
+        </div>
+      </div>
     </b-modal>
 
-    <action-button actionName="Concludi il round" icon="fas fa-check" @trigger="endRound" />
+    <action-button class="end-round" actionName="Concludi il round" icon="fas fa-check" @trigger="endRound" v-if="canBeEnded" />
+    
     <list-item v-for="m in lastRound" :canSelect="true" :key="m.id" @selected="clickMatch(m)">
       <div class="content">
         <div>
@@ -55,6 +62,12 @@ export default {
   },
   methods: {
     async endRound() {
+      let result = await this.$refs['yes-no'].show(
+        'Concludere il round corrente?',
+        'I risultati non potranno più essere modificati.')
+      if (!result) {
+        return
+      }
       await dataAccess.matches.startRound(this.$route.params.id)
       this.$router.go(0)
     },
@@ -65,7 +78,12 @@ export default {
       if (m.result) {
         return `${m.result.participant1.score}-${m.result.participant2.score}`;
       } else {
-        return m.status;
+        if (m.status == 'PENDING') {
+          return 'AVVIA QUESTO MATCH'
+        } else if (m.status == 'STARTED') {
+          return 'INSERISCI RISULTATO'
+        }
+
       }
     },
     async clickMatch(match){
@@ -101,6 +119,9 @@ export default {
     lastRound: function () {
       return this.matches.rounds[this.matches.rounds.length - 1];
     },
+    canBeEnded() {
+      return this.lastRound.every(m => m.result != null)
+    }
   },
 };
 </script>
@@ -113,10 +134,34 @@ export default {
   align-items: baseline;
 }
 
+.end-round {
+  margin-bottom: 20px;
+}
+
+.result-inputs {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+
+  .participant-input {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+
+    .input-name {
+      margin-bottom: 10px;
+      font-size:1.2rem;
+      font-weight: bold;
+    }
+  }
+}
+
 .inputModal {
-    font-size: 2rem;
-    width: 100px;
-    text-align: center;
+  font-size: 2rem;
+  width: 100px;
+  text-align: center;
 }
 
 .PENDING {

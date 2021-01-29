@@ -73,7 +73,7 @@ table {
   width: 100%;
   padding: 0px 10px;
   font-size: 1.1rem;
-  min-height: 100%;
+  //min-height: 100%;
 }
 
 $border: 1px solid $color-secondary2;

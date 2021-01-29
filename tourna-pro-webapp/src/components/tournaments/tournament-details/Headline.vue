@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="head-container">
     <h2><slot/></h2>
     <hr/>
   </div>
@@ -13,10 +13,10 @@ export default {
 
 <style lang="scss" scoped>
 
-h2{
+.head-container{
   color: $color-secondary2;
-  margin-top: 10px;
-  margin-bottom: 5px;
+  padding-top: 10px;
+  padding-bottom: 5px;
 }
 hr{
   margin-top:0px;
