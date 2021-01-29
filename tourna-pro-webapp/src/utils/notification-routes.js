@@ -78,7 +78,7 @@ const routes = {
 
 export default {
   getNotificationRoute(notification) {
-    let routeGetter = routes[notification.type] || (() => ({ name: 'Home' }))
+    let routeGetter = routes[notification.type] || (() => ({ name: 'MyTournaments' }))
     return routeGetter(notification.parameters)
   }
 }
