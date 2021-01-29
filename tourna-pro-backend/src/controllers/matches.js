@@ -103,11 +103,14 @@ exports.updateMatchResult = async function (req) {
   if (match.status != 'STARTED') {
     return badRequest("Cannot update result for a match that hasn't started yet")
   }
+  if (tournament.type == 'KNOCKOUT' && req.body.participant1 == req.body.participant2) {
+    return badRequest("Cannot have draws in knockout tournaments")
+  }
   match.participant1.score = req.body.participant1
   match.participant2.score = req.body.participant2
   await tournament.save()
 
-  publish('matchResultUpdated')
+  publish('matchResultUpdated', match, tournament)
   return ok(matchDto(match, tournament))
 }
 

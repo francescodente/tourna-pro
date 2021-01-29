@@ -12,16 +12,18 @@
       cancel-title="Annulla"
     >
     
-    <input class="inputModal" type="number" v-model="score1"/>
-    -
-    <input class="inputModal" type="number" v-model="score2"/>
+      <input class="inputModal" type="number" v-model="score1"/>
+      -
+      <input class="inputModal" type="number" v-model="score2"/>
     </b-modal>
-    <list-item v-for="m in lastRound" :canSelect="true" :key="m.id"
-      @selected="clickMatch(m)"
-    >
+
+    <action-button actionName="Concludi il round" icon="fas fa-check" @trigger="endRound" />
+    <list-item v-for="m in lastRound" :canSelect="true" :key="m.id" @selected="clickMatch(m)">
       <div class="content">
         <div>
-          {{ participantName(m.participant1) }} vs {{ participantName(m.participant2) }}
+          <strong>{{ participantName(m.participant1) }}</strong>
+          vs
+          <strong>{{ participantName(m.participant2) }}</strong>
         </div>
         <div :class="m.result ? '' : m.status">
           {{ rightText(m) }}
@@ -36,8 +38,9 @@ import dataAccess from '@/data-access'
 import matchUtils from "@/utils/participant-utils";
 import ListItem from "../../components/ui/ListItem.vue";
 import YesNoPopup from '../../components/ui/YesNoPopup.vue';
+import ActionButton from '../../components/ui/ActionButton.vue';
 export default {
-  components: { ListItem, YesNoPopup },
+  components: { ListItem, YesNoPopup, ActionButton },
   name: "Matches",
   props: {
     matches: Object,
@@ -51,6 +54,10 @@ export default {
     };
   },
   methods: {
+    async endRound() {
+      await dataAccess.matches.startRound(this.$route.params.id)
+      this.$router.go(0)
+    },
     participantName(id) {
       return matchUtils.findParticipantName(this.participants, id);
     },
@@ -68,6 +75,7 @@ export default {
         if(res){
           await dataAccess.matches.startMatch(this.$route.params.id, match.id)
         }
+        match.status = 'STARTED'
       } else {
         this.currentMatch = match
         this.score1 = match.result ? match.result.participant1.score : 0

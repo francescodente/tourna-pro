@@ -12,6 +12,9 @@ async function publishLog(log) {
 }
 
 exports.memberAdded = async (team, memberId, addedBy) => {
+  if (memberId == addedBy) {
+    return
+  }
   let newMember = await User.findById(memberId)
   let addedByUser = await User.findById(addedBy)
   await publishLog({
@@ -41,7 +44,7 @@ exports.memberRemoved = async (team, memberId, removedBy) => {
   await publishLog({
     teamId: team._id,
     type: 'memberRemoved',
-    recipients: [memberId],
+    recipients: memberId == removedBy ? [] : [memberId],
     parameters: {
       team: {
         id: team._id,
@@ -62,7 +65,7 @@ exports.requestAdded = async function (request, tournament) {
   let log = null
   let type = 'Added'
   switch (request.type) {
-    case 'USER': {
+    case 'USER':
       let user = await User.findById(request.userId)
       log = {
         type: 'userRequest' + type,
@@ -78,8 +81,8 @@ exports.requestAdded = async function (request, tournament) {
           }
         }
       }
-    }
-    case 'TEAM': {
+      break;
+    case 'TEAM':
       let team = await Team.findById(request.teamId)
       log = {
         type: 'teamRequest' + type,
@@ -95,18 +98,18 @@ exports.requestAdded = async function (request, tournament) {
           }
         }
       }
-
-    }
+      break;
     default: log = null;
+      break;
   }
   if (log) await publishLog(log)
 }
 
-exports.requestAccepted = async function (request, tournament) {
+exports.requestApproved = async function (request, tournament) {
   let log = null
   let type= 'Accepted'
   switch (request.type) {
-    case 'USER': {
+    case 'USER':
       let user = await User.findById(request.userId)
       log = {
         tournamentId: tournament._id,
@@ -123,8 +126,8 @@ exports.requestAccepted = async function (request, tournament) {
           }
         }
       }
-    }
-    case 'TEAM': {
+      break;
+    case 'TEAM':
       let team = await Team.findById(request.teamId)
       log = {
         teamId: request.teamId,
@@ -142,9 +145,23 @@ exports.requestAccepted = async function (request, tournament) {
           }
         }
       }
-
-    }
-    default: log = null;
+      break;
+    case 'PARTICIPANT':
+      log = {
+        tournamentId: tournament._id,
+        type: 'participantRequest' + type,
+        parameters: {
+          tournament: {
+            id: tournament._id,
+            name: tournament.name
+          },
+          participant: {
+            name: request.participant.name
+          }
+        }
+      }
+      break;
+      default: log = null; break;
   }
   if (log) await publishLog(log)
 }
@@ -153,7 +170,7 @@ exports.requestRejected = async function (request, tournament) {
   let log = null
   let type='Rejected'
   switch (request.type) {
-    case 'USER': {
+    case 'USER':
       let user = await User.findById(request.userId)
       log = {
         type: 'userRequest' + type,
@@ -169,8 +186,8 @@ exports.requestRejected = async function (request, tournament) {
           }
         }
       }
-    }
-    case 'TEAM': {
+      break;
+    case 'TEAM':
       let team = await Team.findById(request.teamId)
       log = {
         type: 'teamRequest' + type,
@@ -186,9 +203,9 @@ exports.requestRejected = async function (request, tournament) {
           }
         }
       }
-
-    }
+      break;
     default: log = null;
+      break;
   }
   if (log) await publishLog(log)
 }
@@ -240,28 +257,24 @@ exports.tournamentEnded = async function (tournament, ranking) {
 
 async function participantFieldsFromRequest(request) {
   switch (request.type) {
-    case 'USER': {
+    case 'USER':
       let user = await User.findById(request.userId);
       return {
-        participantName: user.username,
+        name: user.username,
         recipients: [request.userId]
       }
-    }
-    case 'TEAM': {
+    case 'TEAM':
       let team = await Team.findById(request.teamid);
       return {
-        participantName: team.name,
+        name: team.name,
         recipients: [team.members]
 
       }
-
-    }
-    case 'PARTICIPANT': {
+    case 'PARTICIPANT':
       return {
-        participantName: request.participant.name,
+        name: request.participant.name,
         recipients: []
       }
-    }
     default: return null;
   }
 }
@@ -391,7 +404,7 @@ exports.participantRetired = async function (id, tournament) {
 }
 
 exports.teamCreated = async function (team, createdBy) {
-  let user = User.findById(createdBy)
+  let user = await User.findById(createdBy)
   let log = {
     teamId: team._id,
     type: 'teamCreated',
@@ -411,7 +424,7 @@ exports.teamCreated = async function (team, createdBy) {
 }
 
 exports.tournamentCreated = async function (tournament, createdBy) {
-  let user = User.findById(createdBy)
+  let user = await User.findById(createdBy)
   let log = {
     tournamentId: tournament._id,
     type: 'tournamentCreated',

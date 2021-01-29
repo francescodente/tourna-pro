@@ -20,7 +20,7 @@ export default {
     return {
       showActive: true,
       showPending: true,
-      showEnded: false
+      showEnded: true
     }
   },
   methods: {

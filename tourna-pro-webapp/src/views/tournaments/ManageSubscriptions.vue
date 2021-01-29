@@ -58,11 +58,11 @@ export default {
     },
     async approveRequest(id){
       await dataAccess.participationRequests.updateStatus(this.$route.params.id, id, 'APPROVED')
-      this.$router.go(0)
+      this.requests = this.requests.filter(r => r.id != id)
     },
     async rejectRequest(id){
       await dataAccess.participationRequests.updateStatus(this.$route.params.id, id, 'REJECTED')
-      this.$router.go(0)
+      this.requests = this.requests.filter(r => r.id != id)
     }
   },
   async created() {

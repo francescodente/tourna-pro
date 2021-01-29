@@ -17,4 +17,13 @@ export default {
   tournamentCreated(params) {
     return `Il torneo è stato creato da ${params.agent.name}`
   },
+  userRequestAccepted(params) {
+    return `L'utente ${params.user.name} è stato aggiunto ai partecipanti`
+  },
+  teamRequestAccepted(params) {
+    return `La squadra ${params.team.name} è stata aggiunta ai partecipanti`
+  },
+  participantRequestAccepted(params) {
+    return `${params.participant.name} è stato aggiunto ai partecipanti`
+  }
 }

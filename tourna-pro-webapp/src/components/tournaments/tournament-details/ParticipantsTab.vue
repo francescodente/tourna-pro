@@ -24,6 +24,7 @@
         :key="request.id"
         :canDelete="false"
         :name="request.participant.name"
+        secondaryName="Non registrato"
         :canSelect="true"
       />
     </div>

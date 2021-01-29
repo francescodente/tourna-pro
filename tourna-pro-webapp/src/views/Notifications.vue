@@ -15,7 +15,7 @@
 
 <script>
 import dataAccess from '@/data-access'
-import { mapActions, mapGetters } from 'vuex'
+import { mapActions } from 'vuex'
 import DateText from '../components/ui/DateText.vue'
 import style from '../style/export.scss'
 import PlaceholderText from '../components/ui/PlaceholderText.vue'
@@ -25,15 +25,18 @@ export default {
   data() {
     return {
       style,
-      notifications: null
+      notifications: null,
+      listenerId: null
     }
   },
   methods: {
     ...mapActions(['readNotification']),
     openNotification(notification) {
-      notification.read = true
-      this.readNotification()
-      dataAccess.logs.markAsRead(this.$store.getters.userId, notification.id)
+      if (!notification.read) {
+        notification.read = true
+        this.readNotification()
+        dataAccess.logs.markAsRead(this.$store.getters.userId, notification.id)
+      }
     },
     styleClass(read) {
       return {
@@ -44,6 +47,12 @@ export default {
   },
   async created() {
     this.notifications = await dataAccess.logs.getUserNotifications(this.$store.getters.userId)
+    this.listenerId = this.$socket.on('notification', notification => {
+      this.notifications.unshift(notification)
+    })
+  },
+  destroyed() {
+    this.$socket.off(this.listenerId)
   }
 }
 </script>
