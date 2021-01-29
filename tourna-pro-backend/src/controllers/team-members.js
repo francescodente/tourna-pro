@@ -1,6 +1,6 @@
 const { Team } = require('../models')
 const { publish } = require('../services/event-bus')
-const { ok, notFound, forbidden } = require('../utils/action-results')
+const { ok, notFound, forbidden, notImplemented } = require('../utils/action-results')
 
 function notFoundMessage(id) {
   return `Can not found team with id ${id}`
@@ -45,7 +45,12 @@ exports.removeMember = async function (req) {
     return forbidden(`User with id ${req.userId} is not a member of team ${req.params.id}`)
   }
   if(team.creatorId == req.params.userId){
-    return forbidden(`User with id ${req.params.userId} is the creator of team ${req.params.id} and cannot be removed`)
+    if(team.members.length > 1) {
+      team.creatorId = team.members.filter(x => x.toString() != req.params.userId.toString())[0]
+      await team.save()
+    } else {
+      return forbidden(`User with id ${req.userId} is the last member of the team`)
+    }
   }
   let updatedTeam = await Team.findByIdAndUpdate(req.params.id,
     { $pull: { members: req.params.userId } },
