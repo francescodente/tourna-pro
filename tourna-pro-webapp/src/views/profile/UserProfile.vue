@@ -11,7 +11,8 @@
         <h5>Che cosa sono gli achievements?</h5>
         <p>
           Gli achievement sono premi virtuali che vengono sbloccati partecipando
-          ai tornei organizzati con TournaPro. Prova a sbloccarli tutti e sfida i tuoi compagni di squadra!
+          ai tornei organizzati con TournaPro. Prova a sbloccarli tutti e sfida
+          i tuoi compagni di squadra!
         </p>
       </div>
       <div class="achievements">
@@ -25,17 +26,24 @@
     </b-modal>
 
     <div class="top-row">
-      <router-link class="avatar"
+      <router-link
+        class="avatar"
+        tag="div"
         :to="{ name: 'UploadProfileImage', params: { id: pathUser } }"
       >
-        <avatar size="8em" :src="user.imageUrl" />
+        <div class="camera"><i class="fa fa-camera fa-2x"></i></div>
+        <avatar class="avatar-picture" size="8em" :src="user.imageUrl" />
       </router-link>
       <div class="user-name-area">
         <div class="name">{{ user.firstName }} {{ user.lastName }}</div>
         <div class="username">({{ user.username }})</div>
         <div class="actions" v-if="isUserProfile">
           <div class="options" @click="logoutUser">
-            <text-icon id="logout" icon="fas fa-sign-out-alt fa-lg" text="Logout" />
+            <text-icon
+              id="logout"
+              icon="fas fa-sign-out-alt fa-lg"
+              text="Logout"
+            />
           </div>
         </div>
       </div>
@@ -210,6 +218,31 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.avatar {
+  position:relative;
+  .avatar-picture{
+  border-radius: 50%;
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.3);
+  &:hover {
+    filter: brightness(75%);
+    box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 1);
+  }
+  }
+  .camera {
+    z-index: 0;
+    position: absolute;
+    color:white;
+    top:39%;
+    left: 39%;
+  }
+
+  &:hover .camera {
+    z-index: 99;
+  }
+
+  
+}
+
 .user-profile-container {
   padding: 20px;
 }
@@ -287,7 +320,7 @@ export default {
 
     &:hover {
       background-color: $color-primary-background;
-      cursor:pointer;
+      cursor: pointer;
     }
   }
 }
@@ -351,7 +384,6 @@ export default {
   }
 }
 
-
 #question-mark {
   &:hover {
     cursor: pointer;
@@ -361,7 +393,6 @@ export default {
     cursor: pointer;
   }
 }
-
 
 .achievements {
   margin-top: 10px;
