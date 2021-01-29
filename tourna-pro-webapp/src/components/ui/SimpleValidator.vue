@@ -49,6 +49,6 @@ export default {
   text-align:left;
 }
 .error-tooltip {
-  color: red;
+  color: $color-secondary2;
 }
 </style>

@@ -50,13 +50,13 @@
 
     <simple-validator
       v-model="confirmOk"
-      errorText="La conferma password non è valida"
-      :validator="(x) => notEmpty(x)"
+      errorText="La password non può essere minore di 8 caratteri"
+      :validator="(x) => notEmpty(x) && checkLength(x, 8)"
       v-slot="scope"
     >
       <simple-input
         label="Conferma password"
-        type="password"
+        :type="showPassword ? 'text' : 'password'"
         v-model="currentValue.confirmPassword"
         identifier="confirmpassword"
         @input="$emit('input', currentValue)"
@@ -120,7 +120,8 @@ export default {
         this.usernameOk &&
         this.passwordOk &&
         this.confirmOk &&
-        this.termsOk
+        this.termsOk &&
+        (this.currentValue.password == this.currentValue.confirmPassword)
       );
     },
   },

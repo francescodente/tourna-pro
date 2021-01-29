@@ -22,7 +22,7 @@ import eventHandlers from "@/utils/validator-events";
 export default {
   props: {
     placeholder: String,
-    value: String,
+    value: Number,
     label: String,
     identifier: String,
     min: String,

@@ -264,6 +264,10 @@ export default {
 .interests {
   margin-top: 15px;
   text-align: left;
+  &:hover{
+    cursor: pointer;
+    
+  }
   .interests-empty {
     text-align: center;
   }
