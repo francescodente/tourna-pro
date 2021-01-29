@@ -39,12 +39,21 @@ function gender(g) {
   }
 }
 
+function profileGender(g) {
+  switch (g) {
+    case 'M': return 'Maschio'
+    case 'F': return 'Femmina'
+    default: return 'Preferisce non specificare'
+  }
+}
+
 export default function (vue) {
   vue.filter('dateFormat', dateFormat)
   vue.filter('tournamentMode', tournamentMode)
   vue.filter('tournamentType', tournamentType)
   vue.filter('activityFromId', activityFromId)
-  vue.filter('gender', gender)
+  vue.filter('gender', gender),
+  vue.filter('profileGender', profileGender)
   vue.filter('formatNotification', notification => format(notification, notificationFormatters))
   vue.filter('formatTeamLog', log => format(log, teamLogFormatters))
   vue.filter('formatTournamentLog', log => format(log, tournamentLogFormatters))

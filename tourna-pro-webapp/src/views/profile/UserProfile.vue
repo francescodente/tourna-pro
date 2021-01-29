@@ -42,18 +42,18 @@
 
     <div class="info">
       <text-icon
-        icon="fas fa-birthday-cake fa-fw"
+        icon="fas fa-birthday-cake fa-lg fa-fw"
         :text="user.birthDate | dateFormat"
         :iconColor="style.colorPrimary"
       />
       <text-icon
-        icon="fas fa-phone-alt fa-fw"
+        icon="fas fa-phone-alt fa-lg fa-fw"
         :text="user.telephone"
         :iconColor="style.colorPrimary"
       />
       <text-icon
-        icon="fas fa-mars fa-fw"
-        :text="user.gender"
+        :icon="genderIcon(user.gender)"
+        :text="user.gender | profileGender"
         :iconColor="style.colorPrimary"
       />
     </div>
@@ -131,6 +131,13 @@ export default {
       this.$socket.emit("logout");
       router.push({ name: "Login" });
     },
+    genderIcon(gender){
+      switch(gender) {
+        case 'M': return "fas fa-mars fa-lg fa-fw"
+        case 'F': return "fas fa-venus fa-lg fa-fw"
+        case 'NONE': return "fas fa-venus-mars fa-lg fa-fw"
+      }
+    }
   },
   computed: {
     ...mapGetters(["userId"]),
@@ -231,7 +238,7 @@ export default {
 .info {
   width: 100%;
   text-align: left;
-  font-size: 1.3rem;
+  font-size: 1rem;
 }
 
 .bio {
