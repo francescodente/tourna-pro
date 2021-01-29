@@ -28,6 +28,7 @@ export default {
   position: relative;
   border-radius: 5px;
   overflow: hidden;
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.3);
 
   .hover-background {
     position: absolute;

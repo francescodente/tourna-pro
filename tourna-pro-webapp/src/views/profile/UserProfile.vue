@@ -5,12 +5,13 @@
       centered
       scrollable
       hide-footer
-      title="Achievement"
+      title="Achievements"
     >
       <div class="achievements-description">
+        <h5>Che cosa sono gli achievements?</h5>
         <p>
           Gli achievement sono premi virtuali che vengono sbloccati partecipando
-          ai tornei organizzati con TournaPro.
+          ai tornei organizzati con TournaPro. Prova a sbloccarli tutti e sfida i tuoi compagni di squadra!
         </p>
       </div>
       <div class="achievements">
@@ -119,10 +120,10 @@
       <section-header class="header" :color="style.colorComplementary">
         <span>Achievements</span>
         <span class="open-achievements" @click="openAchievements"
-          ><i class="fas fa-question-circle"></i
+          ><i class="fas fa-question-circle" id="question-mark"></i
         ></span>
       </section-header>
-      <div class="achievements">
+      <div v-if="achievements.length > 0" class="achievements">
         <achievement
           v-for="a in achievements"
           :key="a"
@@ -130,6 +131,11 @@
           :unlocked="true"
         />
       </div>
+      <placeholder-text
+        class="interests-empty"
+        v-else
+        text="Non hai ancora sbloccato nessun achievement!"
+      />
     </div>
   </div>
 </template>
@@ -279,6 +285,7 @@ export default {
 
     &:hover {
       background-color: $color-primary-background;
+      cursor:pointer;
     }
   }
 }
@@ -335,12 +342,24 @@ export default {
 #ellipsis {
   &:hover {
     cursor: pointer;
-    color: $color-primary;
+    color: $color-primary-darker;
   }
   .open-achievements:hover {
     cursor: pointer;
   }
 }
+
+
+#question-mark {
+  &:hover {
+    cursor: pointer;
+    color: $color-complementary-darker;
+  }
+  .open-achievements:hover {
+    cursor: pointer;
+  }
+}
+
 
 .achievements {
   margin-top: 10px;

@@ -1,39 +1,42 @@
 <template>
   <router-link tag="div" :to="`/tournaments/${tournament.id}`">
-    <b-card :class="'common ' + cssStyle(status)">
-      <div class="headline">
-        <h5 class="title">{{ tournament.name }}</h5>
-        <p>Categoria: {{ tournament.gender | gender }}</p>
-      </div>
-      <div class="row col">
-        <text-icon
-          :text="tournament.location"
-          icon="fas fa-map-marker-alt"
-          :iconColor="iconColor(status)"
-        />
-      </div>
-      <div class="my-row">
-        <div class="day">
+    <div :class="'card ' + cssStyle(status)">
+      <div :class="'common '">
+        <div class="hover-background"></div>
+        <div class="headline">
+          <h5 class="title">{{ tournament.name }}</h5>
+          <p>Categoria: {{ tournament.gender | gender }}</p>
+        </div>
+        <div class="row col">
           <text-icon
-            :text="tournament.date | dateFormat"
-            icon="far fa-calendar-alt"
+            :text="tournament.location"
+            icon="fas fa-map-marker-alt"
             :iconColor="iconColor(status)"
           />
         </div>
-        <div class="total">
-          <text-icon
-            :text="`${tournament.currentParticipants}/${
-              tournament.maxParticipants
-            } ${tournament.mode == 'TEAM' ? 'Squadre' : 'Partecipanti'}`"
-            icon="fas fa-users"
-            :iconColor="iconColor(status)"
-          />
+        <div class="my-row">
+          <div class="day">
+            <text-icon
+              :text="tournament.date | dateFormat"
+              icon="far fa-calendar-alt"
+              :iconColor="iconColor(status)"
+            />
+          </div>
+          <div class="total">
+            <text-icon
+              :text="`${tournament.currentParticipants}/${
+                tournament.maxParticipants
+              } ${tournament.mode == 'TEAM' ? 'Squadre' : 'Partecipanti'}`"
+              icon="fas fa-users"
+              :iconColor="iconColor(status)"
+            />
+          </div>
         </div>
       </div>
       <div class="badge badge-pill">
         #{{ tournament.activityId | activityFromId }}
       </div>
-    </b-card>
+    </div>
   </router-link>
 </template>
 
@@ -73,16 +76,35 @@ export default {
   }
 }
 
-.common {
+.card {
+  position: relative;
   text-align: center;
   width: 100%;
   color: $color-default-text;
   border-radius: 15px;
   border: 3px solid;
   white-space: nowrap;
+  position: relative;
+  margin: 0px;
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.3);
+}
+.common {
+  width: 100%;
+  position: relative;
+  padding: 15px 20px;
 
-  &:hover {
-    cursor: pointer;
+  .hover-background {
+    position: absolute;
+    width: 101%;
+    height: 102%;
+    border-radius: 15px;
+    top: -2px;
+    left: -2px;
+
+    &:hover {
+      background-color: rgba(10, 10, 10, 0.05);
+      cursor: pointer;
+    }
   }
 }
 
@@ -117,9 +139,9 @@ export default {
     color: $color-complementary;
     border-color: $color-complementary-lightest;
   }
-  &:hover {
+  /*&:hover {
     background-color: $color-complementary-lightest;
-  }
+  }*/
 }
 .FUTURE {
   .title {
@@ -131,9 +153,9 @@ export default {
     color: $color-secondary1;
     border-color: $color-secondary1-lightest;
   }
-  &:hover {
+  /*&:hover {
     background-color: $color-secondary1-lightest;
-  }
+  }*/
 }
 .exploring {
   .title {
@@ -145,8 +167,8 @@ export default {
     color: $color-secondary2;
     border-color: $color-secondary2-lightest;
   }
-  &:hover {
+  /*&:hover {
     background-color: $color-secondary2-lightest;
-  }
+  }*/
 }
 </style>

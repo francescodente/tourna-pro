@@ -3,7 +3,7 @@
     <avatar size="3em" :src="unlocked ? achievement.image : require('@/assets/lockedAchievement.png')" class="avatar" />
     <div class="text">
       <div>
-        <span class="title">{{ achievement.name }}</span>
+        <span class="title">{{ achievementName }}</span>
       </div>
       <div class="description">{{ achievement.description }}</div>
     </div>
@@ -19,6 +19,16 @@ export default {
     achievement: Object,
     unlocked: Boolean
   },
+  computed: {
+    achievementName(){
+      if(this.unlocked){
+        return this.achievement.name
+      } else {
+        let regex = /[a-zA-Z]/g
+        return this.achievement.name.replace(regex, '?')
+      }
+    }
+  }
 };
 </script>
 
