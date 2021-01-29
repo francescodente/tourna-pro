@@ -4,9 +4,7 @@
       Le tue informazioni sono state aggiornate
     </b-alert>
     <div v-if="user" class="main">
-      <avatar size="5em" :src="user.imageUrl" />
-      <div class="nickname">@{{ user.username }}</div>
-
+      <h1>Modifica il tuo Profilo</h1>
       <div class="inputs">
         <simple-form submitMessage="Salva Modifiche" @submit="updateUser">
           <user-info v-model="user" />
@@ -54,7 +52,7 @@ export default {
 
 <style lang="scss" scoped>
 .main {
-  padding: 20px 30px;
+  padding: 20px;
 }
 .nickname {
   font-size: 10pt;
@@ -62,9 +60,7 @@ export default {
 }
 
 .inputs {
-  margin-top: 5%;
   height: 100%;
-  width: 90%;
-  margin-left: 5%;
+  width: 100%;
 }
 </style>

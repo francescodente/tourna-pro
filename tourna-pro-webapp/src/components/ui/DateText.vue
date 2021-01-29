@@ -1,7 +1,12 @@
 <template>
   <div>
-    <div class="date" :style="{color: dateColor}">
-      {{ date | dateFormat }}
+    <div class="date-time" :style="{color: dateColor}">
+      <div class="date">
+        {{ date | dateFormat }}
+      </div>
+      <div>
+        {{ date | timeFormat }}
+      </div>
     </div>
     <div class="text">
       <slot></slot>
@@ -22,9 +27,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.date{
+.date-time {
   font-weight: bold;
-  text-align: left;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 .text{
   text-align:left;
