@@ -1,7 +1,6 @@
 const { User } = require('../models')
 const Activities  = require('../models/activities')
 const { subscribeAll } = require('./event-bus')
-const { onStartup } = require('./notifications-service')
 const { findAllParticipantsGroupedByRequest } = require('./utils')
 
 async function unlockAchievements(userIds, ...achievements) {
@@ -26,7 +25,7 @@ async function unlockAchievements(userIds, ...achievements) {
 const handlers = {
   async tournamentEnded(tournament, result) {
     let participants = await findAllParticipantsGroupedByRequest(tournament, p => p.status == 'ACTIVE')
-    let users = Object.values(participants).flat()
+    let users = Object.values(participants).flatMap(p => p.users)
 
     if (tournament.mode == 'TEAMS') {
       await unlockAchievements(users, 'GIOCO_DI_SQUADRA')
@@ -38,8 +37,8 @@ const handlers = {
     let first = ranking[0].id.toString()
     let last = ranking[ranking.length - 1].id.toString()
     let activity = Activities.findById(tournament.activity)
-    await unlockAchievements(participants[first], 'AND_THE_WINNER_IS', activity.achievement)
-    await unlockAchievements(participants[last], 'PREMIO_DI_CONSOLAZIONE')
+    await unlockAchievements(participants[first].users, 'AND_THE_WINNER_IS', activity.achievement)
+    await unlockAchievements(participants[last].users, 'PREMIO_DI_CONSOLAZIONE')
   },
   async teamCreated(_, createdBy) {
     await unlockAchievements([createdBy], 'L_UNIONE_FA_LA_FORZA')

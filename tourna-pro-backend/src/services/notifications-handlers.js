@@ -1,5 +1,6 @@
 const { Log, User, Team, ParticipationRequest } = require('../models')
 const eventBus = require('./event-bus')
+const { findAllParticipantsGroupedByRequest, findAllParticipants } = require('./utils')
 
 async function publishLog(log) {
   log.readBy = []
@@ -193,11 +194,48 @@ exports.requestRejected = async function (request, tournament) {
 }
 
 exports.tournamentStarted = async function (tournament) {
-
+  let participants = await findAllParticipants(tournament, p => p.status == 'ACTIVE')
+  await publishLog({
+    type: 'tournamentStarted',
+    tournamentId: tournament._id,
+    recipients: participants,
+    parameters: {
+      tournament: {
+        id: tournament._id,
+        name: tournament.name
+      }
+    }
+  })
 }
 
 exports.tournamentEnded = async function (tournament, ranking) {
-
+  await publishLog({
+    type: 'tournamentEnded',
+    tournamentId: tournament._id,
+    parameters: {
+      tournament: {
+        id: tournament._id,
+        name: tournament.name
+      }
+    }
+  })
+  let participants = await findAllParticipantsGroupedByRequest(tournament, p => p.status == 'ACTIVE')
+  let requests = Object.keys(participants)
+  for (let reqId of requests) {
+    let participation = participants[reqId]
+    await publishLog({
+      type: 'tournamentResult',
+      recipients: participation.users,
+      teamId: participation.request.teamId,
+      parameters: {
+        tournament: {
+          id: tournament._id,
+          name: tournament.name
+        },
+        position: ranking.ranking.findIndex(x => x.id == reqId) + 1
+      }
+    })
+  }
 }
 
 async function participantFieldsFromRequest(request) {
@@ -283,11 +321,19 @@ exports.matchResultUpdated = async function (match, tournament) {
 }
 
 exports.roundStarted = async function (tournament) {
-
-}
-
-exports.roundEnded = async function (tournament) {
-
+  let participants = await findAllParticipants(tournament, p => p.status == 'ACTIVE')
+  await publishLog({
+    type: 'roundStarted',
+    tournamentId: tournament._id,
+    recipients: participants,
+    parameters: {
+      tournament: {
+        id: tournament._id,
+        name: tournament.name
+      },
+      roundIndex: tournament.matches.length - 1
+    }
+  })
 }
 
 async function generateOwnerLog(id, tournament, action, action) {
@@ -325,7 +371,23 @@ exports.ownerRemoved = async function (id, tournament, removedBy) {
 }
 
 exports.participantRetired = async function (id, tournament) {
-
+  let request = await ParticipationRequest.findById(id)
+  let participantFields = await participantFieldsFromRequest(request)
+  await publishLog({
+    type: 'participantRetired',
+    tournamentId: tournament._id,
+    teamId: request.teamId,
+    recipients: tournament.owners,
+    parameters: {
+      tournament: {
+        id: tournament._id,
+        name: tournament.name
+      },
+      participant: {
+        name: participantFields.name
+      }
+    }
+  })
 }
 
 exports.teamCreated = async function (team, createdBy) {

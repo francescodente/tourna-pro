@@ -15,7 +15,6 @@ async function startServer() {
   
   const app = express()
   const server = require('http').createServer(app)
-  console.log(process.env.TOURNAPRO_FRONTEND_ORIGIN)
   const io = require('socket.io')(server, {
     cors: {
       origin: process.env.TOURNAPRO_FRONTEND_ORIGIN || 'http://localhost:8080',
@@ -27,7 +26,7 @@ async function startServer() {
     notificationsService.onConnection(socket)
   })
   notificationsService.onStartup()
-  
+  require('./src/services/achievements-service').onStartup()
 
   app.use(bodyParser.urlencoded({ extended: true }))
   app.use(bodyParser.json())
