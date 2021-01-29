@@ -1,5 +1,5 @@
 <template>
-  <div class="activity-container">
+  <div class="main">
     <div v-for="l in logs" class="activity" :key="l.id">
       <date-text :date="l.date" :dateColor="style.colorSecondary2">
         {{ l | formatTournamentLog }}
@@ -27,8 +27,9 @@ export default {
 
 <style lang="scss" scoped>
 
-.activity-container {
+.main {
   padding: 20px;
+  height: 100%;
 }
 .activity{
   color: $color-default-text;

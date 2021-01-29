@@ -265,11 +265,12 @@ export default {
     background-color: #cccccc;
     color: white;
     margin-right: 10px;
+    margin-bottom: 10px;
   }
   .interests-list {
     padding: 15px 0px;
     .user-interest {
-      font-size: 1.2rem;
+      font-size: 1.1rem;
     }
   }
 }

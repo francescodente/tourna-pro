@@ -87,7 +87,7 @@ exports.addParticipationRequest = async function (req) {
     status: 'PENDING'
   })
   let tournamentRequest = await participationRequestModel.save()
-  publish('requestAdded', tournamentRequest, tournament)
+  publish('requestAdded', tournamentRequest, tournament, req.userId)
   return created(participationRequestsDto(tournamentRequest))
 }
 

@@ -61,7 +61,7 @@ exports.memberRemoved = async (team, memberId, removedBy) => {
     }
   })
 }
-exports.requestAdded = async function (request, tournament) {
+exports.requestAdded = async function (request, tournament, agent) {
   let log = null
   let type = 'Added'
   switch (request.type) {
@@ -86,7 +86,7 @@ exports.requestAdded = async function (request, tournament) {
       let team = await Team.findById(request.teamId)
       log = {
         type: 'teamRequest' + type,
-        recipients: [...team.members, ...tournament.owners],
+        recipients: [...team.members.filter(m => m != agent), ...tournament.owners],
         parameters: {
           tournament: {
             id: tournament._id,
@@ -264,10 +264,10 @@ async function participantFieldsFromRequest(request) {
         recipients: [request.userId]
       }
     case 'TEAM':
-      let team = await Team.findById(request.teamid);
+      let team = await Team.findById(request.teamId);
       return {
         name: team.name,
-        recipients: [team.members]
+        recipients: team.members
 
       }
     case 'PARTICIPANT':

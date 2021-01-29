@@ -96,9 +96,9 @@
         @trigger="showOwnerContacts"
       />
     </div>
-    <div class="base-actions">
+    <!-- <div class="base-actions">
       <action-button actionName="Condividi" icon="fas fa-share-alt" />
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -141,7 +141,7 @@ export default {
       return this.subscribed == "NONE" && !this.active;
     },
     canRetire() {
-      return ["SUBSCRIBED", "REQUESTED"].includes(this.subscribed);
+      return ["SUBSCRIBED", "REQUESTED"].includes(this.subscribed) && this.subscribed != 'REJECTED'
     },
   },
   methods: {
