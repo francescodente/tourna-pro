@@ -19,6 +19,8 @@ import { mapActions } from 'vuex'
 import DateText from '../components/ui/DateText.vue'
 import style from '../style/export.scss'
 import PlaceholderText from '../components/ui/PlaceholderText.vue'
+import notificationRoutes from '../utils/notification-routes'
+
 export default {
   components: { DateText, PlaceholderText },
   name: 'Notifications',
@@ -37,6 +39,7 @@ export default {
         this.readNotification()
         dataAccess.logs.markAsRead(this.$store.getters.userId, notification.id)
       }
+      this.$router.push(notificationRoutes.getNotificationRoute(notification))
     },
     styleClass(read) {
       return {

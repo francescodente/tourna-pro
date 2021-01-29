@@ -42,16 +42,19 @@
 
     <div class="info">
       <text-icon
+        class="personal-info"
         icon="fas fa-birthday-cake fa-lg fa-fw"
         :text="user.birthDate | dateFormat"
         :iconColor="style.colorPrimary"
       />
       <text-icon
+        class="personal-info"
         icon="fas fa-phone-alt fa-lg fa-fw"
         :text="user.telephone"
         :iconColor="style.colorPrimary"
       />
       <text-icon
+        class="personal-info"
         :icon="genderIcon(user.gender)"
         :text="user.gender | profileGender"
         :iconColor="style.colorPrimary"
@@ -239,6 +242,9 @@ export default {
   width: 100%;
   text-align: left;
   font-size: 1rem;
+  .personal-info {
+    margin-bottom: 10px;
+  }
 }
 
 .bio {
