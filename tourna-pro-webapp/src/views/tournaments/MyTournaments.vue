@@ -1,6 +1,6 @@
 <template>
   <div class="main">
-    <tab-view class="tabview">
+    <tab-view class="tabview" v-if="loaded">
       <tab title="Iscrizioni" :selected="true">
         <subscribed-to-tab :tournaments="subscribedTournaments" :waiting="personalRequests.length > 0" />
       </tab>
@@ -37,21 +37,19 @@ export default {
       style,
       subscribedTournaments: [],
       managedTournaments: [],
-      personalRequests: []
+      personalRequests: [],
+      loaded: false
     };
   },
   methods: {
     async fetchTournaments() {
       this.subscribedTournaments = await dataAccess.tournaments.getAll({ subscribed: true })
       this.managedTournaments = await dataAccess.tournaments.getAll({ owned: true })
-    },
-    async fetchPersonalSubscriptionRequests() {
-
+      this.loaded = true
     }
   },
   async created() {
     await this.fetchTournaments()
-    await this.fetchPersonalSubscriptionRequests()
   },
 };
 </script>
