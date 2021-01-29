@@ -1,4 +1,5 @@
 const { Log, User, Team, ParticipationRequest } = require('../models')
+const Achievements = require('../models/achievements')
 const eventBus = require('./event-bus')
 const { findAllParticipantsGroupedByRequest, findAllParticipants } = require('./utils')
 
@@ -69,7 +70,7 @@ exports.requestAdded = async function (request, tournament, agent) {
       let user = await User.findById(request.userId)
       log = {
         type: 'userRequest' + type,
-        recipients: [...tournament.owners],
+        recipients: tournament.owners,
         parameters: {
           tournament: {
             id: tournament._id,
@@ -86,7 +87,7 @@ exports.requestAdded = async function (request, tournament, agent) {
       let team = await Team.findById(request.teamId)
       log = {
         type: 'teamRequest' + type,
-        recipients: [...team.members.filter(m => m != agent), ...tournament.owners],
+        recipients: tournament.owners,
         parameters: {
           tournament: {
             id: tournament._id,
@@ -448,7 +449,7 @@ exports.achievementUnlocked = async (achievement, userId) => {
     type: 'achievementUnlocked',
     recipients: [userId],
     parameters: {
-      achievement,
+      achievement: Achievements.findById(achievement),
       userId
     }
   })

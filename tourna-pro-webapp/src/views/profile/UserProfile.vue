@@ -1,5 +1,20 @@
 <template>
   <div v-if="user" class="user-profile-container">
+    <b-modal
+      ref="achievementsInfo"
+      centered
+      scrollable
+      hide-footer
+      title="Achievement"
+    >
+      <div class="achievements-description">
+        <p>Gli achievement sono premi virtuali che vengono sbloccati partecipando ai tornei organizzati con TournaPro.</p>
+      </div>
+      <div class="achievements">
+        <achievement v-for="a in $store.getters.achievements" :key="a.id" :achievement="a" :unlocked="achievements.includes(a.id)"/>
+      </div>
+    </b-modal>
+
     <div class="top-row">
       <router-link :to="{ name: 'UploadProfileImage', params: { id: pathUser } }">
         <avatar size="8em" :src="user.imageUrl" />
@@ -82,14 +97,11 @@
     <div>
       <section-header class="header" :color="style.colorComplementary">
         <span>Achievements</span>
-        <!--
-          <i class="fas fa-question-circle"></i> 
-        -->
+        <span class="open-achievements" @click="openAchievements"><i class="fas fa-question-circle"></i></span>
       </section-header>
-      <div class="achievements" v-if="achievements.lengh > 0">
-        <achievement v-for="a in achievements" :key="a.id" :achievement="a" />
+      <div class="achievements">
+        <achievement v-for="a in achievements" :key="a" :achievement="$store.getters.achievement(a)" :unlocked="true"/>
       </div>
-     <placeholder-text v-else text="Nessun achievement sbloccato!" />
     </div>
   </div>
 </template>
@@ -122,6 +134,9 @@ export default {
     };
   },
   methods: {
+    openAchievements() {
+      this.$refs.achievementsInfo.show()
+    },
     async fetchUser() {
       this.user = await dataAccess.users.getUser(this.pathUser);
       this.achievements = await dataAccess.achievements.getByUser(
@@ -286,11 +301,16 @@ export default {
   }
 }
 
+<<<<<<< HEAD
 #ellipsis{
   &:hover{
     cursor: pointer;
     color: $color-primary;
   }
+=======
+.open-achievements:hover {
+  cursor: pointer;
+>>>>>>> 7bc8c57fb31f74e72c0638a7a4ee7f58945d0d82
 }
 
 .achievements {
