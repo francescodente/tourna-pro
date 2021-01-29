@@ -20,9 +20,12 @@
 export default {
   name: "TabView",
   data() {
-    return { tabs: [] };
+    return {
+      tabs: [],
+      id: null
+    };
   },
-  created() {
+  mounted() {
     this.tabs = this.$children;
   },
   methods: {

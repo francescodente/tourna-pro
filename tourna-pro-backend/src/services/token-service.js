@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken')
 
 const secret = process.env.JWT_SECRET || 'JWT_SECRET'
-const tokenDuration = process.env.JWT_DURATION || '7d'
+const tokenDuration = process.env.JWT_DURATION || '30d'
 
 exports.generateToken = function(user) {
   return new Promise(function(resolve, reject) {

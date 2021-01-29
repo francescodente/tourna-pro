@@ -1,61 +1,64 @@
 <template>
-  <simple-form
-    submitMessage="Cambia Password"
-    @submit="onSubmit"
-    class="form"
-    :canSubmit="formValid"
-  >
-    <simple-validator
-      v-model="pwdok"
-      errorText="La password non può essere vuota"
-      :validator="(x) => notEmpty(x)"
-      v-slot="scope"
+  <div>
+    <h1>Modifica password</h1>
+    <simple-form
+      submitMessage="Cambia Password"
+      @submit="onSubmit"
+      class="form"
+      :canSubmit="formValid"
     >
-      <simple-input
-        label="Password Attuale"
-        :type="showPassword ? 'text' : 'password'"
-        v-model="password"
-        identifier="password"
-        :scope="scope"
-      />
-    </simple-validator>
+      <simple-validator
+        v-model="pwdok"
+        errorText="La password non può essere vuota"
+        :validator="(x) => notEmpty(x)"
+        v-slot="scope"
+      >
+        <simple-input
+          label="Password Attuale"
+          :type="showPassword ? 'text' : 'password'"
+          v-model="password"
+          identifier="password"
+          :scope="scope"
+        />
+      </simple-validator>
 
-    <simple-validator
-      v-model="nuovapwdok"
-      errorText="La nuova password non può essere minore di 8 caratteri"
-      :validator="(x) => notEmpty(x) && checkLength(x,8)"
-      v-slot="scope"
-    >
-      <simple-input
-        label="Nuova Password"
-        :type="showPassword ? 'text' : 'password'"
-        v-model="newPassword"
-        identifier="newpassword"
-        :scope="scope"
-      />
-    </simple-validator>
+      <simple-validator
+        v-model="nuovapwdok"
+        errorText="La nuova password non può essere minore di 8 caratteri"
+        :validator="(x) => notEmpty(x) && checkLength(x,8)"
+        v-slot="scope"
+      >
+        <simple-input
+          label="Nuova Password"
+          :type="showPassword ? 'text' : 'password'"
+          v-model="newPassword"
+          identifier="newpassword"
+          :scope="scope"
+        />
+      </simple-validator>
 
-    <simple-validator
-      v-model="confermapwdok"
-      errorText="La password non può essere minore di 8 caratteri"
-      :validator="(x) => notEmpty(x) && checkLength(x,8)"
-      v-slot="scope"
-    >
-      <simple-input
-        label="Conferma Password"
-        :type="showPassword ? 'text' : 'password'"
-        v-model="confirmPassword"
-        identifier="confirmpassword"
-        :scope="scope"
-      />
-    </simple-validator>
+      <simple-validator
+        v-model="confermapwdok"
+        errorText="La password non può essere minore di 8 caratteri"
+        :validator="(x) => notEmpty(x) && checkLength(x,8)"
+        v-slot="scope"
+      >
+        <simple-input
+          label="Conferma Password"
+          :type="showPassword ? 'text' : 'password'"
+          v-model="confirmPassword"
+          identifier="confirmpassword"
+          :scope="scope"
+        />
+      </simple-validator>
 
-    <simple-checkbox
-      label="Mostra password"
-      v-model="showPassword"
-      identifier="showpassword"
-    />
-  </simple-form>
+      <simple-checkbox
+        label="Mostra password"
+        v-model="showPassword"
+        identifier="showpassword"
+      />
+    </simple-form>
+  </div>
 </template>
 
 <script>

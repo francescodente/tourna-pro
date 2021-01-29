@@ -47,8 +47,14 @@ function profileGender(g) {
   }
 }
 
+function timeFormat(date) {
+  var converted = new Date(date)
+  return converted.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})
+}
+
 export default function (vue) {
   vue.filter('dateFormat', dateFormat)
+  vue.filter('timeFormat', timeFormat)
   vue.filter('tournamentMode', tournamentMode)
   vue.filter('tournamentType', tournamentType)
   vue.filter('activityFromId', activityFromId)

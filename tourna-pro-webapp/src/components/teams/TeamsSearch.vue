@@ -54,9 +54,15 @@ export default {
       color: gray;
     }
 
+    @media screen and (min-width: 768px) {
+      input {
+        width: 50%;
+      }
+    }
+
     input {
       margin-left: 5px;
-      width: 50%;
+      width: 90%;
       font-size: 1.2rem;
       border: none;
       border-bottom: 1px solid black;
