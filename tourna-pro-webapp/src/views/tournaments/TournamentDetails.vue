@@ -5,10 +5,10 @@
     </div>
     <div class="tab-container">
       <tab-view>
-        <tab title="Dettagli" :selected="!tournament.owned">
+        <tab title="Dettagli" :selected="selectedTab == 'DETAILS'">
           <details-tab :tournament="tournament"/>
         </tab>
-        <tab title="Azioni" :selected="tournament.owned">
+        <tab title="Azioni"  :selected="selectedTab == 'ACTIONS'">
           <action-tab 
             :owner="tournament.owned" 
             :subscribed="tournament.subscribed" 
@@ -16,19 +16,19 @@
             :team="tournament.mode == 'TEAMS'"
           />
         </tab>
-        <tab v-if="tournament.status == 'ACTIVE'" :title="`Gestione Round`">
+        <tab v-if="tournament.status == 'ACTIVE'" :title="`Gestione Round`" :selected="selectedTab == 'ROUNDS'">
           <matches :matches="matches" :participants="participants"/>
         </tab>
-        <tab :title="`Partecipanti (${participants.requests.length})`">
+        <tab :title="`Partecipanti (${participants.requests.length})`" :selected="selectedTab == 'PARTICIPANTS'">
           <participants-tab :participants="participants" />
         </tab>
-        <tab v-if="tournament.status == 'ACTIVE'" title="Tabellone">
+        <tab v-if="tournament.status == 'ACTIVE'" title="Tabellone"  :selected="selectedTab == 'BOARD'">
           <score-board-tab :matches="matches" :participants="participants" />
         </tab>
-        <tab v-if="tournament.status == 'ACTIVE'" title="Classifica">
+        <tab v-if="tournament.status == 'ACTIVE'" title="Classifica" :selected="selectedTab == 'RANKING'">
           <ranking-tab :ranking="ranking" :participants="participants" />
         </tab>
-        <tab v-if="tournament.subscribed != 'NONE'" title="Attività">
+        <tab v-if="tournament.subscribed != 'NONE'" title="Attività" :selected="selectedTab == 'LOGS'">
           <activity-tab :logs="logs" />
         </tab>
       </tab-view>
@@ -79,6 +79,9 @@ export default {
   computed: {
     tournamentId() {
       return this.$route.params.id
+    },
+    selectedTab() {
+      return this.$route.query.selectedTab || tournament.owned? 'ACTIONS' : 'DETAILS'
     }
   },
   async created() {
