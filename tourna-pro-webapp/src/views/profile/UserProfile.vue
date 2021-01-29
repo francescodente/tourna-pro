@@ -8,15 +8,25 @@
       title="Achievement"
     >
       <div class="achievements-description">
-        <p>Gli achievement sono premi virtuali che vengono sbloccati partecipando ai tornei organizzati con TournaPro.</p>
+        <p>
+          Gli achievement sono premi virtuali che vengono sbloccati partecipando
+          ai tornei organizzati con TournaPro.
+        </p>
       </div>
       <div class="achievements">
-        <achievement v-for="a in $store.getters.achievements" :key="a.id" :achievement="a" :unlocked="achievements.includes(a.id)"/>
+        <achievement
+          v-for="a in $store.getters.achievements"
+          :key="a.id"
+          :achievement="a"
+          :unlocked="achievements.includes(a.id)"
+        />
       </div>
     </b-modal>
 
     <div class="top-row">
-      <router-link :to="{ name: 'UploadProfileImage', params: { id: pathUser } }">
+      <router-link
+        :to="{ name: 'UploadProfileImage', params: { id: pathUser } }"
+      >
         <avatar size="8em" :src="user.imageUrl" />
       </router-link>
       <div class="user-name-area">
@@ -24,23 +34,26 @@
         <div class="username">({{ user.username }})</div>
         <div class="actions" v-if="isUserProfile">
           <div class="options" @click="logoutUser">
-            <text-icon
-              icon="fas fa-sign-out-alt fa-lg"
-              text="Logout"
-            />
+            <text-icon icon="fas fa-sign-out-alt fa-lg" text="Logout" />
           </div>
         </div>
       </div>
     </div>
     <div v-if="isUserProfile" class="modify">
-      <router-link :to="{ name: 'UserModifyProfile', params: { id: pathUser } }">
+      <router-link
+        :to="{ name: 'UserModifyProfile', params: { id: pathUser } }"
+        tag="div"
+      >
         <text-icon
           class="edit-button"
           icon="fas fa-edit"
           text="Modifica profilo"
         />
       </router-link>
-      <router-link :to="{ name: 'UserPassword', params: { id: pathUser } }">
+      <router-link
+        :to="{ name: 'UserPassword', params: { id: pathUser } }"
+        tag="div"
+      >
         <text-icon
           class="edit-button"
           icon="fas fa-cog"
@@ -83,24 +96,39 @@
           tag="span"
           :to="{ name: 'UserInterest', params: { id: pathUser } }"
         >
-          <i class="fas fa-ellipsis-h"></i>
+          <i class="fas fa-ellipsis-h" id="ellipsis"></i>
         </router-link>
       </section-header>
       <div v-if="interests.length > 0" class="interests-list">
-        <div v-for="i in interests" :key="i" class="user-interest badge badge-pill">
+        <div
+          v-for="i in interests"
+          :key="i"
+          class="user-interest badge badge-pill"
+        >
           #{{ i | activityFromId }}
         </div>
       </div>
-      <placeholder-text class="interests-empty" v-else text="Nessun interesse selezionato!" />
+      <placeholder-text
+        class="interests-empty"
+        v-else
+        text="Nessun interesse selezionato!"
+      />
     </div>
 
     <div>
       <section-header class="header" :color="style.colorComplementary">
         <span>Achievements</span>
-        <span class="open-achievements" @click="openAchievements"><i class="fas fa-question-circle"></i></span>
+        <span class="open-achievements" @click="openAchievements"
+          ><i class="fas fa-question-circle"></i
+        ></span>
       </section-header>
       <div class="achievements">
-        <achievement v-for="a in achievements" :key="a" :achievement="$store.getters.achievement(a)" :unlocked="true"/>
+        <achievement
+          v-for="a in achievements"
+          :key="a"
+          :achievement="$store.getters.achievement(a)"
+          :unlocked="true"
+        />
       </div>
     </div>
   </div>
@@ -115,7 +143,7 @@ import TextIcon from "../../components/ui/TextIcon.vue";
 import style from "../../style/export.scss";
 import router from "../../router";
 import { mapGetters } from "vuex";
-import PlaceholderText from '../../components/ui/PlaceholderText.vue';
+import PlaceholderText from "../../components/ui/PlaceholderText.vue";
 
 export default {
   components: {
@@ -135,7 +163,7 @@ export default {
   },
   methods: {
     openAchievements() {
-      this.$refs.achievementsInfo.show()
+      this.$refs.achievementsInfo.show();
     },
     async fetchUser() {
       this.user = await dataAccess.users.getUser(this.pathUser);
@@ -149,13 +177,16 @@ export default {
       this.$socket.emit("logout");
       router.push({ name: "Login" });
     },
-    genderIcon(gender){
-      switch(gender) {
-        case 'M': return "fas fa-mars fa-lg fa-fw"
-        case 'F': return "fas fa-venus fa-lg fa-fw"
-        case 'NONE': return "fas fa-venus-mars fa-lg fa-fw"
+    genderIcon(gender) {
+      switch (gender) {
+        case "M":
+          return "fas fa-mars fa-lg fa-fw";
+        case "F":
+          return "fas fa-venus fa-lg fa-fw";
+        case "NONE":
+          return "fas fa-venus-mars fa-lg fa-fw";
       }
-    }
+    },
   },
   computed: {
     ...mapGetters(["userId"]),
@@ -181,7 +212,7 @@ export default {
   flex-direction: row;
   align-items: initial;
   margin-bottom: 20px;
-  
+
   .user-name-area {
     flex-grow: 1;
     margin-left: 20px;
@@ -245,8 +276,13 @@ export default {
     border-radius: 5px;
     color: $color-primary;
     height: 100%;
+
+    &:hover {
+      background-color: $color-primary-background;
+    }
   }
 }
+
 @media screen and (min-width: 576px) {
   .modify > * {
     flex-basis: 49%;
@@ -279,10 +315,6 @@ export default {
 .interests {
   margin-top: 15px;
   text-align: left;
-  &:hover{
-    cursor: pointer;
-    
-  }
   .interests-empty {
     text-align: center;
   }
@@ -300,8 +332,14 @@ export default {
   }
 }
 
-.open-achievements:hover {
-  cursor: pointer;
+#ellipsis {
+  &:hover {
+    cursor: pointer;
+    color: $color-primary;
+  }
+  .open-achievements:hover {
+    cursor: pointer;
+  }
 }
 
 .achievements {
@@ -312,5 +350,4 @@ export default {
 .spacing {
   padding: 10px 0px;
 }
-
 </style>
