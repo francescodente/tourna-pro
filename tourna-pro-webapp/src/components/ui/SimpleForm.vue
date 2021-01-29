@@ -34,12 +34,13 @@ form {
 
   input[type=submit] {
     color: $color-primary-text;
-    background-color: $color-primary;
+    background-color: $color-primary-light;
     border: none;
     font-size: 1.3rem;
     border-radius: 9999px;
     width: 100%;
     height: 100%;
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.4);
 
     &:focus {
       outline: none;
@@ -47,6 +48,10 @@ form {
 
     &:disabled{
       background-color: grey;
+      opacity: 40%;
+    }
+    &:hover:enabled{
+      background-color: $color-primary;
     }
   }
 }
