@@ -25,7 +25,7 @@
     </b-modal>
 
     <div class="top-row">
-      <router-link
+      <router-link class="avatar"
         :to="{ name: 'UploadProfileImage', params: { id: pathUser } }"
       >
         <avatar size="8em" :src="user.imageUrl" />
