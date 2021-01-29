@@ -6,6 +6,7 @@ import store from '../store'
 import Home from '../views/Home.vue'
 import Login from '../views/Login.vue'
 import Registration from '../views/Registration.vue'
+import NotFound from '../views/NotFound.vue'
 
 import registrationRoutes from './registration'
 
@@ -45,8 +46,12 @@ const routes = [
       ...userRoutes,
       ...teamRoutes
     ]
+  },
+  {
+    path: '*',
+    name: 'NotFound',
+    component: NotFound
   }
-
 ]
 
 const router = new VueRouter({
@@ -58,7 +63,11 @@ router.beforeEach((to, _, next) => {
   if (requiresAuth && !store.getters.accessToken) {
     next({ name: 'Login' })
   } else if (!requiresAuth && store.getters.accessToken) {
-    next({ name: 'MyTournaments' })
+    if (to.name == 'NotFound') {
+      next()
+    } else {
+      next({ name: 'MyTournaments' })
+    }
   } else {
     next()
   }
