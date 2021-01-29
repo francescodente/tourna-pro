@@ -2,7 +2,7 @@
   <div class="main">
     <h1>Esplora Tornei</h1>
     <div class="tournaments">
-    <grid-container>
+    <grid-container v-if="tournaments.length > 0">
     <tournament-card
       class="tournament-card"
       v-for="tournament in tournaments"
@@ -11,6 +11,9 @@
       :tournament="tournament"
     />
     </grid-container>
+    <placeholder-text class="placeholder"> 
+      Sembra che non ci siano tornei in programma... <br>prova a crearne uno tu!
+      </placeholder-text>
     </div>
   </div>
 </template>
@@ -20,8 +23,10 @@ import dataAccess from '@/data-access'
 import TournamentCard from '../../components/tournaments/TournamentCard.vue';
 import { mapGetters } from 'vuex';
 import GridContainer from '../../components/teams/GridContainer.vue';
+import PlaceholderText from '../../components/ui/PlaceholderText.vue';
 export default {
-  components: {TournamentCard, GridContainer},
+  components: {TournamentCard, GridContainer,
+    PlaceholderText},
   name: "Explore",
   data: function () {
     return {
@@ -51,6 +56,7 @@ export default {
 .tournaments {
   padding-top: 30px;
 }
+
 
 .main {
   padding: 10px 20px;
