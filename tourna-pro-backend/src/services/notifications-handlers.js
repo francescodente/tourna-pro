@@ -104,17 +104,143 @@ async function generateRequestLog(request, tournament, type) {
 }
 
 exports.requestAdded = async function (request, tournament) {
-  let log = await generateRequestLog(request, tournament, 'Added')
+  let log = null
+  let type = 'Added'
+  switch (request.type) {
+    case 'USER': {
+      let user = await User.findById(request.userId)
+      log = {
+        tournamentId: tournament._id,
+        type: 'userRequest' + type,
+        recipients: [...tournament.owners],
+        parameters: {
+          tournament: {
+            id: tournament._id,
+            name: tournament.name
+          },
+          user: {
+            id: request.userId,
+            name: user.username,
+          }
+        }
+      }
+    }
+    case 'TEAM': {
+      let team = await Team.findById(request.teamId)
+      log = {
+        teamId: request.teamId,
+        tournamentId: tournament._id,
+        type: 'teamRequest' + type,
+        recipients: [...team.members, ...tournament.owners],
+        parameters: {
+          tournament: {
+            id: tournament._id,
+            name: tournament.name
+          },
+          team: {
+            id: request.teamId,
+            name: team.name,
+          }
+        }
+      }
+
+    }
+    default: log = null;
+  }
   if (log) await publishLog(log)
 }
 
 exports.requestAccepted = async function (request, tournament) {
-  let log = await generateRequestLog(request, tournament, 'Accepted')
+  let log = null
+  let type= 'Accepted'
+  switch (request.type) {
+    case 'USER': {
+      let user = await User.findById(request.userId)
+      log = {
+        tournamentId: tournament._id,
+        type: 'userRequest' + type,
+        recipients: [user._id],
+        parameters: {
+          tournament: {
+            id: tournament._id,
+            name: tournament.name
+          },
+          user: {
+            id: request.userId,
+            name: user.username,
+          }
+        }
+      }
+    }
+    case 'TEAM': {
+      let team = await Team.findById(request.teamId)
+      log = {
+        teamId: request.teamId,
+        tournamentId: tournament._id,
+        type: 'teamRequest' + type,
+        recipients: [...team.members],
+        parameters: {
+          tournament: {
+            id: tournament._id,
+            name: tournament.name
+          },
+          team: {
+            id: request.teamId,
+            name: team.name,
+          }
+        }
+      }
+
+    }
+    default: log = null;
+  }
   if (log) await publishLog(log)
 }
 
 exports.requestRejected = async function (request, tournament) {
-  let log = await generateRequestLog(request, tournament, 'Rejected')
+  let log = null
+  let type='Rejected'
+  switch (request.type) {
+    case 'USER': {
+      let user = await User.findById(request.userId)
+      log = {
+        tournamentId: tournament._id,
+        type: 'userRequest' + type,
+        recipients: [user._id],
+        parameters: {
+          tournament: {
+            id: tournament._id,
+            name: tournament.name
+          },
+          user: {
+            id: request.userId,
+            name: user.username,
+          }
+        }
+      }
+    }
+    case 'TEAM': {
+      let team = await Team.findById(request.teamId)
+      log = {
+        teamId: request.teamId,
+        tournamentId: tournament._id,
+        type: 'teamRequest' + type,
+        recipients: [...team.members],
+        parameters: {
+          tournament: {
+            id: tournament._id,
+            name: tournament.name
+          },
+          team: {
+            id: request.teamId,
+            name: team.name,
+          }
+        }
+      }
+
+    }
+    default: log = null;
+  }
   if (log) await publishLog(log)
 }
 
