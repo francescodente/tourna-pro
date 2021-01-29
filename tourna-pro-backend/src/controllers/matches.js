@@ -159,13 +159,9 @@ exports.startNextRound = async function (req) {
 
   if (justStarted) {
     publish('tournamentStarted', tournament)
+  } else {
+    publish('roundStarted', tournament)
   }
-
-  if (lastRound) {
-    publish('roundEnded', tournament)
-  }
-
-  publish('roundStarted', tournament)
 
   return ok(tournamentDto(tournament))
 }

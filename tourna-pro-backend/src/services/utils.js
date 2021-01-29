@@ -34,9 +34,15 @@ exports.findAllParticipantsGroupedByRequest = async function (tournament, predic
   for (let req of requests) {
     let ids = []
     if (req.team) {
-      ids = req.team.members
+      ids = {
+        users: req.team.members,
+        request: req
+      }
     } else if (req.userId) {
-      ids = [req.userId]
+      ids = {
+        users: [req.userId],
+        request: req
+      }
     }
     map[req._id.toString()] = ids
   }
