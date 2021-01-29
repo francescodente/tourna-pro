@@ -52,7 +52,4 @@ export default {
   }
 }
 
-.error .simple-input {
-  color: red;
-}
 </style>

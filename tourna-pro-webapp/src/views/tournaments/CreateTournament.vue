@@ -138,7 +138,7 @@ export default {
       description: "",
       mode: "TEAMS",
       type: "ROUND_ROBIN",
-      maxParticipants: "",
+      maxParticipants: 8,
       activity: "SOCCER",
       gender: "M",
       place: "",
@@ -192,7 +192,6 @@ export default {
   methods: {
     ...Validators,
     async createTournament() {
-      //TODO complete checks
       let tournament = {
         maxParticipants: this.maxParticipants,
         date: this.date,
