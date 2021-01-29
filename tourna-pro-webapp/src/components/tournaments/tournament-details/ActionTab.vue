@@ -159,8 +159,8 @@ export default {
       );
       if (res) {
         dataAccess.matches.startRound(this.$route.params.id);
+        this.$router.go(0);
       }
-      this.$router.go(0);
     },
     async deleteTournament() {
       let res = await this.$refs["yes-no"].show(

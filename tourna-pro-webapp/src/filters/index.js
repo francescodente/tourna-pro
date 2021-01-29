@@ -47,5 +47,5 @@ export default function (vue) {
   vue.filter('gender', gender)
   vue.filter('formatNotification', notification => format(notification, notificationFormatters))
   vue.filter('formatTeamLog', log => format(log, teamLogFormatters))
-  vue.filter('tournamentLogFormatters', log => format(log, tournamentLogFormatters))
+  vue.filter('formatTournamentLog', log => format(log, tournamentLogFormatters))
 }

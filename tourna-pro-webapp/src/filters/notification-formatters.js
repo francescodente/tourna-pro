@@ -5,7 +5,7 @@ export default {
   memberRemoved(params) {
     return `${params.removedBy.name} ti ha rimosso dalla squadra ${params.team.name}`
   },
-  userRequestAccepted(params) {
+  userRequestAdded(params) {
     return `L'utente ${params.user.name} ha richiesto di iscriversi al torneo ${params.tournament.name}`
   },
   userRequestAccepted(params) {
@@ -30,10 +30,10 @@ export default {
     return `Il torneo ${params.tournament.name} è finito! Posizione in classifica: ${params.position}`
   },
   matchStarted(params) {
-    return `Il match tra ${params.participant1.name} e ${params.participan2.name} è iniziato!`
+    return `Il match tra ${params.participant1.name} e ${params.participant2.name} è iniziato!`
   },
   matchUpdated(params) {
-    return `Il risultato del match tra ${params.participant1.name} e ${params.participan2.name} è stato aggiornato: ${params.participant1.score} - ${params.participan2.score}`
+    return `Il risultato del match tra ${params.participant1.name} e ${params.participant2.name} è stato aggiornato: ${params.participant1.score} - ${params.participant2.score}`
   },
   roundStarted(params) {
     return `È iniziato il ${params.roundIndex + 1}° round nel torneo ${params.tournament.name}`

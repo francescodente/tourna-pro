@@ -32,7 +32,8 @@ function onNewLog(context, log) {
     parameters: log.parameters,
     teamId: log.teamId,
     tournamentId: log.tournamentId,
-    date: log.date
+    date: log.date,
+    read: false
   })
 }
 

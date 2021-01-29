@@ -8,7 +8,7 @@
         <tab title="Dettagli" :selected="!tournament.owned">
           <details-tab :tournament="tournament"/>
         </tab>
-        <tab title="Azioni" :selected="tournament.owned">
+        <tab title="Azioni" :selected="tournament.owned" v-if="tournament.status != 'ENDED'">
           <action-tab 
             :owner="tournament.owned" 
             :subscribed="tournament.subscribed" 
@@ -16,19 +16,19 @@
             :team="tournament.mode == 'TEAMS'"
           />
         </tab>
-        <tab v-if="tournament.status == 'ACTIVE'" :title="`Gestione Round`">
+        <tab title="Gestione Round" v-if="tournament.status == 'ACTIVE' && tournament.owned">
           <matches :matches="matches" :participants="participants"/>
         </tab>
         <tab :title="`Partecipanti (${participants.requests.length})`">
           <participants-tab :participants="participants" />
         </tab>
-        <tab v-if="tournament.status == 'ACTIVE'" title="Tabellone">
+        <tab title="Tabellone" v-if="tournament.status != 'PENDING'">
           <score-board-tab :matches="matches" :participants="participants" />
         </tab>
-        <tab v-if="tournament.status == 'ACTIVE'" title="Classifica">
+        <tab title="Classifica" v-if="tournament.status != 'PENDING'">
           <ranking-tab :ranking="ranking" :participants="participants" />
         </tab>
-        <tab v-if="tournament.subscribed != 'NONE'" title="Attività">
+        <tab title="Attività">
           <activity-tab :logs="logs" />
         </tab>
       </tab-view>
