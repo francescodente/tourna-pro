@@ -9,9 +9,9 @@
           :id="op.value"
           :value="op.value"
           :checked="value == op.value"
-          @input="updated"
-          @blur="blur"
-          @focus="focus"
+          @input="updated($event.target.value)"
+          @blur="blur($event.target.value)"
+          @focus="focus($event.target.value)"
         />
         <label :for="op.value">{{ op.display }}</label>
       </div>
@@ -33,6 +33,9 @@ export default {
   methods: {
     ...eventHandlers
   },
+   created() {
+    this.updated(this.value)
+  }
 };
 </script>
 

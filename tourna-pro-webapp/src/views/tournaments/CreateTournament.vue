@@ -138,7 +138,7 @@ export default {
       description: "",
       mode: "TEAMS",
       type: "ROUND_ROBIN",
-      maxParticipants: "",
+      maxParticipants: "8",
       activity: "SOCCER",
       gender: "M",
       place: "",

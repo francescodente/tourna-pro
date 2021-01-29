@@ -1,12 +1,12 @@
 export default {
-  updated: function(e) {
-    if(this.scope) this.scope.input(e);
-    this.$emit("input", e.target.value);
+  updated: function(value) {
+    if(this.scope) this.scope.input(value);
+    this.$emit("input", value);
   },
-  blur: function(e) {
-    if(this.scope) this.scope.blur(e);
+  blur: function(value) {
+    if(this.scope) this.scope.blur(value);
   },
-  focus: function(e) {
-    if(this.scope) this.scope.focus(e);
+  focus: function(value) {
+    if(this.scope) this.scope.focus(value);
   }
 }

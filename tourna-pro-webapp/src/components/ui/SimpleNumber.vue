@@ -6,9 +6,9 @@
     <input
       :id="identifier"
       type="number"
-      @input="updated"
-      @blur="blur"
-      @focus="focus"
+      @input="updated($event.target.value)"
+      @blur="blur($event.target.value)"
+      @focus="focus($event.target.value)"
       :value="value"
       :placeholder="placeholder || label"
       :min="min"
@@ -22,7 +22,7 @@ import eventHandlers from "@/utils/validator-events";
 export default {
   props: {
     placeholder: String,
-    value: Number,
+    value: String,
     label: String,
     identifier: String,
     min: String,
@@ -32,6 +32,9 @@ export default {
   methods: {
     ...eventHandlers
   },
+  created() {
+    this.updated(this.value)
+  }
 };
 </script>
 

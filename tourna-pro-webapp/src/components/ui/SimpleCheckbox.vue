@@ -4,9 +4,9 @@
       type="checkbox"
       :checked="value"
       :id="identifier"
-      @input="checkBoxUpdate"
-      @blur="blur"
-      @focus="focus"
+      @input="updated($event.target.checked)"
+      @blur="blur($event.target.checked)"
+      @focus="focus($event.target.checked)"
     />
     <label :for="identifier">
       <slot>{{ label }}</slot>
@@ -25,11 +25,10 @@ export default {
   },
   methods: {
     ...eventHandlers,
-    checkBoxUpdate(e) {
-      if(this.scope) this.scope.input(e);
-      this.$emit("input", e.target.checked);
-    },
   },
+   created() {
+    this.updated(this.value)
+  }
 };
 </script>
 

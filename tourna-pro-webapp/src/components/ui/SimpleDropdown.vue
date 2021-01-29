@@ -5,9 +5,9 @@
     </label>
     <select
       :id="identifier"
-      @input="updated"
-      @blur="blur"
-      @focus="focus"
+      @input="updated($event.target.value)"
+      @blur="blur($event.target.value)"
+      @focus="focus($event.target.value)"
       :value="value"
     >
       <option :value="op.value" v-for="op in options" :key="op.value">
@@ -30,6 +30,9 @@ export default {
   methods: {
     ...eventHandlers
   },
+   created() {
+    this.updated(this.value)
+  }
 };
 </script>
 

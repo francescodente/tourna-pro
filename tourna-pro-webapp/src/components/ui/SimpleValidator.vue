@@ -20,16 +20,16 @@ export default {
     value: Boolean
   },
   methods: {
-    blur(e){
-      this.validate(e.target.value)
+    blur(value){
+      this.validate(value)
       this.firstBlur = false;
     },
-    focus(e){
-      //this.validate(e.target.value)
+    focus(value){
+      //this.validate(value)
     },
-    input(e){
-      this.$emit("input", this.validator(e.target.value));
-      if(!this.firstBlur) this.validate(e.target.value)
+    input(value){
+      this.$emit("input", this.validator(value));
+      if(!this.firstBlur) this.validate(value)
     },
     validate(field) {
       let res = this.validator(field)
@@ -40,7 +40,7 @@ export default {
         this.cssClass = "common"
       }
     }
-  },
+  }
 };
 </script>
 
