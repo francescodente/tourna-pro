@@ -64,7 +64,6 @@ exports.requestAdded = async function (request, tournament) {
     case 'USER': {
       let user = await User.findById(request.userId)
       log = {
-        tournamentId: tournament._id,
         type: 'userRequest' + type,
         recipients: [...tournament.owners],
         parameters: {
@@ -82,8 +81,6 @@ exports.requestAdded = async function (request, tournament) {
     case 'TEAM': {
       let team = await Team.findById(request.teamId)
       log = {
-        teamId: request.teamId,
-        tournamentId: tournament._id,
         type: 'teamRequest' + type,
         recipients: [...team.members, ...tournament.owners],
         parameters: {
@@ -158,7 +155,6 @@ exports.requestRejected = async function (request, tournament) {
     case 'USER': {
       let user = await User.findById(request.userId)
       log = {
-        tournamentId: tournament._id,
         type: 'userRequest' + type,
         recipients: [user._id],
         parameters: {
@@ -176,8 +172,6 @@ exports.requestRejected = async function (request, tournament) {
     case 'TEAM': {
       let team = await Team.findById(request.teamId)
       log = {
-        teamId: request.teamId,
-        tournamentId: tournament._id,
         type: 'teamRequest' + type,
         recipients: [...team.members],
         parameters: {

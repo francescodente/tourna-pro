@@ -8,5 +8,17 @@ export default {
     } else {
       return `${params.removed.name} ha abbandonato la squadra`
     }
-  }
+  },
+  teamCreated(params) {
+    return `La squadra è stata creata da ${params.agent.name}`
+  },
+  teamRequestAccepted(params) {
+    return `La squadra parteciperà al torneo ${params.tournament.name}`
+  },
+  participantRetired(params) {
+    return `Vi siete ritirati dal torneo ${params.tournament.name}`
+  },
+  tournamentResult(params) {
+    return `Il torneo ${params.tournament.name} è finito! Posizione in classifica: ${params.position}`
+  },
 }
