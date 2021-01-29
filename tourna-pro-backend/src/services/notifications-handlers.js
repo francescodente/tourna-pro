@@ -243,7 +243,7 @@ exports.matchStarted = async function (match, tournament) {
 
   let log = {
     type: 'matchStarted',
-    recipients: [...participant1Fields.recipients, ...participant2Fields.recipients, ...tournament.owners],
+    recipients: [...participant1Fields.recipients, ...participant2Fields.recipients],
     parameters: {
       tournament: {
         id: tournament._id,
@@ -269,17 +269,19 @@ exports.matchResultUpdated = async function (match, tournament) {
 
   let log = {
     type: 'matchUpdated',
-    recipients: [...participant1Fields.recipients, ...participant2Fields.recipients, ...tournament.owners],
+    recipients: [...participant1Fields.recipients, ...participant2Fields.recipients],
     parameters: {
       tournament: {
         id: tournament._id,
         name: tournament.name
       },
       participant1: {
-        name: participant1Fields.name
+        name: participant1Fields.name,
+        score: match.participant1.score
       },
       participant2: {
-        name: participant2Fields.name
+        name: participant2Fields.name,
+        score: match.participant2.score
       }
     }
   }
@@ -300,7 +302,7 @@ async function generateOwnerLog(id, tournament, action, action) {
   return {
     tournamentId: tournament._id,
     type: 'owner' + action,
-    recipients: [id, ...tournament.owners],
+    recipients: [id],
     parameters: {
       tournament: {
         id: tournament._id,

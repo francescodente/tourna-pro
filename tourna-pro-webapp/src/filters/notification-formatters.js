@@ -5,8 +5,8 @@ export default {
   memberRemoved(params) {
     return `${params.removedBy.name} ti ha rimosso dalla squadra ${params.team.name}`
   },
-  userRequestAdded(params) {
-    return `Hai richiesto di partecipare al torneo ${params.tournament.name}`
+  userRequestAccepted(params) {
+    return `L'utente ${params.user.name} ha richiesto di iscriversi al torneo ${params.tournament.name}`
   },
   userRequestAccepted(params) {
     return `La tua richiesta al torneo ${params.tournament.name} è stata accettata`
@@ -15,46 +15,41 @@ export default {
     return `La tua richiesta al torneo ${params.tournament.name} è stata rifiutata`
   },
   teamRequestAdded(params) {
-    return `La tua squadra ${params.team.name} ha richiesto di partecipare al torneo ${params.tournament.name}`
+    return `La squadra ${params.team.name} ha richiesto di partecipare al torneo ${params.tournament.name}`
   },
   teamRequestAccepted(params) {
     return `La tua richiesta al torneo ${params.tournament.name} è stata accettata`
   },
   teamRequestRejected(params) {
-    return ``
+    return `La tua richiesta al torneo ${params.tournament.name} è stata rifiutata`
   },
   tournamentStarted(params) {
-    return ``
+    return `Il torneo ${params.tournament.name} è iniziato!`
   },
-  tournamentEnded(params) {
-    return ``
+  tournamentResult(params) {
+    return `Il torneo ${params.tournament.name} è finito! Posizione in classifica: ${params.position}`
   },
   matchStarted(params) {
-    return ``
+    return `Il match tra ${params.participant1.name} e ${params.participan2.name} è iniziato!`
   },
   matchUpdated(params) {
-    return ``
+    return `Il risultato del match tra ${params.participant1.name} e ${params.participan2.name} è stato aggiornato: ${params.participant1.score} - ${params.participan2.score}`
   },
   roundStarted(params) {
-    return ``
-  },
-  roundEnded(params) {
-    return ``
+    return `È iniziato il ${params.roundIndex + 1}° round nel torneo ${params.tournament.name}`
   },
   ownerAdded(params) {
-    return ``
+    return `${params.agent.name} ti ha aggiungto agli organizzatori del torneo ${params.tournament.name}`
   },
   ownerRemoved(params) {
-    return ``
+    return `${params.agent.name} ti ha rimosso dagli organizzatori del torneo ${params.tournament.name}`
   },
   participantRetired(params) {
-    return ``
+    return `Il partecipante ${params.participant.name} si è ritirato dal torneo ${params.tournament.name}`
   },
-  achievementUnlocked(params){
-    return ``
+  achievementUnlocked(params) {
+    return `Hai sbloccato l'achievement ${params.achievement.name}!`
   }
-
-
 
 }
 
