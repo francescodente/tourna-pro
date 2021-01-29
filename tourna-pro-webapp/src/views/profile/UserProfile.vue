@@ -35,7 +35,7 @@
         <div class="username">({{ user.username }})</div>
         <div class="actions" v-if="isUserProfile">
           <div class="options" @click="logoutUser">
-            <text-icon icon="fas fa-sign-out-alt fa-lg" text="Logout" />
+            <text-icon id="logout" icon="fas fa-sign-out-alt fa-lg" text="Logout" />
           </div>
         </div>
       </div>
@@ -250,14 +250,16 @@ export default {
       justify-content: flex-end;
       margin-top: 10px;
       .options {
+        box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.4);
         text-align: center;
         padding: 10px;
         border-radius: 5px;
-        background-color: $color-primary;
+        background-color: $color-primary-light;
         color: white;
         display: inline-block;
         &:hover {
           cursor: pointer;
+          background-color: $color-primary;
         }
       }
     }
