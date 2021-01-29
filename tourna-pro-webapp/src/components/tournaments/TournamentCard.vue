@@ -5,7 +5,7 @@
         <div class="hover-background"></div>
         <div class="headline">
           <h5 class="title">{{ tournament.name }}</h5>
-          <p>Categoria: {{ tournament.gender | gender }}</p>
+          <p>{{ tournament.gender | gender }} - {{tournament.mode | tournamentMode}}</p>
         </div>
         <div class="row col">
           <text-icon
