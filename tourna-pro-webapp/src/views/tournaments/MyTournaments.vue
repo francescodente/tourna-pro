@@ -23,6 +23,7 @@ import Tab from "../../components/ui/TabView/Tab.vue";
 import TabView from "../../components/ui/TabView/TabView.vue";
 import style from "../../style/export.scss";
 import CreateTournament from './CreateTournament.vue';
+import { mapGetters } from 'vuex';
 export default {
   components: {
     TabView,
@@ -41,10 +42,14 @@ export default {
       loaded: false
     };
   },
+  computed:{
+    ...mapGetters(['userId'])
+  },
   methods: {
     async fetchTournaments() {
       this.subscribedTournaments = await dataAccess.tournaments.getAll({ subscribed: true })
       this.managedTournaments = await dataAccess.tournaments.getAll({ owned: true })
+      this.personalRequests =  await dataAccess.participationRequests.getAll({userId: this.userId, status: 'PENDING'})
       this.loaded = true
     }
   },

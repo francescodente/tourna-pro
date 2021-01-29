@@ -1,45 +1,66 @@
 <template>
   <div class="main">
     <headline class="headline">Richieste di iscrizione </headline>
-    <router-link
-      tag="div"
-      v-for="r in requests"
-      :key="r.id"
-      :to="requestPath(r)"
-    >
-      <arrow-button :text="r.tournament_name">
-        <div :class="r.status">
-          {{ r.status }}
-        </div>
-      </arrow-button>
-    </router-link>
+    <div v-if="requests.length > 0">
+      <router-link
+        tag="div"
+        v-for="r in requests"
+        :key="r.id"
+        :to="requestPath(r)"
+      >
+        <arrow-button :text="getName(r)">
+          <div :class="r.status">
+            {{ r.status }}
+          </div>
+        </arrow-button>
+      </router-link>
+    </div>
+    <placeholder-text v-else text="Non ci sono richieste in sospeso" />
   </div>
 </template>
 
 <script>
-import dataAccess from '@/data-access'
+import dataAccess from "@/data-access";
 import Headline from "../../components/tournaments/tournament-details/Headline.vue";
 import ArrowButton from "../../components/tournaments/ArrowButton.vue";
-import { mapGetters } from 'vuex';
+import { mapGetters } from "vuex";
+import PlaceholderText from '../../components/ui/PlaceholderText.vue';
 export default {
-  components: { ArrowButton, Headline },
+  components: { ArrowButton, Headline, PlaceholderText },
   name: "SubscriptionRequests",
-  data: function() {
+  data: function () {
     return {
-      requests: []
-    }
+      requests: [],
+      tournamentNames: {},
+    };
   },
   methods: {
-    requestPath(r){
-      return {name: 'TournamentDetails', params: {id: r.tournamentId}}
-    }
+    getName(r) {
+      console.log(r.tournamentId);
+      return this.tournamentNames[r.tournamentId];
+    },
+    async getTournamentName(r) {
+      let t = await dataAccess.tournaments.get(r.tournamentId);
+      return t.name;
+    },
+    requestPath(r) {
+      return { name: "TournamentDetails", params: { id: r.tournamentId } };
+    },
   },
   computed: {
-    ...mapGetters(['userId'])
+    ...mapGetters(["userId"]),
   },
   async created() {
-    this.requests = await dataAccess.requests.getAll({userId: this.userId, status: 'PENDING'})
-  }
+    let requests = await dataAccess.participationRequests.getAll({
+      userId: this.userId,
+      status: "PENDING",
+    });
+    for (const r of requests) {
+      this.tournamentNames[r.tournamentId] = await this.getTournamentName(r);
+    }
+
+    this.requests = requests;
+  },
 };
 </script>
 

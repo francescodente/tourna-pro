@@ -12,7 +12,8 @@ function participationRequestsDto(participationRequest) {
     participant: participationRequest.participant,
     userId: participationRequest.userId,
     teamId: participationRequest.teamId,
-    status: participationRequest.status
+    status: participationRequest.status,
+    tournamentId: participationRequest.tournamentId
   };
 }
 function tournamentNotFound(id) {
