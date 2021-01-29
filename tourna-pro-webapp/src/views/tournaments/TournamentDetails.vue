@@ -81,7 +81,10 @@ export default {
       return this.$route.params.id
     },
     selectedTab() {
-      return this.$route.query.selectedTab || tournament.owned? 'ACTIONS' : 'DETAILS'
+      if(this.tournament && !this.$route.query.selectedTab){
+        return this.tournament.owned ? 'ACTIONS' : 'DETAILS'
+      }
+      return this.$route.query.selectedTab 
     }
   },
   async created() {
