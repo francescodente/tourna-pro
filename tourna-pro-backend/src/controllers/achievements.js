@@ -2,17 +2,17 @@ const { User } = require('../models');
 const { achievements } = require('../models/achievements')
 const { ok, notFound } = require('../utils/action-results')
 
-function achievementDto(achievement) {
+function achievementDto(achievement, req) {
   return {
     id: achievement.id,
     name: achievement.name,
     description: achievement.description,
-    image: achievement.description
+    image: `${req.protocol}://${req.headers.host}/static/achievements/${achievement.image}`
   }
 }
 
 exports.getAllAchievements = function (req) {
-  return Promise.resolve(ok(achievements.map(achievementDto)));
+  return Promise.resolve(ok(achievements.map(x => achievementDto(x, req))));
 }
 
 function errorMessage(id) {

@@ -1,6 +1,6 @@
 const { User } = require('../models')
 const Activities  = require('../models/activities')
-const { subscribeAll } = require('./event-bus')
+const { subscribeAll, publish } = require('./event-bus')
 const { findAllParticipantsGroupedByRequest } = require('./utils')
 
 async function unlockAchievements(userIds, ...achievements) {

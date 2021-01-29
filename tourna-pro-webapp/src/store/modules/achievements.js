@@ -5,7 +5,8 @@ const state = {
 }
 
 const getters = {
-  getAchievements: state => state.achievements
+  achievements: state => state.achievements,
+  achievement: state => id => state.achievements.find(x => x.id == id)
 }
 
 const actions = {
