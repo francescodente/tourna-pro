@@ -1,5 +1,8 @@
 <template>
   <div class="main">
+    <h1>Esplora Tornei</h1>
+    <div class="tournaments">
+    <grid-container>
     <tournament-card
       class="tournament-card"
       v-for="tournament in tournaments"
@@ -7,6 +10,8 @@
       status="exploring"
       :tournament="tournament"
     />
+    </grid-container>
+    </div>
   </div>
 </template>
 
@@ -14,8 +19,9 @@
 import dataAccess from '@/data-access'
 import TournamentCard from '../../components/tournaments/TournamentCard.vue';
 import { mapGetters } from 'vuex';
+import GridContainer from '../../components/teams/GridContainer.vue';
 export default {
-  components: {TournamentCard },
+  components: {TournamentCard, GridContainer},
   name: "Explore",
   data: function () {
     return {
@@ -42,8 +48,11 @@ export default {
 
 
 <style lang="scss" scoped>
+.tournaments {
+  padding-top: 30px;
+}
+
 .main {
-  height: 100%;
-  padding: 30px 20px;
+  padding: 10px 20px;
 }
 </style>

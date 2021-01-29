@@ -5,9 +5,9 @@
         <div class="hover-background"></div>
         <div class="headline">
           <h5 class="title">{{ tournament.name }}</h5>
-          <p>Categoria: {{ tournament.gender | gender }}</p>
+          <p>{{ tournament.gender | gender }} - {{tournament.mode | tournamentMode}}</p>
         </div>
-        <div class="row col">
+        <div class="my-row">
           <text-icon
             :text="tournament.location"
             icon="fas fa-map-marker-alt"
@@ -87,6 +87,9 @@ export default {
   position: relative;
   margin: 0px;
   box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.3);
+  &:hover {
+      cursor: pointer;
+    }
 }
 .common {
   width: 100%;
@@ -103,7 +106,6 @@ export default {
 
     &:hover {
       background-color: rgba(10, 10, 10, 0.05);
-      cursor: pointer;
     }
   }
 }

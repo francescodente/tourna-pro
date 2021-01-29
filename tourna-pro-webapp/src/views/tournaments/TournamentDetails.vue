@@ -5,30 +5,57 @@
     </div>
     <div class="tab-container">
       <tab-view>
-        <tab title="Dettagli" :selected="selectedTab == 'DETAILS'">
-          <details-tab :tournament="tournament"/>
+        <tab
+          title="Dettagli"
+          :selected="selectedTab == 'DETAILS'"
+          v-if="tabVisible('DETAILS')"
+        >
+          <details-tab :tournament="tournament" />
         </tab>
-        <tab title="Azioni"  :selected="selectedTab == 'ACTIONS'" v-if="tournament.status != 'ENDED'">
-          <action-tab 
-            :owner="tournament.owned" 
-            :subscribed="tournament.subscribed" 
-            :active="tournament.status == 'ACTIVE'" 
+        <tab
+          title="Azioni"
+          :selected="selectedTab == 'ACTIONS'"
+          v-if="tabVisible('ACTIONS')"
+        >
+          <action-tab
+            :owner="tournament.owned"
+            :subscribed="tournament.subscribed"
+            :active="tournament.status == 'ACTIVE'"
             :team="tournament.mode == 'TEAMS'"
           />
         </tab>
-        <tab v-if="tournament.status == 'ACTIVE' && tournament.owned" :title="`Gestione Round`" :selected="selectedTab == 'ROUNDS'">
-          <matches :matches="matches" :participants="participants"/>
+        <tab
+          :title="`Gestione Round`"
+          :selected="selectedTab == 'ROUNDS'"
+          v-if="tabVisible('ROUNDS')"
+        >
+          <matches :matches="matches" :participants="participants" />
         </tab>
-        <tab :title="`Partecipanti (${participants.requests.length})`" :selected="selectedTab == 'PARTICIPANTS'">
+        <tab
+          :title="`Partecipanti (${participants.requests.length})`"
+          :selected="selectedTab == 'PARTICIPANTS'"
+          v-if="tabVisible('PARTICIPANTS')"
+        >
           <participants-tab :participants="participants" />
         </tab>
-        <tab v-if="tournament.status != 'PENDING'" title="Tabellone"  :selected="selectedTab == 'BOARD'">
+        <tab
+          title="Tabellone"
+          :selected="selectedTab == 'BOARD'"
+          v-if="tabVisible('BOARD')"
+        >
           <score-board-tab :matches="matches" :participants="participants" />
         </tab>
-        <tab v-if="tournament.status != 'PENDING'" title="Classifica" :selected="selectedTab == 'RANKING'">
+        <tab
+          title="Classifica"
+          :selected="selectedTab == 'RANKING'"
+          v-if="tabVisible('RANKING')"
+        >
           <ranking-tab :ranking="ranking" :participants="participants" />
         </tab>
-        <tab title="Attività" :selected="selectedTab == 'LOGS'">
+        <tab title="Attività" 
+        :selected="selectedTab == 'LOGS'"
+        v-if="tabVisible('LOGS')"
+        >
           <activity-tab :logs="logs" />
         </tab>
       </tab-view>
@@ -37,7 +64,7 @@
 </template>
 
 <script>
-import dataAccess from '@/data-access'
+import dataAccess from "@/data-access";
 import ActionTab from "../../components/tournaments/tournament-details/ActionTab.vue";
 import ActivityTab from "../../components/tournaments/tournament-details/ActivityTab.vue";
 import DetailsTab from "../../components/tournaments/tournament-details/DetailsTab.vue";
@@ -45,9 +72,9 @@ import Headline from "../../components/tournaments/tournament-details/Headline.v
 import ScoreBoardTab from "../../components/tournaments/tournament-details/ScoreBoardTab.vue";
 import Tab from "../../components/ui/TabView/Tab.vue";
 import TabView from "../../components/ui/TabView/TabView.vue";
-import RankingTab from '../../components/tournaments/tournament-details/RankingTab.vue';
-import ParticipantsTab from '../../components/tournaments/tournament-details/ParticipantsTab.vue';
-import Matches from './Matches.vue';
+import RankingTab from "../../components/tournaments/tournament-details/RankingTab.vue";
+import ParticipantsTab from "../../components/tournaments/tournament-details/ParticipantsTab.vue";
+import Matches from "./Matches.vue";
 export default {
   name: "TournamentDetails",
   components: {
@@ -72,41 +99,74 @@ export default {
       participants: {
         requests: [],
         teams: [],
-        users: []
+        users: [],
+      },
+    };
+  },
+  methods: {
+    tabVisible(tabID) {
+      switch (tabID) {
+        case "DETAILS":
+          return true;
+        case "ACTIONS":
+          return this.tournament.status != "ENDED";
+        case "ROUNDS":
+          return this.tournament.status == "ACTIVE" && this.tournament.owned;
+        case "PARTICIPANTS":
+          return true;
+        case "BOARD":
+          return this.tournament.status != "PENDING";
+        case "RANKING":
+          return this.tournament.status != 'PENDING';
+        case "LOGS":
+          return true;
       }
-    }
+    },
   },
   computed: {
     tournamentId() {
-      return this.$route.params.id
+      return this.$route.params.id;
     },
     selectedTab() {
-      if(this.tournament && !this.$route.query.selectedTab){
-        return this.tournament.owned ? 'ACTIONS' : 'DETAILS'
+      if (this.tournament && !this.$route.query.selectedTab) {
+        return this.tournament.owned ? "ACTIONS" : "DETAILS";
+      } else if(this.tabVisible(this.$route.query.selectedTab)){
+        return this.$route.query.selectedTab
+      } else {
+        return 'DETAILS'
       }
-      return this.$route.query.selectedTab 
-    }
+    },
   },
   async created() {
-    this.tournament = await dataAccess.tournaments.get(this.tournamentId)
-    this.logs = await dataAccess.logs.getTournamentLogs(this.tournamentId)
-    this.ranking = await dataAccess.rankings.getTournamentRanking(this.tournamentId)
-    this.matches = await dataAccess.matches.getAll(this.tournamentId)
+    this.tournament = await dataAccess.tournaments.get(this.tournamentId);
+    this.logs = await dataAccess.logs.getTournamentLogs(this.tournamentId);
+    this.ranking = await dataAccess.rankings.getTournamentRanking(
+      this.tournamentId
+    );
+    this.matches = await dataAccess.matches.getAll(this.tournamentId);
     this.participants.requests = await dataAccess.participationRequests.getAll({
       tournamentId: this.tournamentId,
-      status: 'APPROVED'
-    })
-    let users = this.participants.requests.map(r => r.userId).filter(id => id)
+      status: "APPROVED",
+    });
+    let users = this.participants.requests
+      .map((r) => r.userId)
+      .filter((id) => id);
     if (users.length > 0) {
-      this.participants.users = await dataAccess.users.search({ userIds: JSON.stringify(users) })
+      this.participants.users = await dataAccess.users.search({
+        userIds: JSON.stringify(users),
+      });
     }
-    let teams = this.participants.requests.map(p => p.teamId).filter(id => id)
+    let teams = this.participants.requests
+      .map((p) => p.teamId)
+      .filter((id) => id);
     if (teams.length > 0) {
-      this.participants.teams = await dataAccess.teams.getAll({ teamIds: JSON.stringify(teams) })
+      this.participants.teams = await dataAccess.teams.getAll({
+        teamIds: JSON.stringify(teams),
+      });
     }
-    this.loaded = true
-  }
-}
+    this.loaded = true;
+  },
+};
 </script>
 
 <style lang="scss" scoped>
@@ -115,7 +175,7 @@ export default {
   flex-direction: column;
   height: 100%;
 
-  .tab-container{
+  .tab-container {
     flex-grow: 1;
     color: $color-secondary2;
   }

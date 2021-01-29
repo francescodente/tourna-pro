@@ -4,10 +4,11 @@
       <div class="tournament-description-title">Descrizione</div>
       {{ tournament.description }}
     </div>
-    <detail-row title="Modalità" :value="tournament.type | tournamentType"/>
+    <detail-row title="Tipologia" :value="tournament.type | tournamentType"/>
     <detail-row title="Attività" :value="tournament.activityId | activityFromId"/>
     <detail-row title="Numero di partecipanti" :value="`${tournament.currentParticipants}/${tournament.maxParticipants}`"/>
     <detail-row title="Categoria" :value="tournament.gender | gender"/>
+    <detail-row title="Modalità" :value="tournament.mode | tournamentMode"/>
     <detail-row title="Luogo" :value="tournament.location"/>
     <detail-row title="Data" :value="tournament.date | dateFormat"/>
     <div v-if="tournament.status == 'active'" class="match-link">
