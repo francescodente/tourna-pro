@@ -57,52 +57,6 @@ exports.memberRemoved = async (team, memberId, removedBy) => {
     }
   })
 }
-
-
-async function generateRequestLog(request, tournament, type) {
-  switch (request.type) {
-    case 'USER': {
-      let user = await User.findById(request.userId)
-      return {
-        tournamentId: tournament._id,
-        type: 'userRequest' + type,
-        recipients: [request.userId, ...tournament.owners],
-        parameters: {
-          tournament: {
-            id: tournament._id,
-            name: tournament.name
-          },
-          user: {
-            id: request.userId,
-            name: user.username,
-          }
-        }
-      }
-    }
-    case 'TEAM': {
-      let team = await Team.findById(request.teamId)
-      return {
-        teamId: request.teamId,
-        tournamentId: tournament._id,
-        type: 'teamRequest' + type,
-        recipients: [...team.members, ...tournament.owners],
-        parameters: {
-          tournament: {
-            id: tournament._id,
-            name: tournament.name
-          },
-          team: {
-            id: request.teamId,
-            name: team.name,
-          }
-        }
-      }
-
-    }
-    default: return null;
-  }
-}
-
 exports.requestAdded = async function (request, tournament) {
   let log = null
   let type = 'Added'
