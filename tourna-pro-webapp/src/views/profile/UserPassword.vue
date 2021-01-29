@@ -7,8 +7,8 @@
   >
     <simple-validator
       v-model="pwdok"
-      errorText="La password non può essere minore di 8 caratteri"
-      :validator="(x) => notEmpty(x) && checkLength(x,8)"
+      errorText="La password non può essere vuota"
+      :validator="(x) => notEmpty(x)"
       v-slot="scope"
     >
       <simple-input
@@ -37,8 +37,8 @@
 
     <simple-validator
       v-model="confermapwdok"
-      errorText="La conferma password non è valida"
-      :validator="(x) => notEmpty(x)"
+      errorText="La password non può essere minore di 8 caratteri"
+      :validator="(x) => notEmpty(x) && checkLength(x,8)"
       v-slot="scope"
     >
       <simple-input
@@ -83,7 +83,10 @@ export default {
   methods: {
     ...Validators,
     async onSubmit() {
-      // TODO: add checks for new/confirm password equality!!!!
+      if(this.newPassword != this.confirmPassword){
+        this.$store.dispatch('setError', "La nuova password non corrisponde a quella di conferma")
+        return;
+      }
       await dataAccess.authentication.changePassword(
         this.$route.params.id,
         this.password,
