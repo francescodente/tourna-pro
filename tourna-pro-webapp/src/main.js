@@ -22,7 +22,8 @@ Vue.use(infiniteScroll)
 
 store.dispatch('initStore');
 store.dispatch('fetchActivities');
-store.dispatch('fetchTournamentTypes')
+store.dispatch('fetchTournamentTypes');
+store.dispatch('fetchAchievements');
 
 new Vue({
   router,

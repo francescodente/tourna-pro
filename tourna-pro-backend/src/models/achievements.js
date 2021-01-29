@@ -3,7 +3,7 @@ const values = [
     id: "LUPO_SOLITARIO",
     name: "Lupo Solitario",
     description: "Partecipa ad un torneo in modalità singolo.",
-    image: ""
+    image: "wolf.png"
   },
   {
     id: "GIOCO_DI_SQUADRA",

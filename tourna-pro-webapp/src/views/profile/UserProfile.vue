@@ -1,5 +1,20 @@
 <template>
   <div v-if="user" class="user-profile-container">
+    <b-modal
+      ref="achievementsInfo"
+      centered
+      scrollable
+      hide-footer
+      title="Achievement"
+    >
+      <div class="achievements-description">
+        <p>Gli achievement sono premi virtuali che vengono sbloccati partecipando ai tornei organizzati con TournaPro.</p>
+      </div>
+      <div class="achievements">
+        <achievement v-for="a in $store.getters.achievements" :key="a.id" :achievement="a" :unlocked="achievements.includes(a.id)"/>
+      </div>
+    </b-modal>
+
     <div class="top-row">
       <router-link :to="{ name: 'UploadProfileImage', params: { id: pathUser } }">
         <avatar size="8em" :src="user.imageUrl" />
@@ -42,16 +57,19 @@
 
     <div class="info">
       <text-icon
+        class="personal-info"
         icon="fas fa-birthday-cake fa-lg fa-fw"
         :text="user.birthDate | dateFormat"
         :iconColor="style.colorPrimary"
       />
       <text-icon
+        class="personal-info"
         icon="fas fa-phone-alt fa-lg fa-fw"
         :text="user.telephone"
         :iconColor="style.colorPrimary"
       />
       <text-icon
+        class="personal-info"
         :icon="genderIcon(user.gender)"
         :text="user.gender | profileGender"
         :iconColor="style.colorPrimary"
@@ -79,14 +97,11 @@
     <div>
       <section-header class="header" :color="style.colorComplementary">
         <span>Achievements</span>
-        <!--
-          <i class="fas fa-question-circle"></i> 
-        -->
+        <span class="open-achievements" @click="openAchievements"><i class="fas fa-question-circle"></i></span>
       </section-header>
-      <div class="achievements" v-if="achievements.lengh > 0">
-        <achievement v-for="a in achievements" :key="a.id" :achievement="a" />
+      <div class="achievements">
+        <achievement v-for="a in achievements" :key="a" :achievement="$store.getters.achievement(a)" :unlocked="true"/>
       </div>
-     <placeholder-text v-else text="Nessun achievement sbloccato!" />
     </div>
   </div>
 </template>
@@ -119,6 +134,9 @@ export default {
     };
   },
   methods: {
+    openAchievements() {
+      this.$refs.achievementsInfo.show()
+    },
     async fetchUser() {
       this.user = await dataAccess.users.getUser(this.pathUser);
       this.achievements = await dataAccess.achievements.getByUser(
@@ -239,6 +257,9 @@ export default {
   width: 100%;
   text-align: left;
   font-size: 1rem;
+  .personal-info {
+    margin-bottom: 10px;
+  }
 }
 
 .bio {
@@ -277,6 +298,10 @@ export default {
       font-size: 1.1rem;
     }
   }
+}
+
+.open-achievements:hover {
+  cursor: pointer;
 }
 
 .achievements {

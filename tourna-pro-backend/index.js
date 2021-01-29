@@ -33,6 +33,8 @@ async function startServer() {
 
   app.use(cors())
 
+  app.use('/static', express.static('public'))
+
   app.use(function(_, res, next) {
     res.setResult = function(result) {
       result(this)
