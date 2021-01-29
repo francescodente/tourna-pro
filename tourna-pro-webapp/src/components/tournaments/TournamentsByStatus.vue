@@ -18,9 +18,9 @@ export default {
   },
   data() {
     return {
-      showActive: true,
-      showPending: true,
-      showEnded: true
+      showActive: this.tournamentsWithStatus('ACTIVE').length > 0,
+      showPending: this.tournamentsWithStatus('PENDING').length > 0,
+      showEnded: this.tournamentsWithStatus('ACTIVE').length == 0 && this.tournamentsWithStatus('PENDING').length == 0,
     }
   },
   methods: {
