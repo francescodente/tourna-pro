@@ -18,14 +18,14 @@
       </div>
     </div>
     <div v-if="isUserProfile" class="modify">
-      <router-link :to="{ name: 'UserModifyProfile', params: { id: pathUser } }">
+      <router-link :to="{ name: 'UserModifyProfile', params: { id: pathUser } }" tag="div">
         <text-icon
           class="edit-button"
           icon="fas fa-edit"
           text="Modifica profilo"
         />
       </router-link>
-      <router-link :to="{ name: 'UserPassword', params: { id: pathUser } }">
+      <router-link :to="{ name: 'UserPassword', params: { id: pathUser } }" tag="div">
         <text-icon
           class="edit-button"
           icon="fas fa-cog"
@@ -68,7 +68,7 @@
           tag="span"
           :to="{ name: 'UserInterest', params: { id: pathUser } }"
         >
-          <i class="fas fa-ellipsis-h"></i>
+          <i class="fas fa-ellipsis-h" id="ellipsis"></i>
         </router-link>
       </section-header>
       <div v-if="interests.length > 0" class="interests-list">
@@ -230,8 +230,13 @@ export default {
     border-radius: 5px;
     color: $color-primary;
     height: 100%;
+    
+    &:hover{
+      background-color: $color-primary-background;
+    }
   }
 }
+
 @media screen and (min-width: 576px) {
   .modify > * {
     flex-basis: 49%;
@@ -264,10 +269,6 @@ export default {
 .interests {
   margin-top: 15px;
   text-align: left;
-  &:hover{
-    cursor: pointer;
-    
-  }
   .interests-empty {
     text-align: center;
   }
@@ -282,6 +283,13 @@ export default {
     .user-interest {
       font-size: 1.1rem;
     }
+  }
+}
+
+#ellipsis{
+  &:hover{
+    cursor: pointer;
+    color: $color-primary;
   }
 }
 

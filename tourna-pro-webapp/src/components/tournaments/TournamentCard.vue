@@ -22,15 +22,17 @@
         </div>
         <div class="total">
           <text-icon
-            :text="`${tournament.currentParticipants}/${tournament.maxParticipants} ${
-              tournament.mode == 'TEAM' ? 'Squadre' : 'Partecipanti'
-            }`"
+            :text="`${tournament.currentParticipants}/${
+              tournament.maxParticipants
+            } ${tournament.mode == 'TEAM' ? 'Squadre' : 'Partecipanti'}`"
             icon="fas fa-users"
             :iconColor="iconColor(status)"
           />
         </div>
       </div>
-      <div class="badge badge-pill">#{{ tournament.activityId | activityFromId }}</div>
+      <div class="badge badge-pill">
+        #{{ tournament.activityId | activityFromId }}
+      </div>
     </b-card>
   </router-link>
 </template>
@@ -79,7 +81,7 @@ export default {
   border: 3px solid;
   white-space: nowrap;
 
-  &:hover{
+  &:hover {
     cursor: pointer;
   }
 }
@@ -115,6 +117,9 @@ export default {
     color: $color-complementary;
     border-color: $color-complementary-lightest;
   }
+  &:hover {
+    background-color: $color-complementary-lightest;
+  }
 }
 .FUTURE {
   .title {
@@ -126,6 +131,9 @@ export default {
     color: $color-secondary1;
     border-color: $color-secondary1-lightest;
   }
+  &:hover {
+    background-color: $color-secondary1-lightest;
+  }
 }
 .exploring {
   .title {
@@ -136,6 +144,9 @@ export default {
   .badge {
     color: $color-secondary2;
     border-color: $color-secondary2-lightest;
+  }
+  &:hover {
+    background-color: $color-secondary2-lightest;
   }
 }
 </style>

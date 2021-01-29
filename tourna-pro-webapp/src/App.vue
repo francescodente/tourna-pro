@@ -1,13 +1,13 @@
 <template>
   <div id="app">
-    <error-popup/>
+    <error-popup />
     <title-bar :appName="name" />
     <div :class="['main-container', isLoggedIn ? 'logged-in' : '']">
       <div class="background"></div>
       <div class="main-content">
         <div class="content-background"></div>
         <div class="main-content-scrollable">
-          <router-view/>
+          <router-view />
         </div>
       </div>
     </div>
@@ -16,44 +16,44 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
-import BottomNavbar from './components/ui/BottomNavbar.vue'
-import ErrorPopup from './components/ui/ErrorPopup.vue'
-import TitleBar from './components/ui/TitleBar.vue'
+import { mapActions, mapGetters } from "vuex";
+import BottomNavbar from "./components/ui/BottomNavbar.vue";
+import ErrorPopup from "./components/ui/ErrorPopup.vue";
+import TitleBar from "./components/ui/TitleBar.vue";
 
 export default {
   components: {
     TitleBar,
     ErrorPopup,
-    BottomNavbar
+    BottomNavbar,
   },
-  data: function() {
+  data: function () {
     return {
-      name: 'TournaPro',
-    }
+      name: "TournaPro",
+    };
   },
   methods: {
-    ...mapActions(['newNotification','initUnreadNotifications'])
+    ...mapActions(["newNotification", "initUnreadNotifications"]),
   },
   computed: {
-    ...mapGetters(['isLoggedIn'])
+    ...mapGetters(["isLoggedIn"]),
   },
   created() {
-    this.$socket.on('login', () => {
-      let accessToken = this.$store.getters.accessToken
+    this.$socket.on("login", () => {
+      let accessToken = this.$store.getters.accessToken;
       if (accessToken) {
-        console.log('Authenticating with socket.io...')
-        this.initUnreadNotifications(this.$store.getters.userId)
-        this.$socket.emit('authenticate', { accessToken })
+        console.log("Authenticating with socket.io...");
+        this.initUnreadNotifications(this.$store.getters.userId);
+        this.$socket.emit("authenticate", { accessToken });
       }
-    })
-    
-    this.$socket.on('notification', notification => {
-      console.log(notification)
-      this.newNotification()
-    })
-  }
-}
+    });
+
+    this.$socket.on("notification", (notification) => {
+      console.log(notification);
+      this.newNotification();
+    });
+  },
+};
 </script>
 
 <style lang="scss">
@@ -71,7 +71,7 @@ export default {
     &.logged-in {
       padding-bottom: $bottom-navbar-height;
     }
-    
+
     .background {
       width: 100%;
       height: 100%;
@@ -88,22 +88,26 @@ export default {
       flex-direction: column;
       align-items: center;
 
-      .content-background, .main-content-scrollable {
+      .content-background,
+      .main-content-scrollable {
         width: 100%;
       }
 
       @media screen and (min-width: 576px) and (max-width: 768px) {
-        .content-background, .main-content-scrollable {
+        .content-background,
+        .main-content-scrollable {
           width: 550px;
         }
       }
       @media screen and (min-width: 768px) and (max-width: 992px) {
-        .content-background, .main-content-scrollable {
+        .content-background,
+        .main-content-scrollable {
           width: 750px;
         }
       }
       @media screen and (min-width: 992px) {
-        .content-background, .main-content-scrollable {
+        .content-background,
+        .main-content-scrollable {
           width: 950px;
         }
       }
@@ -122,4 +126,6 @@ export default {
     }
   }
 }
+
+
 </style>
