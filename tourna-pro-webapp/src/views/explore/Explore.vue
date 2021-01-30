@@ -11,7 +11,7 @@
       :tournament="tournament"
     />
     </grid-container>
-    <placeholder-text class="placeholder"> 
+    <placeholder-text v-else class="placeholder"> 
       Sembra che non ci siano tornei in programma... <br>prova a crearne uno tu!
       </placeholder-text>
     </div>

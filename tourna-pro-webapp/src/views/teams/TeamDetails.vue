@@ -58,6 +58,12 @@
               :color="style.colorComplementary"
               @trigger="leaveTeam"
             />
+            <action-button v-if="team.creatorId == userId"
+              icon="fas fa-trash"
+              actionName="Elimina la squadra"
+              :color="style.colorComplementary"
+              @trigger="deleteTeam"
+            />
           </div>
         </tab>
       </tab-view>
@@ -77,6 +83,7 @@ import TabView from "../../components/ui/TabView/TabView.vue";
 import style from "../../style/export.scss";
 import ActionButton from "../../components/ui/ActionButton.vue";
 import YesNoPopup from "../../components/ui/YesNoPopup.vue";
+import { mapGetters } from 'vuex';
 
 export default {
   components: {
@@ -98,16 +105,21 @@ export default {
     };
   },
   computed: {
+    ...mapGetters(['userId']),
     teamId() {
       return this.$route.params.id;
     },
     userBelongsToTeam() {
-      return this.team.members.includes(this.$store.getters.userId)
+      return this.team.members.includes(this.userId)
     }
   },
   methods: {
     onMemberSelected(member) {
       this.$router.push({ name: "UserProfile", params: { id: member.id } });
+    },
+    async deleteTeam() {
+      await dataAccess.teams.delete(this.teamId)
+      this.$router.push({ name: "Teams" });
     },
     async leaveTeam() {
       let result = await this.$refs["modal"].show(
@@ -119,7 +131,7 @@ export default {
       }
       await dataAccess.teamMembers.deleteMember(
         this.teamId,
-        this.$store.getters.userId
+        this.userId
       );
       this.$router.push({ name: "Teams" });
     },

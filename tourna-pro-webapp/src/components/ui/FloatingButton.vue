@@ -40,6 +40,7 @@ $size: 70px;
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
     border:4px solid $color-complementary-light;
     z-index: 10;
+    outline:none;
   }
 }
 </style>
