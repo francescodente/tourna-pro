@@ -128,6 +128,7 @@ export default {
 
 <style lang="scss" scoped>
 .registration-page {
+  padding-top: 10px;
   display: flex;
   flex-direction: column;
   justify-content: start;
