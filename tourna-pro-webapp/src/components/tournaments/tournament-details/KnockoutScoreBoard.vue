@@ -108,19 +108,20 @@ export default {
 }
 
 $defeated-color: #bbbbbb;
+$defeated-color-highlight: #cfcfcf;
 .vtb-item-players {
-  background-color: $color-secondary2;
+  background-color: $color-secondary2 !important;
   .winner {
-    background-color: $color-secondary2;
+    background-color: $color-secondary2 !important;
     &.highlight {
-      background-color: $color-secondary2;
+      background-color: $color-secondary2-lightest !important;
     }
   }
 
   .defeated {
-    background-color: $defeated-color;
+    background-color: $defeated-color !important;
     &.highlight {
-      background-color: $defeated-color;
+      background-color: $defeated-color-highlight !important;
     }
   }
 }

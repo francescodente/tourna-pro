@@ -24,6 +24,6 @@ export default {
 <style lang="scss" scoped>
 img {
   width: 80%;
-  opacity: 50%;
+  opacity: 0.5;
 }
 </style>
