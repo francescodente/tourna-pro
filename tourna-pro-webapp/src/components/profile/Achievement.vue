@@ -42,7 +42,7 @@ export default {
   margin-bottom: 15px;
 
   &.locked {
-    opacity: 40%;
+    opacity: 0.4;
     background-color: lightgray;
   }
 
