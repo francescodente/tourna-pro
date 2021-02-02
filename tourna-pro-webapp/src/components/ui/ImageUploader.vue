@@ -19,7 +19,7 @@
       <div>
         <placeholder-text
           class="holder"
-          text="Carica una immagine del profilo"
+          :text="title"
         />
       </div>
     </div>
