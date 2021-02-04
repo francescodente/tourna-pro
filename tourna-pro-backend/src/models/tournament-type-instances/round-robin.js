@@ -23,7 +23,11 @@ exports.generateNewRound = function(tournament) {
 }
 
 exports.getRoundCount = function(tournament) {
-  return tournament.participants.length - 1
+  if (tournament.participants.length % 2 == 0) {
+    return tournament.participants.length - 1
+  } else {
+    return tournament.participants.length
+  }
 }
 
 function compareStats(a, b) {
