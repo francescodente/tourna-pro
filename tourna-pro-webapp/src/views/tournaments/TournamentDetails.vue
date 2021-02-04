@@ -122,6 +122,36 @@ export default {
           return true;
       }
     },
+    async fetchAll() {
+      this.loaded = false
+      this.tournament = await dataAccess.tournaments.get(this.tournamentId);
+      this.logs = await dataAccess.logs.getTournamentLogs(this.tournamentId);
+      this.ranking = await dataAccess.rankings.getTournamentRanking(
+        this.tournamentId
+      );
+      this.matches = await dataAccess.matches.getAll(this.tournamentId);
+      this.participants.requests = await dataAccess.participationRequests.getAll({
+        tournamentId: this.tournamentId,
+        status: "APPROVED",
+      });
+      let users = this.participants.requests
+        .map((r) => r.userId)
+        .filter((id) => id);
+      if (users.length > 0) {
+        this.participants.users = await dataAccess.users.search({
+          userIds: JSON.stringify(users),
+        });
+      }
+      let teams = this.participants.requests
+        .map((p) => p.teamId)
+        .filter((id) => id);
+      if (teams.length > 0) {
+        this.participants.teams = await dataAccess.teams.getAll({
+          teamIds: JSON.stringify(teams),
+        });
+      }
+      this.loaded = true;
+    }
   },
   computed: {
     tournamentId() {
@@ -129,7 +159,7 @@ export default {
     },
     selectedTab() {
       if (this.tournament && !this.$route.query.selectedTab) {
-        return this.tournament.owned ? "ACTIONS" : "DETAILS";
+        return this.tournament.owned && this.tabVisible('ACTIONS') ? "ACTIONS" : "DETAILS";
       } else if(this.tabVisible(this.$route.query.selectedTab)){
         return this.$route.query.selectedTab
       } else {
@@ -138,34 +168,13 @@ export default {
     },
   },
   async created() {
-    this.tournament = await dataAccess.tournaments.get(this.tournamentId);
-    this.logs = await dataAccess.logs.getTournamentLogs(this.tournamentId);
-    this.ranking = await dataAccess.rankings.getTournamentRanking(
-      this.tournamentId
-    );
-    this.matches = await dataAccess.matches.getAll(this.tournamentId);
-    this.participants.requests = await dataAccess.participationRequests.getAll({
-      tournamentId: this.tournamentId,
-      status: "APPROVED",
-    });
-    let users = this.participants.requests
-      .map((r) => r.userId)
-      .filter((id) => id);
-    if (users.length > 0) {
-      this.participants.users = await dataAccess.users.search({
-        userIds: JSON.stringify(users),
-      });
-    }
-    let teams = this.participants.requests
-      .map((p) => p.teamId)
-      .filter((id) => id);
-    if (teams.length > 0) {
-      this.participants.teams = await dataAccess.teams.getAll({
-        teamIds: JSON.stringify(teams),
-      });
-    }
-    this.loaded = true;
+    await this.fetchAll()
   },
+  watch: {
+    $route(){
+      this.fetchAll()
+    }
+  }
 };
 </script>
 

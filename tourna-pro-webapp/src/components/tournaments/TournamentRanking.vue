@@ -63,7 +63,7 @@ tr:nth-child(odd) {
 
 $border: 2px solid #666666;
 th {
-  background-color: $color-secondary2;
+  background-color: $color-secondary2-lightest;
   color: $color-secondary2-text;
 }
 

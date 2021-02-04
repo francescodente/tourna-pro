@@ -86,7 +86,7 @@ td, th {
 }
 
 th {
-  background-color: $color-secondary2;
+  background-color: $color-secondary2-lightest;
   color: $color-secondary2-text;
 }
 
