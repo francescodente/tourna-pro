@@ -52,9 +52,10 @@
         >
           <ranking-tab :ranking="ranking" :participants="participants" />
         </tab>
-        <tab title="Attività" 
-        :selected="selectedTab == 'LOGS'"
-        v-if="tabVisible('LOGS')"
+        <tab
+          title="Attività" 
+          :selected="selectedTab == 'LOGS'"
+          v-if="tabVisible('LOGS')"
         >
           <activity-tab :logs="logs" />
         </tab>
@@ -172,7 +173,7 @@ export default {
   },
   watch: {
     $route(){
-      this.fetchAll()
+      this.$router.go(0)
     }
   }
 };
