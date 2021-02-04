@@ -69,7 +69,7 @@ export default {
         return
       }
       await dataAccess.matches.startRound(this.$route.params.id)
-      this.$router.go(0)
+      this.$router.push({ name: 'TournamentDetails', params: { id: this.$route.params.id }, query: { selectedTab: 'BOARD' } })
     },
     participantName(id) {
       return matchUtils.findParticipantName(this.participants, id);

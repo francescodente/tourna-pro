@@ -95,6 +95,7 @@ export default {
         this.password,
         this.newPassword
       );
+      this.$router.push({ name: 'UserProfile', params: { id: this.$route.params.id } })
     },
   },
   computed: {

@@ -159,7 +159,7 @@ export default {
       );
       if (res) {
         dataAccess.matches.startRound(this.$route.params.id);
-        this.$router.go(0);
+        this.$router.push({ name: 'TournamentDetails', params: { id: this.$route.params.id }, query: { selectedTab: 'BOARD' } })
       }
     },
     async deleteTournament() {
@@ -196,7 +196,7 @@ export default {
           this.$route.params.id,
           request
         );
-        this.$router.go(0); //refresh
+        this.$router.push({ name: 'SubscriptionRequests' })
       }
     },
     async requestSubscription() {
@@ -227,7 +227,7 @@ export default {
     async retireFromTournament() {
       let res = await this.$refs["yes-no"].show(
         "Ritirati dal torneo",
-        "Vuoi ritirarti la tua iscrizione al torneo?"
+        "Vuoi ritirarti dal torneo?"
       );
       if (res) {
         let participation = await dataAccess.participationRequests.getAll({
@@ -247,7 +247,7 @@ export default {
             );
           }
         }
-        this.$router.go(0); //refresh
+        this.$router.push({ name: 'TournamentDetails', params: { id: this.$route.params.id }, query: { selectedTab: 'PARTICIPANTS' } })
       }
     },
   },
