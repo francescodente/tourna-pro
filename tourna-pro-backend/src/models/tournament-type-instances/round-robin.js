@@ -14,6 +14,9 @@ exports.generateNewRound = function(tournament) {
   let newRound = []
   for (let i = 0; i < matchesCount; i++) {
     let a = i == 0 ? 0 : (i + roundIndex) % idealSize
+    if (a == 0 && i != 0) {
+      a = 1
+    }
     let b = (idealSize - 2 - i + roundIndex) % (idealSize - 1) + 1
     if (a != size && b != size) {
       newRound.push(matchBetween(tournament.participants[a], tournament.participants[b]))

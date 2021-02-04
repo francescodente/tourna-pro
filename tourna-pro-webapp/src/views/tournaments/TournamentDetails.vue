@@ -166,13 +166,13 @@ export default {
       } else {
         return 'DETAILS'
       }
-    },
+    }
   },
   async created() {
     await this.fetchAll()
   },
   watch: {
-    $route(){
+    $route() {
       this.$router.go(0)
     }
   }

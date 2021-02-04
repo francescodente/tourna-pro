@@ -111,6 +111,7 @@ import ListItem from "../../ui/ListItem.vue";
 import UserLine from "../../users/UserLine.vue";
 import TeamsSearch from "../../teams/TeamsSearch.vue";
 import TeamLine from "../../teams/TeamLine.vue";
+import utils from '../../../utils/tournament-utils';
 
 export default {
   components: {
@@ -159,7 +160,7 @@ export default {
       );
       if (res) {
         dataAccess.matches.startRound(this.$route.params.id);
-        this.$router.push({ name: 'TournamentDetails', params: { id: this.$route.params.id }, query: { selectedTab: 'BOARD' } })
+        utils.goToTab('BOARD', this)
       }
     },
     async deleteTournament() {
@@ -247,7 +248,7 @@ export default {
             );
           }
         }
-        this.$router.push({ name: 'TournamentDetails', params: { id: this.$route.params.id }, query: { selectedTab: 'PARTICIPANTS' } })
+        utils.goToTab('PARTICIPANTS', this)
       }
     },
   },

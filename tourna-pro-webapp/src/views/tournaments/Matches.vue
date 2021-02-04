@@ -46,6 +46,7 @@ import matchUtils from "@/utils/participant-utils";
 import ListItem from "../../components/ui/ListItem.vue";
 import YesNoPopup from '../../components/ui/YesNoPopup.vue';
 import ActionButton from '../../components/ui/ActionButton.vue';
+import utils from '../../utils/tournament-utils';
 export default {
   components: { ListItem, YesNoPopup, ActionButton },
   name: "Matches",
@@ -69,7 +70,7 @@ export default {
         return
       }
       await dataAccess.matches.startRound(this.$route.params.id)
-      this.$router.push({ name: 'TournamentDetails', params: { id: this.$route.params.id }, query: { selectedTab: 'BOARD' } })
+      utils.goToTab('BOARD', this)
     },
     participantName(id) {
       return matchUtils.findParticipantName(this.participants, id);
